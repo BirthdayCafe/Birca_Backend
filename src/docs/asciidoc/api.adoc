@@ -1,0 +1,10 @@
+= Birca API 문서
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 1
+:sectlinks:
+
+== 헬스 체크 API
+operation::health-check[snippets='http-request,http-response']
