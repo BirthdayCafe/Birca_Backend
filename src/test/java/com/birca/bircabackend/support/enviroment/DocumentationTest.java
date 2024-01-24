@@ -1,15 +1,18 @@
 package com.birca.bircabackend.support.enviroment;
 
+import com.birca.bircabackend.command.auth.token.JwtTokenProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.restdocs.operation.preprocess.OperationRequestPreprocessor;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 
 @WebMvcTest
+@Import(JwtTokenProvider.class)
 @AutoConfigureRestDocs
 public class DocumentationTest {
 
