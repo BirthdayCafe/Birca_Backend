@@ -3,7 +3,7 @@ package com.birca.bircabackend.common.exception.presentation;
 import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.common.exception.ErrorCode;
 import com.birca.bircabackend.common.exception.ExceptionResponse;
-import com.birca.bircabackend.common.exception.UnpExpectedError;
+import com.birca.bircabackend.common.exception.UnExpectedError;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,14 +14,14 @@ public class GlobalExceptionController {
     @ExceptionHandler
     public ResponseEntity<ExceptionResponse> handleBusinessException(BusinessException exception) {
         ErrorCode errorCode = exception.getErrorCode();
-        return ResponseEntity.status(errorCode.getHttpStatusCode())
+        return ResponseEntity.status(errorCode.httpStatusCode())
                 .body(ExceptionResponse.from(errorCode));
     }
 
     @ExceptionHandler
     public ResponseEntity<ExceptionResponse> handleUnExpectedException(Exception exception) {
-        UnpExpectedError errorCode = new UnpExpectedError(exception.getMessage());
-        return ResponseEntity.status(errorCode.getHttpStatusCode())
+        UnExpectedError errorCode = new UnExpectedError(exception.getMessage());
+        return ResponseEntity.status(errorCode.httpStatusCode())
                 .body(ExceptionResponse.from(errorCode));
     }
 }

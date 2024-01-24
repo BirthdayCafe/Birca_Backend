@@ -2,9 +2,9 @@ package com.birca.bircabackend.common.exception;
 
 public interface ErrorCode {
 
-    int getValue();
+    int value();
 
-    int getHttpStatusCode();
+    int httpStatusCode();
 
-    String getMessage();
+    String message();
 }
