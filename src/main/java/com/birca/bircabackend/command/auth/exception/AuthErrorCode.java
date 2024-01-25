@@ -9,7 +9,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public enum AuthErrorCode implements ErrorCode {
 
-    NOT_EXISTS_TOKEN(1001, 401, "토큰이 존재하지 않습니다.");
+    NOT_EXISTS_TOKEN(1001, 401, "토큰이 존재하지 않습니다."),
+    INVALID_EXISTS_TOKEN(1002, 401, "유효하지 않은 토큰입니다.")
+
+    ;
 
     private final int value;
     private final int httpStatusCode;

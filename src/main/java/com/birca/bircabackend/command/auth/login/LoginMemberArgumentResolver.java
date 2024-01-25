@@ -1,4 +1,4 @@
-package com.birca.bircabackend.command.auth;
+package com.birca.bircabackend.command.auth.login;
 
 import com.birca.bircabackend.command.auth.exception.AuthErrorCode;
 import com.birca.bircabackend.command.auth.token.JwtTokenExtractor;
