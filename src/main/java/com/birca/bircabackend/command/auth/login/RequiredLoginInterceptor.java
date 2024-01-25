@@ -7,8 +7,8 @@ import com.birca.bircabackend.common.exception.BusinessException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
+import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -24,7 +24,7 @@ public class RequiredLoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response,
                              Object handler) {
-        if (HttpMethod.OPTIONS.matches(request.getMethod())) {
+        if (CorsUtils.isPreFlightRequest(request)) {
             return true;
         }
         if (handler instanceof HandlerMethod) {
