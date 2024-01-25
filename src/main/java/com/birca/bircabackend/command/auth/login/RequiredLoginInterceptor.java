@@ -40,6 +40,7 @@ public class RequiredLoginInterceptor implements HandlerInterceptor {
         }
         String token = getToken(request);
         validateToken(token);
+        request.setAttribute("payload", jwtTokenProvider.getPayload(token));
         return true;
     }
 
