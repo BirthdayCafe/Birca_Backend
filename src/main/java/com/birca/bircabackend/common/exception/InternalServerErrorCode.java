@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public class InternalServerErrorCode implements ErrorCode {
 
-    private final int value = 1;
+    private final int value = 10001;
     private final int httpStatusCode = 500;
     private final String message;
 
