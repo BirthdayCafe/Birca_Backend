@@ -58,3 +58,34 @@ CREATE TABLE artist
 
 ALTER TABLE artist
     ADD CONSTRAINT FK_ARTIST_ON_GROUP FOREIGN KEY (group_id) REFERENCES artist_group (id);
+
+CREATE TABLE favorite_artist
+(
+    id        BIGINT AUTO_INCREMENT NOT NULL,
+    fan_id    BIGINT                NOT NULL,
+    artist_id BIGINT                NOT NULL,
+    CONSTRAINT pk_favoriteartist PRIMARY KEY (id)
+);
+
+ALTER TABLE favorite_artist
+    ADD CONSTRAINT uc_favoriteartist_fan UNIQUE (fan_id);
+
+ALTER TABLE favorite_artist
+    ADD CONSTRAINT FK_FAVORITEARTIST_ON_ARTIST FOREIGN KEY (artist_id) REFERENCES artist (id);
+
+ALTER TABLE favorite_artist
+    ADD CONSTRAINT FK_FAVORITEARTIST_ON_FAN FOREIGN KEY (fan_id) REFERENCES member (id);
+
+CREATE TABLE interest_artist
+(
+    id        BIGINT AUTO_INCREMENT NOT NULL,
+    fan_id    BIGINT                NOT NULL,
+    artist_id BIGINT                NOT NULL,
+    CONSTRAINT pk_interestartist PRIMARY KEY (id)
+);
+
+ALTER TABLE interest_artist
+    ADD CONSTRAINT FK_INTERESTARTIST_ON_ARTIST FOREIGN KEY (artist_id) REFERENCES artist (id);
+
+ALTER TABLE interest_artist
+    ADD CONSTRAINT FK_INTERESTARTIST_ON_FAN FOREIGN KEY (fan_id) REFERENCES member (id);
