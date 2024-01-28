@@ -25,3 +25,13 @@ CREATE TABLE business_license
 
 ALTER TABLE business_license
     ADD CONSTRAINT FK_BUSINESSLICENSE_ON_OWNER FOREIGN KEY (owner_id) REFERENCES member (id);
+
+CREATE TABLE cafe
+(
+    id                  BIGINT AUTO_INCREMENT NOT NULL,
+    business_license_id BIGINT                NOT NULL,
+    CONSTRAINT pk_cafe PRIMARY KEY (id)
+);
+
+ALTER TABLE cafe
+    ADD CONSTRAINT FK_CAFE_ON_BUSINESS_LICENSE FOREIGN KEY (business_license_id) REFERENCES business_license (id);
