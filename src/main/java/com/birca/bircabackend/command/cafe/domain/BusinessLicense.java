@@ -1,16 +1,17 @@
 package com.birca.bircabackend.command.cafe.domain;
 
 import com.birca.bircabackend.common.domain.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Lob;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(uniqueConstraints = {@UniqueConstraint(
+        name = "UNIQUE_BUSINESS_LICENSE_CODE",
+        columnNames = {"taxOfficeCode", "businessTypeCode", "serialCode", "validationCode"}
+)})
 @Getter
 public class BusinessLicense extends BaseEntity {
 
