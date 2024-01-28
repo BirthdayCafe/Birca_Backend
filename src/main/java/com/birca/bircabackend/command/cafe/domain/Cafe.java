@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 @Getter
 public class Cafe extends BaseEntity {
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private Long businessLicenseId;
 }

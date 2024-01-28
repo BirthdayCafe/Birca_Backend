@@ -39,6 +39,9 @@ CREATE TABLE cafe
 ALTER TABLE cafe
     ADD CONSTRAINT FK_CAFE_ON_BUSINESS_LICENSE FOREIGN KEY (business_license_id) REFERENCES business_license (id);
 
+ALTER TABLE cafe
+    ADD CONSTRAINT uc_cafe_businesslicenseid UNIQUE (business_license_id);
+
 CREATE TABLE artist_group
 (
     id        BIGINT AUTO_INCREMENT NOT NULL,
