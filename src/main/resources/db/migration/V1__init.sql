@@ -7,6 +7,12 @@ CREATE TABLE member
     CONSTRAINT pk_member PRIMARY KEY (id)
 );
 
+ALTER TABLE member
+    ADD CONSTRAINT uc_member_nickname UNIQUE (nickname);
+
+ALTER TABLE member
+    ADD CONSTRAINT uc_member_email UNIQUE (email);
+
 CREATE TABLE business_license
 (
     id                 BIGINT AUTO_INCREMENT NOT NULL,
