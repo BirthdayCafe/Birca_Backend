@@ -43,3 +43,15 @@ CREATE TABLE artist_group
     image_url LONGTEXT              NOT NULL,
     CONSTRAINT pk_artistgroup PRIMARY KEY (id)
 );
+
+CREATE TABLE artist
+(
+    id        BIGINT AUTO_INCREMENT NOT NULL,
+    group_id  BIGINT                NULL,
+    name      VARCHAR(255)          NOT NULL,
+    image_url LONGTEXT              NOT NULL,
+    CONSTRAINT pk_artist PRIMARY KEY (id)
+);
+
+ALTER TABLE artist
+    ADD CONSTRAINT FK_ARTIST_ON_GROUP FOREIGN KEY (group_id) REFERENCES artist_group (id);
