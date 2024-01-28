@@ -35,3 +35,11 @@ CREATE TABLE cafe
 
 ALTER TABLE cafe
     ADD CONSTRAINT FK_CAFE_ON_BUSINESS_LICENSE FOREIGN KEY (business_license_id) REFERENCES business_license (id);
+
+CREATE TABLE artist_group
+(
+    id        BIGINT AUTO_INCREMENT NOT NULL,
+    name      VARCHAR(255)          NOT NULL,
+    image_url LONGTEXT              NOT NULL,
+    CONSTRAINT pk_artistgroup PRIMARY KEY (id)
+);
