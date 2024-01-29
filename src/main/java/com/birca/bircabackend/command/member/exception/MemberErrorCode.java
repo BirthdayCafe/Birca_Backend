@@ -13,6 +13,8 @@ public enum MemberErrorCode implements ErrorCode {
 
     MEMBER_NOT_FOUND(3004, 404, "존재하지 않는 회원입니다."),
 
+    DUPLICATED_NICKNAME(3001 , 400, "중복된 닉네임입닌다.")
+
     ;
 
 

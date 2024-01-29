@@ -27,4 +27,8 @@ public class Member extends BaseEntity {
     public void changeRole(MemberRole role) {
         this.role = role;
     }
+
+    public void registerNickname(String nickname) {
+        this.nickname = nickname;
+    }
 }

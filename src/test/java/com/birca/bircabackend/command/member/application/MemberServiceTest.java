@@ -2,6 +2,8 @@ package com.birca.bircabackend.command.member.application;
 
 import com.birca.bircabackend.command.auth.login.LoginMember;
 import com.birca.bircabackend.command.member.MemberFixtureRepository;
+import com.birca.bircabackend.command.member.domain.Member;
+import com.birca.bircabackend.command.member.dto.NicknameRegisterRequest;
 import com.birca.bircabackend.command.member.dto.RoleChangeRequest;
 import com.birca.bircabackend.command.member.exception.MemberErrorCode;
 import com.birca.bircabackend.common.exception.BusinessException;
@@ -44,7 +46,7 @@ class MemberServiceTest extends ServiceTest {
             memberService.changeMemberRole(request, loginMember);
 
             // then
-            assertThat(memberFixtureRepository.findById(1L))
+            assertThat(memberFixtureRepository.findById(LOGIN_ID))
                     .map(member -> member.getRole().name())
                     .get()
                     .isEqualTo(role);
@@ -73,6 +75,40 @@ class MemberServiceTest extends ServiceTest {
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(MemberErrorCode.MEMBER_NOT_FOUND);
+        }
+    }
+
+    @Nested
+    @DisplayName("닉네임을")
+    class RegisterNicknameTest {
+
+        @Test
+        void 정상_등록한다() {
+            // given
+            String nickname = "정상 닉네임";
+            NicknameRegisterRequest request = new NicknameRegisterRequest(nickname);
+
+            // when
+            memberService.registerNickname(request, loginMember);
+
+            // then
+            assertThat(memberFixtureRepository.findById(LOGIN_ID))
+                    .map(Member::getNickname)
+                    .get()
+                    .isEqualTo(nickname);
+        }
+
+        @Test
+        void 중복_등록하는_경우를_검증한다() {
+            // given
+            String nickname = "더즈";
+            NicknameRegisterRequest request = new NicknameRegisterRequest(nickname);
+
+            // when // then
+            assertThatThrownBy(() -> memberService.registerNickname(request, loginMember))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(MemberErrorCode.DUPLICATED_NICKNAME);
         }
     }
 }
