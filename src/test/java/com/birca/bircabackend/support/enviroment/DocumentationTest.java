@@ -1,6 +1,7 @@
 package com.birca.bircabackend.support.enviroment;
 
 import com.birca.bircabackend.command.auth.token.JwtTokenProvider;
+import com.birca.bircabackend.support.TestBearerTokenProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -12,7 +13,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 
 @WebMvcTest
-@Import(JwtTokenProvider.class)
+@Import({
+        JwtTokenProvider.class,
+        TestBearerTokenProvider.class
+})
 @AutoConfigureRestDocs
 public class DocumentationTest {
 
@@ -27,4 +31,7 @@ public class DocumentationTest {
 
     @Autowired
     protected ObjectMapper objectMapper;
+
+    @Autowired
+    protected TestBearerTokenProvider bearerTokenProvider;
 }
