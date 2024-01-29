@@ -4,6 +4,7 @@ import com.birca.bircabackend.command.auth.login.LoginMember;
 import com.birca.bircabackend.command.member.domain.Member;
 import com.birca.bircabackend.command.member.domain.MemberRepository;
 import com.birca.bircabackend.command.member.domain.MemberRole;
+import com.birca.bircabackend.command.member.domain.Nickname;
 import com.birca.bircabackend.command.member.dto.NicknameRegisterRequest;
 import com.birca.bircabackend.command.member.dto.RoleChangeRequest;
 import com.birca.bircabackend.command.member.exception.MemberErrorCode;
@@ -20,25 +21,26 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     public void changeMemberRole(RoleChangeRequest request, LoginMember loginMember) {
-        Member member = getMember(loginMember);
+        Member member = getMember(loginMember.id());
         MemberRole role = MemberRole.from(request.role());
         member.changeRole(role);
     }
 
     public void registerNickname(NicknameRegisterRequest request, LoginMember loginMember) {
-        validateDuplicatedNickname(request);
-        Member member = getMember(loginMember);
-        member.registerNickname(request.nickname());
+        Nickname nickname = new Nickname(request.nickname());
+        validateDuplicatedNickname(nickname);
+        Member member = getMember(loginMember.id());
+        member.registerNickname(nickname);
     }
 
-    private void validateDuplicatedNickname(NicknameRegisterRequest request) {
-        if (memberRepository.existsByNickname(request.nickname())) {
+    private void validateDuplicatedNickname(Nickname nickname) {
+        if (memberRepository.existsByNickname(nickname)) {
             throw BusinessException.from(MemberErrorCode.DUPLICATED_NICKNAME);
         }
     }
 
-    private Member getMember(LoginMember loginMember) {
-        return memberRepository.findById(loginMember.id())
+    private Member getMember(Long memberId) {
+        return memberRepository.findById(memberId)
                 .orElseThrow(() -> BusinessException.from(MemberErrorCode.MEMBER_NOT_FOUND));
     }
 }

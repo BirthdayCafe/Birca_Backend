@@ -1,10 +1,7 @@
 package com.birca.bircabackend.command.member.domain;
 
 import com.birca.bircabackend.common.domain.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,8 +11,8 @@ import lombok.NoArgsConstructor;
 @Getter
 public class Member extends BaseEntity {
 
-    @Column(unique = true)
-    private String nickname;
+    @Embedded
+    private Nickname nickname;
 
     @Column(unique = true)
     private String email;
@@ -28,7 +25,7 @@ public class Member extends BaseEntity {
         this.role = role;
     }
 
-    public void registerNickname(String nickname) {
+    public void registerNickname(Nickname nickname) {
         this.nickname = nickname;
     }
 }

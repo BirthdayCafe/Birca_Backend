@@ -2,7 +2,6 @@ package com.birca.bircabackend.command.member.application;
 
 import com.birca.bircabackend.command.auth.login.LoginMember;
 import com.birca.bircabackend.command.member.MemberFixtureRepository;
-import com.birca.bircabackend.command.member.domain.Member;
 import com.birca.bircabackend.command.member.dto.NicknameRegisterRequest;
 import com.birca.bircabackend.command.member.dto.RoleChangeRequest;
 import com.birca.bircabackend.command.member.exception.MemberErrorCode;
@@ -93,7 +92,7 @@ class MemberServiceTest extends ServiceTest {
 
             // then
             assertThat(memberFixtureRepository.findById(LOGIN_ID))
-                    .map(Member::getNickname)
+                    .map(member -> member.getNickname().getValue())
                     .get()
                     .isEqualTo(nickname);
         }
