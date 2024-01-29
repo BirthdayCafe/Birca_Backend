@@ -19,7 +19,7 @@ public class MemberQueryController {
 
     @GetMapping("/v1/join/check-nickname")
     @RequiredLogin
-    public ResponseEntity<NicknameCheckResponse> checkNicknameDuplicated(@RequestParam String nickname) {
+    public ResponseEntity<NicknameCheckResponse> checkNicknameDuplicated(@RequestParam(name = "nickname") String nickname) {
         return ResponseEntity.ok(memberQueryService.checkNickname(nickname));
     }
 }
