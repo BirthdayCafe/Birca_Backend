@@ -2,6 +2,7 @@ package com.birca.bircabackend.support.enviroment;
 
 import com.birca.bircabackend.command.auth.token.JwtTokenProvider;
 import com.birca.bircabackend.command.member.application.MemberService;
+import com.birca.bircabackend.query.service.MemberQueryService;
 import com.birca.bircabackend.support.TestBearerTokenProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,4 +40,7 @@ public class DocumentationTest {
 
     @MockBean
     protected MemberService memberService;
+
+    @MockBean
+    protected MemberQueryService memberQueryService;
 }
