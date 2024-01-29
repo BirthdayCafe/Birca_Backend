@@ -8,3 +8,6 @@
 
 == 헬스 체크 API
 operation::health-check[snippets='http-request,http-response']
+
+== 회원 역할 변경 API
+operation::member-role-change[snippets='http-request,http-response']

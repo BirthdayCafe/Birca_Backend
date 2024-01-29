@@ -20,7 +20,7 @@ class MemberControllerTest extends DocumentationTest {
         RoleChangeRequest request = new RoleChangeRequest("HOST");
 
         // when
-        ResultActions result = mockMvc.perform(post("/api/v1/member/role-change")
+        ResultActions result = mockMvc.perform(post("/api/v1/members/role-change")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(memberId))
                 .content(objectMapper.writeValueAsString(request))
@@ -28,6 +28,6 @@ class MemberControllerTest extends DocumentationTest {
 
         // then
         result.andExpect((status().isOk()))
-                .andDo(document("회원_역할_변경", HOST_INFO));
+                .andDo(document("member-role-change", HOST_INFO));
     }
 }
