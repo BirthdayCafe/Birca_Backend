@@ -3,6 +3,7 @@ package com.birca.bircabackend.command.member.presentation;
 import com.birca.bircabackend.command.auth.login.LoginMember;
 import com.birca.bircabackend.command.auth.login.RequiredLogin;
 import com.birca.bircabackend.command.member.application.MemberService;
+import com.birca.bircabackend.command.member.dto.NicknameRegisterRequest;
 import com.birca.bircabackend.command.member.dto.RoleChangeRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,14 @@ public class MemberController {
     public ResponseEntity<Void> changeMemberRole(@RequestBody RoleChangeRequest request,
                                                  LoginMember loginMember) {
         memberService.changeMemberRole(request, loginMember);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/v1/join/register-nickname")
+    @RequiredLogin
+    public ResponseEntity<Void> registerNickname(@RequestBody NicknameRegisterRequest request,
+                                                 LoginMember loginMember) {
+        memberService.registerNickname(request, loginMember);
         return ResponseEntity.ok().build();
     }
 }

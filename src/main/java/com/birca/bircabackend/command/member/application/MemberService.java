@@ -4,6 +4,7 @@ import com.birca.bircabackend.command.auth.login.LoginMember;
 import com.birca.bircabackend.command.member.domain.Member;
 import com.birca.bircabackend.command.member.domain.MemberRepository;
 import com.birca.bircabackend.command.member.domain.MemberRole;
+import com.birca.bircabackend.command.member.dto.NicknameRegisterRequest;
 import com.birca.bircabackend.command.member.dto.RoleChangeRequest;
 import com.birca.bircabackend.command.member.exception.MemberErrorCode;
 import com.birca.bircabackend.common.exception.BusinessException;
@@ -23,5 +24,9 @@ public class MemberService {
                 .orElseThrow(() -> BusinessException.from(MemberErrorCode.MEMBER_NOT_FOUND));
         MemberRole role = MemberRole.from(request.role());
         member.changeRole(role);
+    }
+
+    public void registerNickname(NicknameRegisterRequest request, LoginMember loginMember) {
+
     }
 }

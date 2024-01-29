@@ -51,7 +51,7 @@ class MemberControllerTest extends DocumentationTest {
         result.andExpect((status().isOk()))
                 .andDo(document("member-nickname-register", HOST_INFO,
                         requestFields(
-                                fieldWithPath("nickname").type(JsonFieldType.BOOLEAN).description("등록할 닉네임")
+                                fieldWithPath("nickname").type(JsonFieldType.STRING).description("등록할 닉네임")
                         )
                 ));
     }
