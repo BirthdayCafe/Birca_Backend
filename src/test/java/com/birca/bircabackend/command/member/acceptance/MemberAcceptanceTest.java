@@ -9,9 +9,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.jdbc.Sql;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Sql("/fixture/member-fixture.sql")
 class MemberAcceptanceTest extends AcceptanceTest {
 
     @Test

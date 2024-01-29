@@ -21,5 +21,10 @@ public class Member extends BaseEntity {
     private String email;
 
     @Enumerated(EnumType.STRING)
-    private MemberRole memberRole;
+    @Column(name = "member_role")
+    private MemberRole role;
+
+    public void changeRole(MemberRole role) {
+        this.role = role;
+    }
 }
