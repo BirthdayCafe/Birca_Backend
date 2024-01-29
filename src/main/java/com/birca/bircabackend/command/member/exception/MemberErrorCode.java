@@ -9,9 +9,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public enum MemberErrorCode implements ErrorCode {
 
-    MEMBER_NOT_FOUND(3004, 404, "존재하지 않는 회원입니다.")
+    INVALID_ROLE(3003, 400, "존재하지 않는 역할입니다."),
+
+    MEMBER_NOT_FOUND(3004, 404, "존재하지 않는 회원입니다."),
 
     ;
+
 
     private final int value;
     private final int httpStatusCode;

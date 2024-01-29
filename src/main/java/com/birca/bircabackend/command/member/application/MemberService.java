@@ -21,7 +21,7 @@ public class MemberService {
     public void changeMemberRole(RoleChangeRequest request, LoginMember loginMember) {
         Member member = memberRepository.findById(loginMember.id())
                 .orElseThrow(() -> BusinessException.from(MemberErrorCode.MEMBER_NOT_FOUND));
-        MemberRole role = MemberRole.valueOf(request.role());
+        MemberRole role = MemberRole.from(request.role());
         member.changeRole(role);
     }
 }

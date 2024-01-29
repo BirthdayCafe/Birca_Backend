@@ -50,6 +50,19 @@ class MemberServiceTest extends ServiceTest {
                     .isEqualTo(role);
         }
 
+        @ParameterizedTest
+        @ValueSource(strings = {"HOSTS", "VISITANTS", "INVALID"})
+        void 없는_역할로_변경하는_경우를_검증한다(String role) {
+            // given
+            RoleChangeRequest request = new RoleChangeRequest(role);
+
+            // when then
+            assertThatThrownBy(() -> memberService.changeMemberRole(request, loginMember))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(MemberErrorCode.INVALID_ROLE);
+        }
+
         @Test
         void 변경할_때_없는_회원인_경우를_검증한다() {
             // given
