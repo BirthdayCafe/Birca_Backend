@@ -13,3 +13,6 @@ operation::member-role-change[snippets='http-request,http-response']
 operation::check-nickname[snippets='http-request,query-parameters,http-response,response-fields']
 === 회원 닉네임 등록
 operation::member-nickname-register[snippets='http-request,request-fields,http-response']
+=== 에러 코드
+include::{snippets}/member-error-Code/response-body.adoc[]
+

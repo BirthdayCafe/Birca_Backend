@@ -2,6 +2,7 @@ package com.birca.bircabackend.command.member.presentation;
 
 import com.birca.bircabackend.command.member.dto.NicknameRegisterRequest;
 import com.birca.bircabackend.command.member.dto.RoleChangeRequest;
+import com.birca.bircabackend.command.member.exception.MemberErrorCode;
 import com.birca.bircabackend.support.enviroment.DocumentationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -11,6 +12,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -53,6 +55,23 @@ class MemberControllerTest extends DocumentationTest {
                         requestFields(
                                 fieldWithPath("nickname").type(JsonFieldType.STRING).description("등록할 닉네임")
                         )
+                ));
+    }
+
+    @Test
+    void 회원_에러_코드() throws Exception {
+        // when
+        ResultActions result = mockMvc.perform(get("/error-codes")
+                .queryParam("className", "com.birca.bircabackend.command.member.exception.MemberErrorCode")
+                .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        // then
+        result.andExpect((status().isOk()))
+                .andDo(document("member-error-Code",
+                        HOST_INFO,
+                        DOCUMENT_RESPONSE,
+                        responseFields(getErrorDescriptor(MemberErrorCode.values()))
                 ));
     }
 }
