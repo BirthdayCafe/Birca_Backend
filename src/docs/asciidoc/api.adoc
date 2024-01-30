@@ -6,6 +6,10 @@
 :toclevels: 2
 :sectlinks:
 
+== 인증 API
+=== 에러 코드
+include::{snippets}/auth-error-Code/response-body.adoc[]
+
 == 회원 API
 === 회원 역할 변경
 operation::member-role-change[snippets='http-request,http-response']
