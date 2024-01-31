@@ -1,6 +1,7 @@
 package com.birca.bircabackend.query.controller;
 
 import com.birca.bircabackend.query.dto.ArtistGroupResponse;
+import com.birca.bircabackend.query.dto.ArtistResponse;
 import com.birca.bircabackend.support.enviroment.DocumentationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -13,10 +14,10 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class ArtistQueryControllerTest extends DocumentationTest {
@@ -59,9 +60,20 @@ public class ArtistQueryControllerTest extends DocumentationTest {
     @Test
     void 아티스트_그룹의_멤버를_조회한다() throws Exception {
         // given
+        Long groupId = 1L;
+        given(artistQueryService.findArtistByGroup(groupId))
+                .willReturn(List.of(
+                        new ArtistResponse(5L, "뷔", "image5.com"),
+                        new ArtistResponse(1L, "석진", "image1.com"),
+                        new ArtistResponse(7L, "슈가", "image7.com"),
+                        new ArtistResponse(2L, "정국", "image2.com"),
+                        new ArtistResponse(3L, "제이홉", "image3.com"),
+                        new ArtistResponse(6L, "지민", "image6.com"),
+                        new ArtistResponse(4L, "RM", "image4.com")
+                ));
 
         // when
-        ResultActions result = mockMvc.perform(get("/api/v1/artist-groups/{groupId}/artists", 1L)
+        ResultActions result = mockMvc.perform(get("/api/v1/artist-groups/{groupId}/artists", groupId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
         );
