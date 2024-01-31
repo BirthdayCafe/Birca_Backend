@@ -56,6 +56,8 @@ CREATE TABLE artist_group
     CONSTRAINT pk_artistgroup PRIMARY KEY (id)
 );
 
+CREATE INDEX IDX_NAME ON artist_group (name);
+
 CREATE TABLE artist
 (
     id        BIGINT AUTO_INCREMENT NOT NULL,
