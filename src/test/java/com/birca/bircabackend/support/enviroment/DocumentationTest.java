@@ -3,6 +3,7 @@ package com.birca.bircabackend.support.enviroment;
 import com.birca.bircabackend.command.auth.token.JwtTokenProvider;
 import com.birca.bircabackend.command.member.application.MemberService;
 import com.birca.bircabackend.common.exception.ErrorCode;
+import com.birca.bircabackend.query.service.ArtistGroupQueryService;
 import com.birca.bircabackend.query.service.MemberQueryService;
 import com.birca.bircabackend.support.TestBearerTokenProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -53,6 +54,9 @@ public class DocumentationTest {
 
     @MockBean
     protected MemberQueryService memberQueryService;
+
+    @MockBean
+    protected ArtistGroupQueryService artistGroupQueryService;
 
     protected List<FieldDescriptor> getErrorDescriptor(ErrorCode[] errorCodes) {
         return Arrays.stream(errorCodes)
