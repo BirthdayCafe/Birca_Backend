@@ -18,9 +18,23 @@ public class ArtistGroupDynamicRepositoryImpl implements ArtistGroupDynamicRepos
 
     @Override
     public List<ArtistGroup> queryPagedGroupsSortByName(PagingParams pagingParams) {
+        Long cursor = pagingParams.getCursor();
+        String cursorName = findCursorName(cursor);
         return queryFactory.selectFrom(artistGroup)
-                .orderBy(artistGroup.name.asc())
+                .where(DynamicBooleanBuilder.builder()
+                        .and(() -> artistGroup.name.eq(cursorName).and(artistGroup.id.gt(cursor)))
+                        .or(() -> artistGroup.name.gt(cursorName))
+                        .build()
+                )
+                .orderBy(artistGroup.name.asc(), artistGroup.id.asc())
                 .limit(pagingParams.getSize())
                 .fetch();
+    }
+
+    private String findCursorName(Long cursor) {
+        return queryFactory.select(artistGroup.name)
+                .from(artistGroup)
+                .where(artistGroup.id.eq(cursor))
+                .fetchOne();
     }
 }
