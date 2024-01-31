@@ -39,4 +39,25 @@ class ArtistQueryAcceptanceTest extends AcceptanceTest {
                 () -> assertThat(response.jsonPath().getList(".")).hasSize(size)
         );
     }
+
+    @Test
+    void 아티스트_그룹의_멤버를_조회한다() {
+        // given
+        Long btsId = 6L;
+
+        // when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .when()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
+                .get("/api/v1/artist-groups/{groupId}/artists", btsId)
+                .then().log().all()
+                .extract();
+
+        // then
+        assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
+                () -> assertThat(response.jsonPath().getList(".")).hasSize(7)
+        );
+    }
 }
