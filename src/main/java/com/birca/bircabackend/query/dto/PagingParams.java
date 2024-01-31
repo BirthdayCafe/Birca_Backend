@@ -9,6 +9,9 @@ import lombok.Setter;
 @Setter
 public class PagingParams {
 
-    private Long cursor;
-    private Integer size;
+    private static Long DEFAULT_CURSOR = 0L;
+    private static Integer DEFAULT_SIZE = 6;
+
+    private Long cursor = DEFAULT_CURSOR;
+    private Integer size = DEFAULT_SIZE;
 }

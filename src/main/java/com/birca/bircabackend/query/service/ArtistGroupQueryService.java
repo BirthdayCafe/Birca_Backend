@@ -17,7 +17,7 @@ public class ArtistGroupQueryService {
     private final ArtistGroupQueryRepository artistGroupQueryRepository;
 
     public List<ArtistGroupResponse> findGroups(PagingParams pagingParams) {
-        return artistGroupQueryRepository.queryPagedGroups(pagingParams)
+        return artistGroupQueryRepository.queryPagedGroupsSortByName(pagingParams)
                 .stream()
                 .map(ArtistGroupResponse::new)
                 .toList();
