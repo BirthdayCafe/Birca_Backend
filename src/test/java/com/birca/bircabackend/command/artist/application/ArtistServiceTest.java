@@ -110,8 +110,12 @@ class ArtistServiceTest extends ServiceTest {
 
         @Test
         void 정상적으로_등록한다() {
+            // given
+            List<InterestArtistRequest> request = new ArrayList<>(nineArtists);
+            request.add(new InterestArtistRequest(10L));
+
             // when
-            artistService.registerInterestArtist(nineArtists, LOGIN_MEMBER);
+            artistService.registerInterestArtist(request, LOGIN_MEMBER);
 
             // then
             List<InterestArtist> interestArtists = entityManager.createQuery(
@@ -123,7 +127,7 @@ class ArtistServiceTest extends ServiceTest {
                             .containsOnly(MEMBER_ID),
             () -> assertThat(interestArtists)
                     .map(InterestArtist::getArtistId)
-                    .containsOnly(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L)
+                    .containsOnly(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L)
             );
         }
 
@@ -169,6 +173,34 @@ class ArtistServiceTest extends ServiceTest {
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(ArtistErrorCode.EXCEED_INTEREST_LIMIT);
+        }
+
+        @Test
+        void 중복_아티스트로_등록할_수_없다() {
+            // given
+            List<InterestArtistRequest> request = List.of(
+                    new InterestArtistRequest(1L),
+                    new InterestArtistRequest(1L)
+            );
+
+            // when then
+            assertThatThrownBy(() -> artistService.registerInterestArtist(request, LOGIN_MEMBER))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(ArtistErrorCode.DUPLICATE_INTEREST_ARTIST);
+        }
+
+        @Test
+        void 이미_등록된_아티스트로_등록할_수_없다() {
+            // given
+            List<InterestArtistRequest> request = List.of(new InterestArtistRequest(1L));
+            artistService.registerInterestArtist(request, LOGIN_MEMBER);
+
+            // when then
+            assertThatThrownBy(() -> artistService.registerInterestArtist(request, LOGIN_MEMBER))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(ArtistErrorCode.DUPLICATE_INTEREST_ARTIST);
         }
     }
 }

@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 
 import static com.birca.bircabackend.command.artist.exception.ArtistErrorCode.*;
@@ -44,28 +45,56 @@ public class ArtistService {
 
     public void registerInterestArtist(List<InterestArtistRequest> request, LoginMember loginMember) {
         Long fanId = loginMember.id();
-        validateInterestArtistExceed(request.size(), fanId);
-        validateExistAllArtist(request);
+        List<Long> requestArtistIds = extractArtistIds(request);
+        List<Long> registeredInterestArtistIds = getRegisteredArtistIds(fanId);
+
+        validateArtistExceed(requestArtistIds.size(), registeredInterestArtistIds.size());
+        validateDuplicateArtists(registeredInterestArtistIds, requestArtistIds);
+        validateExistAllArtist(requestArtistIds);
+
         interestArtistBulkSaveRepository.saveAll(
-                request.stream()
-                        .map(req -> new InterestArtist(fanId, req.artistId()))
+                requestArtistIds.stream()
+                        .map(artistId -> new InterestArtist(fanId, artistId))
                         .toList()
         );
     }
 
-    private void validateInterestArtistExceed(int requestSize, long fanId) {
-        if (requestSize > InterestArtist.REGISTER_LIMIT) {
-            throw BusinessException.from(EXCEED_INTEREST_LIMIT);
-        }
-        if (interestArtistRepository.countByFanId(fanId) + requestSize > InterestArtist.REGISTER_LIMIT) {
+    private List<Long> getRegisteredArtistIds(Long fanId) {
+        return interestArtistRepository.findByFanId(fanId)
+                .stream()
+                .map(InterestArtist::getArtistId)
+                .toList();
+    }
+
+    private List<Long> extractArtistIds(List<InterestArtistRequest> request) {
+        return request.stream()
+                .map(InterestArtistRequest::artistId)
+                .toList();
+    }
+
+    private void validateArtistExceed(int requestSize, int registeredSize) {
+        if (requestSize + registeredSize > InterestArtist.REGISTER_LIMIT) {
             throw BusinessException.from(EXCEED_INTEREST_LIMIT);
         }
     }
 
-    private void validateExistAllArtist(List<InterestArtistRequest> interestArtists) {
-        List<Long> artistIds = interestArtists.stream()
-                .map(InterestArtistRequest::artistId)
-                .toList();
+    private void validateDuplicateArtists(List<Long> registeredInterestArtistIds,
+                                          List<Long> requestArtistIds) {
+        if (requestArtistIds.size() != new HashSet<>(requestArtistIds).size()) {
+            throw BusinessException.from(DUPLICATE_INTEREST_ARTIST);
+        }
+        for (Long registeredInterestArtistId : registeredInterestArtistIds) {
+            validateRegisteredIdInRequest(requestArtistIds, registeredInterestArtistId);
+        }
+    }
+
+    private void validateRegisteredIdInRequest(List<Long> requestArtistIds, Long registeredInterestArtistId) {
+        if (requestArtistIds.contains(registeredInterestArtistId)) {
+            throw BusinessException.from(DUPLICATE_INTEREST_ARTIST);
+        }
+    }
+
+    private void validateExistAllArtist(List<Long> artistIds) {
         if (artistRepository.countByIdIn(artistIds) != artistIds.size()) {
             throw BusinessException.from(NOT_EXIST_ARTIST);
         }
