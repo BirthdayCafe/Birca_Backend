@@ -4,11 +4,14 @@ import com.birca.bircabackend.command.artist.domain.ArtistRepository;
 import com.birca.bircabackend.command.artist.domain.FavoriteArtist;
 import com.birca.bircabackend.command.artist.domain.FavoriteArtistRepository;
 import com.birca.bircabackend.command.artist.dto.FavoriteArtistRequest;
+import com.birca.bircabackend.command.artist.dto.InterestArtistRequest;
 import com.birca.bircabackend.command.auth.login.LoginMember;
 import com.birca.bircabackend.common.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static com.birca.bircabackend.command.artist.exception.ArtistErrorCode.NOT_EXIST_ARTIST;
 
@@ -30,6 +33,10 @@ public class ArtistService {
                         favoriteArtist -> favoriteArtist.changeArtist(artistId),
                         () -> favoriteArtistRepository.save(new FavoriteArtist(fanId, artistId))
                 );
+    }
+
+    public void registerInterestArtist(List<InterestArtistRequest> request, LoginMember loginMember) {
+
     }
 
     private void validateNotExistArtist(Long artistId) {
