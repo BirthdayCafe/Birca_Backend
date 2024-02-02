@@ -1,6 +1,7 @@
 package com.birca.bircabackend.command.artist.acceptance;
 
 import com.birca.bircabackend.command.artist.dto.FavoriteArtistRequest;
+import com.birca.bircabackend.command.artist.dto.InterestArtistRequest;
 import com.birca.bircabackend.support.enviroment.AcceptanceTest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -10,6 +11,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -31,6 +34,29 @@ class ArtistAcceptanceTest extends AcceptanceTest {
                 .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
                 .body(request)
                 .post("/api/v1/artists/favorite")
+                .then().log().all()
+                .extract();
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Test
+    void 관심_아티스트를_등록_한다() {
+        // given
+        List<InterestArtistRequest> request = List.of(
+                new InterestArtistRequest(1L),
+                new InterestArtistRequest(2L),
+                new InterestArtistRequest(3L)
+        );
+
+        // when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .when()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
+                .body(request)
+                .post("/api/v1/artists/interest")
                 .then().log().all()
                 .extract();
 
