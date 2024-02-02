@@ -34,16 +34,26 @@ public class ArtistService {
                 );
     }
 
+    private void validateNotExistArtist(Long artistId) {
+        if (!artistRepository.existsById(artistId)) {
+            throw BusinessException.from(NOT_EXIST_ARTIST);
+        }
+    }
+
     public void registerInterestArtist(List<InterestArtistRequest> request, LoginMember loginMember) {
         Long fanId = loginMember.id();
         List<InterestArtist> interestArtists = request.stream()
                 .map(req -> new InterestArtist(fanId, req.artistId()))
                 .toList();
+        validateExistAllArtist(interestArtists);
         interestArtistBulkSaveRepository.saveAll(interestArtists);
     }
 
-    private void validateNotExistArtist(Long artistId) {
-        if (!artistRepository.existsById(artistId)) {
+    private void validateExistAllArtist(List<InterestArtist> interestArtists) {
+        List<Long> artistIds = interestArtists.stream()
+                .map(InterestArtist::getArtistId)
+                .toList();
+        if (artistRepository.countByIdIn(artistIds) != artistIds.size()) {
             throw BusinessException.from(NOT_EXIST_ARTIST);
         }
     }

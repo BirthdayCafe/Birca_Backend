@@ -126,5 +126,29 @@ class ArtistServiceTest extends ServiceTest {
                     .containsOnly(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L)
             );
         }
+
+        @Test
+        void 없는_아티스트로_등록할_수_없다() {
+            // given
+            long notExistArtist = 100;
+            List<InterestArtistRequest> request = List.of(
+                    new InterestArtistRequest(1L),
+                    new InterestArtistRequest(2L),
+                    new InterestArtistRequest(3L),
+                    new InterestArtistRequest(notExistArtist),
+                    new InterestArtistRequest(5L),
+                    new InterestArtistRequest(6L),
+                    new InterestArtistRequest(7L),
+                    new InterestArtistRequest(8L),
+                    new InterestArtistRequest(9L),
+                    new InterestArtistRequest(10L)
+            );
+
+            // when then
+            assertThatThrownBy(() -> artistService.registerInterestArtist(request, LOGIN_MEMBER))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(ArtistErrorCode.NOT_EXIST_ARTIST);
+        }
     }
 }
