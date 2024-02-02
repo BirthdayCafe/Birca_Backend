@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @Getter
 public class InterestArtist extends BaseEntity {
 
+    public static final int REGISTER_LIMIT = 10;
+
     @Column(nullable = false)
     private Long fanId;
 

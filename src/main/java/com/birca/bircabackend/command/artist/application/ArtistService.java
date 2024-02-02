@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.birca.bircabackend.command.artist.exception.ArtistErrorCode.*;
 import static com.birca.bircabackend.command.artist.exception.ArtistErrorCode.NOT_EXIST_ARTIST;
 
 @Service
@@ -20,6 +21,7 @@ public class ArtistService {
 
     private final ArtistRepository artistRepository;
     private final FavoriteArtistRepository favoriteArtistRepository;
+    private final InterestArtistRepository interestArtistRepository;
     private final InterestArtistBulkSaveRepository interestArtistBulkSaveRepository;
 
     public void registerFavoriteArtist(FavoriteArtistRequest request,
@@ -42,16 +44,27 @@ public class ArtistService {
 
     public void registerInterestArtist(List<InterestArtistRequest> request, LoginMember loginMember) {
         Long fanId = loginMember.id();
-        List<InterestArtist> interestArtists = request.stream()
-                .map(req -> new InterestArtist(fanId, req.artistId()))
-                .toList();
-        validateExistAllArtist(interestArtists);
-        interestArtistBulkSaveRepository.saveAll(interestArtists);
+        validateInterestArtistExceed(request.size(), fanId);
+        validateExistAllArtist(request);
+        interestArtistBulkSaveRepository.saveAll(
+                request.stream()
+                        .map(req -> new InterestArtist(fanId, req.artistId()))
+                        .toList()
+        );
     }
 
-    private void validateExistAllArtist(List<InterestArtist> interestArtists) {
+    private void validateInterestArtistExceed(int requestSize, long fanId) {
+        if (requestSize > InterestArtist.REGISTER_LIMIT) {
+            throw BusinessException.from(EXCEED_INTEREST_LIMIT);
+        }
+        if (interestArtistRepository.countByFanId(fanId) + requestSize > InterestArtist.REGISTER_LIMIT) {
+            throw BusinessException.from(EXCEED_INTEREST_LIMIT);
+        }
+    }
+
+    private void validateExistAllArtist(List<InterestArtistRequest> interestArtists) {
         List<Long> artistIds = interestArtists.stream()
-                .map(InterestArtist::getArtistId)
+                .map(InterestArtistRequest::artistId)
                 .toList();
         if (artistRepository.countByIdIn(artistIds) != artistIds.size()) {
             throw BusinessException.from(NOT_EXIST_ARTIST);

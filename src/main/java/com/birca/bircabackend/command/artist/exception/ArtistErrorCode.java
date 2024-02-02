@@ -9,7 +9,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public enum ArtistErrorCode implements ErrorCode {
 
+    EXCEED_INTEREST_LIMIT(4001, 400, "관심 아티스트는 10명까지 등록할 수 있습니다."),
     NOT_EXIST_ARTIST(4002, 404, "존재하지 않는 아티스트입니다.")
+
 
     ;
 
