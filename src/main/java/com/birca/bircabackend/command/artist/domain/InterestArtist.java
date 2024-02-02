@@ -17,4 +17,9 @@ public class InterestArtist extends BaseEntity {
 
     @Column(nullable = false)
     private Long artistId;
+
+    public InterestArtist(Long fanId, Long artistId) {
+        this.fanId = fanId;
+        this.artistId = artistId;
+    }
 }

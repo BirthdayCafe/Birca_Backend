@@ -1,8 +1,6 @@
 package com.birca.bircabackend.command.artist.application;
 
-import com.birca.bircabackend.command.artist.domain.ArtistRepository;
-import com.birca.bircabackend.command.artist.domain.FavoriteArtist;
-import com.birca.bircabackend.command.artist.domain.FavoriteArtistRepository;
+import com.birca.bircabackend.command.artist.domain.*;
 import com.birca.bircabackend.command.artist.dto.FavoriteArtistRequest;
 import com.birca.bircabackend.command.artist.dto.InterestArtistRequest;
 import com.birca.bircabackend.command.auth.login.LoginMember;
@@ -22,6 +20,7 @@ public class ArtistService {
 
     private final ArtistRepository artistRepository;
     private final FavoriteArtistRepository favoriteArtistRepository;
+    private final InterestArtistBulkSaveRepository interestArtistBulkSaveRepository;
 
     public void registerFavoriteArtist(FavoriteArtistRequest request,
                                        LoginMember loginMember) {
@@ -36,7 +35,11 @@ public class ArtistService {
     }
 
     public void registerInterestArtist(List<InterestArtistRequest> request, LoginMember loginMember) {
-
+        Long fanId = loginMember.id();
+        List<InterestArtist> interestArtists = request.stream()
+                .map(req -> new InterestArtist(fanId, req.artistId()))
+                .toList();
+        interestArtistBulkSaveRepository.saveAll(interestArtists);
     }
 
     private void validateNotExistArtist(Long artistId) {

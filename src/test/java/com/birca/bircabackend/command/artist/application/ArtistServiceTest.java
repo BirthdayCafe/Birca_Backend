@@ -1,7 +1,9 @@
 package com.birca.bircabackend.command.artist.application;
 
 import com.birca.bircabackend.command.artist.domain.FavoriteArtist;
+import com.birca.bircabackend.command.artist.domain.InterestArtist;
 import com.birca.bircabackend.command.artist.dto.FavoriteArtistRequest;
+import com.birca.bircabackend.command.artist.dto.InterestArtistRequest;
 import com.birca.bircabackend.command.artist.exception.ArtistErrorCode;
 import com.birca.bircabackend.command.auth.login.LoginMember;
 import com.birca.bircabackend.common.exception.BusinessException;
@@ -14,8 +16,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 @Sql("/fixture/artist-fixture.sql")
@@ -32,7 +35,7 @@ class ArtistServiceTest extends ServiceTest {
 
     @Nested
     @DisplayName("최애 아티스트를")
-    class RegisterTest {
+    class RegisterFavoriteArtistTest {
 
         @Test
         void 정상적으로_등록한다() {
@@ -83,6 +86,44 @@ class ArtistServiceTest extends ServiceTest {
             assertAll(
                     ()-> assertThat(favoriteArtist.getArtistId()).isEqualTo(afterFavoriteArtist),
                     ()-> assertThat(favoriteArtist.getFanId()).isEqualTo(MEMBER_ID)
+            );
+        }
+    }
+
+    @Nested
+    @DisplayName("관심 아티스트를")
+    class RegisterInterestArtistTest {
+
+        @Test
+        void 정상적으로_등록한다() {
+            // given
+            List<InterestArtistRequest> request = List.of(
+                    new InterestArtistRequest(1L),
+                    new InterestArtistRequest(2L),
+                    new InterestArtistRequest(3L),
+                    new InterestArtistRequest(4L),
+                    new InterestArtistRequest(5L),
+                    new InterestArtistRequest(6L),
+                    new InterestArtistRequest(7L),
+                    new InterestArtistRequest(8L),
+                    new InterestArtistRequest(9L),
+                    new InterestArtistRequest(10L)
+            );
+
+            // when
+            artistService.registerInterestArtist(request, LOGIN_MEMBER);
+
+            // then
+            List<InterestArtist> interestArtists = entityManager.createQuery(
+                    "select ia from InterestArtist ia", InterestArtist.class)
+                    .getResultList();
+            assertAll(
+                    () -> assertThat(interestArtists)
+                            .map(InterestArtist::getFanId)
+                            .containsOnly(MEMBER_ID),
+            () -> assertThat(interestArtists)
+                    .map(InterestArtist::getArtistId)
+                    .containsOnly(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L)
             );
         }
     }
