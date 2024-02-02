@@ -25,3 +25,6 @@ include::{snippets}/member-error-Code/response-body.adoc[]
 operation::get-artist-groups[snippets='http-request,query-parameters,http-response,response-fields']
 === 아티스트 그룹 멤버 조회
 operation::get-artist-group-members[snippets='http-request,path-parameters,http-response,response-fields']
+=== 최애 아티스트 등록
+operation::register-favorite-artist[snippets='http-request,request-fields,http-response']
+
