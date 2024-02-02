@@ -2,7 +2,9 @@ package com.birca.bircabackend.command.artist.application;
 
 import com.birca.bircabackend.command.artist.domain.FavoriteArtist;
 import com.birca.bircabackend.command.artist.dto.FavoriteArtistRequest;
+import com.birca.bircabackend.command.artist.exception.ArtistErrorCode;
 import com.birca.bircabackend.command.auth.login.LoginMember;
+import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.support.enviroment.ServiceTest;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 @Sql("/fixture/artist-fixture.sql")
@@ -46,6 +49,19 @@ class ArtistServiceTest extends ServiceTest {
                     ()-> assertThat(favoriteArtist.getArtistId()).isEqualTo(favoriteArtistId),
                     ()-> assertThat(favoriteArtist.getFanId()).isEqualTo(MEMBER_ID)
             );
+        }
+
+        @Test
+        void 없는_아티스트로_등록할_수_없다() {
+            // given
+            long notExistArtist = 100;
+            FavoriteArtistRequest request = new FavoriteArtistRequest(notExistArtist);
+
+            // when then
+            assertThatThrownBy(() -> artistService.registerFavoriteArtist(request, LOGIN_MEMBER))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(ArtistErrorCode.NOT_EXIST_ARTIST);
         }
     }
 }
