@@ -63,5 +63,27 @@ class ArtistServiceTest extends ServiceTest {
                     .extracting("errorCode")
                     .isEqualTo(ArtistErrorCode.NOT_EXIST_ARTIST);
         }
+
+        @Test
+        void 한_명만_등록할_수_있다() {
+            // given
+            long beforeFavoriteArtist = 1L;
+            long afterFavoriteArtist = 2L;
+            artistService.registerFavoriteArtist(
+                    new FavoriteArtistRequest(beforeFavoriteArtist), LOGIN_MEMBER
+            );
+
+            // when
+            artistService.registerFavoriteArtist(
+                    new FavoriteArtistRequest(afterFavoriteArtist), LOGIN_MEMBER
+            );
+
+            // then
+            FavoriteArtist favoriteArtist = entityManager.find(FavoriteArtist.class, 1L);
+            assertAll(
+                    ()-> assertThat(favoriteArtist.getArtistId()).isEqualTo(afterFavoriteArtist),
+                    ()-> assertThat(favoriteArtist.getFanId()).isEqualTo(MEMBER_ID)
+            );
+        }
     }
 }

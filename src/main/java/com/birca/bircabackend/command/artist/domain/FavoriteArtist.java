@@ -22,4 +22,8 @@ public class FavoriteArtist extends BaseEntity {
         this.fanId = fanId;
         this.artistId = artistId;
     }
+
+    public void changeArtist(Long artistId) {
+        this.artistId = artistId;
+    }
 }

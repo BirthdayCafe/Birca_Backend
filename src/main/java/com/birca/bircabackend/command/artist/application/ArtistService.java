@@ -23,9 +23,13 @@ public class ArtistService {
     public void registerFavoriteArtist(FavoriteArtistRequest request,
                                        LoginMember loginMember) {
         Long artistId = request.artistId();
+        Long fanId = loginMember.id();
         validateNotExistArtist(artistId);
-        FavoriteArtist favoriteArtist = new FavoriteArtist(loginMember.id(), artistId);
-        favoriteArtistRepository.save(favoriteArtist);
+        favoriteArtistRepository.findByFanId(fanId)
+                .ifPresentOrElse(
+                        favoriteArtist -> favoriteArtist.changeArtist(artistId),
+                        () -> favoriteArtistRepository.save(new FavoriteArtist(fanId, artistId))
+                );
     }
 
     private void validateNotExistArtist(Long artistId) {
