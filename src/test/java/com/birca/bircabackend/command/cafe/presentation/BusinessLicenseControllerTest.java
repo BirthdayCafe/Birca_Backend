@@ -73,10 +73,10 @@ class BusinessLicenseControllerTest extends DocumentationTest {
         // when
         ResultActions result = mockMvc.perform(multipart("/api/v1/cafes/apply")
                 .file(businessLicenseFile)
-                .param("cafeName", "cafeName")
+                .param("cafeName", "커피 벌스데이")
                 .param("businessLicenseNumber", "123-45-67890")
-                .param("owner", "owner")
-                .param("address", "address")
+                .param("owner", "최민혁")
+                .param("address", "서울 마포구 와우산로29길 26-33 1층 커피 벌스데이")
                 .contentType(MediaType.MULTIPART_FORM_DATA)
                 .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
         );

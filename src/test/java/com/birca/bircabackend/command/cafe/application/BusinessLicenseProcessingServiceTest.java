@@ -44,10 +44,10 @@ class BusinessLicenseProcessingServiceTest extends ServiceTest {
             MockMultipartFile businessLicense = new MockMultipartFile("businessLicense",
                     "businessLicense.pdf", "application/pdf", "businessLicense".getBytes(UTF_8));
             Result mockResult = new Result(
-                    List.of(new BusinessLicenseInfo("address")),
+                    List.of(new BusinessLicenseInfo("서울 마포구 와우산로29길 26-33 1층 커피 벌스데이")),
                     List.of(new BusinessLicenseInfo("123-45-67890")),
-                    List.of(new BusinessLicenseInfo("cafeName")),
-                    List.of(new BusinessLicenseInfo("owner"))
+                    List.of(new BusinessLicenseInfo("카페 벌스데이")),
+                    List.of(new BusinessLicenseInfo("최민혁"))
             );
 
             BizLicense mockBizLicense = new BizLicense(mockResult);
@@ -61,10 +61,10 @@ class BusinessLicenseProcessingServiceTest extends ServiceTest {
             BusinessLicenseResponse response = businessLicenseProcessingService.readBusinessLicense(businessLicense);
 
             //then
-            assertEquals("address", response.address());
+            assertEquals("서울 마포구 와우산로29길 26-33 1층 커피 벌스데이", response.address());
             assertEquals("123-45-67890", response.businessLicenseNumber());
-            assertEquals("cafeName", response.cafeName());
-            assertEquals("owner", response.owner());
+            assertEquals("카페 벌스데이", response.cafeName());
+            assertEquals("최민혁", response.owner());
         }
 
         @Test
