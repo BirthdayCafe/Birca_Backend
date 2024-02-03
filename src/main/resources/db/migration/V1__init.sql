@@ -23,9 +23,7 @@ CREATE TABLE business_license
     tax_office_code    INT                   NOT NULL,
     business_type_code INT                   NOT NULL,
     serial_code        INT                   NOT NULL,
-    validation_code    INT                   NOT NULL,
     address            VARCHAR(255)          NOT NULL,
-    detail_address     VARCHAR(255)          NOT NULL,
     CONSTRAINT pk_businesslicense PRIMARY KEY (id)
 );
 
@@ -33,7 +31,7 @@ ALTER TABLE business_license
     ADD CONSTRAINT FK_BUSINESSLICENSE_ON_OWNER FOREIGN KEY (owner_id) REFERENCES member (id);
 
 ALTER TABLE business_license
-    ADD CONSTRAINT UNIQUE_BUSINESS_LICENSE_CODE UNIQUE (tax_office_code, business_type_code, serial_code, validation_code);
+    ADD CONSTRAINT UNIQUE_BUSINESS_LICENSE_CODE UNIQUE (tax_office_code, business_type_code, serial_code);
 
 CREATE TABLE cafe
 (
