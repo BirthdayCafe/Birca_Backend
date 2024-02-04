@@ -1,12 +1,9 @@
 package com.birca.bircabackend.command.auth.application;
 
+import com.birca.bircabackend.command.auth.application.oauth.OAuthMember;
 import com.birca.bircabackend.command.auth.application.token.JwtTokenProvider;
 import com.birca.bircabackend.command.auth.application.token.TokenPayload;
-import com.birca.bircabackend.command.auth.dto.LoginRequest;
 import com.birca.bircabackend.command.auth.dto.LoginResponse;
-import com.birca.bircabackend.command.auth.application.oauth.OAuthMember;
-import com.birca.bircabackend.command.auth.application.oauth.OAuthProvider;
-import com.birca.bircabackend.command.auth.application.oauth.OAuthProviderFactory;
 import com.birca.bircabackend.command.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,13 +17,10 @@ public class AuthService {
     private static final boolean EXIST_MEMBER = false;
     private static final boolean NEW_MEMBER = true;
 
-    private final OAuthProviderFactory providerFactory;
     private final MemberAuthRepository memberAuthRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public LoginResponse login(LoginRequest request, String provider) {
-        OAuthProvider oAuthProvider = providerFactory.getProvider(provider);
-        OAuthMember oAuthMember = oAuthProvider.getOAuthMember(request.accessToken());
+    public LoginResponse login(OAuthMember oAuthMember) {
         String email = oAuthMember.email();
         return memberAuthRepository.findByEmail(email)
                 .map(member -> mapToResponse(member, EXIST_MEMBER))

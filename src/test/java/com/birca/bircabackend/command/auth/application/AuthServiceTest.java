@@ -1,6 +1,6 @@
 package com.birca.bircabackend.command.auth.application;
 
-import com.birca.bircabackend.command.auth.dto.LoginRequest;
+import com.birca.bircabackend.command.auth.application.oauth.OAuthMember;
 import com.birca.bircabackend.command.auth.dto.LoginResponse;
 import com.birca.bircabackend.command.member.domain.MemberRole;
 import com.birca.bircabackend.support.enviroment.ServiceTest;
@@ -21,13 +21,12 @@ class AuthServiceTest extends ServiceTest {
     @DisplayName("소셜 로그인을")
     class LoginTest {
 
-        private final LoginRequest request = new LoginRequest("test.kakao.accessToken");
-        private final String provider = "kakao";
+        private final OAuthMember oAuthMember = new OAuthMember("ldk@gmail.com");
 
         @Test
         void 처음_가입한_회원이_한다() {
             // when
-            LoginResponse response = authService.login(request, provider);
+            LoginResponse response = authService.login(oAuthMember);
 
             // then
             assertAll(
@@ -40,10 +39,10 @@ class AuthServiceTest extends ServiceTest {
         @Test
         void 기존_회원이_한다() {
             // given
-            authService.login(request, provider);
+            authService.login(oAuthMember);
 
             // when
-            LoginResponse response = authService.login(request, provider);
+            LoginResponse response = authService.login(oAuthMember);
 
             // then
             assertAll(

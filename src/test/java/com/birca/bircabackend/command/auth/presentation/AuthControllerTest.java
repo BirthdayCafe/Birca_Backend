@@ -25,7 +25,7 @@ public class AuthControllerTest extends DocumentationTest {
         // given
         LoginRequest request = new LoginRequest("fake.kakao.accessToken");
         String provider = "kakao";
-        given(authService.login(request, provider))
+        given(authFacade.login(request, provider))
                 .willReturn(new LoginResponse(
                         "fake.birca.AccessToken", true, "VISITANT"
                 ));
