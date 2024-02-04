@@ -17,4 +17,13 @@ public class FavoriteArtist extends BaseEntity {
 
     @Column(nullable = false)
     private Long artistId;
+
+    public FavoriteArtist(Long fanId, Long artistId) {
+        this.fanId = fanId;
+        this.artistId = artistId;
+    }
+
+    public void changeArtist(Long artistId) {
+        this.artistId = artistId;
+    }
 }

@@ -1,5 +1,6 @@
 package com.birca.bircabackend.support.enviroment;
 
+import com.birca.bircabackend.command.artist.application.ArtistService;
 import com.birca.bircabackend.command.auth.token.JwtTokenProvider;
 import com.birca.bircabackend.command.cafe.application.BusinessLicenseProcessingService;
 import com.birca.bircabackend.command.cafe.application.BusinessLicenseService;
@@ -64,6 +65,9 @@ public class DocumentationTest {
 
     @MockBean
     protected ArtistQueryService artistQueryService;
+  
+    @MockBean
+    protected ArtistService artistService;
 
     @MockBean
     protected BusinessLicenseService businessLicenseService;

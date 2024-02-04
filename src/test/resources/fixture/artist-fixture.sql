@@ -1,3 +1,6 @@
+INSERT INTO member (id, nickname, email, member_role)
+VALUES (1, '더즈', 'ldk@gmail.com', 'VISITANT');
+
 INSERT INTO artist_group (id, name, image_url)
 VALUES (5, '뉴진스', 'image5.com'),
        (6, '방탄소년단', 'image6.com'),
