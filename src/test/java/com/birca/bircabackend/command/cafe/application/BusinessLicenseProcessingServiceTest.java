@@ -110,7 +110,7 @@ class BusinessLicenseProcessingServiceTest extends ServiceTest {
         }
 
         @Test
-        void 검증할_때_사업자등록번호는_예외가_발생한다() {
+        void 검증할_때_등록되지_않은_사업자등록번호는_예외가_발생한다() {
             // given
             String businessLicenseNumber = "123-45-67890";
 
