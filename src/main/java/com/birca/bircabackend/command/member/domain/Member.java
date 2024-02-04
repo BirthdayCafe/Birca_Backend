@@ -23,15 +23,15 @@ public class Member extends BaseEntity {
     @Column(name = "member_role")
     private MemberRole role;
 
+    public static Member join(String email) {
+        return new Member(null, email, MemberRole.VISITANT);
+    }
+
     public void changeRole(MemberRole role) {
         this.role = role;
     }
 
     public void registerNickname(Nickname nickname) {
         this.nickname = nickname;
-    }
-
-    public Member(String email) {
-        this(null, email, MemberRole.VISITANT);
     }
 }

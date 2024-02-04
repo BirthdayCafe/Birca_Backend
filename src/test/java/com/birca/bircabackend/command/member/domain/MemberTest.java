@@ -2,6 +2,7 @@ package com.birca.bircabackend.command.member.domain;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -9,11 +10,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class MemberTest {
 
-    private final Member member = new Member();
-
     @Nested
     @DisplayName("회원 역할을")
     class RoleChangeTest {
+
+        private final Member member = new Member();
 
         @ParameterizedTest
         @ValueSource(strings = {"HOST", "VISITANT", "OWNER"})
@@ -26,6 +27,22 @@ class MemberTest {
 
             // then
             assertThat(member.getRole()).isEqualTo(role);
+        }
+    }
+
+    @Nested
+    @DisplayName("회원을 처음 생성하면")
+    class JoinTest {
+
+        @Test
+        void 방문자로_생성된다() {
+            // given
+            String email = "ldk@gmail.com";
+            // when
+            Member actual = Member.join(email);
+
+            // then
+            assertThat(actual.getRole()).isEqualTo(MemberRole.VISITANT);
         }
     }
 }
