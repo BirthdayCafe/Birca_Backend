@@ -100,3 +100,6 @@ ALTER TABLE interest_artist
 
 ALTER TABLE interest_artist
     ADD CONSTRAINT FK_INTERESTARTIST_ON_FAN FOREIGN KEY (fan_id) REFERENCES member (id);
+
+ALTER TABLE interest_artist
+    ADD CONSTRAINT uc_interest_artist_fan_artist UNIQUE (fan_id, artist_id);
