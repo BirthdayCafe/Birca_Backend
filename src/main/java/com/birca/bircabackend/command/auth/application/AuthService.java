@@ -29,15 +29,15 @@ public class AuthService {
         OAuthMember oAuthMember = oAuthProvider.getOAuthMember(request.accessToken());
         String email = oAuthMember.email();
         return memberAuthRepository.findByEmail(email)
-                .map(member -> getLoginResponse(member, EXIST_MEMBER))
-                .orElseGet(() -> getLoginResponse(join(email), NEW_MEMBER));
+                .map(member -> mapToResponse(member, EXIST_MEMBER))
+                .orElseGet(() -> mapToResponse(join(email), NEW_MEMBER));
     }
 
     private Member join(String email) {
-        return memberAuthRepository.save(new Member(email));
+        return memberAuthRepository.save(Member.join(email));
     }
 
-    private LoginResponse getLoginResponse(Member member, boolean isNewMember) {
+    private LoginResponse mapToResponse(Member member, boolean isNewMember) {
         return new LoginResponse(
                 jwtTokenProvider.createToken(new TokenPayload(member.getId())),
                 isNewMember,
