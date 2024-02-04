@@ -16,7 +16,8 @@ public enum BusinessLicenseErrorCode implements ErrorCode {
     INVALID_SERIAL_CODE_LENGTH(2005, 400, "일련번호는 5자리여야 합니다."),
     BUSINESS_LICENSE_STATUS_ERROR(2006, 400, "사업자등록증 상태 조회 중 에러가 발생했습니다."),
     DUPLICATE_BUSINESS_LICENSE_NUMBER(2007, 400, "이미 등록된 사업자등록증입니다."),
-    BUSINESS_LICENSE_NOT_FOUND(2008, 404, "존재하지 않는 사업자등록증입니다.")
+    BUSINESS_LICENSE_NOT_FOUND(2008, 404, "존재하지 않는 사업자등록증입니다."),
+    OVER_MAX_OCR_REQUEST_COUNT(2009, 400, "OCR 요청은 3회까지만 가능합니다.")
     ;
 
     private final int value;
