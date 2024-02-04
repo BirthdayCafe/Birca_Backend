@@ -3,11 +3,13 @@ package com.birca.bircabackend.command.member.domain;
 import com.birca.bircabackend.common.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class Member extends BaseEntity {
 
@@ -27,5 +29,9 @@ public class Member extends BaseEntity {
 
     public void registerNickname(Nickname nickname) {
         this.nickname = nickname;
+    }
+
+    public Member(String email) {
+        this(null, email, MemberRole.VISITANT);
     }
 }
