@@ -1,5 +1,6 @@
 package com.birca.bircabackend.command.cafe.application;
 
+import com.birca.bircabackend.command.auth.login.LoginMember;
 import com.birca.bircabackend.command.cafe.dto.BusinessLicenseOcrResponse;
 import com.birca.bircabackend.command.cafe.dto.BusinessLicenseOcrResponse.Image;
 import com.birca.bircabackend.command.cafe.dto.BusinessLicenseOcrResponse.Image.BizLicense;
@@ -8,6 +9,7 @@ import com.birca.bircabackend.command.cafe.dto.BusinessLicenseOcrResponse.Image.
 import com.birca.bircabackend.command.cafe.dto.BusinessLicenseResponse;
 import com.birca.bircabackend.command.cafe.infrastructure.BusinessLicenseOcrClient;
 import com.birca.bircabackend.command.cafe.infrastructure.BusinessLicenseVerificationClient;
+import com.birca.bircabackend.command.cafe.infrastructure.OcrRequestCounter;
 import com.birca.bircabackend.support.enviroment.ServiceTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -26,6 +28,9 @@ import static org.mockito.Mockito.verify;
 class BusinessLicenseProcessingServiceTest extends ServiceTest {
 
     @Mock
+    private OcrRequestCounter ocrRequestCounter;
+
+    @Mock
     private BusinessLicenseOcrClient businessLicenseOcrClient;
 
     @Mock
@@ -41,6 +46,7 @@ class BusinessLicenseProcessingServiceTest extends ServiceTest {
         @Test
         void 스캔한다() {
             // given
+            LoginMember loginMember = new LoginMember(1L);
             MockMultipartFile businessLicense = new MockMultipartFile("businessLicense",
                     "businessLicense.pdf", "application/pdf", "businessLicense".getBytes(UTF_8));
             Result mockResult = new Result(
@@ -54,11 +60,12 @@ class BusinessLicenseProcessingServiceTest extends ServiceTest {
             Image mockImage = new Image(mockBizLicense);
             BusinessLicenseOcrResponse mockOcrResponse = new BusinessLicenseOcrResponse(List.of(mockImage));
 
-            given(businessLicenseProcessingService.readBusinessLicense(businessLicense))
+            given(businessLicenseProcessingService.readBusinessLicense(loginMember, businessLicense))
                     .willReturn(BusinessLicenseResponse.from(mockOcrResponse));
 
             //when
-            BusinessLicenseResponse response = businessLicenseProcessingService.readBusinessLicense(businessLicense);
+            BusinessLicenseResponse response =
+                    businessLicenseProcessingService.readBusinessLicense(loginMember, businessLicense);
 
             //then
             assertEquals("서울 마포구 와우산로29길 26-33 1층 커피 벌스데이", response.address());
