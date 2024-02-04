@@ -1,6 +1,7 @@
 package com.birca.bircabackend.support.enviroment;
 
 import com.birca.bircabackend.command.artist.application.ArtistService;
+import com.birca.bircabackend.command.auth.application.AuthService;
 import com.birca.bircabackend.command.auth.token.JwtTokenProvider;
 import com.birca.bircabackend.command.member.application.MemberService;
 import com.birca.bircabackend.common.exception.ErrorCode;
@@ -65,6 +66,9 @@ public class DocumentationTest {
 
     @MockBean
     protected ArtistService artistService;
+
+    @MockBean
+    protected AuthService authService;
 
     protected List<FieldDescriptor> getErrorDescriptor(ErrorCode[] errorCodes) {
         return Arrays.stream(errorCodes)
