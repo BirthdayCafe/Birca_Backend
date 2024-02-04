@@ -10,6 +10,7 @@ import com.birca.bircabackend.command.cafe.dto.BusinessLicenseResponse;
 import com.birca.bircabackend.command.cafe.infrastructure.BusinessLicenseOcrClient;
 import com.birca.bircabackend.command.cafe.infrastructure.BusinessLicenseVerificationClient;
 import com.birca.bircabackend.command.cafe.infrastructure.OcrRequestCounter;
+import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.support.enviroment.ServiceTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -20,9 +21,13 @@ import org.springframework.mock.web.MockMultipartFile;
 
 import java.util.List;
 
+import static com.birca.bircabackend.command.cafe.exception.BusinessLicenseErrorCode.NOT_REGISTERED_BUSINESS_LICENSE_NUMBER;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
 class BusinessLicenseProcessingServiceTest extends ServiceTest {
@@ -85,5 +90,21 @@ class BusinessLicenseProcessingServiceTest extends ServiceTest {
             // then
             verify(businessLicenseVerificationClient).verifyBusinessLicenseStatus(businessLicenseNumber);
         }
+    }
+
+    @Test
+    void 등록되지_않은_사업자등록번호는_예외가_발생한다() {
+        // given
+        String businessLicenseNumber = "123-45-67890";
+
+        doThrow(BusinessException.from(NOT_REGISTERED_BUSINESS_LICENSE_NUMBER))
+                .when(businessLicenseVerificationClient)
+                .verifyBusinessLicenseStatus(businessLicenseNumber);
+
+        // when & then
+        BusinessException exception = assertThrows(BusinessException.class,
+                () -> businessLicenseProcessingService.verifyBusinessLicenseStatus(businessLicenseNumber));
+        assertThat(exception.getErrorCode()).isEqualTo(NOT_REGISTERED_BUSINESS_LICENSE_NUMBER);
+        verify(businessLicenseVerificationClient).verifyBusinessLicenseStatus(businessLicenseNumber);
     }
 }
