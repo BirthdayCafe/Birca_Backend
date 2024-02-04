@@ -1,5 +1,6 @@
 package com.birca.bircabackend.command.cafe.presentation;
 
+import com.birca.bircabackend.command.auth.login.LoginMember;
 import com.birca.bircabackend.command.cafe.dto.BusinessLicenseResponse;
 import com.birca.bircabackend.command.cafe.exception.BusinessLicenseErrorCode;
 import com.birca.bircabackend.support.enviroment.DocumentationTest;
@@ -27,6 +28,7 @@ class BusinessLicenseControllerTest extends DocumentationTest {
     @Test
     void 사업자등록증을_스캔한다() throws Exception {
         // given
+        LoginMember loginMember = new LoginMember(1L);
         MockMultipartFile businessLicenseFile = new MockMultipartFile(
                 "businessLicense", "businessLicense.pdf",
                 "application/pdf", "businessLicense.pdf".getBytes());
@@ -38,7 +40,8 @@ class BusinessLicenseControllerTest extends DocumentationTest {
                 "Address"
         );
 
-        when(businessLicenseProcessingService.readBusinessLicense(businessLicenseFile)).thenReturn(mockResponse);
+        when(businessLicenseProcessingService.readBusinessLicense(loginMember, businessLicenseFile))
+                .thenReturn(mockResponse);
 
         // when
         ResultActions result = mockMvc.perform(multipart("/api/v1/cafes/license-read")
