@@ -24,11 +24,11 @@ public class AuthService {
         String email = oAuthMember.email();
         return memberAuthRepository.findByEmail(email)
                 .map(member -> mapToResponse(member, EXIST_MEMBER))
-                .orElseGet(() -> mapToResponse(join(email), NEW_MEMBER));
+                .orElseGet(() -> mapToResponse(join(oAuthMember), NEW_MEMBER));
     }
 
-    private Member join(String email) {
-        return memberAuthRepository.save(Member.join(email));
+    private Member join(OAuthMember oAuthMember) {
+        return memberAuthRepository.save(oAuthMember.toMember());
     }
 
     private LoginResponse mapToResponse(Member member, boolean isNewMember) {

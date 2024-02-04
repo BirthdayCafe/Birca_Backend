@@ -22,7 +22,7 @@ public class KakaoOAuthProvider implements OAuthProvider {
         String bearerToken = generateBearerToken(accessToken);
         ResponseEntity<KakaoUserResponse> response = kakaoAuthApi.getUserInfo(bearerToken);
         handleApiCallFail(response);
-        return new OAuthMember(extractEmail(response));
+        return new OAuthMember(extractEmail(response), PROVIDER_NAME);
     }
 
     private String generateBearerToken(String accessToken) {

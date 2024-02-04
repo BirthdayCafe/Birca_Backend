@@ -21,7 +21,7 @@ class AuthServiceTest extends ServiceTest {
     @DisplayName("소셜 로그인을")
     class LoginTest {
 
-        private final OAuthMember oAuthMember = new OAuthMember("ldk@gmail.com");
+        private final OAuthMember oAuthMember = new OAuthMember("ldk@gmail.com", "kakao");
 
         @Test
         void 처음_가입한_회원이_한다() {

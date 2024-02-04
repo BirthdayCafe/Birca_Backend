@@ -8,6 +8,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(uniqueConstraints = {@UniqueConstraint(
+        name = "uc_member_email_registration_id",
+        columnNames = {"email", "registrationId"}
+)})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -16,15 +20,18 @@ public class Member extends BaseEntity {
     @Embedded
     private Nickname nickname;
 
-    @Column(unique = true)
+    @Column(nullable = false)
     private String email;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "member_role")
     private MemberRole role;
 
-    public static Member join(String email) {
-        return new Member(null, email, MemberRole.VISITANT);
+    @Column(nullable = false)
+    private String registrationId;
+
+    public static Member join(String email, String registrationId) {
+        return new Member(null, email, MemberRole.VISITANT, registrationId);
     }
 
     public void changeRole(MemberRole role) {
