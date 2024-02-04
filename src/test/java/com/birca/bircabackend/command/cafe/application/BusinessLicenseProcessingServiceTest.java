@@ -21,6 +21,7 @@ import org.springframework.mock.web.MockMultipartFile;
 
 import java.util.List;
 
+import static com.birca.bircabackend.command.cafe.exception.BusinessLicenseErrorCode.NOT_BUSINESS_LICENSE_OR_IMAGE_PROCESSING_FAILED;
 import static com.birca.bircabackend.command.cafe.exception.BusinessLicenseErrorCode.NOT_REGISTERED_BUSINESS_LICENSE_NUMBER;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -80,7 +81,24 @@ class BusinessLicenseProcessingServiceTest extends ServiceTest {
         }
 
         @Test
-        void 검증한다() {
+        void 스캔할_때_사업자등록증이_아니거나_이미지_처리에_실패하면_에러가_발생한다() {
+            // given
+            LoginMember loginMember = new LoginMember(1L);
+            MockMultipartFile businessLicense = new MockMultipartFile("businessLicense",
+                    "businessLicense.pdf", "application/pdf", "businessLicense".getBytes(UTF_8));
+
+            given(businessLicenseProcessingService.readBusinessLicense(loginMember, businessLicense))
+                    .willThrow(BusinessException.from(NOT_BUSINESS_LICENSE_OR_IMAGE_PROCESSING_FAILED));
+
+            // when then
+            BusinessException exception = assertThrows(BusinessException.class,
+                    () -> businessLicenseProcessingService.readBusinessLicense(loginMember, businessLicense));
+            assertThat(exception.getErrorCode()).isEqualTo(NOT_BUSINESS_LICENSE_OR_IMAGE_PROCESSING_FAILED);
+        }
+
+
+        @Test
+        void 검증할_때_등록된_사업자등록번호는_정상_처리된다() {
             // given
             String businessLicenseNumber = "123-45-67890";
 
@@ -90,21 +108,21 @@ class BusinessLicenseProcessingServiceTest extends ServiceTest {
             // then
             verify(businessLicenseVerificationClient).verifyBusinessLicenseStatus(businessLicenseNumber);
         }
-    }
 
-    @Test
-    void 등록되지_않은_사업자등록번호는_예외가_발생한다() {
-        // given
-        String businessLicenseNumber = "123-45-67890";
+        @Test
+        void 검증할_때_사업자등록번호는_예외가_발생한다() {
+            // given
+            String businessLicenseNumber = "123-45-67890";
 
-        doThrow(BusinessException.from(NOT_REGISTERED_BUSINESS_LICENSE_NUMBER))
-                .when(businessLicenseVerificationClient)
-                .verifyBusinessLicenseStatus(businessLicenseNumber);
+            doThrow(BusinessException.from(NOT_REGISTERED_BUSINESS_LICENSE_NUMBER))
+                    .when(businessLicenseVerificationClient)
+                    .verifyBusinessLicenseStatus(businessLicenseNumber);
 
-        // when & then
-        BusinessException exception = assertThrows(BusinessException.class,
-                () -> businessLicenseProcessingService.verifyBusinessLicenseStatus(businessLicenseNumber));
-        assertThat(exception.getErrorCode()).isEqualTo(NOT_REGISTERED_BUSINESS_LICENSE_NUMBER);
-        verify(businessLicenseVerificationClient).verifyBusinessLicenseStatus(businessLicenseNumber);
+            // when then
+            BusinessException exception = assertThrows(BusinessException.class,
+                    () -> businessLicenseProcessingService.verifyBusinessLicenseStatus(businessLicenseNumber));
+            assertThat(exception.getErrorCode()).isEqualTo(NOT_REGISTERED_BUSINESS_LICENSE_NUMBER);
+            verify(businessLicenseVerificationClient).verifyBusinessLicenseStatus(businessLicenseNumber);
+        }
     }
 }
