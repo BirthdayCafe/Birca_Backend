@@ -1,6 +1,6 @@
 package com.birca.bircabackend.command.member.application;
 
-import com.birca.bircabackend.command.auth.login.LoginMember;
+import com.birca.bircabackend.command.auth.authentication.LoginMember;
 import com.birca.bircabackend.command.member.domain.Member;
 import com.birca.bircabackend.command.member.domain.MemberRepository;
 import com.birca.bircabackend.command.member.domain.MemberRole;

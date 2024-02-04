@@ -5,7 +5,7 @@ import com.birca.bircabackend.command.artist.domain.InterestArtist;
 import com.birca.bircabackend.command.artist.dto.FavoriteArtistRequest;
 import com.birca.bircabackend.command.artist.dto.InterestArtistRequest;
 import com.birca.bircabackend.command.artist.exception.ArtistErrorCode;
-import com.birca.bircabackend.command.auth.login.LoginMember;
+import com.birca.bircabackend.command.auth.authentication.LoginMember;
 import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.support.enviroment.ServiceTest;
 import jakarta.persistence.EntityManager;
