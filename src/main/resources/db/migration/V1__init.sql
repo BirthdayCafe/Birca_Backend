@@ -12,7 +12,7 @@ ALTER TABLE member
     ADD CONSTRAINT uc_member_nickname UNIQUE (nickname);
 
 ALTER TABLE member
-    ADD CONSTRAINT uc_member_email_registration_id UNIQUE (email, registration_id);
+    ADD CONSTRAINT uc_member_email UNIQUE (email);
 
 CREATE TABLE business_license
 (

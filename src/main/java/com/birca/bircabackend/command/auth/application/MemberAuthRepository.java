@@ -7,7 +7,5 @@ import java.util.Optional;
 
 public interface MemberAuthRepository extends Repository<Member, Long> {
 
-    Member save(Member member);
-
-    Optional<Member> findByEmail(String email);
+    Optional<Member> findByEmailAndRegistrationId(String email, String registrationId);
 }
