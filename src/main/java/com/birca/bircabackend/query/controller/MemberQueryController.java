@@ -1,6 +1,6 @@
 package com.birca.bircabackend.query.controller;
 
-import com.birca.bircabackend.command.auth.authentication.RequiredLogin;
+import com.birca.bircabackend.command.auth.authorization.RequiredLogin;
 import com.birca.bircabackend.query.dto.NicknameCheckResponse;
 import com.birca.bircabackend.query.service.MemberQueryService;
 import lombok.RequiredArgsConstructor;

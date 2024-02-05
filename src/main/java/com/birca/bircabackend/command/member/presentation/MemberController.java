@@ -1,7 +1,7 @@
 package com.birca.bircabackend.command.member.presentation;
 
-import com.birca.bircabackend.command.auth.authentication.LoginMember;
-import com.birca.bircabackend.command.auth.authentication.RequiredLogin;
+import com.birca.bircabackend.command.auth.authorization.LoginMember;
+import com.birca.bircabackend.command.auth.authorization.RequiredLogin;
 import com.birca.bircabackend.command.member.application.MemberService;
 import com.birca.bircabackend.command.member.dto.NicknameRegisterRequest;
 import com.birca.bircabackend.command.member.dto.RoleChangeRequest;

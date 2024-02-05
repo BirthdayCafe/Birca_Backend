@@ -1,4 +1,4 @@
-package com.birca.bircabackend.command.auth.authentication;
+package com.birca.bircabackend.command.auth.authorization;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

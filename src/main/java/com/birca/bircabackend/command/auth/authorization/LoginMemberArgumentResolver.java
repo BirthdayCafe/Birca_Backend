@@ -1,4 +1,4 @@
-package com.birca.bircabackend.command.auth.authentication;
+package com.birca.bircabackend.command.auth.authorization;
 
 import com.birca.bircabackend.command.auth.application.token.TokenPayload;
 import com.birca.bircabackend.common.exception.BusinessException;
