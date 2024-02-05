@@ -28,7 +28,6 @@ class BusinessLicenseControllerTest extends DocumentationTest {
     @Test
     void 사업자등록증을_스캔한다() throws Exception {
         // given
-        LoginMember loginMember = new LoginMember(1L);
         MockMultipartFile businessLicenseFile = new MockMultipartFile(
                 "businessLicense", "businessLicense.pdf",
                 "application/pdf", "businessLicense.pdf".getBytes());
@@ -40,7 +39,7 @@ class BusinessLicenseControllerTest extends DocumentationTest {
                 "Address"
         );
 
-        when(businessLicenseProcessingService.readBusinessLicense(loginMember, businessLicenseFile))
+        when(businessLicenseOcrService.readBusinessLicense(businessLicenseFile))
                 .thenReturn(mockResponse);
 
         // when
@@ -52,7 +51,9 @@ class BusinessLicenseControllerTest extends DocumentationTest {
 
         // then
         result.andExpect((status().isOk()))
-                .andDo(document("business-license-read", HOST_INFO,
+                .andDo(document("business-license-read",
+                        HOST_INFO,
+                        DOCUMENT_RESPONSE,
                         requestParts(
                                 partWithName("businessLicense").description("사업자등록증")
                         ),

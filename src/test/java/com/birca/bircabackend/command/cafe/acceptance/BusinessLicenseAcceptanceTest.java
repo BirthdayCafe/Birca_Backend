@@ -1,8 +1,9 @@
 package com.birca.bircabackend.command.cafe.acceptance;
 
-import com.birca.bircabackend.command.cafe.application.BusinessLicenseProcessingService;
+import com.birca.bircabackend.command.cafe.application.BusinessLicenseFacade;
+import com.birca.bircabackend.command.cafe.application.BusinessLicenseOcrService;
 import com.birca.bircabackend.command.cafe.application.BusinessLicenseService;
-import com.birca.bircabackend.command.cafe.infrastructure.OcrRequestCounter;
+import com.birca.bircabackend.command.cafe.application.BusinessLicenseVerificationService;
 import com.birca.bircabackend.command.cafe.presentation.BusinessLicenseController;
 import com.birca.bircabackend.support.enviroment.AcceptanceTest;
 import io.restassured.RestAssured;
@@ -27,13 +28,16 @@ public class BusinessLicenseAcceptanceTest extends AcceptanceTest {
     private BusinessLicenseController businessLicenseController;
 
     @MockBean
+    private BusinessLicenseVerificationService businessLicenseVerificationService;
+
+    @MockBean
+    private BusinessLicenseOcrService businessLicenseOcrService;
+
+    @MockBean
     private BusinessLicenseService businessLicenseService;
 
     @MockBean
-    private BusinessLicenseProcessingService businessLicenseProcessingService;
-
-    @MockBean
-    private OcrRequestCounter ocrRequestCounter;
+    private BusinessLicenseFacade businessLicenseFacade;
 
     private static final Long MEMBER_ID = 1L;
 
