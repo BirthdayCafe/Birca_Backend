@@ -19,21 +19,21 @@ public class KakaoOAuthProvider implements OAuthProvider {
 
     @Override
     public OAuthMember getOAuthMember(String accessToken) {
-        String bearerToken = generateBearerToken(accessToken);
+        KakaoUserResponse response = callKakaoApi(accessToken);
+        return new OAuthMember(
+                response.kakaoAccount().email(),
+                PROVIDER_NAME
+        );
+    }
+
+    private KakaoUserResponse callKakaoApi(String accessToken) {
+        String bearerToken = BEARER + accessToken;
         ResponseEntity<KakaoUserResponse> response = kakaoAuthApi.getUserInfo(bearerToken);
-        handleApiCallFail(response);
-        return new OAuthMember(extractEmail(response), PROVIDER_NAME);
+        validateResponse(response);
+        return response.getBody();
     }
 
-    private String generateBearerToken(String accessToken) {
-        return BEARER + accessToken;
-    }
-
-    private String extractEmail(ResponseEntity<KakaoUserResponse> response) {
-        return response.getBody().kakaoAccount().email();
-    }
-
-    private void handleApiCallFail(ResponseEntity<KakaoUserResponse> response) {
+    private void validateResponse(ResponseEntity<KakaoUserResponse> response) {
         if (!response.getStatusCode().is2xxSuccessful() || response.getBody() == null) {
             throw BusinessException.from(new InternalServerErrorCode("카카오 api 호출에 문제가 생겼습니다."));
         }
