@@ -12,7 +12,7 @@ class BusinessLicenseTest {
         BusinessLicense businessLicense = BusinessLicense.createBusinessLicense(
                 1L, "최민혁",
                 "커피 벌스데이",
-                BusinessLicenseCode.create(123, 45, 67890),
+                new BusinessLicenseCode("123-45-67890"),
                 "서울 마포구 와우산로29길 26-33 1층 커피 벌스데이",
                 "businessLicense.pdf"
         );

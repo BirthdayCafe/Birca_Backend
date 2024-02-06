@@ -18,6 +18,7 @@ public class BusinessLicenseCode {
     private static final Integer TAX_OFFICE_CODE_LENGTH = 3;
     private static final Integer BUSINESS_TYPE_CODE_LENGTH = 2;
     private static final Integer SERIAL_CODE_LENGTH = 5;
+    private static final Integer BUSINESS_LICENSE_PARTS = 3;
 
     @Column(nullable = false)
     private Integer taxOfficeCode;
@@ -28,15 +29,19 @@ public class BusinessLicenseCode {
     @Column(nullable = false)
     private Integer serialCode;
 
-    public static BusinessLicenseCode create(Integer taxOfficeCode, Integer businessTypeCode, Integer serialCode) {
-        return new BusinessLicenseCode(taxOfficeCode, businessTypeCode, serialCode);
+    public BusinessLicenseCode(String businessLicenseNumber) {
+        String[] codes = businessLicenseNumber.split("-");
+        validateBusinessLicenseNumberForm(codes);
+        this.taxOfficeCode = Integer.parseInt(codes[0]);
+        this.businessTypeCode = Integer.parseInt(codes[1]);
+        this.serialCode = Integer.parseInt(codes[2]);
+        validateCode(this.taxOfficeCode, this.businessTypeCode, this.serialCode);
     }
 
-    private BusinessLicenseCode(Integer taxOfficeCode, Integer businessTypeCode, Integer serialCode) {
-        validateCode(taxOfficeCode, businessTypeCode, serialCode);
-        this.taxOfficeCode = taxOfficeCode;
-        this.businessTypeCode = businessTypeCode;
-        this.serialCode = serialCode;
+    private void validateBusinessLicenseNumberForm(String[] codes) {
+        if (codes.length != BUSINESS_LICENSE_PARTS) {
+            throw BusinessException.from(INVALID_BUSINESS_LICENSE_NUMBER_FORM);
+        }
     }
 
     private void validateCode(Integer taxOfficeCode, Integer businessTypeCode, Integer serialCode) {

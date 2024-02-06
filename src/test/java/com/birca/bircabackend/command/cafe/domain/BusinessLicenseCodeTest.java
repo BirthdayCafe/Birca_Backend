@@ -15,10 +15,17 @@ class BusinessLicenseCodeTest {
     class BusinessLicenseCodeCreateTest {
 
         @Test
+        void 형식에_맞지_않은_번호는_예외가_발생한다() {
+            //when then
+            assertThatThrownBy(() -> new BusinessLicenseCode("1234567890"))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(INVALID_BUSINESS_LICENSE_NUMBER_FORM);
+        }
+        @Test
         void 세무서_번호의_길이가_3이_아니면_예외가_발생한다() {
             //when then
-            assertThatThrownBy(() -> BusinessLicenseCode.create(12,
-                    34, 67890))
+            assertThatThrownBy(() -> new BusinessLicenseCode("12-34-567890"))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(INVALID_TAX_OFFICE_CODE_LENGTH);
@@ -27,8 +34,7 @@ class BusinessLicenseCodeTest {
         @Test
         void 사업자_성격_번호의_길이가_2가_아니면_예외가_발생한다() {
             //when then
-            assertThatThrownBy(() -> BusinessLicenseCode.create(123,
-                    4, 56789))
+            assertThatThrownBy(() -> new BusinessLicenseCode("123-4-567890"))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(INVALID_BUSINESS_TYPE_CODE_LENGTH);
@@ -37,8 +43,7 @@ class BusinessLicenseCodeTest {
         @Test
         void 일련_번호의_길이가_5가_아니면_예외가_발생한다() {
             //when then
-            assertThatThrownBy(() -> BusinessLicenseCode.create(123,
-                    45, 6789))
+            assertThatThrownBy(() -> new BusinessLicenseCode("123-45-6789"))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(INVALID_SERIAL_CODE_LENGTH);
