@@ -2,7 +2,6 @@ package com.birca.bircabackend.command.cafe.acceptance;
 
 import com.birca.bircabackend.command.cafe.application.BusinessLicenseProcessingService;
 import com.birca.bircabackend.command.cafe.application.BusinessLicenseService;
-import com.birca.bircabackend.command.cafe.application.BusinessLicenseVerificationService;
 import com.birca.bircabackend.command.cafe.presentation.BusinessLicenseController;
 import com.birca.bircabackend.support.enviroment.AcceptanceTest;
 import io.restassured.RestAssured;
@@ -25,9 +24,6 @@ public class BusinessLicenseAcceptanceTest extends AcceptanceTest {
 
     @InjectMocks
     private BusinessLicenseController businessLicenseController;
-
-    @MockBean
-    private BusinessLicenseVerificationService businessLicenseVerificationService;
 
     @MockBean
     private BusinessLicenseProcessingService businessLicenseProcessingService;
