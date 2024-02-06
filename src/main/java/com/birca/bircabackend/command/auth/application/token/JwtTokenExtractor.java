@@ -1,4 +1,4 @@
-package com.birca.bircabackend.command.auth.token;
+package com.birca.bircabackend.command.auth.application.token;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;

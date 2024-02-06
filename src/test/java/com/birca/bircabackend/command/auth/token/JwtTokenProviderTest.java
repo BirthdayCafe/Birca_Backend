@@ -1,5 +1,7 @@
 package com.birca.bircabackend.command.auth.token;
 
+import com.birca.bircabackend.command.auth.application.token.JwtTokenProvider;
+import com.birca.bircabackend.command.auth.application.token.TokenPayload;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

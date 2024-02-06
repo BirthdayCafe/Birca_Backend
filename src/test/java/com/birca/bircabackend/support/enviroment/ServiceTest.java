@@ -5,5 +5,5 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 @DatabaseIsolation
-public class ServiceTest {
+public class ServiceTest extends MockOAuthEnvironment {
 }

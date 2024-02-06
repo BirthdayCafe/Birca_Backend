@@ -1,6 +1,6 @@
-package com.birca.bircabackend.command.auth.login;
+package com.birca.bircabackend.command.auth.authorization;
 
-import com.birca.bircabackend.command.auth.token.TokenPayload;
+import com.birca.bircabackend.command.auth.application.token.TokenPayload;
 import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.common.exception.InternalServerErrorCode;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,7 +1,7 @@
 package com.birca.bircabackend.support;
 
-import com.birca.bircabackend.command.auth.token.JwtTokenProvider;
-import com.birca.bircabackend.command.auth.token.TokenPayload;
+import com.birca.bircabackend.command.auth.application.token.JwtTokenProvider;
+import com.birca.bircabackend.command.auth.application.token.TokenPayload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
