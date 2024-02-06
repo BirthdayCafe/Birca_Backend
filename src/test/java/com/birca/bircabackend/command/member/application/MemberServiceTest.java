@@ -1,7 +1,8 @@
 package com.birca.bircabackend.command.member.application;
 
-import com.birca.bircabackend.command.auth.login.LoginMember;
+import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.member.MemberFixtureRepository;
+import com.birca.bircabackend.command.member.domain.Member;
 import com.birca.bircabackend.command.member.dto.NicknameRegisterRequest;
 import com.birca.bircabackend.command.member.dto.RoleChangeRequest;
 import com.birca.bircabackend.command.member.exception.MemberErrorCode;
@@ -108,6 +109,37 @@ class MemberServiceTest extends ServiceTest {
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(MemberErrorCode.DUPLICATED_NICKNAME);
+        }
+    }
+
+    @Nested
+    @DisplayName("회원 가입을")
+    class JoinTest {
+
+        private final String email = "ldk@naver.com";
+        private final Member joinMember = Member.join(email, "kakao");
+
+        @Test
+        void 한다() {
+            // when
+            memberService.join(joinMember);
+
+            // then
+            assertThat(memberFixtureRepository.findById(joinMember.getId()))
+                    .isPresent();
+        }
+
+        @Test
+        void 이미_가입된_이메일로_하지_못한다() {
+            // given
+            memberService.join(joinMember);
+            Member newJoinMember = Member.join(email, "apple");
+
+            // when then
+            assertThatThrownBy(() -> memberService.join(newJoinMember))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(MemberErrorCode.DUPLICATED_EMAIL);
         }
     }
 }

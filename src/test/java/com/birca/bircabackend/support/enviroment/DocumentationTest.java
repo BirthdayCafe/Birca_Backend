@@ -4,6 +4,8 @@ import com.birca.bircabackend.command.artist.application.ArtistService;
 import com.birca.bircabackend.command.auth.token.JwtTokenProvider;
 import com.birca.bircabackend.command.cafe.application.BusinessLicenseProcessingService;
 import com.birca.bircabackend.command.cafe.application.BusinessLicenseService;
+import com.birca.bircabackend.command.auth.application.AuthFacade;
+import com.birca.bircabackend.command.auth.application.token.JwtTokenProvider;
 import com.birca.bircabackend.command.member.application.MemberService;
 import com.birca.bircabackend.common.exception.ErrorCode;
 import com.birca.bircabackend.query.service.ArtistGroupQueryService;
@@ -73,6 +75,9 @@ public class DocumentationTest {
 
     @MockBean
     protected BusinessLicenseProcessingService businessLicenseProcessingService;
+
+    @MockBean
+    protected AuthFacade authFacade;
 
     protected List<FieldDescriptor> getErrorDescriptor(ErrorCode[] errorCodes) {
         return Arrays.stream(errorCodes)

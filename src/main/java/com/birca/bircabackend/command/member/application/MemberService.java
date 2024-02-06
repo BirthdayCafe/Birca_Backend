@@ -1,12 +1,13 @@
 package com.birca.bircabackend.command.member.application;
 
-import com.birca.bircabackend.command.auth.login.LoginMember;
+import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.member.domain.Member;
 import com.birca.bircabackend.command.member.domain.MemberRepository;
 import com.birca.bircabackend.command.member.domain.MemberRole;
 import com.birca.bircabackend.command.member.domain.Nickname;
 import com.birca.bircabackend.command.member.dto.NicknameRegisterRequest;
 import com.birca.bircabackend.command.member.dto.RoleChangeRequest;
+import com.birca.bircabackend.command.member.exception.MemberErrorCode;
 import com.birca.bircabackend.common.EntityUtil;
 import com.birca.bircabackend.common.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,17 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final EntityUtil entityUtil;
+
+    public void join(Member member) {
+        validateDuplicatedEmail(member);
+        memberRepository.save(member);
+    }
+
+    private void validateDuplicatedEmail(Member member) {
+        if (memberRepository.existsByEmail(member.getEmail())) {
+            throw BusinessException.from(MemberErrorCode.DUPLICATED_EMAIL);
+        }
+    }
 
     public void changeMemberRole(RoleChangeRequest request, LoginMember loginMember) {
         Member member = entityUtil.getEntity(Member.class, loginMember.id(), MEMBER_NOT_FOUND);

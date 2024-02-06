@@ -1,4 +1,4 @@
-package com.birca.bircabackend.command.auth.token;
+package com.birca.bircabackend.command.auth.application.token;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

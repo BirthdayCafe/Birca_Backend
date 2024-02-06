@@ -1,7 +1,7 @@
 package com.birca.bircabackend.command.auth;
 
-import com.birca.bircabackend.command.auth.login.LoginMemberArgumentResolver;
-import com.birca.bircabackend.command.auth.login.RequiredLoginInterceptor;
+import com.birca.bircabackend.command.auth.authorization.LoginMemberArgumentResolver;
+import com.birca.bircabackend.command.auth.authorization.RequiredLoginInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

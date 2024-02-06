@@ -3,7 +3,7 @@ package com.birca.bircabackend.command.artist.application;
 import com.birca.bircabackend.command.artist.domain.*;
 import com.birca.bircabackend.command.artist.dto.FavoriteArtistRequest;
 import com.birca.bircabackend.command.artist.dto.InterestArtistRequest;
-import com.birca.bircabackend.command.auth.login.LoginMember;
+import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.common.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

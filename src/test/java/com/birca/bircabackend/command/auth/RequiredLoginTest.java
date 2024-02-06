@@ -1,8 +1,8 @@
 package com.birca.bircabackend.command.auth;
 
 import com.birca.bircabackend.command.auth.exception.AuthErrorCode;
-import com.birca.bircabackend.command.auth.token.JwtTokenProvider;
-import com.birca.bircabackend.command.auth.token.TokenPayload;
+import com.birca.bircabackend.command.auth.application.token.JwtTokenProvider;
+import com.birca.bircabackend.command.auth.application.token.TokenPayload;
 import com.birca.bircabackend.support.enviroment.DocumentationTest;
 import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.DisplayName;

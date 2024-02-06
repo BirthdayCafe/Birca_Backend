@@ -1,8 +1,8 @@
-package com.birca.bircabackend.command.auth.login;
+package com.birca.bircabackend.command.auth.authorization;
 
 import com.birca.bircabackend.command.auth.exception.AuthErrorCode;
-import com.birca.bircabackend.command.auth.token.JwtTokenExtractor;
-import com.birca.bircabackend.command.auth.token.JwtTokenProvider;
+import com.birca.bircabackend.command.auth.application.token.JwtTokenExtractor;
+import com.birca.bircabackend.command.auth.application.token.JwtTokenProvider;
 import com.birca.bircabackend.common.exception.BusinessException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
