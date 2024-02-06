@@ -20,7 +20,7 @@ public class BusinessLicenseService {
 
     private final BusinessLicenseRepository businessLicenseRepository;
 
-    public Long saveBusinessLicense(LoginMember loginMember, BusinessLicenseCreateRequest request) {
+    public void saveBusinessLicense(LoginMember loginMember, BusinessLicenseCreateRequest request) {
         Long ownerId = loginMember.id();
         String owner = request.owner();
         String cafeName = request.cafeName();
@@ -35,8 +35,8 @@ public class BusinessLicenseService {
                 businessLicenseCode, address, businessLicenseImage.getOriginalFilename());
 
         businessLicenseRepository.save(businessLicense);
-        return businessLicense.getId();
     }
+
 
     private void checkDuplicateBusinessLicenseCode(BusinessLicenseCode businessLicenseCode) {
         if (businessLicenseRepository.existsByCode(businessLicenseCode)) {
