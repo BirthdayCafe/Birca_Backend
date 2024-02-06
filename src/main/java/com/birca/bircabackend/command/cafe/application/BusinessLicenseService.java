@@ -49,6 +49,6 @@ public class BusinessLicenseService {
         Integer taxOfficeCode = Integer.parseInt(codes[0]);
         Integer businessTypeCode = Integer.parseInt(codes[1]);
         Integer serialCode = Integer.parseInt(codes[2]);
-        return BusinessLicenseCode.createBusinessLicenseCode(taxOfficeCode, businessTypeCode, serialCode);
+        return BusinessLicenseCode.create(taxOfficeCode, businessTypeCode, serialCode);
     }
 }

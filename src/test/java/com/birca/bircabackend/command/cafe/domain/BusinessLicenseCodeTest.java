@@ -17,7 +17,7 @@ class BusinessLicenseCodeTest {
         @Test
         void 세무서_번호의_길이가_3이_아니면_예외가_발생한다() {
             //when then
-            assertThatThrownBy(() -> BusinessLicenseCode.createBusinessLicenseCode(12,
+            assertThatThrownBy(() -> BusinessLicenseCode.create(12,
                     34, 67890))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
@@ -27,7 +27,7 @@ class BusinessLicenseCodeTest {
         @Test
         void 사업자_성격_번호의_길이가_2가_아니면_예외가_발생한다() {
             //when then
-            assertThatThrownBy(() -> BusinessLicenseCode.createBusinessLicenseCode(123,
+            assertThatThrownBy(() -> BusinessLicenseCode.create(123,
                     4, 56789))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
@@ -37,7 +37,7 @@ class BusinessLicenseCodeTest {
         @Test
         void 일련_번호의_길이가_5가_아니면_예외가_발생한다() {
             //when then
-            assertThatThrownBy(() -> BusinessLicenseCode.createBusinessLicenseCode(123,
+            assertThatThrownBy(() -> BusinessLicenseCode.create(123,
                     45, 6789))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")

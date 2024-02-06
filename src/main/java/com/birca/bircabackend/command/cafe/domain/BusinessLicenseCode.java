@@ -15,6 +15,10 @@ import static java.lang.String.valueOf;
 @Getter
 public class BusinessLicenseCode {
 
+    private static final Integer TAX_OFFICE_CODE_LENGTH = 3;
+    private static final Integer BUSINESS_TYPE_CODE_LENGTH = 2;
+    private static final Integer SERIAL_CODE_LENGTH = 5;
+
     @Column(nullable = false)
     private Integer taxOfficeCode;
 
@@ -24,9 +28,7 @@ public class BusinessLicenseCode {
     @Column(nullable = false)
     private Integer serialCode;
 
-    public static BusinessLicenseCode createBusinessLicenseCode(Integer taxOfficeCode,
-                                                                Integer businessTypeCode,
-                                                                Integer serialCode) {
+    public static BusinessLicenseCode create(Integer taxOfficeCode, Integer businessTypeCode, Integer serialCode) {
         return new BusinessLicenseCode(taxOfficeCode, businessTypeCode, serialCode);
     }
 
@@ -38,13 +40,13 @@ public class BusinessLicenseCode {
     }
 
     private void validateCode(Integer taxOfficeCode, Integer businessTypeCode, Integer serialCode) {
-        if (getCodeLength(taxOfficeCode) != 3) {
+        if (getCodeLength(taxOfficeCode) != TAX_OFFICE_CODE_LENGTH) {
             throw BusinessException.from(INVALID_TAX_OFFICE_CODE_LENGTH);
         }
-        if (getCodeLength(businessTypeCode) != 2) {
+        if (getCodeLength(businessTypeCode) != BUSINESS_TYPE_CODE_LENGTH) {
             throw BusinessException.from(INVALID_BUSINESS_TYPE_CODE_LENGTH);
         }
-        if (getCodeLength(serialCode) != 5) {
+        if (getCodeLength(serialCode) != SERIAL_CODE_LENGTH) {
             throw BusinessException.from(INVALID_SERIAL_CODE_LENGTH);
         }
     }
