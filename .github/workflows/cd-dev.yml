@@ -2,7 +2,7 @@ name: birca-dev deploy
 
 on:
   push:
-    branches: [ * ]
+    branches: [ infra/#20 ]
 
 jobs:
   deploy:
