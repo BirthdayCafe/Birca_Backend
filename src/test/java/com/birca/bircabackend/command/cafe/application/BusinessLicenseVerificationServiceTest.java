@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 class BusinessLicenseVerificationServiceTest extends ServiceTest {
 
     @Mock
-    private VerificationProvider verificationProvider;
+    private BusinessLicenseStatusVerifier businessLicenseStatusVerifier;
 
     @InjectMocks
     private BusinessLicenseProcessingService businessLicenseProcessingService;
@@ -35,7 +35,7 @@ class BusinessLicenseVerificationServiceTest extends ServiceTest {
             businessLicenseProcessingService.verifyBusinessLicenseStatus(businessLicenseNumber);
 
             // then
-            verify(verificationProvider).verifyBusinessLicenseStatus(businessLicenseNumber);
+            verify(businessLicenseStatusVerifier).verifyBusinessLicenseStatus(businessLicenseNumber);
         }
 
         @Test
@@ -44,7 +44,7 @@ class BusinessLicenseVerificationServiceTest extends ServiceTest {
             String businessLicenseNumber = "123-45-67890";
 
             doThrow(BusinessException.from(NOT_REGISTERED_BUSINESS_LICENSE_NUMBER))
-                    .when(verificationProvider)
+                    .when(businessLicenseStatusVerifier)
                     .verifyBusinessLicenseStatus(businessLicenseNumber);
 
             // when then

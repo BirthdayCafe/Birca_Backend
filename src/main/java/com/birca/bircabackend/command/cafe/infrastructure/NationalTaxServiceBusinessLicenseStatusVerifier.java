@@ -1,6 +1,6 @@
 package com.birca.bircabackend.command.cafe.infrastructure;
 
-import com.birca.bircabackend.command.cafe.application.VerificationProvider;
+import com.birca.bircabackend.command.cafe.application.BusinessLicenseStatusVerifier;
 import com.birca.bircabackend.command.cafe.dto.BusinessLicenseStatusRequest;
 import com.birca.bircabackend.command.cafe.dto.BusinessLicenseStatusResponse;
 import com.birca.bircabackend.common.exception.BusinessException;
@@ -15,7 +15,7 @@ import static com.birca.bircabackend.command.cafe.exception.BusinessLicenseError
 
 @Component
 @RequiredArgsConstructor
-public class NationalTaxServiceVerificationProvider implements VerificationProvider {
+public class NationalTaxServiceBusinessLicenseStatusVerifier implements BusinessLicenseStatusVerifier {
 
     private static final String NOT_REGISTERED_BUSINESS_LICENSE_MESSAGE = "국세청에 등록되지 않은 사업자등록번호입니다.";
 

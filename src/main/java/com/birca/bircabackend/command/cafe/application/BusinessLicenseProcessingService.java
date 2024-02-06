@@ -10,13 +10,13 @@ import org.springframework.web.multipart.MultipartFile;
 public class BusinessLicenseProcessingService {
 
     private final OcrProvider ocrProvider;
-    private final VerificationProvider verificationProvider;
+    private final BusinessLicenseStatusVerifier businessLicenseStatusVerifier;
 
     public BusinessLicenseResponse getBusinessLicenseInfo(MultipartFile businessLicense) {
         return ocrProvider.getBusinessLicenseInfo(businessLicense);
     }
 
     public void verifyBusinessLicenseStatus(String businessLicenseNumber) {
-        verificationProvider.verifyBusinessLicenseStatus(businessLicenseNumber);
+        businessLicenseStatusVerifier.verifyBusinessLicenseStatus(businessLicenseNumber);
     }
 }
