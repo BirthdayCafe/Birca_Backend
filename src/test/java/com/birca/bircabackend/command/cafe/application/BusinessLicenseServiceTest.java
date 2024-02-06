@@ -1,6 +1,6 @@
 package com.birca.bircabackend.command.cafe.application;
 
-import com.birca.bircabackend.command.auth.login.LoginMember;
+import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.cafe.domain.BusinessLicense;
 import com.birca.bircabackend.command.cafe.dto.BusinessLicenseCreateRequest;
 import com.birca.bircabackend.common.EntityUtil;
