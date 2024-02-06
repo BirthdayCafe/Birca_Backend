@@ -28,6 +28,14 @@ spring:
 spring:
   config:
     activate:
+      on-profile: dev
+    import:
+      - classpath:be-config/application-dev.yml
+
+---
+spring:
+  config:
+    activate:
       on-profile: prod
     import:
       - classpath:be-config/application-prod.yml
