@@ -1,35 +1,15 @@
 package com.birca.bircabackend.command.cafe.application;
 
-import com.birca.bircabackend.command.cafe.dto.BusinessLicenseStatusRequest;
-import com.birca.bircabackend.command.cafe.dto.BusinessLicenseStatusResponse;
-import com.birca.bircabackend.command.cafe.infrastructure.BusinessLicenseVerificationApi;
-import com.birca.bircabackend.common.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-
-import static com.birca.bircabackend.command.cafe.exception.BusinessLicenseErrorCode.NOT_REGISTERED_BUSINESS_LICENSE_NUMBER;
 
 @Service
 @RequiredArgsConstructor
 public class BusinessLicenseVerificationService {
 
-    private static final String NOT_REGISTERED_BUSINESS_LICENSE_MESSAGE = "국세청에 등록되지 않은 사업자등록번호입니다.";
-
-    private final BusinessLicenseVerificationApi verificationFeignClient;
+    private final VerificationProvider verificationProvider;
 
     public void verifyBusinessLicenseStatus(String businessLicenseNumber) {
-        String licenseNumber = businessLicenseNumber.replaceAll("-", "");
-        BusinessLicenseStatusRequest request = new BusinessLicenseStatusRequest(List.of(licenseNumber));
-        BusinessLicenseStatusResponse response = verificationFeignClient.verifyBusinessLicenseStatus(request);
-        validateTaxType(response);
-    }
-
-    private void validateTaxType(BusinessLicenseStatusResponse businessLicenseStatusResponse) {
-        String taxType = businessLicenseStatusResponse.getTaxType();
-        if (taxType.equals(NOT_REGISTERED_BUSINESS_LICENSE_MESSAGE)) {
-            throw BusinessException.from(NOT_REGISTERED_BUSINESS_LICENSE_NUMBER);
-        }
+        verificationProvider.verifyBusinessLicenseStatus(businessLicenseNumber);
     }
 }
