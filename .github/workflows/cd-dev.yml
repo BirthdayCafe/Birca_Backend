@@ -5,7 +5,7 @@ on:
     branches: [ infra/#20 ]
 
 jobs:
-  deploy:
+  deploy-dev:
     runs-on: ubuntu-latest
     steps:
       - name: Set up JDK 17
@@ -42,6 +42,7 @@ jobs:
           key: ${{ secrets.PRIVATE_KEY }}
           source: "./src/main/resources/be-config/docker/docker-compose-dev.yml"
           target: "/home/ubuntu"
+          strip_components: 6
 
       - name: 배포
         uses: appleboy/ssh-action@v0.1.6
