@@ -22,7 +22,7 @@ public class BusinessLicenseController {
     @PostMapping("/v1/cafes/license-read")
     @RequiredLogin
     public ResponseEntity<BusinessLicenseResponse> readBusinessLicense(@ModelAttribute MultipartFile businessLicense) {
-        BusinessLicenseResponse response = businessLicenseOcrService.readBusinessLicense(businessLicense);
+        BusinessLicenseResponse response = businessLicenseOcrService.getBusinessLicenseInfo(businessLicense);
         return ResponseEntity.ok(response);
     }
 
