@@ -1,6 +1,5 @@
 package com.birca.bircabackend.command.cafe.presentation;
 
-import com.birca.bircabackend.command.auth.login.LoginMember;
 import com.birca.bircabackend.command.cafe.dto.BusinessLicenseResponse;
 import com.birca.bircabackend.command.cafe.exception.BusinessLicenseErrorCode;
 import com.birca.bircabackend.support.enviroment.DocumentationTest;
@@ -39,7 +38,7 @@ class BusinessLicenseControllerTest extends DocumentationTest {
                 "Address"
         );
 
-        when(businessLicenseOcrService.readBusinessLicense(businessLicenseFile))
+        when(businessLicenseOcrService.getBusinessLicenseInfo(businessLicenseFile))
                 .thenReturn(mockResponse);
 
         // when

@@ -19,6 +19,7 @@ import static com.birca.bircabackend.command.cafe.exception.BusinessLicenseError
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Sql("/fixture/member-fixture.sql")
 class BusinessLicenseServiceTest extends ServiceTest {
@@ -37,15 +38,15 @@ class BusinessLicenseServiceTest extends ServiceTest {
                 "123-45-67890");
 
         // when
-        Long id = businessLicenseService.saveBusinessLicense(new LoginMember(1L), request);
+        businessLicenseService.saveBusinessLicense(new LoginMember(1L), request);
         EntityUtil entityUtil = new EntityUtil(entityManager);
         BusinessLicense findBusinessLicense = entityUtil
-                .getEntity(BusinessLicense.class, id, BUSINESS_LICENSE_NOT_FOUND);
+                .getEntity(BusinessLicense.class, 1L, BUSINESS_LICENSE_NOT_FOUND);
 
-        //then
-        assertThat(findBusinessLicense.getCafeName()).isEqualTo("cafeName");
-        assertThat(findBusinessLicense.getOwnerName()).isEqualTo("owner");
-        assertThat(findBusinessLicense.getAddress()).isEqualTo("address");
+        // then
+        assertThat(findBusinessLicense.getCafeName()).isEqualTo("카페 벌스데이");
+        assertThat(findBusinessLicense.getOwnerName()).isEqualTo("최민혁");
+        assertThat(findBusinessLicense.getAddress()).isEqualTo("서울 마포구 와우산로29길 26-33 1층 커피 벌스데이");
         assertThat(findBusinessLicense.getCode().getTaxOfficeCode()).isEqualTo(123);
         assertThat(findBusinessLicense.getCode().getBusinessTypeCode()).isEqualTo(45);
         assertThat(findBusinessLicense.getCode().getSerialCode()).isEqualTo(67890);
@@ -122,8 +123,8 @@ class BusinessLicenseServiceTest extends ServiceTest {
     private BusinessLicenseCreateRequest createBusinessLicenseCreateRequest(MockMultipartFile businessLicense,
                                                                             String businessLicenseNumber) {
         return new BusinessLicenseCreateRequest(
-                businessLicense, "cafeName", businessLicenseNumber,
-                "owner", "address"
+                businessLicense, "카페 벌스데이", businessLicenseNumber,
+                "최민혁", "서울 마포구 와우산로29길 26-33 1층 커피 벌스데이"
         );
     }
 }
