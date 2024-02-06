@@ -2,8 +2,7 @@ package com.birca.bircabackend.support.enviroment;
 
 import com.birca.bircabackend.command.artist.application.ArtistService;
 import com.birca.bircabackend.command.auth.token.JwtTokenProvider;
-import com.birca.bircabackend.command.cafe.application.BusinessLicenseFacade;
-import com.birca.bircabackend.command.cafe.application.BusinessLicenseOcrService;
+import com.birca.bircabackend.command.cafe.application.BusinessLicenseProcessingService;
 import com.birca.bircabackend.command.cafe.application.BusinessLicenseService;
 import com.birca.bircabackend.command.cafe.application.BusinessLicenseVerificationService;
 import com.birca.bircabackend.command.member.application.MemberService;
@@ -74,13 +73,10 @@ public class DocumentationTest {
     protected BusinessLicenseService businessLicenseService;
 
     @MockBean
-    protected BusinessLicenseOcrService businessLicenseOcrService;
+    protected BusinessLicenseProcessingService businessLicenseProcessingService;
 
     @MockBean
     protected BusinessLicenseVerificationService businessLicenseVerificationService;
-
-    @MockBean
-    protected BusinessLicenseFacade businessLicenseFacade;
 
     protected List<FieldDescriptor> getErrorDescriptor(ErrorCode[] errorCodes) {
         return Arrays.stream(errorCodes)

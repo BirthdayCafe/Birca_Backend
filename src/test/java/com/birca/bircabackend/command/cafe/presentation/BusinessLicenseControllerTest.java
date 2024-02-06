@@ -38,7 +38,7 @@ class BusinessLicenseControllerTest extends DocumentationTest {
                 "Address"
         );
 
-        when(businessLicenseOcrService.getBusinessLicenseInfo(businessLicenseFile))
+        when(businessLicenseProcessingService.getBusinessLicenseInfo(businessLicenseFile))
                 .thenReturn(mockResponse);
 
         // when

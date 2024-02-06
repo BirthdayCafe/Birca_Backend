@@ -20,7 +20,7 @@ class BusinessLicenseVerificationServiceTest extends ServiceTest {
     private VerificationProvider verificationProvider;
 
     @InjectMocks
-    private BusinessLicenseVerificationService businessLicenseVerificationService;
+    private BusinessLicenseProcessingService businessLicenseProcessingService;
 
     @Nested
     @DisplayName("사업자등록증을")
@@ -32,7 +32,7 @@ class BusinessLicenseVerificationServiceTest extends ServiceTest {
             String businessLicenseNumber = "123-45-67890";
 
             // when
-            businessLicenseVerificationService.verifyBusinessLicenseStatus(businessLicenseNumber);
+            businessLicenseProcessingService.verifyBusinessLicenseStatus(businessLicenseNumber);
 
             // then
             verify(verificationProvider).verifyBusinessLicenseStatus(businessLicenseNumber);
@@ -49,7 +49,7 @@ class BusinessLicenseVerificationServiceTest extends ServiceTest {
 
             // when then
             BusinessException exception = assertThrows(BusinessException.class,
-                    () -> businessLicenseVerificationService.verifyBusinessLicenseStatus(businessLicenseNumber));
+                    () -> businessLicenseProcessingService.verifyBusinessLicenseStatus(businessLicenseNumber));
             assertThat(exception.getErrorCode()).isEqualTo(NOT_REGISTERED_BUSINESS_LICENSE_NUMBER);
         }
     }

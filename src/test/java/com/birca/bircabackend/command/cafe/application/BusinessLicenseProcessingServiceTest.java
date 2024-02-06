@@ -11,13 +11,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-class BusinessLicenseOcrServiceTest extends ServiceTest {
+class BusinessLicenseProcessingServiceTest extends ServiceTest {
 
     @Mock
     private OcrProvider ocrProvider;
 
     @InjectMocks
-    private BusinessLicenseOcrService businessLicenseOcrService;
+    private BusinessLicenseProcessingService businessLicenseProcessingService;
 
     @Test
     void 사업자등록증을_스캔한다() {
@@ -35,7 +35,7 @@ class BusinessLicenseOcrServiceTest extends ServiceTest {
         when(ocrProvider.getBusinessLicenseInfo(businessLicense)).thenReturn(expectedResponse);
 
         // when
-        BusinessLicenseResponse actualResponse = businessLicenseOcrService.getBusinessLicenseInfo(businessLicense);
+        BusinessLicenseResponse actualResponse = businessLicenseProcessingService.getBusinessLicenseInfo(businessLicense);
 
         // then
         verify(ocrProvider).getBusinessLicenseInfo(businessLicense);
