@@ -45,10 +45,10 @@ public class BirthdayCafeControllerTest extends DocumentationTest {
                         requestFields(
                                 fieldWithPath("artistId").type(JsonFieldType.NUMBER).description("생일인 아티스트 ID"),
                                 fieldWithPath("startDate").type(JsonFieldType.STRING).description("생일 카페 시작일"),
-                                fieldWithPath("endDate").type(JsonFieldType.NUMBER).description("생일 카페 마지막일"),
+                                fieldWithPath("endDate").type(JsonFieldType.STRING).description("생일 카페 마지막일"),
                                 fieldWithPath("minimumVisitant").type(JsonFieldType.NUMBER).description("생일 카페 최소 방문자 인원"),
                                 fieldWithPath("maximumVisitant").type(JsonFieldType.NUMBER).description("생일 카페 최대 방문자 인원"),
-                                fieldWithPath("twitterAccount").type(JsonFieldType.NUMBER).description("생일 카페 트위터 계정")
+                                fieldWithPath("twitterAccount").type(JsonFieldType.STRING).description("생일 카페 트위터 계정")
                         )
                 ));
     }
