@@ -1,5 +1,9 @@
 package com.birca.bircabackend.command.birca.dto;
 
+import com.birca.bircabackend.command.birca.domain.BirthdayCafe;
+import com.birca.bircabackend.command.birca.domain.Schedule;
+import com.birca.bircabackend.command.birca.domain.Visitants;
+
 import java.time.LocalDateTime;
 
 public record BirthdayCafeCreateRequest(
@@ -10,4 +14,14 @@ public record BirthdayCafeCreateRequest(
         Integer maximumVisitant,
         String twitterAccount
 ) {
+
+    public BirthdayCafe toEntity(Long hostId) {
+        return BirthdayCafe.create(
+                hostId,
+                artistId,
+                Schedule.of(startDate, endDate),
+                Visitants.of(minimumVisitant, maximumVisitant),
+                twitterAccount
+        );
+    }
 }

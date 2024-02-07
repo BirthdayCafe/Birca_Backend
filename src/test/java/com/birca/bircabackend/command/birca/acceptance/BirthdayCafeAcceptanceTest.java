@@ -9,11 +9,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Sql("/fixture/birthday-cafe-fixture.sql")
 public class BirthdayCafeAcceptanceTest extends AcceptanceTest {
 
     private static final Long MEMBER_ID = 1L;
@@ -32,7 +34,7 @@ public class BirthdayCafeAcceptanceTest extends AcceptanceTest {
 
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
-                .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
                 .body(request)
                 .post("/api/v1/birthday-cafes")
