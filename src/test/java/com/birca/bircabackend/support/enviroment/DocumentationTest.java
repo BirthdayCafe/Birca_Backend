@@ -1,6 +1,8 @@
 package com.birca.bircabackend.support.enviroment;
 
 import com.birca.bircabackend.command.artist.application.ArtistService;
+import com.birca.bircabackend.command.cafe.application.BusinessLicenseProcessingService;
+import com.birca.bircabackend.command.cafe.application.BusinessLicenseService;
 import com.birca.bircabackend.command.auth.application.AuthFacade;
 import com.birca.bircabackend.command.auth.application.token.JwtTokenProvider;
 import com.birca.bircabackend.command.member.application.MemberService;
@@ -63,9 +65,15 @@ public class DocumentationTest {
 
     @MockBean
     protected ArtistQueryService artistQueryService;
-
+  
     @MockBean
     protected ArtistService artistService;
+
+    @MockBean
+    protected BusinessLicenseService businessLicenseService;
+
+    @MockBean
+    protected BusinessLicenseProcessingService businessLicenseProcessingService;
 
     @MockBean
     protected AuthFacade authFacade;

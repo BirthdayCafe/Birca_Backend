@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(uniqueConstraints = {@UniqueConstraint(
         name = "UNIQUE_BUSINESS_LICENSE_CODE",
-        columnNames = {"taxOfficeCode", "businessTypeCode", "serialCode", "validationCode"}
+        columnNames = {"taxOfficeCode", "businessTypeCode", "serialCode"}
 )})
 @Getter
 public class BusinessLicense extends BaseEntity {
@@ -27,10 +27,25 @@ public class BusinessLicense extends BaseEntity {
     @Embedded
     private BusinessLicenseCode code;
 
-    @Embedded
-    private BusinessAddress address;
+    private String address;
 
     @Column(nullable = false)
     @Lob
     private String imageUrl;
+
+    public static BusinessLicense createBusinessLicense(Long ownerId, String ownerName, String cafeName,
+                                                        BusinessLicenseCode code, String address,
+                                                        String imageUrl) {
+        return new BusinessLicense(ownerId, ownerName, cafeName, code, address, imageUrl);
+    }
+
+    private BusinessLicense(Long ownerId, String ownerName, String cafeName,
+                            BusinessLicenseCode code, String address, String imageUrl) {
+        this.ownerId = ownerId;
+        this.ownerName = ownerName;
+        this.cafeName = cafeName;
+        this.code = code;
+        this.address = address;
+        this.imageUrl = imageUrl;
+    }
 }
