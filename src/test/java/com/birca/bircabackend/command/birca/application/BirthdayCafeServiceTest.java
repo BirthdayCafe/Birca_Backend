@@ -115,4 +115,46 @@ class BirthdayCafeServiceTest extends ServiceTest {
                     .isEqualTo(BirthdayCafeErrorCode.INVALID_SCHEDULE);
         }
     }
+
+    @Test
+    void 최소_방문자는_최대_방문자_보다_클_수_없다() {
+        // given
+        int minimumVisitant = 11;
+        int maximumVisitant = 10;
+        BirthdayCafeCreateRequest request = new BirthdayCafeCreateRequest(
+                1L,
+                LocalDateTime.of(2024, 2, 8, 0, 0, 0),
+                LocalDateTime.of(2024, 2, 10, 0, 0, 0),
+                minimumVisitant,
+                maximumVisitant,
+                "@ChaseM"
+        );
+
+        // when then
+        assertThatThrownBy(() -> birthdayCafeService.createBirthdayCafe(request, LOGIN_MEMBER))
+                .isInstanceOf(BusinessException.class)
+                .extracting("errorCode")
+                .isEqualTo(BirthdayCafeErrorCode.INVALID_VISITANTS);
+    }
+
+    @Test
+    void 최소_방문자와_최대_방문자는_양수여야_한다() {
+        // given
+        int minimumVisitant = -1;
+        int maximumVisitant = -1;
+        BirthdayCafeCreateRequest request = new BirthdayCafeCreateRequest(
+                1L,
+                LocalDateTime.of(2024, 2, 8, 0, 0, 0),
+                LocalDateTime.of(2024, 2, 10, 0, 0, 0),
+                minimumVisitant,
+                maximumVisitant,
+                "@ChaseM"
+        );
+
+        // when then
+        assertThatThrownBy(() -> birthdayCafeService.createBirthdayCafe(request, LOGIN_MEMBER))
+                .isInstanceOf(BusinessException.class)
+                .extracting("errorCode")
+                .isEqualTo(BirthdayCafeErrorCode.INVALID_VISITANTS);
+    }
 }
