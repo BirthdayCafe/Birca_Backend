@@ -102,3 +102,26 @@ ALTER TABLE interest_artist
 
 ALTER TABLE interest_artist
     ADD CONSTRAINT uc_interest_artist_fan_artist UNIQUE (fan_id, artist_id);
+
+CREATE TABLE birthday_cafe
+(
+    id               BIGINT AUTO_INCREMENT NOT NULL,
+    host_id          BIGINT                NOT NULL,
+    artist_id        BIGINT                NOT NULL,
+    cafe_id          BIGINT                NULL,
+    twitter_account  VARCHAR(255)          NULL,
+    start_date       datetime              NULL,
+    end_date         datetime              NULL,
+    minimum_visitant INT                   NULL,
+    maximum_visitant INT                   NULL,
+    CONSTRAINT pk_birthdaycafe PRIMARY KEY (id)
+);
+
+ALTER TABLE birthday_cafe
+    ADD CONSTRAINT FK_BIRTHDAYCAFE_ON_ARTIST FOREIGN KEY (artist_id) REFERENCES artist (id);
+
+ALTER TABLE birthday_cafe
+    ADD CONSTRAINT FK_BIRTHDAYCAFE_ON_CAFE FOREIGN KEY (cafe_id) REFERENCES cafe (id);
+
+ALTER TABLE birthday_cafe
+    ADD CONSTRAINT FK_BIRTHDAYCAFE_ON_HOST FOREIGN KEY (host_id) REFERENCES member (id);
