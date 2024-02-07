@@ -46,3 +46,5 @@ include::{snippets}/business-license-error-Code/response-body.adoc[]
 == 생일 카페 API
 === 생일 카페 등록
 operation::register-birthday-cafe[snippets='http-request,request-fields,http-response']
+=== 에러 코드
+include::{snippets}/birthday-cafe-error-Code/response-body.adoc[]

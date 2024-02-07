@@ -1,6 +1,7 @@
 package com.birca.bircabackend.command.birca.presentation;
 
 import com.birca.bircabackend.command.birca.dto.BirthdayCafeCreateRequest;
+import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
 import com.birca.bircabackend.support.enviroment.DocumentationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -11,8 +12,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.time.LocalDateTime;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -50,6 +51,23 @@ public class BirthdayCafeControllerTest extends DocumentationTest {
                                 fieldWithPath("maximumVisitant").type(JsonFieldType.NUMBER).description("생일 카페 최대 방문자 인원"),
                                 fieldWithPath("twitterAccount").type(JsonFieldType.STRING).description("생일 카페 트위터 계정")
                         )
+                ));
+    }
+
+    @Test
+    void 생일_카페_에러_코드() throws Exception {
+        // when
+        ResultActions result = mockMvc.perform(get("/error-codes")
+                .queryParam("className", "com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode")
+                .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        // then
+        result.andExpect((status().isOk()))
+                .andDo(document("birthday-cafe-error-Code",
+                        HOST_INFO,
+                        DOCUMENT_RESPONSE,
+                        responseFields(getErrorDescriptor(BirthdayCafeErrorCode.values()))
                 ));
     }
 }

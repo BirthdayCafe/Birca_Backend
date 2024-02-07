@@ -5,6 +5,8 @@ import com.birca.bircabackend.command.birca.domain.BirthdayCafe;
 import com.birca.bircabackend.command.birca.domain.Schedule;
 import com.birca.bircabackend.command.birca.domain.Visitants;
 import com.birca.bircabackend.command.birca.dto.BirthdayCafeCreateRequest;
+import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
+import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.support.enviroment.ServiceTest;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -17,6 +19,7 @@ import org.springframework.test.context.jdbc.Sql;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 @Sql("/fixture/birthday-cafe-fixture.sql")
@@ -89,6 +92,27 @@ class BirthdayCafeServiceTest extends ServiceTest {
                     () -> assertThat(birthdayCafe.getVisitants()).isNull(),
                     () -> assertThat(birthdayCafe.getTwitterAccount()).isNull()
             );
+        }
+
+        @Test
+        void 시작일이_종료일보다_앞일_수_없다() {
+            // given
+            LocalDateTime startDate = LocalDateTime.of(2024, 2, 11, 0, 0, 0);
+            LocalDateTime endDate = LocalDateTime.of(2024, 2, 10, 0, 0, 0);
+            BirthdayCafeCreateRequest request = new BirthdayCafeCreateRequest(
+                    1L,
+                    startDate,
+                    endDate,
+                    5,
+                    10,
+                    "@ChaseM"
+            );
+
+            // when then
+            assertThatThrownBy(() -> birthdayCafeService.createBirthdayCafe(request, LOGIN_MEMBER))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.INVALID_SCHEDULE);
         }
     }
 }
