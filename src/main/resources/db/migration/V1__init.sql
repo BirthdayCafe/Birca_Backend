@@ -125,3 +125,14 @@ ALTER TABLE birthday_cafe
 
 ALTER TABLE birthday_cafe
     ADD CONSTRAINT FK_BIRTHDAYCAFE_ON_HOST FOREIGN KEY (host_id) REFERENCES member (id);
+
+CREATE TABLE ocr_request_history
+(
+    id           BIGINT AUTO_INCREMENT NOT NULL,
+    owner_id     BIGINT                NOT NULL,
+    upload_count BIGINT                NOT NULL,
+    CONSTRAINT pk_ocrrequesthistory PRIMARY KEY (id)
+);
+
+ALTER TABLE ocr_request_history
+    ADD CONSTRAINT FK_OCRREQUESTHISTORY_ON_OWNER FOREIGN KEY (owner_id) REFERENCES ocr_request_history (id);
