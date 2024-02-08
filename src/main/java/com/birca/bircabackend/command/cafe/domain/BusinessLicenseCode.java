@@ -15,10 +15,10 @@ import static java.lang.String.valueOf;
 @Getter
 public class BusinessLicenseCode {
 
-    private static final Integer TAX_OFFICE_CODE_LENGTH = 3;
-    private static final Integer BUSINESS_TYPE_CODE_LENGTH = 2;
-    private static final Integer SERIAL_CODE_LENGTH = 5;
-    private static final Integer BUSINESS_LICENSE_PARTS = 3;
+    private static final int TAX_OFFICE_CODE_LENGTH = 3;
+    private static final int BUSINESS_TYPE_CODE_LENGTH = 2;
+    private static final int SERIAL_CODE_LENGTH = 5;
+    private static final int BUSINESS_LICENSE_PARTS = 3;
 
     @Column(nullable = false)
     private Integer taxOfficeCode;
