@@ -7,6 +7,7 @@ import com.birca.bircabackend.command.auth.application.AuthFacade;
 import com.birca.bircabackend.command.auth.application.token.JwtTokenProvider;
 import com.birca.bircabackend.command.member.application.MemberService;
 import com.birca.bircabackend.common.exception.ErrorCode;
+import com.birca.bircabackend.common.log.TimeLogTemplate;
 import com.birca.bircabackend.query.service.ArtistGroupQueryService;
 import com.birca.bircabackend.query.service.ArtistQueryService;
 import com.birca.bircabackend.query.service.MemberQueryService;
@@ -32,7 +33,8 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 @WebMvcTest
 @Import({
         JwtTokenProvider.class,
-        TestBearerTokenProvider.class
+        TestBearerTokenProvider.class,
+        TimeLogTemplate.class
 })
 @AutoConfigureRestDocs
 public class DocumentationTest {
