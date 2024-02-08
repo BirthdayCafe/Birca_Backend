@@ -130,7 +130,7 @@ CREATE TABLE ocr_request_history
 (
     id           BIGINT AUTO_INCREMENT NOT NULL,
     owner_id     BIGINT                NOT NULL,
-    upload_count BIGINT                NOT NULL,
+    upload_count INT                   NOT NULL,
     CONSTRAINT pk_ocrrequesthistory PRIMARY KEY (id)
 );
 
