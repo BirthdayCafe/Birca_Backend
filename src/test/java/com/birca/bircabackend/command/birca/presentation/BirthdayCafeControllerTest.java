@@ -22,7 +22,7 @@ public class BirthdayCafeControllerTest extends DocumentationTest {
     private static final Long MEMBER_ID = 1L;
 
     @Test
-    void 생일_카페를_등록한() throws Exception {
+    void 생일_카페를_등록한다() throws Exception {
         // given
         BirthdayCafeCreateRequest request = new BirthdayCafeCreateRequest(
                 1L,
