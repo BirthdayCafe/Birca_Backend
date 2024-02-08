@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class BirthdayCafe extends BaseEntity {
 
-    @Column( nullable = false)
+    @Column(nullable = false)
     private Long hostId;
 
     @Column(nullable = false)
