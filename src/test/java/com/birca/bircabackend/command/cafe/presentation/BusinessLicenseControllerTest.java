@@ -1,6 +1,6 @@
 package com.birca.bircabackend.command.cafe.presentation;
 
-import com.birca.bircabackend.command.cafe.dto.BusinessLicenseResponse;
+import com.birca.bircabackend.command.cafe.dto.BusinessLicenseInfoResponse;
 import com.birca.bircabackend.command.cafe.exception.BusinessLicenseErrorCode;
 import com.birca.bircabackend.support.enviroment.DocumentationTest;
 import org.junit.jupiter.api.Test;
@@ -31,7 +31,7 @@ class BusinessLicenseControllerTest extends DocumentationTest {
                 "businessLicense", "businessLicense.pdf",
                 "application/pdf", "businessLicense.pdf".getBytes());
 
-        BusinessLicenseResponse mockResponse = new BusinessLicenseResponse(
+        BusinessLicenseInfoResponse mockResponse = new BusinessLicenseInfoResponse(
                 "Cafe Name",
                 "123-45-67890",
                 "Owner",
