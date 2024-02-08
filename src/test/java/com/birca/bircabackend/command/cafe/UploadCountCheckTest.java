@@ -39,7 +39,7 @@ public class UploadCountCheckTest extends DocumentationTest {
         }
 
         @Test
-        void 초과되면_경우_예외가_발생한다() throws Exception {
+        void 초과되면_예외가_발생한다() throws Exception {
             // given
             Long ownerId = 1L;
             OcrRequestHistory ocrRequestHistory = new OcrRequestHistory(ownerId, 5);

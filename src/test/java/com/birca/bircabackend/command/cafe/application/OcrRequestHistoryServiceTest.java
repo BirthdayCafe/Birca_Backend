@@ -30,4 +30,16 @@ class OcrRequestHistoryServiceTest extends ServiceTest {
         // then
         assertThat(uploadCountResponse.uploadCount()).isEqualTo(2);
     }
+
+    @Test
+    void 기존_업로드_횟수가_없을때_사업자등록증_업로드_횟수가_증가한다() {
+        // given
+        Long ownerId = 1L;
+
+        // when
+        UploadCountResponse uploadCountResponse = ocrRequestHistoryService.incrementUploadCount(ownerId);
+
+        // then
+        assertThat(uploadCountResponse.uploadCount()).isEqualTo(1);
+    }
 }
