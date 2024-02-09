@@ -447,29 +447,859 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_헬스_체크_api">헬스 체크 API</a></li>
+<li><a href="#_인증_api">인증 API</a>
+<ul class="sectlevel2">
+<li><a href="#_소셜_로그인">소셜 로그인</a></li>
+<li><a href="#_에러_코드">에러 코드</a></li>
+</ul>
+</li>
+<li><a href="#_회원_api">회원 API</a>
+<ul class="sectlevel2">
+<li><a href="#_회원_역할_변경">회원 역할 변경</a></li>
+<li><a href="#_닉네임_중복_검사">닉네임 중복 검사</a></li>
+<li><a href="#_회원_닉네임_등록">회원 닉네임 등록</a></li>
+<li><a href="#_에러_코드_2">에러 코드</a></li>
+</ul>
+</li>
+<li><a href="#_아티스트_api">아티스트 API</a>
+<ul class="sectlevel2">
+<li><a href="#_아티스트_그룹_목록_조회">아티스트 그룹 목록 조회</a></li>
+<li><a href="#_아티스트_그룹_멤버_조회">아티스트 그룹 멤버 조회</a></li>
+<li><a href="#_최애_아티스트_등록">최애 아티스트 등록</a></li>
+<li><a href="#_관심_아티스트_등록">관심 아티스트 등록</a></li>
+<li><a href="#_에러_코드_3">에러 코드</a></li>
+</ul>
+</li>
+<li><a href="#_사업자등록증_api">사업자등록증 API</a>
+<ul class="sectlevel2">
+<li><a href="#_사업자등록증_스캔">사업자등록증 스캔</a></li>
+<li><a href="#_사업자등록증_저장">사업자등록증 저장</a></li>
+<li><a href="#_에러_코드_4">에러 코드</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_헬스_체크_api"><a class="link" href="#_헬스_체크_api">헬스 체크 API</a></h2>
+<h2 id="_인증_api"><a class="link" href="#_인증_api">인증 API</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_헬스_체크_api_http_request"><a class="link" href="#_헬스_체크_api_http_request">HTTP request</a></h3>
+<h3 id="_소셜_로그인"><a class="link" href="#_소셜_로그인">소셜 로그인</a></h3>
+<div class="sect3">
+<h4 id="_소셜_로그인_http_request"><a class="link" href="#_소셜_로그인_http_request">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET / HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/oauth/login/kakao HTTP/1.1
 Content-Type: application/json;charset=UTF-8
+Content-Length: 46
+Host: www.api.birca.com
+
+{
+  "accessToken" : "fake.kakao.accessToken"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_소셜_로그인_path_parameters"><a class="link" href="#_소셜_로그인_path_parameters">Path parameters</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /api/v1/oauth/login/{provider}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>provider</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OAuth를 제공하는 리소스 서버</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_소셜_로그인_http_response"><a class="link" href="#_소셜_로그인_http_response">HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+Content-Length: 97
+
+{
+  "accessToken" : "fake.birca.AccessToken",
+  "isNewMember" : true,
+  "lastRole" : "VISITANT"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_소셜_로그인_response_fields"><a class="link" href="#_소셜_로그인_response_fields">Response fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>accessToken</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">버카의 엑세스 토큰</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isNewMember</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">새로운 회원인지 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>lastRole</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">마지막으로 활동한 역할</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_에러_코드"><a class="link" href="#_에러_코드">에러 코드</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
+  "1001" : {
+    "httpStatus" : 401,
+    "message" : "토큰이 존재하지 않습니다."
+  },
+  "1002" : {
+    "httpStatus" : 401,
+    "message" : "유효하지 않은 토큰입니다."
+  },
+  "1003" : {
+    "httpStatus" : 400,
+    "message" : "해당 이름의 소셜 로그인은 제공하지 않습니다."
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_회원_api"><a class="link" href="#_회원_api">회원 API</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_회원_역할_변경"><a class="link" href="#_회원_역할_변경">회원 역할 변경</a></h3>
+<div class="sect3">
+<h4 id="_회원_역할_변경_http_request"><a class="link" href="#_회원_역할_변경_http_request">HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/members/role-change HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzA3Mjg4ODg1LCJleHAiOjE3MDcyOTA2ODV9.iq9cHYcIQ1O0Iag7HaT2BGQTe0n4qsDCq9cbRdzcCSc
+Content-Length: 21
+Host: www.api.birca.com
+
+{
+  "role" : "HOST"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_회원_역할_변경_http_response"><a class="link" href="#_회원_역할_변경_http_response">HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_닉네임_중복_검사"><a class="link" href="#_닉네임_중복_검사">닉네임 중복 검사</a></h3>
+<div class="sect3">
+<h4 id="_닉네임_중복_검사_http_request"><a class="link" href="#_닉네임_중복_검사_http_request">HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/join/check-nickname?nickname=does HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzA3Mjg4ODg1LCJleHAiOjE3MDcyOTA2ODV9.iq9cHYcIQ1O0Iag7HaT2BGQTe0n4qsDCq9cbRdzcCSc
 Host: www.api.birca.com</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_헬스_체크_api_http_response"><a class="link" href="#_헬스_체크_api_http_response">HTTP response</a></h3>
+<div class="sect3">
+<h4 id="_닉네임_중복_검사_query_parameters"><a class="link" href="#_닉네임_중복_검사_query_parameters">Query parameters</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">검사할 닉네임</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_닉네임_중복_검사_http_response"><a class="link" href="#_닉네임_중복_검사_http_response">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+Content-Length: 16
+
+{"success":true}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_닉네임_중복_검사_response_fields"><a class="link" href="#_닉네임_중복_검사_response_fields">Response fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>success</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">중복 여부</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_회원_닉네임_등록"><a class="link" href="#_회원_닉네임_등록">회원 닉네임 등록</a></h3>
+<div class="sect3">
+<h4 id="_회원_닉네임_등록_http_request"><a class="link" href="#_회원_닉네임_등록_http_request">HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/join/register-nickname HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzA3Mjg4ODg1LCJleHAiOjE3MDcyOTA2ODV9.iq9cHYcIQ1O0Iag7HaT2BGQTe0n4qsDCq9cbRdzcCSc
+Content-Length: 30
+Host: www.api.birca.com
+
+{
+  "nickname" : "닉네임"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_회원_닉네임_등록_request_fields"><a class="link" href="#_회원_닉네임_등록_request_fields">Request fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">등록할 닉네임</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_회원_닉네임_등록_http_response"><a class="link" href="#_회원_닉네임_등록_http_response">HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_에러_코드_2"><a class="link" href="#_에러_코드_2">에러 코드</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
+  "3001" : {
+    "httpStatus" : 400,
+    "message" : "중복된 닉네임입니다."
+  },
+  "3002" : {
+    "httpStatus" : 400,
+    "message" : "닉네임은 비어있거나 10자를 넘을 수 없습니다."
+  },
+  "3003" : {
+    "httpStatus" : 400,
+    "message" : "존재하지 않는 역할입니다."
+  },
+  "3004" : {
+    "httpStatus" : 404,
+    "message" : "존재하지 않는 회원입니다."
+  },
+  "3005" : {
+    "httpStatus" : 400,
+    "message" : "이미 가입된 이메일입니다."
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_아티스트_api"><a class="link" href="#_아티스트_api">아티스트 API</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_아티스트_그룹_목록_조회"><a class="link" href="#_아티스트_그룹_목록_조회">아티스트 그룹 목록 조회</a></h3>
+<div class="sect3">
+<h4 id="_아티스트_그룹_목록_조회_http_request"><a class="link" href="#_아티스트_그룹_목록_조회_http_request">HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/artist-groups?cursor=10&amp;size=3 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzA3Mjg4ODg1LCJleHAiOjE3MDcyOTA2ODV9.iq9cHYcIQ1O0Iag7HaT2BGQTe0n4qsDCq9cbRdzcCSc
+Host: www.api.birca.com</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_아티스트_그룹_목록_조회_query_parameters"><a class="link" href="#_아티스트_그룹_목록_조회_query_parameters">Query parameters</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cursor</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이전에 쿼리된 마지막 groupId</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">검색할 개수</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_아티스트_그룹_목록_조회_http_response"><a class="link" href="#_아티스트_그룹_목록_조회_http_response">HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+Content-Length: 250
+
+[ {
+  "groupId" : 11,
+  "groupName" : "뉴진스",
+  "groupImage" : "newjeans.com"
+}, {
+  "groupId" : 12,
+  "groupName" : "아이브",
+  "groupImage" : "ive.com"
+}, {
+  "groupId" : 13,
+  "groupName" : "방탄소년단",
+  "groupImage" : "bts.com"
+} ]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_아티스트_그룹_목록_조회_response_fields"><a class="link" href="#_아티스트_그룹_목록_조회_response_fields">Response fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].groupId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">아티스트 그룹 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].groupName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">아티스트 그룹 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].groupImage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">아티스트 그룹 이미지 url</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_아티스트_그룹_멤버_조회"><a class="link" href="#_아티스트_그룹_멤버_조회">아티스트 그룹 멤버 조회</a></h3>
+<div class="sect3">
+<h4 id="_아티스트_그룹_멤버_조회_http_request"><a class="link" href="#_아티스트_그룹_멤버_조회_http_request">HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/artist-groups/1/artists HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzA3Mjg4ODg1LCJleHAiOjE3MDcyOTA2ODV9.iq9cHYcIQ1O0Iag7HaT2BGQTe0n4qsDCq9cbRdzcCSc
+Host: www.api.birca.com</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_아티스트_그룹_멤버_조회_path_parameters"><a class="link" href="#_아티스트_그룹_멤버_조회_path_parameters">Path parameters</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /api/v1/artist-groups/{groupId}/artists</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>groupId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">조회할 그룹의 ID</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_아티스트_그룹_멤버_조회_http_response"><a class="link" href="#_아티스트_그룹_멤버_조회_http_response">HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+Content-Length: 565
+
+[ {
+  "artistId" : 5,
+  "artistName" : "뷔",
+  "artistImage" : "image5.com"
+}, {
+  "artistId" : 1,
+  "artistName" : "석진",
+  "artistImage" : "image1.com"
+}, {
+  "artistId" : 7,
+  "artistName" : "슈가",
+  "artistImage" : "image7.com"
+}, {
+  "artistId" : 2,
+  "artistName" : "정국",
+  "artistImage" : "image2.com"
+}, {
+  "artistId" : 3,
+  "artistName" : "제이홉",
+  "artistImage" : "image3.com"
+}, {
+  "artistId" : 6,
+  "artistName" : "지민",
+  "artistImage" : "image6.com"
+}, {
+  "artistId" : 4,
+  "artistName" : "RM",
+  "artistImage" : "image4.com"
+} ]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_아티스트_그룹_멤버_조회_response_fields"><a class="link" href="#_아티스트_그룹_멤버_조회_response_fields">Response fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].artistId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">아티스트 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].artistName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">아티스트 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].artistImage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">아티스트 이미지 url</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_최애_아티스트_등록"><a class="link" href="#_최애_아티스트_등록">최애 아티스트 등록</a></h3>
+<div class="sect3">
+<h4 id="_최애_아티스트_등록_http_request"><a class="link" href="#_최애_아티스트_등록_http_request">HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/artists/favorite HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzA3Mjg4ODg0LCJleHAiOjE3MDcyOTA2ODR9.bme9okQJiD8k4Ebd-C6yyW88crSVFVzqGwq8NL-FqiE
+Content-Length: 20
+Host: www.api.birca.com
+
+{
+  "artistId" : 8
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_최애_아티스트_등록_request_fields"><a class="link" href="#_최애_아티스트_등록_request_fields">Request fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>artistId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">최애 아티스트 ID</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_최애_아티스트_등록_http_response"><a class="link" href="#_최애_아티스트_등록_http_response">HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_관심_아티스트_등록"><a class="link" href="#_관심_아티스트_등록">관심 아티스트 등록</a></h3>
+<div class="sect3">
+<h4 id="_관심_아티스트_등록_http_request"><a class="link" href="#_관심_아티스트_등록_http_request">HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/artists/interest HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzA3Mjg4ODg0LCJleHAiOjE3MDcyOTA2ODR9.bme9okQJiD8k4Ebd-C6yyW88crSVFVzqGwq8NL-FqiE
+Content-Length: 68
+Host: www.api.birca.com
+
+[ {
+  "artistId" : 1
+}, {
+  "artistId" : 2
+}, {
+  "artistId" : 3
+} ]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_관심_아티스트_등록_request_fields"><a class="link" href="#_관심_아티스트_등록_request_fields">Request fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].artistId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">관심 아티스트 ID</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_관심_아티스트_등록_http_response"><a class="link" href="#_관심_아티스트_등록_http_response">HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_에러_코드_3"><a class="link" href="#_에러_코드_3">에러 코드</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
+  "4001" : {
+    "httpStatus" : 400,
+    "message" : "관심 아티스트는 10명까지 등록할 수 있습니다."
+  },
+  "4002" : {
+    "httpStatus" : 404,
+    "message" : "존재하지 않는 아티스트입니다."
+  },
+  "4003" : {
+    "httpStatus" : 400,
+    "message" : "관심 아티스트는 중복으로 등록할 수 없습니다."
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_사업자등록증_api"><a class="link" href="#_사업자등록증_api">사업자등록증 API</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_사업자등록증_스캔"><a class="link" href="#_사업자등록증_스캔">사업자등록증 스캔</a></h3>
+<div class="sect3">
+<h4 id="_사업자등록증_스캔_http_request"><a class="link" href="#_사업자등록증_스캔_http_request">HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/cafes/license-read HTTP/1.1
+Content-Type: multipart/form-data;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzA3Mjg4ODg1LCJleHAiOjE3MDcyOTA2ODV9.iq9cHYcIQ1O0Iag7HaT2BGQTe0n4qsDCq9cbRdzcCSc
+Host: www.api.birca.com
+
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Content-Disposition: form-data; name=businessLicense; filename=businessLicense.pdf
+Content-Type: application/pdf
+
+businessLicense.pdf
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm--</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_사업자등록증_스캔_http_response"><a class="link" href="#_사업자등록증_스캔_http_response">HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+Content-Length: 120
+
+{
+  "cafeName" : "Cafe Name",
+  "businessLicenseNumber" : "123-45-67890",
+  "owner" : "Owner",
+  "address" : "Address"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_사업자등록증_스캔_response_fields"><a class="link" href="#_사업자등록증_스캔_response_fields">Response fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cafeName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">카페 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>businessLicenseNumber</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사업자등록증번호</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>owner</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">카페 사장</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>address</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">카페 주소</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_사업자등록증_저장"><a class="link" href="#_사업자등록증_저장">사업자등록증 저장</a></h3>
+<div class="sect3">
+<h4 id="_사업자등록증_저장_http_request"><a class="link" href="#_사업자등록증_저장_http_request">HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/cafes/apply HTTP/1.1
+Content-Type: multipart/form-data;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzA3Mjg4ODg1LCJleHAiOjE3MDcyOTA2ODV9.iq9cHYcIQ1O0Iag7HaT2BGQTe0n4qsDCq9cbRdzcCSc
+Host: www.api.birca.com
+
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Content-Disposition: form-data; name=businessLicense; filename=test.pdf
+Content-Type: application/pdf
+
+businessLicense.pdf
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm--</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_사업자등록증_저장_http_response"><a class="link" href="#_사업자등록증_저장_http_response">HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_에러_코드_4"><a class="link" href="#_에러_코드_4">에러 코드</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
+  "2001" : {
+    "httpStatus" : 400,
+    "message" : "국세청에 등록되지 않은 사업자등록번호입니다."
+  },
+  "2002" : {
+    "httpStatus" : 400,
+    "message" : "세무서 번호는 3자리여야 합니다."
+  },
+  "2003" : {
+    "httpStatus" : 400,
+    "message" : "사업자 구분 번호는 2자리여야 합니다."
+  },
+  "2004" : {
+    "httpStatus" : 400,
+    "message" : "일련번호는 5자리여야 합니다."
+  },
+  "2005" : {
+    "httpStatus" : 400,
+    "message" : "사업자등록증 상태 조회 중 에러가 발생했습니다."
+  },
+  "2006" : {
+    "httpStatus" : 400,
+    "message" : "이미 등록된 사업자등록증입니다."
+  },
+  "2007" : {
+    "httpStatus" : 404,
+    "message" : "존재하지 않는 사업자등록증입니다."
+  },
+  "2008" : {
+    "httpStatus" : 400,
+    "message" : "OCR 요청은 3회까지만 가능합니다."
+  },
+  "2009" : {
+    "httpStatus" : 400,
+    "message" : "형식에 맞지 않는 사업자등록번호입니다."
+  }
+}</code></pre>
 </div>
 </div>
 </div>
@@ -479,7 +1309,7 @@ Host: www.api.birca.com</code></pre>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-01-18 22:13:45 +0900
+Last updated 2024-02-07 12:08:47 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
