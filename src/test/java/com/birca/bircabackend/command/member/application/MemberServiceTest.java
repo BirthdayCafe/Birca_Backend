@@ -2,6 +2,7 @@ package com.birca.bircabackend.command.member.application;
 
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.member.MemberFixtureRepository;
+import com.birca.bircabackend.command.member.domain.IdentityKey;
 import com.birca.bircabackend.command.member.domain.Member;
 import com.birca.bircabackend.command.member.dto.NicknameRegisterRequest;
 import com.birca.bircabackend.command.member.dto.RoleChangeRequest;
@@ -117,7 +118,7 @@ class MemberServiceTest extends ServiceTest {
     class JoinTest {
 
         private final String email = "ldk@naver.com";
-        private final Member joinMember = Member.join(email, "kakao");
+        private final Member joinMember = Member.join(email, IdentityKey.of("1234", "kakao"));
 
         @Test
         void 한다() {
@@ -133,7 +134,7 @@ class MemberServiceTest extends ServiceTest {
         void 이미_가입된_이메일로_하지_못한다() {
             // given
             memberService.join(joinMember);
-            Member newJoinMember = Member.join(email, "apple");
+            Member newJoinMember = Member.join(email, IdentityKey.of("2322", "apple"));
 
             // when then
             assertThatThrownBy(() -> memberService.join(newJoinMember))
