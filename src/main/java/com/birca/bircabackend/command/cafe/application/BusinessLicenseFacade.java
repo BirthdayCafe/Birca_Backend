@@ -13,13 +13,13 @@ import org.springframework.web.multipart.MultipartFile;
 public class BusinessLicenseFacade {
 
     private final BusinessLicenseProcessingService businessLicenseProcessingService;
-    private final OcrRequestHistoryService ocrRequestHistoryService;
+    private final OcrRequestCountProvider ocrRequestCountProvider;
 
     public BusinessLicenseResponse getBusinessLicenseInfoAndUploadCount(LoginMember loginMember,
                                                                         MultipartFile businessLicense) {
         BusinessLicenseInfoResponse businessLicenseInfo
                 = businessLicenseProcessingService.getBusinessLicenseInfo(businessLicense);
-        UploadCountResponse uploadCount = ocrRequestHistoryService.incrementUploadCount(loginMember.id());
+        UploadCountResponse uploadCount = ocrRequestCountProvider.getUploadCount(loginMember.id());
         return BusinessLicenseResponse.of(businessLicenseInfo, uploadCount);
     }
 }

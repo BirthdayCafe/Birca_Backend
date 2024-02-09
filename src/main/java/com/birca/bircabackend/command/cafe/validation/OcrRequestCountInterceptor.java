@@ -7,22 +7,21 @@ import com.birca.bircabackend.common.exception.InternalServerErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import java.util.Objects;
 import java.util.Optional;
 
-import static com.birca.bircabackend.command.cafe.exception.BusinessLicenseErrorCode.OVER_MAX_OCR_REQUEST_COUNT;
-
+@Slf4j
 @Component
 @RequiredArgsConstructor
-public class OcrRequestLimitInterceptor implements HandlerInterceptor {
+public class OcrRequestCountInterceptor implements HandlerInterceptor {
 
     private final OcrRequestHistoryRepository ocrRequestHistoryRepository;
-    private static final int MAX_UPLOAD_LIMIT = 5;
+    private final OcrRequestCountValidator ocrRequestCountValidator;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
@@ -30,26 +29,16 @@ public class OcrRequestLimitInterceptor implements HandlerInterceptor {
             return true;
         }
         if (handler instanceof HandlerMethod) {
-            return handleHandlerMethod(request, (HandlerMethod) handler);
+            return handleHandlerMethod(request);
         }
         return true;
     }
 
-    private boolean handleHandlerMethod(HttpServletRequest request, HandlerMethod handler) {
-        UploadCountCheck uploadCountCheck = handler.getMethodAnnotation(UploadCountCheck.class);
-        if (Objects.isNull(uploadCountCheck)) {
-            return true;
-        }
+    private boolean handleHandlerMethod(HttpServletRequest request) {
         TokenPayload payload = getPayload(request);
         ocrRequestHistoryRepository.findUploadCountByOwnerId(payload.id())
-                .ifPresent(this::validateUploadCount);
+                .ifPresent(ocrRequestCountValidator::validateUploadCount);
         return true;
-    }
-
-    private void validateUploadCount(Integer uploadCount) {
-        if (uploadCount >= MAX_UPLOAD_LIMIT) {
-            throw BusinessException.from(OVER_MAX_OCR_REQUEST_COUNT);
-        }
     }
 
     private TokenPayload getPayload(HttpServletRequest request) {

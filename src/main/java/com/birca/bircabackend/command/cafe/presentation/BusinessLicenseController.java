@@ -7,7 +7,6 @@ import com.birca.bircabackend.command.cafe.application.BusinessLicenseProcessing
 import com.birca.bircabackend.command.cafe.application.BusinessLicenseService;
 import com.birca.bircabackend.command.cafe.dto.BusinessLicenseCreateRequest;
 import com.birca.bircabackend.command.cafe.dto.BusinessLicenseResponse;
-import com.birca.bircabackend.command.cafe.validation.UploadCountCheck;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,9 +26,8 @@ public class BusinessLicenseController {
 
     @PostMapping("/v1/cafes/license-read")
     @RequiredLogin
-    @UploadCountCheck
     public ResponseEntity<BusinessLicenseResponse> readBusinessLicense(LoginMember loginMember,
-                                                                           @ModelAttribute MultipartFile businessLicense) {
+                                                                       @ModelAttribute MultipartFile businessLicense) {
         BusinessLicenseResponse response
                 = businessLicenseFacade.getBusinessLicenseInfoAndUploadCount(loginMember, businessLicense);
         return ResponseEntity.ok(response);

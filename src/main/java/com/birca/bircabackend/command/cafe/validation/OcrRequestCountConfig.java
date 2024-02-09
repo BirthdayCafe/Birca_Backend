@@ -1,6 +1,5 @@
-package com.birca.bircabackend.command.cafe;
+package com.birca.bircabackend.command.cafe.validation;
 
-import com.birca.bircabackend.command.cafe.validation.OcrRequestLimitInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -8,12 +7,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @RequiredArgsConstructor
-public class OcrRequestLimitConfig implements WebMvcConfigurer {
+public class OcrRequestCountConfig implements WebMvcConfigurer {
 
-    private final OcrRequestLimitInterceptor ocrRequestLimitInterceptor;
+    private final OcrRequestCountInterceptor ocrRequestCountInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(ocrRequestLimitInterceptor);
+        registry.addInterceptor(ocrRequestCountInterceptor)
+                .order(2)
+                .addPathPatterns("/api/v1/cafes/license-read", "/test-upload-count");
     }
 }
