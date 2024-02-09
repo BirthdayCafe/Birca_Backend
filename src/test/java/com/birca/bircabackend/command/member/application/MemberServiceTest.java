@@ -117,8 +117,9 @@ class MemberServiceTest extends ServiceTest {
     @DisplayName("회원 가입을")
     class JoinTest {
 
+        private final IdentityKey identityKey = IdentityKey.of("1234", "kakao");
         private final String email = "ldk@naver.com";
-        private final Member joinMember = Member.join(email, IdentityKey.of("1234", "kakao"));
+        private final Member joinMember = Member.join(email, identityKey);
 
         @Test
         void 한다() {
@@ -131,16 +132,16 @@ class MemberServiceTest extends ServiceTest {
         }
 
         @Test
-        void 이미_가입된_이메일로_하지_못한다() {
+        void 이미_가입된_소셜_계정으로는_하지_못_한다() {
             // given
             memberService.join(joinMember);
-            Member newJoinMember = Member.join(email, IdentityKey.of("2322", "apple"));
+            Member newJoinMember = Member.join("diffent@email", identityKey);
 
             // when then
             assertThatThrownBy(() -> memberService.join(newJoinMember))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
-                    .isEqualTo(MemberErrorCode.DUPLICATED_EMAIL);
+                    .isEqualTo(MemberErrorCode.DUPLICATED_IDENTITY_KEY);
         }
     }
 }
