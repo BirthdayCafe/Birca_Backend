@@ -21,6 +21,8 @@ public class OcrRequestHistory extends BaseEntity {
     @Column(nullable = false)
     private Integer uploadCount;
 
+    private static final int DEFAULT_UPLOAD_COUNT = 0;
+
     public Integer incrementUploadCount() {
         return ++uploadCount;
     }
@@ -32,7 +34,7 @@ public class OcrRequestHistory extends BaseEntity {
     }
 
     private void validateUploadCount(Integer uploadCount) {
-        if (uploadCount != 0) {
+        if (uploadCount != DEFAULT_UPLOAD_COUNT) {
             throw BusinessException.from(INVALID_UPLOAD_COUNT);
         }
     }
