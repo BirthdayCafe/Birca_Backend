@@ -2,6 +2,7 @@ package com.birca.bircabackend.command.member.application;
 
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.member.MemberFixtureRepository;
+import com.birca.bircabackend.command.member.domain.IdentityKey;
 import com.birca.bircabackend.command.member.domain.Member;
 import com.birca.bircabackend.command.member.dto.NicknameRegisterRequest;
 import com.birca.bircabackend.command.member.dto.RoleChangeRequest;
@@ -116,8 +117,9 @@ class MemberServiceTest extends ServiceTest {
     @DisplayName("회원 가입을")
     class JoinTest {
 
+        private final IdentityKey identityKey = IdentityKey.of("1234", "kakao");
         private final String email = "ldk@naver.com";
-        private final Member joinMember = Member.join(email, "kakao");
+        private final Member joinMember = Member.join(email, identityKey);
 
         @Test
         void 한다() {
@@ -130,16 +132,16 @@ class MemberServiceTest extends ServiceTest {
         }
 
         @Test
-        void 이미_가입된_이메일로_하지_못한다() {
+        void 이미_가입된_소셜_계정으로는_하지_못_한다() {
             // given
             memberService.join(joinMember);
-            Member newJoinMember = Member.join(email, "apple");
+            Member newJoinMember = Member.join("diffent@email", identityKey);
 
             // when then
             assertThatThrownBy(() -> memberService.join(newJoinMember))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
-                    .isEqualTo(MemberErrorCode.DUPLICATED_EMAIL);
+                    .isEqualTo(MemberErrorCode.DUPLICATED_IDENTITY_KEY);
         }
     }
 }

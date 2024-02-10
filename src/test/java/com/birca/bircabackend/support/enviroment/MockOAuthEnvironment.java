@@ -14,7 +14,7 @@ public class MockOAuthEnvironment {
     private static final OAuthProvider MOCK_PROVIDER = new OAuthProvider() {
         @Override
         public OAuthMember getOAuthMember(String accessToken) {
-            return new OAuthMember("ldk@naver.com", "kakao");
+            return new OAuthMember("23243", "ldk@naver.com", "kakao");
         }
 
         @Override

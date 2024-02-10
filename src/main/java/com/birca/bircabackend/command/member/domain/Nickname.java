@@ -24,7 +24,7 @@ public class Nickname {
     }
 
     private void validateInvalidNickname(String value) {
-        if (value.length() > MAX_LENGTH || value.isBlank()) {
+        if (value == null || value.length() > MAX_LENGTH || value.isBlank()) {
             throw BusinessException.from(MemberErrorCode.INVALID_NICKNAME);
         }
     }

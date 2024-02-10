@@ -5,6 +5,7 @@ import com.birca.bircabackend.command.auth.application.token.JwtTokenProvider;
 import com.birca.bircabackend.command.auth.application.token.TokenPayload;
 import com.birca.bircabackend.command.auth.dto.LoginResponse;
 import com.birca.bircabackend.command.member.application.MemberService;
+import com.birca.bircabackend.command.member.domain.IdentityKey;
 import com.birca.bircabackend.command.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,13 +24,15 @@ public class AuthService {
     private final MemberService memberService;
 
     public LoginResponse login(OAuthMember oAuthMember) {
-        return memberAuthRepository.findByEmailAndRegistrationId(oAuthMember.email(), oAuthMember.registrationId())
+        IdentityKey identityKey = IdentityKey.of(oAuthMember.id(), oAuthMember.provider());
+        String email = oAuthMember.email();
+        return memberAuthRepository.findByIdentityKey(identityKey)
                 .map(member -> mapToResponse(member, EXIST_MEMBER))
-                .orElseGet(() -> mapToResponse(join(oAuthMember), NEW_MEMBER));
+                .orElseGet(() -> mapToResponse(join(email, identityKey), NEW_MEMBER));
     }
 
-    private Member join(OAuthMember oAuthMember) {
-        Member member = oAuthMember.toMember();
+    private Member join(String email, IdentityKey identityKey) {
+        Member member = Member.join(email, identityKey);
         memberService.join(member);
         return member;
     }
