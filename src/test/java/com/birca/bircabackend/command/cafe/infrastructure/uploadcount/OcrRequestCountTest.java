@@ -1,6 +1,5 @@
-package com.birca.bircabackend.command.cafe.validation;
+package com.birca.bircabackend.command.cafe.infrastructure.uploadcount;
 
-import com.birca.bircabackend.command.cafe.domain.OcrRequestHistory;
 import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.support.enviroment.DocumentationTest;
 import org.apache.http.HttpHeaders;
@@ -11,7 +10,6 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.Optional;
 
-import static com.birca.bircabackend.command.cafe.exception.BusinessLicenseErrorCode.NOT_REGISTERED_BUSINESS_LICENSE_NUMBER;
 import static com.birca.bircabackend.command.cafe.exception.BusinessLicenseErrorCode.OVER_MAX_OCR_REQUEST_COUNT;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doThrow;
@@ -48,7 +46,7 @@ public class OcrRequestCountTest extends DocumentationTest {
                     .willReturn(Optional.of(5));
             doThrow(BusinessException.from(OVER_MAX_OCR_REQUEST_COUNT))
                     .when(ocrRequestCountValidator)
-                    .validateUploadCount(5);
+                    .validateUploadCount(ownerId);
 
             // when
             ResultActions result = mockMvc.perform(post("/test-upload-count")

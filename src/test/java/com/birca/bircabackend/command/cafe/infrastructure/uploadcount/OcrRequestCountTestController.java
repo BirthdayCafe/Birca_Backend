@@ -1,4 +1,4 @@
-package com.birca.bircabackend.command.cafe.validation;
+package com.birca.bircabackend.command.cafe.infrastructure.uploadcount;
 
 import com.birca.bircabackend.command.auth.authorization.RequiredLogin;
 import org.springframework.http.ResponseEntity;
