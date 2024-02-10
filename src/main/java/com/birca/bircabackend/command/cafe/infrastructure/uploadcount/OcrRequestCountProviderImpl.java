@@ -1,22 +1,17 @@
-package com.birca.bircabackend.command.cafe.validation;
+package com.birca.bircabackend.command.cafe.infrastructure.uploadcount;
 
 import com.birca.bircabackend.command.cafe.application.OcrRequestCountProvider;
 import com.birca.bircabackend.command.cafe.domain.OcrRequestHistory;
 import com.birca.bircabackend.command.cafe.domain.OcrRequestHistoryRepository;
 import com.birca.bircabackend.command.cafe.dto.UploadCountResponse;
-import com.birca.bircabackend.common.exception.BusinessException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import static com.birca.bircabackend.command.cafe.exception.BusinessLicenseErrorCode.OVER_MAX_OCR_REQUEST_COUNT;
-
 @Component
 @Transactional
 @RequiredArgsConstructor
-public class OcrRequestCountValidator implements OcrRequestCountProvider {
-
-    private static final int MAX_UPLOAD_LIMIT = 5;
+public class OcrRequestCountProviderImpl implements OcrRequestCountProvider {
 
     private final OcrRequestHistoryRepository ocrRequestHistoryRepository;
 
@@ -30,11 +25,5 @@ public class OcrRequestCountValidator implements OcrRequestCountProvider {
                 });
         Integer uploadCount = ocrRequestHistory.incrementUploadCount();
         return new UploadCountResponse(uploadCount);
-    }
-
-    public void validateUploadCount(Integer uploadCount) {
-        if (uploadCount >= MAX_UPLOAD_LIMIT) {
-            throw BusinessException.from(OVER_MAX_OCR_REQUEST_COUNT);
-        }
     }
 }

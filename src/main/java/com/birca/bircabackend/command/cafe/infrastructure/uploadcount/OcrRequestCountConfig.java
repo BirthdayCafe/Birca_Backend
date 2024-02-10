@@ -1,4 +1,4 @@
-package com.birca.bircabackend.command.cafe.validation;
+package com.birca.bircabackend.command.cafe.infrastructure.uploadcount;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
