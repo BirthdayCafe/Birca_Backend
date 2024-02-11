@@ -3,7 +3,7 @@ package com.birca.bircabackend.command.auth.infrastructure.apple;
 import com.birca.bircabackend.command.auth.application.oauth.OAuthMember;
 import com.birca.bircabackend.command.auth.application.oauth.OAuthProvider;
 import com.birca.bircabackend.common.ApiResponseExtractor;
-import com.birca.bircabackend.common.JwtParser;
+import com.birca.bircabackend.command.auth.application.token.JwtParser;
 import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.common.exception.InternalServerErrorCode;
 import io.jsonwebtoken.Claims;

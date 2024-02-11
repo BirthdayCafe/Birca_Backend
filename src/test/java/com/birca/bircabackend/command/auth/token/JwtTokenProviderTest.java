@@ -1,7 +1,9 @@
 package com.birca.bircabackend.command.auth.token;
 
+import com.birca.bircabackend.command.auth.application.token.JwtParser;
 import com.birca.bircabackend.command.auth.application.token.JwtTokenProvider;
 import com.birca.bircabackend.command.auth.application.token.TokenPayload;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -12,8 +14,8 @@ class JwtTokenProviderTest {
 
     private final JwtTokenProvider tokenProvider = new JwtTokenProvider(
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ6.eyJzdWIiOiIiLCJuYW1lIjoiSm3obiBEb2UiLCJpYXQiOjE1MTYyMzkwMjJ9.ih1aovtQShabQ7l0cINw4k1fagApg3qLWiB8Kt23Lno",
-            1800000
-    );
+            1800000,
+            new JwtParser(new ObjectMapper()));
 
     private final TokenPayload payload = new TokenPayload(1L);
 
