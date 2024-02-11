@@ -8,5 +8,5 @@ public interface MemberRepository extends Repository<Member, Long> {
 
     void save(Member member);
 
-    boolean existsByEmail(String email);
+    boolean existsByIdentityKey(IdentityKey identityKey);
 }

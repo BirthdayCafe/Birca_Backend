@@ -21,6 +21,7 @@ public class KakaoOAuthProvider implements OAuthProvider {
     public OAuthMember getOAuthMember(String accessToken) {
         KakaoUserResponse response = callKakaoApi(accessToken);
         return new OAuthMember(
+                response.id(),
                 response.kakao_account().email(),
                 PROVIDER_NAME
         );

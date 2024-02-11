@@ -38,10 +38,10 @@ class MemberTest {
         void 방문자로_생성된다() {
             // given
             String email = "ldk@gmail.com";
-            String registrationId = "kakao";
+            IdentityKey identityKey = IdentityKey.of("2342", "kakao");
 
             // when
-            Member actual = Member.join(email, registrationId);
+            Member actual = Member.join(email, identityKey);
 
             // then
             assertThat(actual.getRole()).isEqualTo(MemberRole.VISITANT);

@@ -1,10 +1,7 @@
 package com.birca.bircabackend.command.member.application;
 
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
-import com.birca.bircabackend.command.member.domain.Member;
-import com.birca.bircabackend.command.member.domain.MemberRepository;
-import com.birca.bircabackend.command.member.domain.MemberRole;
-import com.birca.bircabackend.command.member.domain.Nickname;
+import com.birca.bircabackend.command.member.domain.*;
 import com.birca.bircabackend.command.member.dto.NicknameRegisterRequest;
 import com.birca.bircabackend.command.member.dto.RoleChangeRequest;
 import com.birca.bircabackend.command.member.exception.MemberErrorCode;
@@ -26,13 +23,13 @@ public class MemberService {
     private final EntityUtil entityUtil;
 
     public void join(Member member) {
-        validateDuplicatedEmail(member);
+        validateDuplicatedIdentityKey(member.getIdentityKey());
         memberRepository.save(member);
     }
 
-    private void validateDuplicatedEmail(Member member) {
-        if (memberRepository.existsByEmail(member.getEmail())) {
-            throw BusinessException.from(MemberErrorCode.DUPLICATED_EMAIL);
+    private void validateDuplicatedIdentityKey(IdentityKey identityKey) {
+        if (memberRepository.existsByIdentityKey(identityKey)) {
+            throw BusinessException.from(MemberErrorCode.DUPLICATED_IDENTITY_KEY);
         }
     }
 
