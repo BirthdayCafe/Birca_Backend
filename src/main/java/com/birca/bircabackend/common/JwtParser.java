@@ -17,7 +17,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class JwtParser {
 
     private static final Base64.Decoder BASE64_DECODER = Base64.getDecoder();
-    private static final String TOKEN_HEADER_DELIMITER = "\\.";
+    private static final String TOKEN_HEADER_DELIMITER = ".";
     private static final int HEADER_INDEX = 0;
 
     private final ObjectMapper objectMapper;
