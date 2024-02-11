@@ -26,7 +26,8 @@ public class AppleOAuthProvider implements OAuthProvider {
     @Override
     public OAuthMember getOAuthMember(String accessToken) {
         AppleKeyResponse keyResponse = ApiResponseExtractor.getBody(appleAuthApi.getKey());
-        Claims claims = getAppleClaims(accessToken, ApplePubKeys.from(keyResponse.keys()));
+        ApplePubKeys applePubKeys = ApplePubKeys.from(keyResponse.keys());
+        Claims claims = getAppleClaims(accessToken, applePubKeys);
         validateClaims(claims);
         return new OAuthMember(
                 claims.getSubject(),
@@ -37,9 +38,9 @@ public class AppleOAuthProvider implements OAuthProvider {
 
     private Claims getAppleClaims(String accessToken, ApplePubKeys keys) {
         Map<String, String> header = jwtParser.parseHeader(accessToken);
-        ApplePubKey key = keys.findKeyOf(header.get("kid"), header.get("alg"));
-        PublicKey publicKey = key.genaratePublicKey();
-        return jwtParser.parseClaims(accessToken, publicKey).getBody();
+        PublicKey publicKey = keys.findPublicKeyOf(header.get("kid"), header.get("alg"));
+        return jwtParser.parseClaims(accessToken, publicKey)
+                .getBody();
     }
 
     private void validateClaims(Claims claims) {
