@@ -4,5 +4,5 @@ import com.birca.bircabackend.command.cafe.dto.UploadCountResponse;
 
 public interface OcrRequestCountProvider {
 
-    UploadCountResponse getUploadCount(Long ownerId);
+    UploadCountResponse increaseUploadCount(Long ownerId);
 }

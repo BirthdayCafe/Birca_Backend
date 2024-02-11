@@ -33,7 +33,7 @@ class OcrRequestCountProviderTest extends ServiceTest {
                 .thenReturn(Optional.of(ocrRequestHistory));
 
         // when
-        UploadCountResponse uploadCountResponse = ocrRequestCountProvider.getUploadCount(ownerId);
+        UploadCountResponse uploadCountResponse = ocrRequestCountProvider.increaseUploadCount(ownerId);
 
         // then
         assertThat(uploadCountResponse.uploadCount()).isEqualTo(2);
@@ -47,7 +47,7 @@ class OcrRequestCountProviderTest extends ServiceTest {
                 .thenReturn(Optional.empty());
 
         // when
-        UploadCountResponse uploadCountResponse = ocrRequestCountProvider.getUploadCount(ownerId);
+        UploadCountResponse uploadCountResponse = ocrRequestCountProvider.increaseUploadCount(ownerId);
 
         // then
         assertThat(uploadCountResponse.uploadCount()).isEqualTo(1);

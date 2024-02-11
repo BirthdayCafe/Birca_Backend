@@ -16,7 +16,7 @@ public class OcrRequestCountProviderImpl implements OcrRequestCountProvider {
     private final OcrRequestHistoryRepository ocrRequestHistoryRepository;
 
     @Override
-    public UploadCountResponse getUploadCount(Long ownerId) {
+    public UploadCountResponse increaseUploadCount(Long ownerId) {
         OcrRequestHistory ocrRequestHistory = ocrRequestHistoryRepository.findByOwnerId(ownerId)
                 .orElseGet(() -> {
                     OcrRequestHistory newOcrRequestHistory = new OcrRequestHistory(ownerId, 0);

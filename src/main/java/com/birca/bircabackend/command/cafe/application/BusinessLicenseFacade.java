@@ -19,7 +19,7 @@ public class BusinessLicenseFacade {
                                                                         MultipartFile businessLicense) {
         BusinessLicenseInfoResponse businessLicenseInfo
                 = businessLicenseProcessingService.getBusinessLicenseInfo(businessLicense);
-        UploadCountResponse uploadCount = ocrRequestCountProvider.getUploadCount(loginMember.id());
+        UploadCountResponse uploadCount = ocrRequestCountProvider.increaseUploadCount(loginMember.id());
         return BusinessLicenseResponse.of(businessLicenseInfo, uploadCount);
     }
 }
