@@ -2,12 +2,11 @@ package com.birca.bircabackend.command.auth.infrastructure.apple;
 
 import com.birca.bircabackend.command.auth.application.oauth.OAuthMember;
 import com.birca.bircabackend.command.auth.application.oauth.OAuthProvider;
-import com.birca.bircabackend.common.ApiResponseExtractor;
 import com.birca.bircabackend.command.auth.application.token.JwtParser;
+import com.birca.bircabackend.common.ApiResponseExtractor;
 import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.common.exception.InternalServerErrorCode;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -20,7 +19,6 @@ import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.RSAPublicKeySpec;
 import java.util.Base64;
-import java.util.List;
 import java.util.Map;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -47,25 +45,19 @@ public class AppleOAuthProvider implements OAuthProvider {
     @Override
     public OAuthMember getOAuthMember(String accessToken) {
         AppleKeyResponse keyResponse = ApiResponseExtractor.getBody(appleAuthApi.getKey());
-        ApplePubKey key = findPubKey(accessToken, keyResponse.keys());
+        ApplePubKeys keys = ApplePubKeys.from(keyResponse.keys());
+
+        Map<String, String> header = jwtParser.parseHeader(accessToken);
+        ApplePubKey key = keys.findKeyOf(header.get(KID), header.get(ALG));
+
         PublicKey publicKey = genaratePublicKey(key);
-        Claims claims = getClaims(accessToken, publicKey);
+        Claims claims = jwtParser.parseClaims(accessToken, publicKey).getBody();
         validateClaims(claims);
         return new OAuthMember(
                 claims.getSubject(),
                 (String) claims.get("email"),
                 PROVIDER_NAME
         );
-    }
-
-    private ApplePubKey findPubKey(String accessToken, List<ApplePubKey> keys) {
-        Map<String, String> header = jwtParser.parseHeader(accessToken);
-        String kid = header.get(KID);
-        String alg = header.get(ALG);
-        return keys.stream()
-                .filter(key -> key.kid().equals(kid) && key.alg().equals(alg))
-                .findFirst()
-                .orElseThrow(() -> BusinessException.from(new InternalServerErrorCode("apple login에 필요한 key를 찾지 못했습니다.")));
     }
 
     private PublicKey genaratePublicKey(ApplePubKey key) {
@@ -77,14 +69,6 @@ public class AppleOAuthProvider implements OAuthProvider {
         } catch (InvalidKeySpecException | NoSuchAlgorithmException exception) {
             throw BusinessException.from(new InternalServerErrorCode(exception.getMessage()));
         }
-    }
-
-    private Claims getClaims(String accessToken, PublicKey publicKey) {
-        return Jwts.parserBuilder()
-                .setSigningKey(publicKey)
-                .build()
-                .parseClaimsJws(accessToken)
-                .getBody();
     }
 
     private void validateClaims(Claims claims) {
