@@ -3,10 +3,9 @@ package com.birca.bircabackend.command.auth.infrastructure.apple;
 import com.birca.bircabackend.command.auth.application.oauth.OAuthMember;
 import com.birca.bircabackend.command.auth.application.oauth.OAuthProvider;
 import com.birca.bircabackend.common.ApiResponseExtractor;
+import com.birca.bircabackend.common.JwtParser;
 import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.common.exception.InternalServerErrorCode;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
@@ -35,9 +34,6 @@ public class AppleOAuthProvider implements OAuthProvider {
     private static final String ALG = "alg";
     private static final int POSITIVE_SIGNUM = 1;
     private static final Base64.Decoder BASE64_URL_DECODER = Base64.getUrlDecoder();
-    private static final Base64.Decoder BASE64_DECODER = Base64.getDecoder();
-    private static final String TOKEN_HEADER_DELIMITER = "\\.";
-    private static final int HEADER_INDEX = 0;
     private static final String ISS = "https://appleid.apple.com/auth";
 
     @Value("${oauth.apple.client-id:defaultId}")
@@ -46,7 +42,7 @@ public class AppleOAuthProvider implements OAuthProvider {
     private String nonce;
 
     private final AppleAuthApi appleAuthApi;
-    private final ObjectMapper objectMapper;
+    private final JwtParser jwtParser;
 
     @Override
     public OAuthMember getOAuthMember(String accessToken) {
@@ -63,23 +59,13 @@ public class AppleOAuthProvider implements OAuthProvider {
     }
 
     private ApplePubKey findPubKey(String accessToken, List<ApplePubKey> keys) {
-        Map<String, String> header = extractHeader(accessToken);
+        Map<String, String> header = jwtParser.parseHeader(accessToken);
         String kid = header.get(KID);
         String alg = header.get(ALG);
         return keys.stream()
                 .filter(key -> key.kid().equals(kid) && key.alg().equals(alg))
                 .findFirst()
                 .orElseThrow(() -> BusinessException.from(new InternalServerErrorCode("apple login에 필요한 key를 찾지 못했습니다.")));
-    }
-
-    private Map<String, String> extractHeader(String accessToken) {
-        String headerOfToken = accessToken.substring(HEADER_INDEX, accessToken.indexOf(TOKEN_HEADER_DELIMITER));
-        byte[] decodedHeaderOfToken = BASE64_DECODER.decode(headerOfToken);
-        try {
-            return objectMapper.readValue(new String(decodedHeaderOfToken, UTF_8), Map.class);
-        } catch (JsonProcessingException e) {
-            throw BusinessException.from(new InternalServerErrorCode(e.getMessage()));
-        }
     }
 
     private PublicKey genaratePublicKey(ApplePubKey key) {
