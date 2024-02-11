@@ -27,15 +27,8 @@ public class OcrRequestHistory extends BaseEntity {
         return ++uploadCount;
     }
 
-    public OcrRequestHistory(Long ownerId, Integer uploadCount) {
-        validateUploadCount(uploadCount);
+    public OcrRequestHistory(Long ownerId) {
         this.ownerId = ownerId;
-        this.uploadCount = uploadCount;
-    }
-
-    private void validateUploadCount(Integer uploadCount) {
-        if (uploadCount != DEFAULT_UPLOAD_COUNT) {
-            throw BusinessException.from(INVALID_UPLOAD_COUNT);
-        }
+        this.uploadCount = DEFAULT_UPLOAD_COUNT;
     }
 }

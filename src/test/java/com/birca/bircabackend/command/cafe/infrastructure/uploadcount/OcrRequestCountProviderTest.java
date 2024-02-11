@@ -26,7 +26,7 @@ class OcrRequestCountProviderTest extends ServiceTest {
     void 사업자등록증_업로드_횟수를_증가시킨다() {
         // given
         Long ownerId = 1L;
-        OcrRequestHistory ocrRequestHistory = new OcrRequestHistory(ownerId, 0);
+        OcrRequestHistory ocrRequestHistory = new OcrRequestHistory(ownerId);
         ocrRequestHistory.incrementUploadCount();
 
         when(ocrRequestHistoryRepository.findByOwnerId(ownerId))
