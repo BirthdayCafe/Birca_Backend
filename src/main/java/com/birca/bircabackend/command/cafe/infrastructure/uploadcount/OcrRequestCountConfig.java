@@ -15,6 +15,6 @@ public class OcrRequestCountConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(ocrRequestCountInterceptor)
                 .order(2)
-                .addPathPatterns("/api/v1/cafes/license-read", "/test-upload-count");
+                .addPathPatterns("/api/v1/cafes/license-read");
     }
 }
