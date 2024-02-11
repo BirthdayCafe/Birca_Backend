@@ -135,4 +135,4 @@ CREATE TABLE ocr_request_history
 );
 
 ALTER TABLE ocr_request_history
-    ADD CONSTRAINT FK_OCRREQUESTHISTORY_ON_OWNER FOREIGN KEY (owner_id) REFERENCES ocr_request_history (id);
+    ADD CONSTRAINT FK_OCRREQUESTHISTORY_ON_OWNER FOREIGN KEY (owner_id) REFERENCES member (id);
