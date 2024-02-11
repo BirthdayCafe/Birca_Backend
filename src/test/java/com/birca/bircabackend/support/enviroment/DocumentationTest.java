@@ -93,9 +93,6 @@ public class DocumentationTest {
     @MockBean
     protected OcrRequestCountValidator ocrRequestCountValidator;
 
-    @MockBean
-    protected OcrRequestHistoryRepository ocrRequestHistoryRepository;
-
     protected List<FieldDescriptor> getErrorDescriptor(ErrorCode[] errorCodes) {
         return Arrays.stream(errorCodes)
                 .flatMap(errorCode -> Stream.of(
