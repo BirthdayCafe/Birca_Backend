@@ -11,14 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.math.BigInteger;
-import java.security.KeyFactory;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.RSAPublicKeySpec;
-import java.util.Base64;
 import java.util.Map;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -30,8 +25,6 @@ public class AppleOAuthProvider implements OAuthProvider {
     private static final String PROVIDER_NAME = "apple";
     private static final String KID = "kid";
     private static final String ALG = "alg";
-    private static final int POSITIVE_SIGNUM = 1;
-    private static final Base64.Decoder BASE64_URL_DECODER = Base64.getUrlDecoder();
     private static final String ISS = "https://appleid.apple.com/auth";
 
     @Value("${oauth.apple.client-id:defaultId}")
@@ -44,13 +37,13 @@ public class AppleOAuthProvider implements OAuthProvider {
 
     @Override
     public OAuthMember getOAuthMember(String accessToken) {
+        Map<String, String> header = jwtParser.parseHeader(accessToken);
+
         AppleKeyResponse keyResponse = ApiResponseExtractor.getBody(appleAuthApi.getKey());
         ApplePubKeys keys = ApplePubKeys.from(keyResponse.keys());
-
-        Map<String, String> header = jwtParser.parseHeader(accessToken);
         ApplePubKey key = keys.findKeyOf(header.get(KID), header.get(ALG));
 
-        PublicKey publicKey = genaratePublicKey(key);
+        PublicKey publicKey = key.genaratePublicKey();
         Claims claims = jwtParser.parseClaims(accessToken, publicKey).getBody();
         validateClaims(claims);
         return new OAuthMember(
@@ -58,17 +51,6 @@ public class AppleOAuthProvider implements OAuthProvider {
                 (String) claims.get("email"),
                 PROVIDER_NAME
         );
-    }
-
-    private PublicKey genaratePublicKey(ApplePubKey key) {
-        BigInteger n = new BigInteger(POSITIVE_SIGNUM, BASE64_URL_DECODER.decode(key.n()));
-        BigInteger e = new BigInteger(POSITIVE_SIGNUM, BASE64_URL_DECODER.decode(key.e()));
-        try {
-            KeyFactory keyFactory = KeyFactory.getInstance(key.kty());
-            return keyFactory.generatePublic(new RSAPublicKeySpec(n, e));
-        } catch (InvalidKeySpecException | NoSuchAlgorithmException exception) {
-            throw BusinessException.from(new InternalServerErrorCode(exception.getMessage()));
-        }
     }
 
     private void validateClaims(Claims claims) {
