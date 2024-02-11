@@ -1,6 +1,6 @@
 package com.birca.bircabackend.command.cafe.application;
 
-import com.birca.bircabackend.command.cafe.dto.BusinessLicenseResponse;
+import com.birca.bircabackend.command.cafe.dto.BusinessLicenseInfoResponse;
 import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.support.enviroment.ServiceTest;
 import org.junit.jupiter.api.DisplayName;
@@ -37,7 +37,7 @@ class BusinessLicenseProcessingServiceTest extends ServiceTest {
             MockMultipartFile businessLicense = new MockMultipartFile(
                     "businessLicense", "test.pdf", "application/pdf", "Business License Content".getBytes());
 
-            BusinessLicenseResponse expectedResponse = new BusinessLicenseResponse(
+            BusinessLicenseInfoResponse expectedResponse = new BusinessLicenseInfoResponse(
                     "서울 마포구 와우산로29길 26-33 1층 커피 벌스데이",
                     "123-45-67890",
                     "최민혁",
@@ -47,7 +47,7 @@ class BusinessLicenseProcessingServiceTest extends ServiceTest {
             when(ocrProvider.getBusinessLicenseInfo(businessLicense)).thenReturn(expectedResponse);
 
             // when
-            BusinessLicenseResponse actualResponse = businessLicenseProcessingService.getBusinessLicenseInfo(businessLicense);
+            BusinessLicenseInfoResponse actualResponse = businessLicenseProcessingService.getBusinessLicenseInfo(businessLicense);
 
             // then
             verify(ocrProvider).getBusinessLicenseInfo(businessLicense);

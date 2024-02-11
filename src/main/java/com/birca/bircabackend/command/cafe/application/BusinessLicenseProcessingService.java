@@ -1,6 +1,6 @@
 package com.birca.bircabackend.command.cafe.application;
 
-import com.birca.bircabackend.command.cafe.dto.BusinessLicenseResponse;
+import com.birca.bircabackend.command.cafe.dto.BusinessLicenseInfoResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,7 +12,7 @@ public class BusinessLicenseProcessingService {
     private final OcrProvider ocrProvider;
     private final BusinessLicenseStatusVerifier businessLicenseStatusVerifier;
 
-    public BusinessLicenseResponse getBusinessLicenseInfo(MultipartFile businessLicense) {
+    public BusinessLicenseInfoResponse getBusinessLicenseInfo(MultipartFile businessLicense) {
         return ocrProvider.getBusinessLicenseInfo(businessLicense);
     }
 

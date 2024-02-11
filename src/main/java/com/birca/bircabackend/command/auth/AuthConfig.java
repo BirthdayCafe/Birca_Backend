@@ -24,6 +24,7 @@ public class AuthConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(requiredLoginInterceptor);
+        registry.addInterceptor(requiredLoginInterceptor)
+                .order(1);
     }
 }

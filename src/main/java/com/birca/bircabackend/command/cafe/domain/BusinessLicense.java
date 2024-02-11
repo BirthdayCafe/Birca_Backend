@@ -27,6 +27,7 @@ public class BusinessLicense extends BaseEntity {
     @Embedded
     private BusinessLicenseCode code;
 
+    @Column(nullable = false)
     private String address;
 
     @Column(nullable = false)
