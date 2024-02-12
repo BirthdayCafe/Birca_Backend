@@ -1,6 +1,7 @@
 package com.birca.bircabackend.query.service;
 
 import com.birca.bircabackend.query.dto.ArtistResponse;
+import com.birca.bircabackend.query.dto.PagingParams;
 import com.birca.bircabackend.query.repository.ArtistQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,13 @@ public class ArtistQueryService {
 
     public List<ArtistResponse> findArtistByGroup(Long groupId) {
         return artistQueryRepository.findByGroupId(groupId)
+                .stream()
+                .map(ArtistResponse::new)
+                .toList();
+    }
+
+    public List<ArtistResponse> findSoloArtists(PagingParams pagingParams) {
+        return artistQueryRepository.queryPagedSoloArtistsSortByName(pagingParams)
                 .stream()
                 .map(ArtistResponse::new)
                 .toList();
