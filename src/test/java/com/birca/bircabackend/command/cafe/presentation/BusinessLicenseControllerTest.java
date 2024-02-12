@@ -1,5 +1,7 @@
 package com.birca.bircabackend.command.cafe.presentation;
 
+import com.birca.bircabackend.command.auth.authorization.LoginMember;
+import com.birca.bircabackend.command.cafe.dto.BusinessLicenseInfoResponse;
 import com.birca.bircabackend.command.cafe.dto.BusinessLicenseResponse;
 import com.birca.bircabackend.command.cafe.exception.BusinessLicenseErrorCode;
 import com.birca.bircabackend.support.enviroment.DocumentationTest;
@@ -35,10 +37,11 @@ class BusinessLicenseControllerTest extends DocumentationTest {
                 "Cafe Name",
                 "123-45-67890",
                 "Owner",
-                "Address"
+                "Address",
+                1
         );
 
-        when(businessLicenseProcessingService.getBusinessLicenseInfo(businessLicenseFile))
+        when(businessLicenseFacade.getBusinessLicenseInfoAndUploadCount(new LoginMember(1L), businessLicenseFile))
                 .thenReturn(mockResponse);
 
         // when
@@ -60,7 +63,8 @@ class BusinessLicenseControllerTest extends DocumentationTest {
                                 fieldWithPath("cafeName").type(JsonFieldType.STRING).description("카페 이름"),
                                 fieldWithPath("businessLicenseNumber").type(JsonFieldType.STRING).description("사업자등록증번호"),
                                 fieldWithPath("owner").type(JsonFieldType.STRING).description("카페 사장"),
-                                fieldWithPath("address").type(JsonFieldType.STRING).description("카페 주소")
+                                fieldWithPath("address").type(JsonFieldType.STRING).description("카페 주소"),
+                                fieldWithPath("uploadCount").type(JsonFieldType.NUMBER).description("사업자등록증 업로드 횟수")
                         )
                 ));
     }

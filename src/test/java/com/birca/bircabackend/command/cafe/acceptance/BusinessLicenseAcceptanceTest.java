@@ -1,5 +1,6 @@
 package com.birca.bircabackend.command.cafe.acceptance;
 
+import com.birca.bircabackend.command.cafe.application.BusinessLicenseFacade;
 import com.birca.bircabackend.command.cafe.application.BusinessLicenseProcessingService;
 import com.birca.bircabackend.command.cafe.application.BusinessLicenseService;
 import com.birca.bircabackend.command.cafe.presentation.BusinessLicenseController;
@@ -30,6 +31,9 @@ public class BusinessLicenseAcceptanceTest extends AcceptanceTest {
 
     @MockBean
     private BusinessLicenseService businessLicenseService;
+
+    @MockBean
+    private BusinessLicenseFacade businessLicenseFacade;
 
     private static final Long MEMBER_ID = 1L;
 
