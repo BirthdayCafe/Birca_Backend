@@ -7,7 +7,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
-import lombok.RequiredArgsConstructor;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -17,27 +18,27 @@ import java.util.Map;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Component
-@RequiredArgsConstructor
-public class JwtParser {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class JwtParseUtil {
 
     private static final Base64.Decoder BASE64_DECODER = Base64.getDecoder();
     private static final String TOKEN_HEADER_DELIMITER = ".";
     private static final int HEADER_INDEX = 0;
 
-    private final ObjectMapper objectMapper;
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-    public Jws<Claims> parseClaims(String token, Key key) {
+    public static Jws<Claims> parseClaims(String token, Key key) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token);
     }
 
-    public Map<String, String> parseHeader(String token) {
+    public static Map<String, String> parseHeader(String token) {
         String headerOfToken = token.substring(HEADER_INDEX, token.indexOf(TOKEN_HEADER_DELIMITER));
         byte[] decodedHeaderOfToken = BASE64_DECODER.decode(headerOfToken);
         try {
-            return objectMapper.readValue(new String(decodedHeaderOfToken, UTF_8), Map.class);
+            return OBJECT_MAPPER.readValue(new String(decodedHeaderOfToken, UTF_8), Map.class);
         } catch (JsonProcessingException e) {
             throw BusinessException.from(new InternalServerErrorCode(e.getMessage()));
         }

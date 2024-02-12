@@ -19,14 +19,11 @@ public class JwtTokenProvider {
 
     private final SecretKey key;
     private final long validityInMilliseconds;
-    private final JwtParser jwtParser;
 
     public JwtTokenProvider(@Value(SECRET_KEY) final String secretKey,
-                            @Value(EXPIRE_LENGTH) final long validityInMilliseconds,
-                            JwtParser jwtParser) {
+                            @Value(EXPIRE_LENGTH) final long validityInMilliseconds) {
         this.key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
         this.validityInMilliseconds = validityInMilliseconds;
-        this.jwtParser = jwtParser;
     }
 
     public String createToken(TokenPayload payload) {
@@ -41,14 +38,14 @@ public class JwtTokenProvider {
     }
 
     public TokenPayload getPayload(String token) {
-        Claims claims = jwtParser.parseClaims(token, key).getBody();
+        Claims claims = JwtParseUtil.parseClaims(token, key).getBody();
         Long id = claims.get("id", Long.class);
         return new TokenPayload(id);
     }
 
     public boolean isValidAccessToken(String accessToken) {
         try {
-            return !jwtParser.parseClaims(accessToken, key)
+            return !JwtParseUtil.parseClaims(accessToken, key)
                     .getBody()
                     .getExpiration()
                     .before(new Date());

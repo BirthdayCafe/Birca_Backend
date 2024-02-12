@@ -17,12 +17,12 @@ public class AppleOAuthProvider implements OAuthProvider {
 
     private final AppleAuthApi appleAuthApi;
     private final AppleClaimValidator appleClaimValidator;
-    private final AppleClaimsParser appleClaimsParser;
 
     @Override
     public OAuthMember getOAuthMember(String accessToken) {
+        AppleIdentityToken identityToken = new AppleIdentityToken(accessToken);
         AppleKeyResponse keyResponse = ApiResponseExtractor.getBody(appleAuthApi.getKey());
-        Claims claims = appleClaimsParser.parseClaims(accessToken, keyResponse.keys());
+        Claims claims = identityToken.getClaims(keyResponse.keys());
         validateClaims(claims);
         return new OAuthMember(
                 claims.getSubject(),

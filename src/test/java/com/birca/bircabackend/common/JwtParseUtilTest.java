@@ -1,7 +1,6 @@
 package com.birca.bircabackend.common;
 
-import com.birca.bircabackend.command.auth.application.token.JwtParser;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.birca.bircabackend.command.auth.application.token.JwtParseUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -9,17 +8,17 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.security.*;
+import java.security.Key;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class JwtParserTest {
+class JwtParseUtilTest {
 
     private static final String CLAIM_KEY = "claimKey";
     private static final String CLAIM_BODY = "body";
-
-    private final JwtParser jwtParser = new JwtParser(new ObjectMapper());
 
     private String token;
     private Key privateKey;
@@ -39,7 +38,7 @@ class JwtParserTest {
     @Test
     void 토큰_헤더를_파싱한다() {
         // when
-        Map<String, String> actual = jwtParser.parseHeader(token);
+        Map<String, String> actual = JwtParseUtil.parseHeader(token);
 
         // then
         assertThat(actual).containsOnlyKeys("alg", "kid");
@@ -48,7 +47,7 @@ class JwtParserTest {
     @Test
     void 토큰_클레임을_파싱한다() {
         // when
-        Jws<Claims> claims = jwtParser.parseClaims(token, privateKey);
+        Jws<Claims> claims = JwtParseUtil.parseClaims(token, privateKey);
 
         // then
         assertThat(claims.getBody().get(CLAIM_KEY)).isEqualTo(CLAIM_BODY);
