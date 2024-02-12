@@ -1,6 +1,8 @@
 package com.birca.bircabackend.query.service;
 
+import com.birca.bircabackend.query.dto.ArtistGroupResponse;
 import com.birca.bircabackend.query.dto.ArtistResponse;
+import com.birca.bircabackend.query.dto.PagingParams;
 import com.birca.bircabackend.support.enviroment.ServiceTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -40,6 +42,74 @@ class ArtistQueryServiceTest extends ServiceTest {
                             new ArtistResponse(3L, "제이홉", "image3.com"),
                             new ArtistResponse(6L, "지민", "image6.com"),
                             new ArtistResponse(4L, "RM", "image4.com")
+                    );
+        }
+    }
+
+    @Nested
+    @DisplayName("솔로 아티스트 목록 조회 시")
+    class FindSoloArtistsTest {
+
+        private final PagingParams pagingParams = new PagingParams();
+
+        @Test
+        void 필요한_필드를_모두_조회한다() {
+            // when
+            List<ArtistResponse> actual = artistQueryService.findSoloArtists(pagingParams);
+
+            // then
+            assertThat(actual.get(0))
+                    .isEqualTo(new ArtistResponse(13L, "김범수", "image13.com"));
+        }
+
+        @Test
+        void 커서와_사이즈가_없는_경우를_조회한다() {
+            // when
+            List<ArtistResponse> actual = artistQueryService.findSoloArtists(pagingParams);
+
+            // then
+            assertThat(actual)
+                    .containsOnly(
+                            new ArtistResponse(13L, "김범수", "image13.com"),
+                            new ArtistResponse(14L, "로이킴", "image14.com"),
+                            new ArtistResponse(15L, "박재정", "image15.com"),
+                            new ArtistResponse(16L, "성시경", "image16.com"),
+                            new ArtistResponse(17L, "아이유", "image17.com"),
+                            new ArtistResponse(18L, "윤종신", "image18.com")
+                    );
+        }
+
+        @Test
+        void 사이즈만큼_조회한다() {
+            // given
+            pagingParams.setSize(8);
+
+            // when
+            List<ArtistResponse> actual = artistQueryService.findSoloArtists(pagingParams);
+
+            // then
+            assertThat(actual)
+                    .map(ArtistResponse::artistId)
+                    .containsExactly(13L, 14L, 15L, 16L, 17L, 18L, 19L, 20L);
+        }
+
+        @Test
+        void 커서_이후만큼_조회한다() {
+            // given
+            pagingParams.setCursor(14L);
+
+            // when
+            List<ArtistResponse> actual = artistQueryService.findSoloArtists(pagingParams);
+
+            // then
+            assertThat(actual)
+                    .containsOnly(
+                            new ArtistResponse(15L, "박재정", "image15.com"),
+                            new ArtistResponse(16L, "성시경", "image16.com"),
+                            new ArtistResponse(17L, "아이유", "image17.com"),
+                            new ArtistResponse(18L, "윤종신", "image18.com"),
+                            new ArtistResponse(19L, "임한별", "image19.com"),
+                            new ArtistResponse(20L, "하동균", "image20.com")
                     );
         }
     }
