@@ -1,6 +1,5 @@
 package com.birca.bircabackend.query.service;
 
-import com.birca.bircabackend.query.dto.ArtistGroupResponse;
 import com.birca.bircabackend.query.dto.ArtistResponse;
 import com.birca.bircabackend.query.dto.PagingParams;
 import com.birca.bircabackend.support.enviroment.ServiceTest;
