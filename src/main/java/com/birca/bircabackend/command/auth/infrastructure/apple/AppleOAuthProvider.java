@@ -3,11 +3,10 @@ package com.birca.bircabackend.command.auth.infrastructure.apple;
 import com.birca.bircabackend.command.auth.application.oauth.OAuthMember;
 import com.birca.bircabackend.command.auth.application.oauth.OAuthProvider;
 import com.birca.bircabackend.common.ApiResponseExtractor;
-import com.birca.bircabackend.common.exception.BusinessException;
-import com.birca.bircabackend.common.exception.InternalServerErrorCode;
-import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -20,21 +19,10 @@ public class AppleOAuthProvider implements OAuthProvider {
 
     @Override
     public OAuthMember getOAuthMember(String accessToken) {
-        AppleIdentityToken identityToken = new AppleIdentityToken(accessToken);
         AppleKeyResponse keyResponse = ApiResponseExtractor.getBody(appleAuthApi.getKey());
-        Claims claims = identityToken.getClaims(keyResponse.keys());
-        validateClaims(claims);
-        return new OAuthMember(
-                claims.getSubject(),
-                (String) claims.get("email"),
-                PROVIDER_NAME
-        );
-    }
-
-    private void validateClaims(Claims claims) {
-        if (!appleClaimValidator.isValid(claims)) {
-            throw BusinessException.from(new InternalServerErrorCode("Claims이 올바르지 않습니다."));
-        }
+        List<ApplePubKey> keys = keyResponse.keys();
+        AppleIdentityToken identityToken = AppleIdentityToken.of(accessToken, keys);
+        return identityToken.toOAuthMember(appleClaimValidator);
     }
 
     @Override
