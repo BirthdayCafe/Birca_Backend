@@ -2,6 +2,7 @@ package com.birca.bircabackend.command.auth.infrastructure.apple;
 
 import com.birca.bircabackend.command.auth.application.oauth.OAuthMember;
 import com.birca.bircabackend.command.auth.application.token.JwtParseUtil;
+import com.birca.bircabackend.command.auth.infrastructure.OAuthConst;
 import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.common.exception.InternalServerErrorCode;
 import io.jsonwebtoken.Claims;
@@ -13,8 +14,6 @@ import java.util.Map;
 
 @Getter
 public class AppleIdentityToken {
-
-    private static final String PROVIDER_NAME = "apple";
 
     private final String value;
     private final Map<String, String> headers;
@@ -55,7 +54,7 @@ public class AppleIdentityToken {
         return new OAuthMember(
                 claims.getSubject(),
                 (String) claims.get("email"),
-                PROVIDER_NAME
+                OAuthConst.APPLE.getName()
         );
     }
 }

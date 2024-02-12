@@ -2,6 +2,7 @@ package com.birca.bircabackend.command.auth.infrastructure.kakao;
 
 import com.birca.bircabackend.command.auth.application.oauth.OAuthMember;
 import com.birca.bircabackend.command.auth.application.oauth.OAuthProvider;
+import com.birca.bircabackend.command.auth.infrastructure.OAuthConst;
 import com.birca.bircabackend.common.ApiResponseExtractor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -10,8 +11,6 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class KakaoOAuthProvider implements OAuthProvider {
-
-    private static final String PROVIDER_NAME = "kakao";
     private static final String BEARER = "Bearer ";
 
     private final KakaoAuthApi kakaoAuthApi;
@@ -22,7 +21,7 @@ public class KakaoOAuthProvider implements OAuthProvider {
         return new OAuthMember(
                 response.id(),
                 response.kakao_account().email(),
-                PROVIDER_NAME
+                OAuthConst.KAKAO.name()
         );
     }
 
@@ -34,6 +33,6 @@ public class KakaoOAuthProvider implements OAuthProvider {
 
     @Override
     public String getProvider() {
-        return PROVIDER_NAME;
+        return OAuthConst.KAKAO.getName();
     }
 }

@@ -2,6 +2,7 @@ package com.birca.bircabackend.command.auth.infrastructure.apple;
 
 import com.birca.bircabackend.command.auth.application.oauth.OAuthMember;
 import com.birca.bircabackend.command.auth.application.oauth.OAuthProvider;
+import com.birca.bircabackend.command.auth.infrastructure.OAuthConst;
 import com.birca.bircabackend.common.ApiResponseExtractor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -11,8 +12,6 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class AppleOAuthProvider implements OAuthProvider {
-
-    private static final String PROVIDER_NAME = "apple";
 
     private final AppleAuthApi appleAuthApi;
     private final AppleClaimValidator appleClaimValidator;
@@ -27,6 +26,6 @@ public class AppleOAuthProvider implements OAuthProvider {
 
     @Override
     public String getProvider() {
-        return PROVIDER_NAME;
+        return OAuthConst.APPLE.getName();
     }
 }
