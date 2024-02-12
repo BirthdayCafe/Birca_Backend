@@ -465,6 +465,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#_아티스트_그룹_목록_조회">아티스트 그룹 목록 조회</a></li>
 <li><a href="#_아티스트_그룹_멤버_조회">아티스트 그룹 멤버 조회</a></li>
+<li><a href="#_솔로_아티스트_목록_조회">솔로 아티스트 목록 조회</a></li>
 <li><a href="#_최애_아티스트_등록">최애 아티스트 등록</a></li>
 <li><a href="#_관심_아티스트_등록">관심 아티스트 등록</a></li>
 <li><a href="#_에러_코드_3">에러 코드</a></li>
@@ -617,7 +618,7 @@ Content-Length: 97
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/members/role-change HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzA3NDg0NTkxLCJleHAiOjE3MDc0ODYzOTF9.YCNcT0l6gEL3s58qiUmVAJsfLit4DlIFj3kcTqyFRAs
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzA3NzQ1NTkzLCJleHAiOjE3MDc3NDczOTN9.zzrvJQrKZDDq76pm2rN4GCn7IAwVqf25TDmzKnHwkW0
 Content-Length: 21
 Host: www.api.birca.com
 
@@ -647,7 +648,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/join/check-nickname?nickname=does HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzA3NDg0NTkxLCJleHAiOjE3MDc0ODYzOTF9.YCNcT0l6gEL3s58qiUmVAJsfLit4DlIFj3kcTqyFRAs
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzA3NzQ1NTkzLCJleHAiOjE3MDc3NDczOTN9.zzrvJQrKZDDq76pm2rN4GCn7IAwVqf25TDmzKnHwkW0
 Host: www.api.birca.com</code></pre>
 </div>
 </div>
@@ -721,7 +722,7 @@ Content-Length: 16
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/join/register-nickname HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzA3NDg0NTkxLCJleHAiOjE3MDc0ODYzOTF9.YCNcT0l6gEL3s58qiUmVAJsfLit4DlIFj3kcTqyFRAs
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzA3NzQ1NTkzLCJleHAiOjE3MDc3NDczOTN9.zzrvJQrKZDDq76pm2rN4GCn7IAwVqf25TDmzKnHwkW0
 Content-Length: 30
 Host: www.api.birca.com
 
@@ -809,7 +810,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/artist-groups?cursor=10&amp;size=3 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzA3NDg0NTkxLCJleHAiOjE3MDc0ODYzOTF9.YCNcT0l6gEL3s58qiUmVAJsfLit4DlIFj3kcTqyFRAs
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzA3NzQ1NTkzLCJleHAiOjE3MDc3NDczOTN9.zzrvJQrKZDDq76pm2rN4GCn7IAwVqf25TDmzKnHwkW0
 Host: www.api.birca.com</code></pre>
 </div>
 </div>
@@ -909,7 +910,7 @@ Content-Length: 250
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/artist-groups/1/artists HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzA3NDg0NTkxLCJleHAiOjE3MDc0ODYzOTF9.YCNcT0l6gEL3s58qiUmVAJsfLit4DlIFj3kcTqyFRAs
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzA3NzQ1NTkzLCJleHAiOjE3MDc3NDczOTN9.zzrvJQrKZDDq76pm2rN4GCn7IAwVqf25TDmzKnHwkW0
 Host: www.api.birca.com</code></pre>
 </div>
 </div>
@@ -1015,6 +1016,118 @@ Content-Length: 565
 </div>
 </div>
 <div class="sect2">
+<h3 id="_솔로_아티스트_목록_조회"><a class="link" href="#_솔로_아티스트_목록_조회">솔로 아티스트 목록 조회</a></h3>
+<div class="sect3">
+<h4 id="_솔로_아티스트_목록_조회_http_request"><a class="link" href="#_솔로_아티스트_목록_조회_http_request">HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/artists/solo?cursor=12&amp;size=6 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzA3NzQ1NTkzLCJleHAiOjE3MDc3NDczOTN9.zzrvJQrKZDDq76pm2rN4GCn7IAwVqf25TDmzKnHwkW0
+Host: www.api.birca.com</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_솔로_아티스트_목록_조회_query_parameters"><a class="link" href="#_솔로_아티스트_목록_조회_query_parameters">Query parameters</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cursor</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이전에 쿼리된 마지막 groupId</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">검색할 개수</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_솔로_아티스트_목록_조회_http_response"><a class="link" href="#_솔로_아티스트_목록_조회_http_response">HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+Content-Length: 518
+
+[ {
+  "artistId" : 19,
+  "artistName" : "김범수",
+  "artistImage" : "image19.com"
+}, {
+  "artistId" : 14,
+  "artistName" : "로이킴",
+  "artistImage" : "image14.com"
+}, {
+  "artistId" : 15,
+  "artistName" : "박재정",
+  "artistImage" : "image15.com"
+}, {
+  "artistId" : 16,
+  "artistName" : "성시경",
+  "artistImage" : "image16.com"
+}, {
+  "artistId" : 13,
+  "artistName" : "아이유",
+  "artistImage" : "image13.com"
+}, {
+  "artistId" : 17,
+  "artistName" : "윤종신",
+  "artistImage" : "image17.com"
+} ]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_솔로_아티스트_목록_조회_response_fields"><a class="link" href="#_솔로_아티스트_목록_조회_response_fields">Response fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].artistId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">아티스트 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].artistName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">아티스트 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].artistImage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">아티스트 이미지 url</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_최애_아티스트_등록"><a class="link" href="#_최애_아티스트_등록">최애 아티스트 등록</a></h3>
 <div class="sect3">
 <h4 id="_최애_아티스트_등록_http_request"><a class="link" href="#_최애_아티스트_등록_http_request">HTTP request</a></h4>
@@ -1022,7 +1135,7 @@ Content-Length: 565
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/artists/favorite HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzA3NDg0NTkwLCJleHAiOjE3MDc0ODYzOTB9.BuS2Hui0FMWfED-sdQlkk8ifS3QUR2jtNi9PK1tyzXg
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzA3NzQ1NTkwLCJleHAiOjE3MDc3NDczOTB9.U9ATXY5eHM7g1RjhbT1bT8VdheLVKZnhCM8w9YWIRFw
 Content-Length: 20
 Host: www.api.birca.com
 
@@ -1076,7 +1189,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/artists/interest HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzA3NDg0NTkwLCJleHAiOjE3MDc0ODYzOTB9.BuS2Hui0FMWfED-sdQlkk8ifS3QUR2jtNi9PK1tyzXg
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzA3NzQ1NTkwLCJleHAiOjE3MDc3NDczOTB9.U9ATXY5eHM7g1RjhbT1bT8VdheLVKZnhCM8w9YWIRFw
 Content-Length: 68
 Host: www.api.birca.com
 
@@ -1160,7 +1273,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/cafes/license-read HTTP/1.1
 Content-Type: multipart/form-data;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzA3NDg0NTkxLCJleHAiOjE3MDc0ODYzOTF9.YCNcT0l6gEL3s58qiUmVAJsfLit4DlIFj3kcTqyFRAs
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzA3NzQ1NTkzLCJleHAiOjE3MDc3NDczOTN9.zzrvJQrKZDDq76pm2rN4GCn7IAwVqf25TDmzKnHwkW0
 Host: www.api.birca.com
 
 --6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
@@ -1181,13 +1294,14 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-Content-Length: 120
+Content-Length: 141
 
 {
   "cafeName" : "Cafe Name",
   "businessLicenseNumber" : "123-45-67890",
   "owner" : "Owner",
-  "address" : "Address"
+  "address" : "Address",
+  "uploadCount" : 1
 }</code></pre>
 </div>
 </div>
@@ -1228,6 +1342,11 @@ Content-Length: 120
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">카페 주소</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>uploadCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사업자등록증 업로드 횟수</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1240,7 +1359,7 @@ Content-Length: 120
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/cafes/apply HTTP/1.1
 Content-Type: multipart/form-data;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzA3NDg0NTkxLCJleHAiOjE3MDc0ODYzOTF9.YCNcT0l6gEL3s58qiUmVAJsfLit4DlIFj3kcTqyFRAs
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzA3NzQ1NTkzLCJleHAiOjE3MDc3NDczOTN9.zzrvJQrKZDDq76pm2rN4GCn7IAwVqf25TDmzKnHwkW0
 Host: www.api.birca.com
 
 --6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
@@ -1299,11 +1418,15 @@ Vary: Access-Control-Request-Headers</code></pre>
   },
   "2008" : {
     "httpStatus" : 400,
-    "message" : "OCR 요청은 3회까지만 가능합니다."
+    "message" : "OCR 요청은 5회까지만 가능합니다."
   },
   "2009" : {
     "httpStatus" : 400,
     "message" : "형식에 맞지 않는 사업자등록번호입니다."
+  },
+  "2010" : {
+    "httpStatus" : 400,
+    "message" : "처음 사업자등록증 업로드 횟수는 0이어야 합니다."
   }
 }</code></pre>
 </div>
@@ -1322,7 +1445,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/birthday-cafes HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzA3NDg0NTkwLCJleHAiOjE3MDc0ODYzOTB9.BuS2Hui0FMWfED-sdQlkk8ifS3QUR2jtNi9PK1tyzXg
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzA3NzQ1NTkxLCJleHAiOjE3MDc3NDczOTF9.w4ihD1Zghyx3ZGupPeKqvcviEVMAYsP_ZN9AxTCXnGg
 Content-Length: 179
 Host: www.api.birca.com
 
@@ -1421,7 +1544,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-02-09 18:42:53 +0900
+Last updated 2024-02-12 11:33:23 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

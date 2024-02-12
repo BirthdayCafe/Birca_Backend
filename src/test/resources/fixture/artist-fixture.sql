@@ -29,3 +29,13 @@ VALUES (1, 6, '석진', 'image1.com'),
        (10, 5, '민지', 'image10.com'),
        (11, 5, '다니엘', 'image11.com'),
        (12, 5, '혜인', 'image12.com');
+
+INSERT INTO artist (id, group_id, name, image_url)
+VALUES (18, NULL, '윤종신', 'image18.com'),
+       (14, NULL, '로이킴', 'image14.com'),
+       (15, NULL, '박재정', 'image15.com'),
+       (20, NULL, '하동균', 'image20.com'),
+       (13, NULL, '김범수', 'image13.com'),
+       (17, NULL, '아이유', 'image17.com'),
+       (16, NULL, '성시경', 'image16.com'),
+       (19, NULL, '임한별', 'image19.com');

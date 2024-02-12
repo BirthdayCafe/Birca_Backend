@@ -5,7 +5,7 @@ import org.springframework.data.repository.Repository;
 
 import java.util.List;
 
-public interface ArtistQueryRepository extends Repository<Artist, Long> {
+public interface ArtistQueryRepository extends Repository<Artist, Long>, ArtistDynamicRepository {
 
     List<Artist> findByGroupId(Long groupId);
 }

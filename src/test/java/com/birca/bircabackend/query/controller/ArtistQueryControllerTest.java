@@ -91,4 +91,40 @@ public class ArtistQueryControllerTest extends DocumentationTest {
                         )
                 ));
     }
+
+    @Test
+    void 솔로_아티스트_목록을_조회한다() throws Exception {
+        // given
+        given(artistQueryService.findSoloArtists(any()))
+                .willReturn(List.of(
+                        new ArtistResponse(19L, "김범수", "image19.com"),
+                        new ArtistResponse(14L, "로이킴", "image14.com"),
+                        new ArtistResponse(15L, "박재정", "image15.com"),
+                        new ArtistResponse(16L, "성시경", "image16.com"),
+                        new ArtistResponse(13L, "아이유", "image13.com"),
+                        new ArtistResponse(17L, "윤종신", "image17.com")
+                ));
+
+        // when
+        ResultActions result = mockMvc.perform(get("/api/v1/artists/solo")
+                .contentType(MediaType.APPLICATION_JSON)
+                .queryParam("cursor", "12")
+                .queryParam("size", "6")
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
+        );
+
+        // then
+        result.andExpect((status().isOk()))
+                .andDo(document("get-artists-solo", HOST_INFO, DOCUMENT_RESPONSE,
+                        queryParameters(
+                                parameterWithName("cursor").description("이전에 쿼리된 마지막 groupId"),
+                                parameterWithName("size").description("검색할 개수")
+                        ),
+                        responseFields(
+                                fieldWithPath("[].artistId").type(JsonFieldType.NUMBER).description("아티스트 ID"),
+                                fieldWithPath("[].artistName").type(JsonFieldType.STRING).description("아티스트 이름"),
+                                fieldWithPath("[].artistImage").type(JsonFieldType.STRING).description("아티스트 이미지 url")
+                        )
+                ));
+    }
 }
