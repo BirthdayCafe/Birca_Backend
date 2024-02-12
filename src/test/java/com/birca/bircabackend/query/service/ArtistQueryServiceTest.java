@@ -68,7 +68,7 @@ class ArtistQueryServiceTest extends ServiceTest {
 
             // then
             assertThat(actual)
-                    .containsOnly(
+                    .containsExactly(
                             new ArtistResponse(13L, "김범수", "image13.com"),
                             new ArtistResponse(14L, "로이킴", "image14.com"),
                             new ArtistResponse(15L, "박재정", "image15.com"),
@@ -102,7 +102,7 @@ class ArtistQueryServiceTest extends ServiceTest {
 
             // then
             assertThat(actual)
-                    .containsOnly(
+                    .containsExactly(
                             new ArtistResponse(15L, "박재정", "image15.com"),
                             new ArtistResponse(16L, "성시경", "image16.com"),
                             new ArtistResponse(17L, "아이유", "image17.com"),
