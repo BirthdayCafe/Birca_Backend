@@ -62,7 +62,7 @@ class ArtistQueryAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void 솔로_아티스트를_조회한다() {
+    void 솔로_아티스트_목록을_조회한다() {
         // given
         int size = 6;
 
