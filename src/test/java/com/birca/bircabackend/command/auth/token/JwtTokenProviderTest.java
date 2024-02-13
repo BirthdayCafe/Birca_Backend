@@ -12,8 +12,7 @@ class JwtTokenProviderTest {
 
     private final JwtTokenProvider tokenProvider = new JwtTokenProvider(
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ6.eyJzdWIiOiIiLCJuYW1lIjoiSm3obiBEb2UiLCJpYXQiOjE1MTYyMzkwMjJ9.ih1aovtQShabQ7l0cINw4k1fagApg3qLWiB8Kt23Lno",
-            1800000
-    );
+            1800000);
 
     private final TokenPayload payload = new TokenPayload(1L);
 

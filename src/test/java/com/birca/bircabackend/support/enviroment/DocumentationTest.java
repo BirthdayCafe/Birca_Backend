@@ -1,6 +1,7 @@
 package com.birca.bircabackend.support.enviroment;
 
 import com.birca.bircabackend.command.artist.application.ArtistService;
+import com.birca.bircabackend.command.auth.application.token.JwtParseUtil;
 import com.birca.bircabackend.command.birca.application.BirthdayCafeService;
 import com.birca.bircabackend.command.cafe.application.BusinessLicenseFacade;
 import com.birca.bircabackend.command.cafe.application.BusinessLicenseProcessingService;
@@ -37,6 +38,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 @WebMvcTest
 @Import({
         JwtTokenProvider.class,
+        JwtParseUtil.class,
         TestBearerTokenProvider.class,
         TimeLogTemplate.class
 })

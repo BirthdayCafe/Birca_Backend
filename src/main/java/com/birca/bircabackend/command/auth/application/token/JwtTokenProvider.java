@@ -1,7 +1,6 @@
 package com.birca.bircabackend.command.auth.application.token;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -39,21 +38,14 @@ public class JwtTokenProvider {
     }
 
     public TokenPayload getPayload(String token) {
-        Claims claims = parseClaimsJws(token).getBody();
+        Claims claims = JwtParseUtil.parseClaims(token, key).getBody();
         Long id = claims.get("id", Long.class);
         return new TokenPayload(id);
     }
 
-    private Jws<Claims> parseClaimsJws(final String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token);
-    }
-
     public boolean isValidAccessToken(String accessToken) {
         try {
-            return !parseClaimsJws(accessToken)
+            return !JwtParseUtil.parseClaims(accessToken, key)
                     .getBody()
                     .getExpiration()
                     .before(new Date());
