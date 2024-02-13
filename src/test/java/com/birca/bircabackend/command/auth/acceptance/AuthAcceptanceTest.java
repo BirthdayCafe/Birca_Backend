@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 public class AuthAcceptanceTest extends AcceptanceTest {
 
     @Test
-    void 카카오_소셜_로그인을_한다() {
+    void 소셜_로그인을_한다() {
         // given
         LoginRequest request = new LoginRequest("fake.kakao.accessToken");
 
