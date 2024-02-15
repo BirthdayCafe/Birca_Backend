@@ -1,4 +1,6 @@
-package com.birca.bircabackend.command.cafe.dto;
+package com.birca.bircabackend.command.cafe.infrastructure.naverocr;
+
+import com.birca.bircabackend.command.cafe.infrastructure.naverocr.BusinessLicenseOcrResponse.Image.BizLicense.Result;
 
 import java.util.List;
 
@@ -8,6 +10,7 @@ public record BusinessLicenseOcrResponse(
     public record Image(
             BizLicense bizLicense
     ) {
+
         public record BizLicense(
                 Result result
         ) {
@@ -25,5 +28,9 @@ public record BusinessLicenseOcrResponse(
             ) {
             }
         }
+    }
+
+    public Result getResult() {
+        return this.images().get(0).bizLicense().result();
     }
 }

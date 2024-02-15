@@ -1,8 +1,6 @@
-package com.birca.bircabackend.command.cafe.infrastructure;
+package com.birca.bircabackend.command.cafe.infrastructure.nationaltaxservice;
 
 import com.birca.bircabackend.command.cafe.application.BusinessLicenseStatusVerifier;
-import com.birca.bircabackend.command.cafe.dto.BusinessLicenseStatusRequest;
-import com.birca.bircabackend.command.cafe.dto.BusinessLicenseStatusResponse;
 import com.birca.bircabackend.common.ApiResponseExtractor;
 import com.birca.bircabackend.common.exception.BusinessException;
 import lombok.RequiredArgsConstructor;

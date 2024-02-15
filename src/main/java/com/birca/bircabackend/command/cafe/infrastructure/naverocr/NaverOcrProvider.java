@@ -1,8 +1,6 @@
-package com.birca.bircabackend.command.cafe.infrastructure;
+package com.birca.bircabackend.command.cafe.infrastructure.naverocr;
 
 import com.birca.bircabackend.command.cafe.application.OcrProvider;
-import com.birca.bircabackend.command.cafe.dto.BusinessLicenseOcrRequest;
-import com.birca.bircabackend.command.cafe.dto.BusinessLicenseOcrResponse;
 import com.birca.bircabackend.command.cafe.dto.BusinessLicenseInfoResponse;
 import com.birca.bircabackend.common.ApiResponseExtractor;
 import com.birca.bircabackend.common.exception.BusinessException;
@@ -32,7 +30,8 @@ public class NaverOcrProvider implements OcrProvider {
     @Override
     public BusinessLicenseInfoResponse getBusinessLicenseInfo(MultipartFile businessLicense) {
         BusinessLicenseOcrRequest request = createRequestBody(businessLicense);
-        ResponseEntity<BusinessLicenseOcrResponse> response = naverOcrApi.performBusinessLicenseOcr(request, secretKey);
+        ResponseEntity<BusinessLicenseOcrResponse> response
+                = naverOcrApi.performBusinessLicenseOcr(request, secretKey);
         BusinessLicenseOcrResponse body = ApiResponseExtractor.getBody(response);
         return BusinessLicenseInfoResponse.from(body);
     }

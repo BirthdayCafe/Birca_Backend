@@ -1,4 +1,4 @@
-package com.birca.bircabackend.command.cafe.dto;
+package com.birca.bircabackend.command.cafe.infrastructure.nationaltaxservice;
 
 import java.util.List;
 
