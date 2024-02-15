@@ -1,4 +1,4 @@
-package com.birca.bircabackend.command.cafe.infrastructure.uploadcount;
+package com.birca.bircabackend.command.cafe.application;
 
 import com.birca.bircabackend.command.cafe.domain.OcrRequestHistoryRepository;
 import com.birca.bircabackend.common.exception.BusinessException;

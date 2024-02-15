@@ -15,13 +15,17 @@ public class OcrRequestCountProvider {
     private final OcrRequestHistoryRepository ocrRequestHistoryRepository;
 
     public UploadCountResponse increaseUploadCount(Long ownerId) {
-        OcrRequestHistory ocrRequestHistory = ocrRequestHistoryRepository.findByOwnerId(ownerId)
+        OcrRequestHistory ocrRequestHistory = getOcrRequestHistory(ownerId);
+        Integer uploadCount = ocrRequestHistory.incrementUploadCount();
+        return new UploadCountResponse(uploadCount);
+    }
+
+    private OcrRequestHistory getOcrRequestHistory(Long ownerId) {
+        return ocrRequestHistoryRepository.findByOwnerId(ownerId)
                 .orElseGet(() -> {
                     OcrRequestHistory newOcrRequestHistory = new OcrRequestHistory(ownerId);
                     ocrRequestHistoryRepository.save(newOcrRequestHistory);
                     return newOcrRequestHistory;
                 });
-        Integer uploadCount = ocrRequestHistory.incrementUploadCount();
-        return new UploadCountResponse(uploadCount);
     }
 }
