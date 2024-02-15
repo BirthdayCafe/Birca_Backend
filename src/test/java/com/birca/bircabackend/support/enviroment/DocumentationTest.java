@@ -4,12 +4,9 @@ import com.birca.bircabackend.command.artist.application.ArtistService;
 import com.birca.bircabackend.command.auth.application.token.JwtParseUtil;
 import com.birca.bircabackend.command.birca.application.BirthdayCafeService;
 import com.birca.bircabackend.command.cafe.application.BusinessLicenseFacade;
-import com.birca.bircabackend.command.cafe.application.BusinessLicenseProcessingService;
 import com.birca.bircabackend.command.cafe.application.BusinessLicenseService;
 import com.birca.bircabackend.command.auth.application.AuthFacade;
 import com.birca.bircabackend.command.auth.application.token.JwtTokenProvider;
-import com.birca.bircabackend.command.cafe.domain.OcrRequestHistoryRepository;
-import com.birca.bircabackend.command.cafe.infrastructure.uploadcount.OcrRequestCountValidator;
 import com.birca.bircabackend.command.member.application.MemberService;
 import com.birca.bircabackend.common.exception.ErrorCode;
 import com.birca.bircabackend.common.log.TimeLogTemplate;
@@ -81,9 +78,6 @@ public class DocumentationTest {
     protected BusinessLicenseService businessLicenseService;
 
     @MockBean
-    protected BusinessLicenseProcessingService businessLicenseProcessingService;
-
-    @MockBean
     protected AuthFacade authFacade;
 
     @MockBean
@@ -91,9 +85,6 @@ public class DocumentationTest {
 
     @MockBean
     protected BusinessLicenseFacade businessLicenseFacade;
-
-    @MockBean
-    protected OcrRequestCountValidator ocrRequestCountValidator;
 
     protected List<FieldDescriptor> getErrorDescriptor(ErrorCode[] errorCodes) {
         return Arrays.stream(errorCodes)

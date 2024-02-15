@@ -1,5 +1,6 @@
 package com.birca.bircabackend.command.cafe.infrastructure.uploadcount;
 
+import com.birca.bircabackend.command.cafe.application.OcrRequestCountValidator;
 import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.support.enviroment.ServiceTest;
 import org.junit.jupiter.api.Test;
