@@ -20,7 +20,7 @@ public class OcrRequestHistory extends BaseEntity {
     @Column(nullable = false)
     private Integer uploadCount;
 
-    public Integer incrementUploadCount() {
+    public Integer increaseUploadCount() {
         return ++uploadCount;
     }
 

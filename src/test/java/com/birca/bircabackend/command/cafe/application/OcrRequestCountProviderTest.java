@@ -26,7 +26,7 @@ class OcrRequestCountProviderTest extends ServiceTest {
         // given
         Long ownerId = 1L;
         OcrRequestHistory ocrRequestHistory = new OcrRequestHistory(ownerId);
-        ocrRequestHistory.incrementUploadCount();
+        ocrRequestHistory.increaseUploadCount();
 
         when(ocrRequestHistoryRepository.findByOwnerId(ownerId))
                 .thenReturn(Optional.of(ocrRequestHistory));

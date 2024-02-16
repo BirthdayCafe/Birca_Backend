@@ -16,7 +16,7 @@ public class OcrRequestCountProvider {
 
     public UploadCountResponse increaseUploadCount(Long ownerId) {
         OcrRequestHistory ocrRequestHistory = getOcrRequestHistory(ownerId);
-        Integer uploadCount = ocrRequestHistory.incrementUploadCount();
+        Integer uploadCount = ocrRequestHistory.increaseUploadCount();
         return new UploadCountResponse(uploadCount);
     }
 
