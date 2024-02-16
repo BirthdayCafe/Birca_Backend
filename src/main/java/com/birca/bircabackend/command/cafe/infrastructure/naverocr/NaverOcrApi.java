@@ -1,7 +1,5 @@
-package com.birca.bircabackend.command.cafe.infrastructure;
+package com.birca.bircabackend.command.cafe.infrastructure.naverocr;
 
-import com.birca.bircabackend.command.cafe.dto.BusinessLicenseOcrRequest;
-import com.birca.bircabackend.command.cafe.dto.BusinessLicenseOcrResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

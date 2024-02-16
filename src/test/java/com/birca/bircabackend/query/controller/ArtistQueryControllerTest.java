@@ -117,7 +117,7 @@ public class ArtistQueryControllerTest extends DocumentationTest {
         result.andExpect((status().isOk()))
                 .andDo(document("get-artists-solo", HOST_INFO, DOCUMENT_RESPONSE,
                         queryParameters(
-                                parameterWithName("cursor").description("이전에 쿼리된 마지막 groupId"),
+                                parameterWithName("cursor").description("이전에 쿼리된 마지막 artistId"),
                                 parameterWithName("size").description("검색할 개수")
                         ),
                         responseFields(

@@ -1,15 +1,11 @@
 package com.birca.bircabackend.command.cafe.acceptance;
 
 import com.birca.bircabackend.command.cafe.application.BusinessLicenseFacade;
-import com.birca.bircabackend.command.cafe.application.BusinessLicenseProcessingService;
-import com.birca.bircabackend.command.cafe.application.BusinessLicenseService;
-import com.birca.bircabackend.command.cafe.presentation.BusinessLicenseController;
 import com.birca.bircabackend.support.enviroment.AcceptanceTest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,19 +19,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Sql("/fixture/member-fixture.sql")
 public class BusinessLicenseAcceptanceTest extends AcceptanceTest {
 
-    @InjectMocks
-    private BusinessLicenseController businessLicenseController;
-
-    @MockBean
-    private BusinessLicenseProcessingService businessLicenseProcessingService;
-
-    @MockBean
-    private BusinessLicenseService businessLicenseService;
+    private static final Long MEMBER_ID = 1L;
 
     @MockBean
     private BusinessLicenseFacade businessLicenseFacade;
-
-    private static final Long MEMBER_ID = 1L;
 
     @Test
     void 사업자등록증을_스캔한다() {

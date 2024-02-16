@@ -1,10 +1,8 @@
-package com.birca.bircabackend.command.cafe.infrastructure;
+package com.birca.bircabackend.command.cafe.infrastructure.nationaltaxservice;
 
 import com.birca.bircabackend.command.cafe.application.BusinessLicenseStatusVerifier;
-import com.birca.bircabackend.command.cafe.dto.BusinessLicenseStatusRequest;
-import com.birca.bircabackend.command.cafe.dto.BusinessLicenseStatusResponse;
+import com.birca.bircabackend.common.ApiResponseExtractor;
 import com.birca.bircabackend.common.exception.BusinessException;
-import com.birca.bircabackend.common.exception.InternalServerErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -26,14 +24,8 @@ public class NationalTaxServiceBusinessLicenseStatusVerifier implements Business
         String licenseNumber = businessLicenseNumber.replaceAll("-", "");
         BusinessLicenseStatusRequest request = new BusinessLicenseStatusRequest(List.of(licenseNumber));
         ResponseEntity<BusinessLicenseStatusResponse> response = verificationApi.verifyBusinessLicenseStatus(request);
-        validateResponse(response);
-    }
-
-    private void validateResponse(ResponseEntity<BusinessLicenseStatusResponse> response) {
-        if (!response.getStatusCode().is2xxSuccessful() || response.getBody() == null) {
-            throw BusinessException.from(new InternalServerErrorCode("사업자등록증 상태조회 api 호출에 문제가 생겼습니다."));
-        }
-        validateTaxType(response.getBody());
+        BusinessLicenseStatusResponse businessLicenseStatus = ApiResponseExtractor.getBody(response);
+        validateTaxType(businessLicenseStatus);
     }
 
     private void validateTaxType(BusinessLicenseStatusResponse businessLicenseStatusResponse) {

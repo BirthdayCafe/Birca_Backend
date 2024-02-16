@@ -1,4 +1,4 @@
-package com.birca.bircabackend.command.cafe.dto;
+package com.birca.bircabackend.command.cafe.infrastructure.naverocr;
 
 import java.util.List;
 
