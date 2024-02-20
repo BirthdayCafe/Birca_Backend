@@ -25,7 +25,7 @@ oauth:
 ocr:
   invoke-url: "invoke-url"
   secret-key: "secret-key"
-  request-count: 5
+  request-count: "5"
 
 service-key:
   key: "key"
