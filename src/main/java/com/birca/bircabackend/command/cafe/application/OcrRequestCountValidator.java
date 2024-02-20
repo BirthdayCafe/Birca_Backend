@@ -3,6 +3,7 @@ package com.birca.bircabackend.command.cafe.application;
 import com.birca.bircabackend.command.cafe.domain.OcrRequestHistoryRepository;
 import com.birca.bircabackend.common.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +14,8 @@ import static com.birca.bircabackend.command.cafe.exception.BusinessLicenseError
 @RequiredArgsConstructor
 public class OcrRequestCountValidator {
 
-    private static final int MAX_UPLOAD_COUNT = 5;
+    @Value("${ocr.request-count}")
+    private int MAX_UPLOAD_COUNT;
 
     private final OcrRequestHistoryRepository ocrRequestHistoryRepository;
 
