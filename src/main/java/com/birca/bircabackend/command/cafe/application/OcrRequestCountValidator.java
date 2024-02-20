@@ -15,14 +15,14 @@ import static com.birca.bircabackend.command.cafe.exception.BusinessLicenseError
 public class OcrRequestCountValidator {
 
     @Value("${ocr.request-count}")
-    private int MAX_UPLOAD_COUNT;
+    private int maxUploadCount;
 
     private final OcrRequestHistoryRepository ocrRequestHistoryRepository;
 
     public void validateUploadCount(Long ownerId) {
         ocrRequestHistoryRepository.findUploadCountByOwnerId(ownerId)
                 .ifPresent(uploadCount -> {
-                    if (uploadCount >= MAX_UPLOAD_COUNT) {
+                    if (uploadCount >= maxUploadCount) {
                         throw BusinessException.from(OVER_MAX_OCR_REQUEST_COUNT);
                     }
                 });
