@@ -8,22 +8,5 @@ spring:
       hibernate:
         format_sql: true
         show_sql: true
-
-jwt:
-  token:
-    secret-key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ6.eyJzdWIiOiIiLCJuYW1lIjoiSm3obiBEb2UiLCJpYXQiOjE1MTYyMzkwMjJ9.ih1aovtQShabQ7l0cINw4k1fagApg3qLWiB8Kt23Lno
-    expire-length: 1800000
-
-oauth:
-  apple:
-    url: https://appleid.apple.com/auth
-    client-id: aud
-    nonce: nonce
-
-ocr:
-  invoke-url: invoke-url
-  secret-key: secret-key
-  request-count: 5
-
-service-key:
-  key: key
+  config:
+    import: application-common.yml
