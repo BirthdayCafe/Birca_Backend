@@ -21,8 +21,9 @@ oauth:
     nonce: nonce
 
 ocr:
-  invoke-url: "invoke-url"
-  secret-key: "secret-key"
+  invoke-url: invoke-url
+  secret-key: secret-key
+  request-count: 5
 
 service-key:
-  key: "key"
+  key: key
