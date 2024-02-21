@@ -56,3 +56,4 @@ jobs:
             sudo docker pull ${{ secrets.BIRCA_DEV_IMAGE }}
             sudo docker-compose -f docker-compose-dev.yml up -d
             sudo docker image prune -f
+            sudo docker volume prune
