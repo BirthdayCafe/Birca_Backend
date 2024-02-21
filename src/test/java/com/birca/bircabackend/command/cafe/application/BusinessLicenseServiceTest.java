@@ -47,9 +47,9 @@ class BusinessLicenseServiceTest extends ServiceTest {
         assertThat(findBusinessLicense.getCafeName()).isEqualTo("카페 벌스데이");
         assertThat(findBusinessLicense.getOwnerName()).isEqualTo("최민혁");
         assertThat(findBusinessLicense.getAddress()).isEqualTo("서울 마포구 와우산로29길 26-33 1층 커피 벌스데이");
-        assertThat(findBusinessLicense.getCode().getTaxOfficeCode()).isEqualTo(123);
-        assertThat(findBusinessLicense.getCode().getBusinessTypeCode()).isEqualTo(45);
-        assertThat(findBusinessLicense.getCode().getSerialCode()).isEqualTo(67890);
+        assertThat(findBusinessLicense.getCode().getTaxOfficeCode()).isEqualTo("123");
+        assertThat(findBusinessLicense.getCode().getBusinessTypeCode()).isEqualTo("45");
+        assertThat(findBusinessLicense.getCode().getSerialCode()).isEqualTo("67890");
     }
 
     @Test

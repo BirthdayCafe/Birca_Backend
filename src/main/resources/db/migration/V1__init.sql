@@ -22,9 +22,9 @@ CREATE TABLE business_license
     owner_name         VARCHAR(255)          NOT NULL,
     cafe_name          VARCHAR(255)          NOT NULL,
     image_url          LONGTEXT              NOT NULL,
-    tax_office_code    INT                   NOT NULL,
-    business_type_code INT                   NOT NULL,
-    serial_code        INT                   NOT NULL,
+    tax_office_code    VARCHAR(255)          NOT NULL,
+    business_type_code VARCHAR(255)          NOT NULL,
+    serial_code        VARCHAR(255)          NOT NULL,
     address            VARCHAR(255)          NOT NULL,
     CONSTRAINT pk_businesslicense PRIMARY KEY (id)
 );

@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import static com.birca.bircabackend.command.cafe.exception.BusinessLicenseErrorCode.*;
-import static java.lang.String.valueOf;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,42 +20,34 @@ public class BusinessLicenseCode {
     private static final int BUSINESS_LICENSE_PARTS = 3;
 
     @Column(nullable = false)
-    private Integer taxOfficeCode;
+    private String taxOfficeCode;
 
     @Column(nullable = false)
-    private Integer businessTypeCode;
+    private String businessTypeCode;
 
     @Column(nullable = false)
-    private Integer serialCode;
+    private String serialCode;
 
     public BusinessLicenseCode(String businessLicenseNumber) {
         String[] codes = businessLicenseNumber.split("-");
         validateBusinessLicenseNumberForm(codes);
-        this.taxOfficeCode = Integer.parseInt(codes[0]);
-        this.businessTypeCode = Integer.parseInt(codes[1]);
-        this.serialCode = Integer.parseInt(codes[2]);
-        validateCode(this.taxOfficeCode, this.businessTypeCode, this.serialCode);
+        this.taxOfficeCode = codes[0];
+        this.businessTypeCode = codes[1];
+        this.serialCode = codes[2];
     }
 
     private void validateBusinessLicenseNumberForm(String[] codes) {
         if (codes.length != BUSINESS_LICENSE_PARTS) {
             throw BusinessException.from(INVALID_BUSINESS_LICENSE_NUMBER_FORM);
         }
-    }
-
-    private void validateCode(Integer taxOfficeCode, Integer businessTypeCode, Integer serialCode) {
-        if (getCodeLength(taxOfficeCode) != TAX_OFFICE_CODE_LENGTH) {
+        if (codes[0].length() != TAX_OFFICE_CODE_LENGTH) {
             throw BusinessException.from(INVALID_TAX_OFFICE_CODE_LENGTH);
         }
-        if (getCodeLength(businessTypeCode) != BUSINESS_TYPE_CODE_LENGTH) {
+        if (codes[1].length() != BUSINESS_TYPE_CODE_LENGTH) {
             throw BusinessException.from(INVALID_BUSINESS_TYPE_CODE_LENGTH);
         }
-        if (getCodeLength(serialCode) != SERIAL_CODE_LENGTH) {
+        if (codes[2].length() != SERIAL_CODE_LENGTH) {
             throw BusinessException.from(INVALID_SERIAL_CODE_LENGTH);
         }
-    }
-
-    private int getCodeLength(Integer code) {
-        return valueOf(code).length();
     }
 }
