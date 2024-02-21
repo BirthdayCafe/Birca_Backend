@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import static com.birca.bircabackend.command.cafe.exception.BusinessLicenseErrorCode.*;
-import static java.lang.String.valueOf;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
