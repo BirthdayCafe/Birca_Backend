@@ -12,6 +12,7 @@ import com.birca.bircabackend.common.exception.ErrorCode;
 import com.birca.bircabackend.common.log.TimeLogTemplate;
 import com.birca.bircabackend.query.service.ArtistGroupQueryService;
 import com.birca.bircabackend.query.service.ArtistQueryService;
+import com.birca.bircabackend.query.service.FavoriteArtistQueryService;
 import com.birca.bircabackend.query.service.MemberQueryService;
 import com.birca.bircabackend.support.TestBearerTokenProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -85,6 +86,9 @@ public class DocumentationTest {
 
     @MockBean
     protected BusinessLicenseFacade businessLicenseFacade;
+
+    @MockBean
+    protected FavoriteArtistQueryService favoriteArtistQueryService;
 
     protected List<FieldDescriptor> getErrorDescriptor(ErrorCode[] errorCodes) {
         return Arrays.stream(errorCodes)
