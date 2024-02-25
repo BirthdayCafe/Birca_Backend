@@ -21,6 +21,6 @@ public class InterestArtistQueryController {
     @GetMapping("/artists/interest")
     @RequiredLogin
     public List<ArtistResponse> getInterestArtists(LoginMember loginMember) {
-        return interestArtistQueryService.findInterestArtistIdsByFanId(loginMember);
+        return interestArtistQueryService.findInterestArtists(loginMember);
     }
 }

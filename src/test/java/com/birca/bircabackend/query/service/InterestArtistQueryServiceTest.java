@@ -21,7 +21,7 @@ class InterestArtistQueryServiceTest extends ServiceTest {
     void 관심_아티스트_목록을_조회한다() {
         // when
         List<ArtistResponse> actual
-                = interestArtistQueryService.findInterestArtistIdsByFanId(new LoginMember(1L));
+                = interestArtistQueryService.findInterestArtists(new LoginMember(1L));
 
         // then
         assertThat(actual)

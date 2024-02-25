@@ -20,7 +20,7 @@ public class InterestArtistQueryService {
     private final InterestArtistQueryRepository interestArtistQueryRepository;
     private final EntityUtil entityUtil;
 
-    public List<ArtistResponse> findInterestArtistIdsByFanId(LoginMember loginMember) {
+    public List<ArtistResponse> findInterestArtists(LoginMember loginMember) {
         List<Long> artistIds = interestArtistQueryRepository.findInterestArtistIdsByFanId(loginMember.id());
         return artistIds.stream()
                 .map(artistId -> entityUtil.getEntity(Artist.class, artistId, ArtistErrorCode.NOT_EXIST_ARTIST))

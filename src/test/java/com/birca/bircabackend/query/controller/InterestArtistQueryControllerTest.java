@@ -10,7 +10,6 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -24,7 +23,7 @@ class InterestArtistQueryControllerTest extends DocumentationTest {
     @Test
     void 관심_아티스트_목록을_조회한다() throws Exception {
         // given
-        given(interestArtistQueryService.findInterestArtistIdsByFanId(any()))
+        given(interestArtistQueryService.findInterestArtists(any()))
                 .willReturn(List.of(
                         new ArtistResponse(8L, "하니", "image8.com"),
                         new ArtistResponse(9L, "해린", "image9.com"),
