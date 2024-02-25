@@ -10,10 +10,7 @@ import com.birca.bircabackend.command.auth.application.token.JwtTokenProvider;
 import com.birca.bircabackend.command.member.application.MemberService;
 import com.birca.bircabackend.common.exception.ErrorCode;
 import com.birca.bircabackend.common.log.TimeLogTemplate;
-import com.birca.bircabackend.query.service.ArtistGroupQueryService;
-import com.birca.bircabackend.query.service.ArtistQueryService;
-import com.birca.bircabackend.query.service.FavoriteArtistQueryService;
-import com.birca.bircabackend.query.service.MemberQueryService;
+import com.birca.bircabackend.query.service.*;
 import com.birca.bircabackend.support.TestBearerTokenProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,6 +86,9 @@ public class DocumentationTest {
 
     @MockBean
     protected FavoriteArtistQueryService favoriteArtistQueryService;
+
+    @MockBean
+    protected InterestArtistQueryService interestArtistQueryService;
 
     protected List<FieldDescriptor> getErrorDescriptor(ErrorCode[] errorCodes) {
         return Arrays.stream(errorCodes)
