@@ -1,4 +1,4 @@
-package com.birca.bircabackend.query.repository.config;
+package com.birca.bircabackend.query.repository;
 
 import com.birca.bircabackend.command.artist.domain.InterestArtist;
 import org.springframework.data.jpa.repository.Query;

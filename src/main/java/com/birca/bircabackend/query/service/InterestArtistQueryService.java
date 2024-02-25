@@ -5,7 +5,7 @@ import com.birca.bircabackend.command.artist.exception.ArtistErrorCode;
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.common.EntityUtil;
 import com.birca.bircabackend.query.dto.ArtistResponse;
-import com.birca.bircabackend.query.repository.config.InterestArtistQueryRepository;
+import com.birca.bircabackend.query.repository.InterestArtistQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

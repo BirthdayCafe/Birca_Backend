@@ -1,7 +1,6 @@
 package com.birca.bircabackend.command.cafe.presentation;
 
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
-import com.birca.bircabackend.command.cafe.dto.BusinessLicenseInfoResponse;
 import com.birca.bircabackend.command.cafe.dto.BusinessLicenseResponse;
 import com.birca.bircabackend.command.cafe.exception.BusinessLicenseErrorCode;
 import com.birca.bircabackend.support.enviroment.DocumentationTest;
@@ -69,7 +68,6 @@ class BusinessLicenseControllerTest extends DocumentationTest {
                 ));
     }
 
-    //에러
     @Test
     void 사업자등록증을_저장한다() throws Exception {
         // given
