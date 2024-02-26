@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface InterestArtistQueryRepository extends Repository<InterestArtist, Long> {
 
-    @Query("SELECT a FROM Artist a WHERE a.id IN (SELECT i.artistId FROM InterestArtist i WHERE i.fanId = :fanId)")
+    @Query("SELECT a FROM Artist a JOIN InterestArtist i ON a.id = i.artistId WHERE i.fanId = :fanId")
     List<Artist> findInterestArtistsByFanId(Long fanId);
 }

@@ -9,6 +9,6 @@ import java.util.Optional;
 
 public interface FavoriteArtistQueryRepository extends Repository<FavoriteArtist, Long> {
 
-    @Query("SELECT a FROM Artist a WHERE a.id = (SELECT i.artistId FROM FavoriteArtist i WHERE i.fanId = :fanId)")
+    @Query("SELECT a FROM Artist a JOIN FavoriteArtist fa ON a.id = fa.artistId WHERE fa.fanId = :fanId")
     Optional<Artist> findFavoriteArtistByFanId(Long fanId);
 }
