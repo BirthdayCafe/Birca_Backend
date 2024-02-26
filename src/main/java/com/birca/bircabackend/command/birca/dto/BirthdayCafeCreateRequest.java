@@ -1,6 +1,7 @@
 package com.birca.bircabackend.command.birca.dto;
 
 import com.birca.bircabackend.command.birca.domain.BirthdayCafe;
+import com.birca.bircabackend.command.birca.domain.value.PhoneNumber;
 import com.birca.bircabackend.command.birca.domain.value.Schedule;
 import com.birca.bircabackend.command.birca.domain.value.Visitants;
 
@@ -25,7 +26,7 @@ public record BirthdayCafeCreateRequest(
                 Schedule.of(startDate, endDate),
                 Visitants.of(minimumVisitant, maximumVisitant),
                 twitterAccount,
-                hostPhoneNumber
+                PhoneNumber.from(hostPhoneNumber)
         );
     }
 }

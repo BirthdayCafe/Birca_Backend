@@ -21,7 +21,7 @@ class BirthdayCafeTest {
         private final Schedule schedule = Schedule.of(LocalDateTime.now(), LocalDateTime.now().plusDays(1));
         private final Visitants visitants = Visitants.of(3, 10);
         private final String twitterAccount = "ChaseM";
-        private final String hostPhoneNumber = "010-0000-0000";
+        private final PhoneNumber hostPhoneNumber = PhoneNumber.from("010-0000-0000");
 
 
         @Test

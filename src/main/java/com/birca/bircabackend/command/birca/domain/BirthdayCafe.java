@@ -31,8 +31,8 @@ public class BirthdayCafe extends BaseEntity {
 
     private String twitterAccount;
 
-    @Column(nullable = false)
-    private String hostPhoneNumber;
+    @Embedded
+    private PhoneNumber hostPhoneNumber;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -56,7 +56,7 @@ public class BirthdayCafe extends BaseEntity {
                                            Schedule schedule,
                                            Visitants visitants,
                                            String twitterAccount,
-                                           String hostPhoneNumber) {
+                                           PhoneNumber hostPhoneNumber) {
         return new BirthdayCafe(
                 hostId,
                 artistId,
