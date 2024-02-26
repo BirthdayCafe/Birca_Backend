@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class FavoriteArtistQueryController {
 
     private final FavoriteArtistQueryService favoriteArtistQueryService;
 
-    @GetMapping("/artists/favorite")
+    @GetMapping("/v1/artists/favorite")
     @RequiredLogin
     public ArtistResponse getFavoriteArtist(LoginMember loginMember) {
         return favoriteArtistQueryService.findFavoriteArtist(loginMember);

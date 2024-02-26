@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class InterestArtistQueryController {
 
     private final InterestArtistQueryService interestArtistQueryService;
 
-    @GetMapping("/artists/interest")
+    @GetMapping("/v1/artists/interest")
     @RequiredLogin
     public List<ArtistResponse> getInterestArtists(LoginMember loginMember) {
         return interestArtistQueryService.findInterestArtists(loginMember);
