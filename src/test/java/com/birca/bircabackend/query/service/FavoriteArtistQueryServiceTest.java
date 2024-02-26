@@ -27,4 +27,16 @@ class FavoriteArtistQueryServiceTest extends ServiceTest {
         // then
         assertThat(actual).isEqualTo(new ArtistResponse(10L, "민지", "image10.com"));
     }
+
+    @Test
+    void 최애_아티스트가_없는_경우를_조회한다() {
+        // given
+        LoginMember loginMember = new LoginMember(2L);
+
+        // when
+        ArtistResponse actual = favoriteArtistQueryService.findFavoriteArtist(loginMember);
+
+        // then
+        assertThat(actual).isEqualTo(new ArtistResponse(null, null, null));
+    }
 }
