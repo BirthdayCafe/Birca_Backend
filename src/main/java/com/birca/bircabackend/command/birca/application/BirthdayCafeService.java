@@ -4,7 +4,7 @@ import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.birca.domain.BirthdayCafe;
 import com.birca.bircabackend.command.birca.domain.BirthdayCafeRepository;
 import com.birca.bircabackend.command.birca.domain.value.ProgressState;
-import com.birca.bircabackend.command.birca.dto.BirthdayCafeCreateRequest;
+import com.birca.bircabackend.command.birca.dto.ApplyRentalRequest;
 import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
 import com.birca.bircabackend.common.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class BirthdayCafeService {
 
     private final BirthdayCafeRepository birthdayCafeRepository;
 
-    public void applyRental(BirthdayCafeCreateRequest request, LoginMember loginMember) {
+    public void applyRental(ApplyRentalRequest request, LoginMember loginMember) {
         Long hostId = loginMember.id();
         validateRentalPendingExists(hostId);
         BirthdayCafe birthdayCafe = request.toEntity(hostId);

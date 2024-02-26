@@ -1,6 +1,6 @@
 package com.birca.bircabackend.command.birca.acceptance;
 
-import com.birca.bircabackend.command.birca.dto.BirthdayCafeCreateRequest;
+import com.birca.bircabackend.command.birca.dto.ApplyRentalRequest;
 import com.birca.bircabackend.support.enviroment.AcceptanceTest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -23,7 +23,7 @@ public class BirthdayCafeAcceptanceTest extends AcceptanceTest {
     @Test
     void 생일_카페_대관을_신청한다() {
         // given
-        BirthdayCafeCreateRequest request = new BirthdayCafeCreateRequest(
+        ApplyRentalRequest request = new ApplyRentalRequest(
                 1L,
                 1L,
                 LocalDateTime.of(2024, 2, 8, 0, 0, 0),

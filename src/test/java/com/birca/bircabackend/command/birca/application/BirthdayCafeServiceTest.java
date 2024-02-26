@@ -3,7 +3,7 @@ package com.birca.bircabackend.command.birca.application;
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.birca.domain.*;
 import com.birca.bircabackend.command.birca.domain.value.*;
-import com.birca.bircabackend.command.birca.dto.BirthdayCafeCreateRequest;
+import com.birca.bircabackend.command.birca.dto.ApplyRentalRequest;
 import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
 import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.support.enviroment.ServiceTest;
@@ -41,7 +41,7 @@ class BirthdayCafeServiceTest extends ServiceTest {
         private final int maximumVisitant = 10;
         private final LocalDateTime startDate = LocalDateTime.of(2024, 2, 8, 0, 0, 0);
         private final LocalDateTime endDate = LocalDateTime.of(2024, 2, 10, 0, 0, 0);
-        private final BirthdayCafeCreateRequest validRequest = new BirthdayCafeCreateRequest(
+        private final ApplyRentalRequest validRequest = new ApplyRentalRequest(
                 1L,
                 1L,
                 startDate,
@@ -77,7 +77,7 @@ class BirthdayCafeServiceTest extends ServiceTest {
             // given
             LocalDateTime startDate = LocalDateTime.of(2024, 2, 11, 0, 0, 0);
             LocalDateTime endDate = LocalDateTime.of(2024, 2, 10, 0, 0, 0);
-            BirthdayCafeCreateRequest request = new BirthdayCafeCreateRequest(
+            ApplyRentalRequest request = new ApplyRentalRequest(
                     1L,
                     1L,
                     startDate,
@@ -100,7 +100,7 @@ class BirthdayCafeServiceTest extends ServiceTest {
             // given
             int minimumVisitant = 11;
             int maximumVisitant = 10;
-            BirthdayCafeCreateRequest request = new BirthdayCafeCreateRequest(
+            ApplyRentalRequest request = new ApplyRentalRequest(
                     1L,
                     1L,
                     LocalDateTime.of(2024, 2, 8, 0, 0, 0),
@@ -123,7 +123,7 @@ class BirthdayCafeServiceTest extends ServiceTest {
             // given
             int minimumVisitant = -1;
             int maximumVisitant = -1;
-            BirthdayCafeCreateRequest request = new BirthdayCafeCreateRequest(
+            ApplyRentalRequest request = new ApplyRentalRequest(
                     1L,
                     1L,
                     LocalDateTime.of(2024, 2, 8, 0, 0, 0),
@@ -145,7 +145,7 @@ class BirthdayCafeServiceTest extends ServiceTest {
         void 이미_대관_대기_생일_카페가_있으면_또_대관할_수_없다() {
             // given
             birthdayCafeService.applyRental(validRequest, LOGIN_MEMBER);
-            BirthdayCafeCreateRequest request = new BirthdayCafeCreateRequest(
+            ApplyRentalRequest request = new ApplyRentalRequest(
                     1L,
                     2L,
                     LocalDateTime.of(2024, 2, 8, 0, 0, 0),

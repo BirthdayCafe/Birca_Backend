@@ -7,7 +7,7 @@ import com.birca.bircabackend.command.birca.domain.value.Visitants;
 
 import java.time.LocalDateTime;
 
-public record BirthdayCafeCreateRequest(
+public record ApplyRentalRequest(
         Long artistId,
         Long cafeId,
         LocalDateTime startDate,

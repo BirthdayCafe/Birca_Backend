@@ -1,6 +1,6 @@
 package com.birca.bircabackend.command.birca.presentation;
 
-import com.birca.bircabackend.command.birca.dto.BirthdayCafeCreateRequest;
+import com.birca.bircabackend.command.birca.dto.ApplyRentalRequest;
 import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
 import com.birca.bircabackend.support.enviroment.DocumentationTest;
 import org.junit.jupiter.api.Test;
@@ -24,7 +24,7 @@ public class BirthdayCafeControllerTest extends DocumentationTest {
     @Test
     void 생일_카페를_등록한다() throws Exception {
         // given
-        BirthdayCafeCreateRequest request = new BirthdayCafeCreateRequest(
+        ApplyRentalRequest request = new ApplyRentalRequest(
                 1L,
                 1L,
                 LocalDateTime.of(2024, 2, 8, 0, 0, 0),
