@@ -33,5 +33,4 @@ class InterestArtistQueryServiceTest extends ServiceTest {
                         new ArtistResponse(12L, "혜인", "image12.com")
                 );
     }
-
 }
