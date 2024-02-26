@@ -47,11 +47,13 @@ class BirthdayCafeServiceTest extends ServiceTest {
             LocalDateTime endDate = LocalDateTime.of(2024, 2, 10, 0, 0, 0);
             BirthdayCafeCreateRequest request = new BirthdayCafeCreateRequest(
                     1L,
+                    1L,
                     startDate,
                     endDate,
                     minimumVisitant,
                     maximumVisitant,
-                    "@ChaseM"
+                    "@ChaseM",
+                    "010-0000-0000"
             );
 
             // when
@@ -73,11 +75,13 @@ class BirthdayCafeServiceTest extends ServiceTest {
             // given
             BirthdayCafeCreateRequest request = new BirthdayCafeCreateRequest(
                     1L,
+                    1L,
                     null,
                     null,
                     null,
                     null,
-                    null
+                    null,
+                    "010-0000-0000"
             );
 
             // when
@@ -101,11 +105,13 @@ class BirthdayCafeServiceTest extends ServiceTest {
             LocalDateTime endDate = LocalDateTime.of(2024, 2, 10, 0, 0, 0);
             BirthdayCafeCreateRequest request = new BirthdayCafeCreateRequest(
                     1L,
+                    1L,
                     startDate,
                     endDate,
                     5,
                     10,
-                    "@ChaseM"
+                    "@ChaseM",
+                    "010-0000-0000"
             );
 
             // when then
@@ -123,11 +129,13 @@ class BirthdayCafeServiceTest extends ServiceTest {
         int maximumVisitant = 10;
         BirthdayCafeCreateRequest request = new BirthdayCafeCreateRequest(
                 1L,
+                1L,
                 LocalDateTime.of(2024, 2, 8, 0, 0, 0),
                 LocalDateTime.of(2024, 2, 10, 0, 0, 0),
                 minimumVisitant,
                 maximumVisitant,
-                "@ChaseM"
+                "@ChaseM",
+                "010-0000-0000"
         );
 
         // when then
@@ -144,11 +152,13 @@ class BirthdayCafeServiceTest extends ServiceTest {
         int maximumVisitant = -1;
         BirthdayCafeCreateRequest request = new BirthdayCafeCreateRequest(
                 1L,
+                1L,
                 LocalDateTime.of(2024, 2, 8, 0, 0, 0),
                 LocalDateTime.of(2024, 2, 10, 0, 0, 0),
                 minimumVisitant,
                 maximumVisitant,
-                "@ChaseM"
+                "@ChaseM",
+                "010-0000-0000"
         );
 
         // when then

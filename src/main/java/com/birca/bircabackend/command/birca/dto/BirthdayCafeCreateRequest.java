@@ -8,11 +8,13 @@ import java.time.LocalDateTime;
 
 public record BirthdayCafeCreateRequest(
         Long artistId,
+        Long cafeId,
         LocalDateTime startDate,
         LocalDateTime endDate,
         Integer minimumVisitant,
         Integer maximumVisitant,
-        String twitterAccount
+        String twitterAccount,
+        String hostPhoneNumber
 ) {
 
     public BirthdayCafe toEntity(Long hostId) {

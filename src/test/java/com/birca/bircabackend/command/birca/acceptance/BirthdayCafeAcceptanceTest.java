@@ -21,15 +21,17 @@ public class BirthdayCafeAcceptanceTest extends AcceptanceTest {
     private static final Long MEMBER_ID = 1L;
 
     @Test
-    void 생일_카페를_등록한다() {
+    void 생일_카페_대관을_신청한다() {
         // given
         BirthdayCafeCreateRequest request = new BirthdayCafeCreateRequest(
+                1L,
                 1L,
                 LocalDateTime.of(2024, 2, 8, 0, 0, 0),
                 LocalDateTime.of(2024, 2, 10, 0, 0, 0),
                 5,
                 10,
-                "@ChaseM"
+                "@ChaseM",
+                "010-0000-0000"
         );
 
         // when
