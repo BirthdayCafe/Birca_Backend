@@ -44,7 +44,7 @@ class FavoriteArtistQueryServiceTest extends ServiceTest {
     }
 
     @Test
-    void 존재하지_않은_회원이_관심_아티스트_목록을_조회하면_예외가_발생한다() {
+    void 존재하지_않은_회원이_최애_아티스트_목록을_조회하면_예외가_발생한다() {
         // when then
         assertThatThrownBy(() -> favoriteArtistQueryService.findFavoriteArtist(new LoginMember(100L)))
                 .isInstanceOf(BusinessException.class)
