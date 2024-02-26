@@ -21,9 +21,11 @@ public record BirthdayCafeCreateRequest(
         return BirthdayCafe.create(
                 hostId,
                 artistId,
+                cafeId,
                 Schedule.of(startDate, endDate),
                 Visitants.of(minimumVisitant, maximumVisitant),
-                twitterAccount
+                twitterAccount,
+                hostPhoneNumber
         );
     }
 }

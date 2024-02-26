@@ -109,12 +109,13 @@ CREATE TABLE birthday_cafe
     id               BIGINT AUTO_INCREMENT NOT NULL,
     host_id          BIGINT                NOT NULL,
     artist_id        BIGINT                NOT NULL,
-    cafe_id          BIGINT                NULL,
+    cafe_id          BIGINT                NOT NULL,
     twitter_account  VARCHAR(255)          NULL,
-    start_date       datetime              NULL,
-    end_date         datetime              NULL,
-    minimum_visitant INT                   NULL,
-    maximum_visitant INT                   NULL,
+    start_date       datetime              NOT NULL,
+    end_date         datetime              NOT NULL,
+    minimum_visitant INT                   NOT NULL,
+    maximum_visitant INT                   NOT NULL,
+    host_phone_number VARCHAR(255)          NOT NULL,
     CONSTRAINT pk_birthdaycafe PRIMARY KEY (id)
 );
 

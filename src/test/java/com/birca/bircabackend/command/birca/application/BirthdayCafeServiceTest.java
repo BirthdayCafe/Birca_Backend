@@ -71,34 +71,6 @@ class BirthdayCafeServiceTest extends ServiceTest {
         }
 
         @Test
-        void 아티스트와_호스트만_있어도_생성_가능하다() {
-            // given
-            BirthdayCafeCreateRequest request = new BirthdayCafeCreateRequest(
-                    1L,
-                    1L,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    "010-0000-0000"
-            );
-
-            // when
-            birthdayCafeService.createBirthdayCafe(request, LOGIN_MEMBER);
-
-            // then
-            BirthdayCafe birthdayCafe = entityManager.find(BirthdayCafe.class, 1L);
-            assertAll(
-                    () -> assertThat(birthdayCafe.getArtistId()).isEqualTo(request.artistId()),
-                    () -> assertThat(birthdayCafe.getHostId()).isEqualTo(LOGIN_MEMBER.id()),
-                    () -> assertThat(birthdayCafe.getSchedule()).isNull(),
-                    () -> assertThat(birthdayCafe.getVisitants()).isNull(),
-                    () -> assertThat(birthdayCafe.getTwitterAccount()).isNull()
-            );
-        }
-
-        @Test
         void 시작일이_종료일보다_앞일_수_없다() {
             // given
             LocalDateTime startDate = LocalDateTime.of(2024, 2, 11, 0, 0, 0);

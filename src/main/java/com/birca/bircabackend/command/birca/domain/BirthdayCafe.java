@@ -21,6 +21,7 @@ public class BirthdayCafe extends BaseEntity {
     @Column(nullable = false)
     private Long artistId;
 
+    @Column(nullable = false)
     private Long cafeId;
 
     @Embedded
@@ -31,18 +32,24 @@ public class BirthdayCafe extends BaseEntity {
 
     private String twitterAccount;
 
+    @Column(nullable = false)
+    private String hostPhoneNumber;
+
     public static BirthdayCafe create(Long hostId,
                                       Long artistId,
+                                      Long cafeId,
                                       Schedule schedule,
                                       Visitants visitants,
-                                      String twitterAccount) {
+                                      String twitterAccount,
+                                      String hostPhoneNumber) {
         return new BirthdayCafe(
                 hostId,
                 artistId,
-                null,
+                cafeId,
                 schedule,
                 visitants,
-                twitterAccount
+                twitterAccount,
+                hostPhoneNumber
         );
     }
 }
