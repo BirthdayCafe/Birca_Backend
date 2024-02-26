@@ -3,6 +3,9 @@ SET foreign_key_checks = 0;
 INSERT INTO member (id, nickname, email, social_id, social_provider, member_role)
 VALUES (1, '더즈', 'ldk@gmail.com', '231323', 'kakao', 'HOST');
 
+INSERT INTO member (id, nickname, email, social_id, social_provider, member_role)
+VALUES (2, '민혁', 'cm@gmail.com', '341234', 'kakao', 'HOST');
+
 INSERT INTO cafe (id, business_license_id)
 VALUES (1, 1);
 
