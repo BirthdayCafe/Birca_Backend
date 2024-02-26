@@ -37,12 +37,14 @@ public class BirthdayCafeService {
 
     public void cancelRental(Long birthdayCafeId, LoginMember loginMember) {
         BirthdayCafe birthdayCafe = entityUtil.getEntity(BirthdayCafe.class, birthdayCafeId, NOT_FOUND);
-        validateHost(loginMember, birthdayCafe);
+        validateAuthority(loginMember, birthdayCafe);
         birthdayCafe.cancelRental();
     }
 
-    private void validateHost(LoginMember loginMember, BirthdayCafe birthdayCafe) {
-        if (!birthdayCafe.isHost(loginMember.id())) {
+    private void validateAuthority(LoginMember loginMember, BirthdayCafe birthdayCafe) {
+        boolean isHost = birthdayCafe.isHost(loginMember.id());
+        boolean isOwner = birthdayCafeRepository.isOwner(birthdayCafe, loginMember.id());
+        if (!isHost && !isOwner) {
             throw BusinessException.from(UNAUTHORIZED_HOST);
         }
     }

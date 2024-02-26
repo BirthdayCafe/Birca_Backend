@@ -27,12 +27,10 @@ class BirthdayCafeServiceTest extends ServiceTest {
 
     private static final LoginMember HOST = new LoginMember(1L);
     private static final LoginMember ANOTHER_MEMBER = new LoginMember(2L);
-
-    @Autowired
-    private BirthdayCafeService birthdayCafeService;
-
-    @PersistenceContext
-    private EntityManager entityManager;
+    private static final LoginMember CAFE_1_OWNER = new LoginMember(3L);
+    private static final long ARTIST_ID = 1L;
+    private static final long CAFE1_ID = 1L;
+    private static final long CAFE2_ID = 2L;
 
     private static final int MINIMUM_VISITANT = 5;
     private static final int MAXIMUM_VISITANT = 10;
@@ -41,8 +39,8 @@ class BirthdayCafeServiceTest extends ServiceTest {
     private static final LocalDateTime END_DATE = LocalDateTime.of(
             2024, 2, 10, 0, 0, 0);
     private static final ApplyRentalRequest VALID_REQUEST = new ApplyRentalRequest(
-            1L,
-            1L,
+            ARTIST_ID,
+            CAFE1_ID,
             START_DATE,
             END_DATE,
             MINIMUM_VISITANT,
@@ -50,6 +48,12 @@ class BirthdayCafeServiceTest extends ServiceTest {
             "@ChaseM",
             "010-0000-0000"
     );
+
+    @Autowired
+    private BirthdayCafeService birthdayCafeService;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
 
     @Nested
@@ -82,8 +86,8 @@ class BirthdayCafeServiceTest extends ServiceTest {
             LocalDateTime startDate = LocalDateTime.of(2024, 2, 11, 0, 0, 0);
             LocalDateTime endDate = LocalDateTime.of(2024, 2, 10, 0, 0, 0);
             ApplyRentalRequest request = new ApplyRentalRequest(
-                    1L,
-                    1L,
+                    ARTIST_ID,
+                    CAFE1_ID,
                     startDate,
                     endDate,
                     5,
@@ -105,8 +109,8 @@ class BirthdayCafeServiceTest extends ServiceTest {
             int minimumVisitant = 11;
             int maximumVisitant = 10;
             ApplyRentalRequest request = new ApplyRentalRequest(
-                    1L,
-                    1L,
+                    ARTIST_ID,
+                    CAFE1_ID,
                     LocalDateTime.of(2024, 2, 8, 0, 0, 0),
                     LocalDateTime.of(2024, 2, 10, 0, 0, 0),
                     minimumVisitant,
@@ -128,8 +132,8 @@ class BirthdayCafeServiceTest extends ServiceTest {
             int minimumVisitant = -1;
             int maximumVisitant = -1;
             ApplyRentalRequest request = new ApplyRentalRequest(
-                    1L,
-                    1L,
+                    ARTIST_ID,
+                    CAFE1_ID,
                     LocalDateTime.of(2024, 2, 8, 0, 0, 0),
                     LocalDateTime.of(2024, 2, 10, 0, 0, 0),
                     minimumVisitant,
@@ -150,8 +154,8 @@ class BirthdayCafeServiceTest extends ServiceTest {
             // given
             birthdayCafeService.applyRental(VALID_REQUEST, HOST);
             ApplyRentalRequest request = new ApplyRentalRequest(
-                    1L,
-                    2L,
+                    ARTIST_ID,
+                    CAFE2_ID,
                     LocalDateTime.of(2024, 2, 8, 0, 0, 0),
                     LocalDateTime.of(2024, 2, 10, 0, 0, 0),
                     MINIMUM_VISITANT,
@@ -180,9 +184,19 @@ class BirthdayCafeServiceTest extends ServiceTest {
         }
 
         @Test
-        void 정상적으로_취소한다() {
+        void 주최자_취소한다() {
             // when
             birthdayCafeService.cancelRental(birthdayCafeId, HOST);
+
+            // then
+            BirthdayCafe actual = entityManager.find(BirthdayCafe.class, birthdayCafeId);
+            assertThat(actual.getProgressState()).isEqualTo(ProgressState.RENTAL_CANCELED);
+        }
+
+        @Test
+        void 카페_사장님이_취소한다() {
+            // when
+            birthdayCafeService.cancelRental(birthdayCafeId, CAFE_1_OWNER);
 
             // then
             BirthdayCafe actual = entityManager.find(BirthdayCafe.class, birthdayCafeId);
@@ -214,7 +228,7 @@ class BirthdayCafeServiceTest extends ServiceTest {
         }
 
         @Test
-        void 생일_카페_주최자가_아니면_취소할_수_없다() {
+        void 생일_카페_주최자_또는_카페_사장님이_아니면_취소할_수_없다() {
             // when // than
             assertThatThrownBy(() -> birthdayCafeService.cancelRental(birthdayCafeId, ANOTHER_MEMBER))
                     .isInstanceOf(BusinessException.class)
