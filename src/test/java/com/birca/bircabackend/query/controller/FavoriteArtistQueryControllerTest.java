@@ -34,9 +34,9 @@ class FavoriteArtistQueryControllerTest extends DocumentationTest {
         result.andExpect((status().isOk()))
                 .andDo(document("get-favorite-artist", HOST_INFO, DOCUMENT_RESPONSE,
                         responseFields(
-                                fieldWithPath("artistId").type(JsonFieldType.NUMBER).description("아티스트 ID"),
-                                fieldWithPath("artistName").type(JsonFieldType.STRING).description("아티스트 이름"),
-                                fieldWithPath("artistImage").type(JsonFieldType.STRING).description("아티스트 이미지 url")
+                                fieldWithPath("artistId").type(JsonFieldType.NUMBER).description("최애 아티스트 ID"),
+                                fieldWithPath("artistName").type(JsonFieldType.STRING).description("최애 아티스트 이름"),
+                                fieldWithPath("artistImage").type(JsonFieldType.STRING).description("최애 아티스트 이미지 url")
                         )
                 ));
     }
