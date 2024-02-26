@@ -31,4 +31,8 @@ public class BirthdayCafeService {
                     throw BusinessException.from(BirthdayCafeErrorCode.RENTAL_PENDING_EXISTS);
                 });
     }
+
+    public void cancelRental(Long birthdayCafeId, LoginMember loginMember) {
+
+    }
 }
