@@ -1,5 +1,6 @@
 package com.birca.bircabackend.command.birca.domain;
 
+import com.birca.bircabackend.command.birca.domain.value.ProgressState;
 import org.springframework.data.repository.Repository;
 
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package com.birca.bircabackend.command.birca.domain;
+package com.birca.bircabackend.command.birca.domain.value;
 
 import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
 import com.birca.bircabackend.common.exception.BusinessException;

@@ -1,5 +1,6 @@
 package com.birca.bircabackend.command.birca.domain;
 
+import com.birca.bircabackend.command.birca.domain.value.*;
 import com.birca.bircabackend.common.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

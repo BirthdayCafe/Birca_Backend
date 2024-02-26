@@ -1,4 +1,4 @@
-package com.birca.bircabackend.command.birca.domain;
+package com.birca.bircabackend.command.birca.domain.value;
 
 public enum CongestionState {
 

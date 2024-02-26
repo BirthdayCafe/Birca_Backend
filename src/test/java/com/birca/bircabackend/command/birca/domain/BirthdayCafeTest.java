@@ -1,5 +1,6 @@
 package com.birca.bircabackend.command.birca.domain;
 
+import com.birca.bircabackend.command.birca.domain.value.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
