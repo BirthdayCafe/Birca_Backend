@@ -67,7 +67,8 @@ class BirthdayCafeServiceTest extends ServiceTest {
                     () -> assertThat(birthdayCafe.getTwitterAccount()).isEqualTo(request.twitterAccount()),
                     () -> assertThat(birthdayCafe.getProgressState()).isEqualTo(ProgressState.RENTAL_PENDING),
                     () -> assertThat(birthdayCafe.getVisibility()).isEqualTo(Visibility.PRIVATE),
-                    () -> assertThat(birthdayCafe.getCongestionState()).isEqualTo(CongestionState.SMOOTH)
+                    () -> assertThat(birthdayCafe.getCongestionState()).isEqualTo(CongestionState.SMOOTH),
+                    () -> assertThat(birthdayCafe.getSpecialGoodsStockState()).isEqualTo(SpecialGoodsStockState.ABUNDANT)
             );
         }
 

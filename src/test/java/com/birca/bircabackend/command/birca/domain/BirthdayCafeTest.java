@@ -52,5 +52,15 @@ class BirthdayCafeTest {
             // then
             assertThat(actual.getCongestionState()).isEqualTo(CongestionState.SMOOTH);
         }
+
+        @Test
+        void 특전_재고는_많음으로_생성된다() {
+            // when
+            BirthdayCafe actual = BirthdayCafe.applyRental(
+                    hostId, artistId, cafeId, schedule, visitants, twitterAccount, hostPhoneNumber);
+
+            // then
+            assertThat(actual.getSpecialGoodsStockState()).isEqualTo(SpecialGoodsStockState.ABUNDANT);
+        }
     }
 }

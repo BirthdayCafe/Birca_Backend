@@ -119,6 +119,7 @@ CREATE TABLE birthday_cafe
     progress_state    VARCHAR(255)          NOT NULL,
     visibility    VARCHAR(255)          NOT NULL,
     congestion_state    VARCHAR(255)          NOT NULL,
+    special_goods_stock_state    VARCHAR(255)          NOT NULL,
     CONSTRAINT pk_birthdaycafe PRIMARY KEY (id)
 );
 
