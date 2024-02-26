@@ -37,6 +37,10 @@ public class BirthdayCafe extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ProgressState progressState;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Visibility visibility;
+
     public static BirthdayCafe applyRental(Long hostId,
                                            Long artistId,
                                            Long cafeId,
@@ -52,7 +56,8 @@ public class BirthdayCafe extends BaseEntity {
                 visitants,
                 twitterAccount,
                 hostPhoneNumber,
-                ProgressState.RENTAL_PENDING
+                ProgressState.RENTAL_PENDING,
+                Visibility.PRIVATE
         );
     }
 }

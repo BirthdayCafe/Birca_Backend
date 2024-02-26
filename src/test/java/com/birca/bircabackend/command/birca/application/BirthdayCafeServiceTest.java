@@ -1,10 +1,7 @@
 package com.birca.bircabackend.command.birca.application;
 
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
-import com.birca.bircabackend.command.birca.domain.BirthdayCafe;
-import com.birca.bircabackend.command.birca.domain.ProgressState;
-import com.birca.bircabackend.command.birca.domain.Schedule;
-import com.birca.bircabackend.command.birca.domain.Visitants;
+import com.birca.bircabackend.command.birca.domain.*;
 import com.birca.bircabackend.command.birca.dto.BirthdayCafeCreateRequest;
 import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
 import com.birca.bircabackend.common.exception.BusinessException;
@@ -68,7 +65,8 @@ class BirthdayCafeServiceTest extends ServiceTest {
                     () -> assertThat(birthdayCafe.getSchedule()).isEqualTo(Schedule.of(startDate, endDate)),
                     () -> assertThat(birthdayCafe.getVisitants()).isEqualTo(Visitants.of(minimumVisitant, maximumVisitant)),
                     () -> assertThat(birthdayCafe.getTwitterAccount()).isEqualTo(request.twitterAccount()),
-                    () -> assertThat(birthdayCafe.getProgressState()).isEqualTo(ProgressState.RENTAL_PENDING)
+                    () -> assertThat(birthdayCafe.getProgressState()).isEqualTo(ProgressState.RENTAL_PENDING),
+                    () -> assertThat(birthdayCafe.getVisibility()).isEqualTo(Visibility.PRIVATE)
             );
         }
 
