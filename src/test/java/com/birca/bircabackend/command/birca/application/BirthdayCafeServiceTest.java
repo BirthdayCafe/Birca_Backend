@@ -2,6 +2,7 @@ package com.birca.bircabackend.command.birca.application;
 
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.birca.domain.BirthdayCafe;
+import com.birca.bircabackend.command.birca.domain.ProgressState;
 import com.birca.bircabackend.command.birca.domain.Schedule;
 import com.birca.bircabackend.command.birca.domain.Visitants;
 import com.birca.bircabackend.command.birca.dto.BirthdayCafeCreateRequest;
@@ -57,7 +58,7 @@ class BirthdayCafeServiceTest extends ServiceTest {
             );
 
             // when
-            birthdayCafeService.createBirthdayCafe(request, LOGIN_MEMBER);
+            birthdayCafeService.applyRental(request, LOGIN_MEMBER);
 
             // then
             BirthdayCafe birthdayCafe = entityManager.find(BirthdayCafe.class, 1L);
@@ -66,7 +67,8 @@ class BirthdayCafeServiceTest extends ServiceTest {
                     () -> assertThat(birthdayCafe.getHostId()).isEqualTo(LOGIN_MEMBER.id()),
                     () -> assertThat(birthdayCafe.getSchedule()).isEqualTo(Schedule.of(startDate, endDate)),
                     () -> assertThat(birthdayCafe.getVisitants()).isEqualTo(Visitants.of(minimumVisitant, maximumVisitant)),
-                    () -> assertThat(birthdayCafe.getTwitterAccount()).isEqualTo(request.twitterAccount())
+                    () -> assertThat(birthdayCafe.getTwitterAccount()).isEqualTo(request.twitterAccount()),
+                    () -> assertThat(birthdayCafe.getProgressState()).isEqualTo(ProgressState.RENTAL_PENDING)
             );
         }
 
@@ -87,7 +89,7 @@ class BirthdayCafeServiceTest extends ServiceTest {
             );
 
             // when then
-            assertThatThrownBy(() -> birthdayCafeService.createBirthdayCafe(request, LOGIN_MEMBER))
+            assertThatThrownBy(() -> birthdayCafeService.applyRental(request, LOGIN_MEMBER))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.INVALID_SCHEDULE);
@@ -111,7 +113,7 @@ class BirthdayCafeServiceTest extends ServiceTest {
         );
 
         // when then
-        assertThatThrownBy(() -> birthdayCafeService.createBirthdayCafe(request, LOGIN_MEMBER))
+        assertThatThrownBy(() -> birthdayCafeService.applyRental(request, LOGIN_MEMBER))
                 .isInstanceOf(BusinessException.class)
                 .extracting("errorCode")
                 .isEqualTo(BirthdayCafeErrorCode.INVALID_VISITANTS);
@@ -134,7 +136,7 @@ class BirthdayCafeServiceTest extends ServiceTest {
         );
 
         // when then
-        assertThatThrownBy(() -> birthdayCafeService.createBirthdayCafe(request, LOGIN_MEMBER))
+        assertThatThrownBy(() -> birthdayCafeService.applyRental(request, LOGIN_MEMBER))
                 .isInstanceOf(BusinessException.class)
                 .extracting("errorCode")
                 .isEqualTo(BirthdayCafeErrorCode.INVALID_VISITANTS);

@@ -15,7 +15,7 @@ public class BirthdayCafeService {
 
     private final BirthdayCafeRepository birthdayCafeRepository;
 
-    public void createBirthdayCafe(BirthdayCafeCreateRequest request, LoginMember loginMember) {
+    public void applyRental(BirthdayCafeCreateRequest request, LoginMember loginMember) {
         BirthdayCafe birthdayCafe = request.toEntity(loginMember.id());
         birthdayCafeRepository.save(birthdayCafe);
     }

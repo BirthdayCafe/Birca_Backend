@@ -1,9 +1,7 @@
 package com.birca.bircabackend.command.birca.domain;
 
 import com.birca.bircabackend.common.domain.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,13 +33,17 @@ public class BirthdayCafe extends BaseEntity {
     @Column(nullable = false)
     private String hostPhoneNumber;
 
-    public static BirthdayCafe create(Long hostId,
-                                      Long artistId,
-                                      Long cafeId,
-                                      Schedule schedule,
-                                      Visitants visitants,
-                                      String twitterAccount,
-                                      String hostPhoneNumber) {
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private ProgressState progressState;
+
+    public static BirthdayCafe applyRental(Long hostId,
+                                           Long artistId,
+                                           Long cafeId,
+                                           Schedule schedule,
+                                           Visitants visitants,
+                                           String twitterAccount,
+                                           String hostPhoneNumber) {
         return new BirthdayCafe(
                 hostId,
                 artistId,
@@ -49,7 +51,8 @@ public class BirthdayCafe extends BaseEntity {
                 schedule,
                 visitants,
                 twitterAccount,
-                hostPhoneNumber
+                hostPhoneNumber,
+                ProgressState.RENTAL_PENDING
         );
     }
 }

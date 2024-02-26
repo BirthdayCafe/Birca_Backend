@@ -18,7 +18,7 @@ public record BirthdayCafeCreateRequest(
 ) {
 
     public BirthdayCafe toEntity(Long hostId) {
-        return BirthdayCafe.create(
+        return BirthdayCafe.applyRental(
                 hostId,
                 artistId,
                 cafeId,

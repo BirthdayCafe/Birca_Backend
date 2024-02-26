@@ -22,7 +22,7 @@ public class BirthdayCafeController {
     @RequiredLogin
     public ResponseEntity<Void> registerBirthdayCafe(@RequestBody BirthdayCafeCreateRequest request,
                                                      LoginMember loginMember) {
-        birthdayCafeService.createBirthdayCafe(request, loginMember);
+        birthdayCafeService.applyRental(request, loginMember);
         return ResponseEntity.ok().build();
     }
 }
