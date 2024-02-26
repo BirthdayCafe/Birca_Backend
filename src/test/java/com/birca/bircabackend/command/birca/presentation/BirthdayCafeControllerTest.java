@@ -13,6 +13,8 @@ import java.time.LocalDateTime;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -54,6 +56,26 @@ public class BirthdayCafeControllerTest extends DocumentationTest {
                                 fieldWithPath("maximumVisitant").type(JsonFieldType.NUMBER).description("생일 카페 최대 방문자 인원"),
                                 fieldWithPath("twitterAccount").type(JsonFieldType.STRING).description("생일 카페 트위터 계정"),
                                 fieldWithPath("hostPhoneNumber").type(JsonFieldType.STRING).description("주최자 연락처")
+                        )
+                ));
+    }
+
+    @Test
+    void 생일_카페_대관을_취소한다() throws Exception {
+        // given
+        Long birthdayCafeId = 1L;
+
+        // when
+        ResultActions result = mockMvc.perform(post("/api/v1/birthday-cafes/{birthdayCafeId}/cancel", birthdayCafeId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
+        );
+
+        // then
+        result.andExpect((status().isOk()))
+                .andDo(document("cancel-birthday-cafe", HOST_INFO, DOCUMENT_RESPONSE,
+                        pathParameters(
+                                parameterWithName("birthdayCafeId").description("취소할 생일 카페 ID")
                         )
                 ));
     }
