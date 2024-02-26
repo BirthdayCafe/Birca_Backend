@@ -33,38 +33,37 @@ class BirthdayCafeServiceTest extends ServiceTest {
 
 
     @Nested
-    @DisplayName("생일 카페 생성 시")
-    class CreateTest {
+    @DisplayName("생일 카페를 위해 카페를 대관할 때")
+    class ApplyRentalTest {
+
+        private final int minimumVisitant = 5;
+        private final int maximumVisitant = 10;
+        private final LocalDateTime startDate = LocalDateTime.of(2024, 2, 8, 0, 0, 0);
+        private final LocalDateTime endDate = LocalDateTime.of(2024, 2, 10, 0, 0, 0);
+        private final BirthdayCafeCreateRequest validRequest = new BirthdayCafeCreateRequest(
+                1L,
+                1L,
+                startDate,
+                endDate,
+                minimumVisitant,
+                maximumVisitant,
+                "@ChaseM",
+                "010-0000-0000"
+        );
 
         @Test
-        void 정상적으로_생성한다() {
-            // given
-            int minimumVisitant = 5;
-            int maximumVisitant = 10;
-            LocalDateTime startDate = LocalDateTime.of(2024, 2, 8, 0, 0, 0);
-            LocalDateTime endDate = LocalDateTime.of(2024, 2, 10, 0, 0, 0);
-            BirthdayCafeCreateRequest request = new BirthdayCafeCreateRequest(
-                    1L,
-                    1L,
-                    startDate,
-                    endDate,
-                    minimumVisitant,
-                    maximumVisitant,
-                    "@ChaseM",
-                    "010-0000-0000"
-            );
-
+        void 정상적으로_신청한다() {
             // when
-            birthdayCafeService.applyRental(request, LOGIN_MEMBER);
+            birthdayCafeService.applyRental(validRequest, LOGIN_MEMBER);
 
             // then
             BirthdayCafe birthdayCafe = entityManager.find(BirthdayCafe.class, 1L);
             assertAll(
-                    () -> assertThat(birthdayCafe.getArtistId()).isEqualTo(request.artistId()),
+                    () -> assertThat(birthdayCafe.getArtistId()).isEqualTo(validRequest.artistId()),
                     () -> assertThat(birthdayCafe.getHostId()).isEqualTo(LOGIN_MEMBER.id()),
                     () -> assertThat(birthdayCafe.getSchedule()).isEqualTo(Schedule.of(startDate, endDate)),
                     () -> assertThat(birthdayCafe.getVisitants()).isEqualTo(Visitants.of(minimumVisitant, maximumVisitant)),
-                    () -> assertThat(birthdayCafe.getTwitterAccount()).isEqualTo(request.twitterAccount()),
+                    () -> assertThat(birthdayCafe.getTwitterAccount()).isEqualTo(validRequest.twitterAccount()),
                     () -> assertThat(birthdayCafe.getProgressState()).isEqualTo(ProgressState.RENTAL_PENDING),
                     () -> assertThat(birthdayCafe.getVisibility()).isEqualTo(Visibility.PRIVATE),
                     () -> assertThat(birthdayCafe.getCongestionState()).isEqualTo(CongestionState.SMOOTH),
@@ -94,51 +93,73 @@ class BirthdayCafeServiceTest extends ServiceTest {
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.INVALID_SCHEDULE);
         }
-    }
 
-    @Test
-    void 최소_방문자는_최대_방문자_보다_클_수_없다() {
-        // given
-        int minimumVisitant = 11;
-        int maximumVisitant = 10;
-        BirthdayCafeCreateRequest request = new BirthdayCafeCreateRequest(
-                1L,
-                1L,
-                LocalDateTime.of(2024, 2, 8, 0, 0, 0),
-                LocalDateTime.of(2024, 2, 10, 0, 0, 0),
-                minimumVisitant,
-                maximumVisitant,
-                "@ChaseM",
-                "010-0000-0000"
-        );
+        @Test
+        void 최소_방문자는_최대_방문자_보다_클_수_없다() {
+            // given
+            int minimumVisitant = 11;
+            int maximumVisitant = 10;
+            BirthdayCafeCreateRequest request = new BirthdayCafeCreateRequest(
+                    1L,
+                    1L,
+                    LocalDateTime.of(2024, 2, 8, 0, 0, 0),
+                    LocalDateTime.of(2024, 2, 10, 0, 0, 0),
+                    minimumVisitant,
+                    maximumVisitant,
+                    "@ChaseM",
+                    "010-0000-0000"
+            );
 
-        // when then
-        assertThatThrownBy(() -> birthdayCafeService.applyRental(request, LOGIN_MEMBER))
-                .isInstanceOf(BusinessException.class)
-                .extracting("errorCode")
-                .isEqualTo(BirthdayCafeErrorCode.INVALID_VISITANTS);
-    }
+            // when then
+            assertThatThrownBy(() -> birthdayCafeService.applyRental(request, LOGIN_MEMBER))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.INVALID_VISITANTS);
+        }
 
-    @Test
-    void 최소_방문자와_최대_방문자는_양수여야_한다() {
-        // given
-        int minimumVisitant = -1;
-        int maximumVisitant = -1;
-        BirthdayCafeCreateRequest request = new BirthdayCafeCreateRequest(
-                1L,
-                1L,
-                LocalDateTime.of(2024, 2, 8, 0, 0, 0),
-                LocalDateTime.of(2024, 2, 10, 0, 0, 0),
-                minimumVisitant,
-                maximumVisitant,
-                "@ChaseM",
-                "010-0000-0000"
-        );
+        @Test
+        void 최소_방문자와_최대_방문자는_양수여야_한다() {
+            // given
+            int minimumVisitant = -1;
+            int maximumVisitant = -1;
+            BirthdayCafeCreateRequest request = new BirthdayCafeCreateRequest(
+                    1L,
+                    1L,
+                    LocalDateTime.of(2024, 2, 8, 0, 0, 0),
+                    LocalDateTime.of(2024, 2, 10, 0, 0, 0),
+                    minimumVisitant,
+                    maximumVisitant,
+                    "@ChaseM",
+                    "010-0000-0000"
+            );
 
-        // when then
-        assertThatThrownBy(() -> birthdayCafeService.applyRental(request, LOGIN_MEMBER))
-                .isInstanceOf(BusinessException.class)
-                .extracting("errorCode")
-                .isEqualTo(BirthdayCafeErrorCode.INVALID_VISITANTS);
+            // when then
+            assertThatThrownBy(() -> birthdayCafeService.applyRental(request, LOGIN_MEMBER))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.INVALID_VISITANTS);
+        }
+
+        @Test
+        void 이미_대관_대기_생일_카페가_있으면_또_대관할_수_없다() {
+            // given
+            birthdayCafeService.applyRental(validRequest, LOGIN_MEMBER);
+            BirthdayCafeCreateRequest request = new BirthdayCafeCreateRequest(
+                    1L,
+                    2L,
+                    LocalDateTime.of(2024, 2, 8, 0, 0, 0),
+                    LocalDateTime.of(2024, 2, 10, 0, 0, 0),
+                    minimumVisitant,
+                    maximumVisitant,
+                    "@ChaseM",
+                    "010-0000-0000"
+            );
+
+            // when then
+            assertThatThrownBy(() -> birthdayCafeService.applyRental(request, LOGIN_MEMBER))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.RENTAL_PENDING_EXISTS);
+        }
     }
 }
