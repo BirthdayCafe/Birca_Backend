@@ -42,5 +42,15 @@ class BirthdayCafeTest {
             // then
             assertThat(actual.getVisibility()).isEqualTo(Visibility.PRIVATE);
         }
+
+        @Test
+        void 혼잡도가_원할로_생성된다() {
+            // when
+            BirthdayCafe actual = BirthdayCafe.applyRental(
+                    hostId, artistId, cafeId, schedule, visitants, twitterAccount, hostPhoneNumber);
+
+            // then
+            assertThat(actual.getCongestionState()).isEqualTo(CongestionState.SMOOTH);
+        }
     }
 }

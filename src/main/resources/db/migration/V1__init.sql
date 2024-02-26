@@ -118,6 +118,7 @@ CREATE TABLE birthday_cafe
     host_phone_number VARCHAR(255)          NOT NULL,
     progress_state    VARCHAR(255)          NOT NULL,
     visibility    VARCHAR(255)          NOT NULL,
+    congestion_state    VARCHAR(255)          NOT NULL,
     CONSTRAINT pk_birthdaycafe PRIMARY KEY (id)
 );
 

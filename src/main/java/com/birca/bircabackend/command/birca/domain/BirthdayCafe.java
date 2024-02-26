@@ -41,6 +41,10 @@ public class BirthdayCafe extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Visibility visibility;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private CongestionState congestionState;
+
     public static BirthdayCafe applyRental(Long hostId,
                                            Long artistId,
                                            Long cafeId,
@@ -57,7 +61,8 @@ public class BirthdayCafe extends BaseEntity {
                 twitterAccount,
                 hostPhoneNumber,
                 ProgressState.RENTAL_PENDING,
-                Visibility.PRIVATE
+                Visibility.PRIVATE,
+                CongestionState.SMOOTH
         );
     }
 }
