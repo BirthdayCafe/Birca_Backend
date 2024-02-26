@@ -15,7 +15,7 @@ public class FavoriteArtistQueryService {
     private final FavoriteArtistQueryRepository favoriteArtistQueryRepository;
 
     public ArtistResponse findFavoriteArtist(LoginMember loginMember) {
-        return favoriteArtistQueryRepository.findArtistIdByFanId(loginMember.id())
+        return favoriteArtistQueryRepository.findFavoriteArtistByFanId(loginMember.id())
                 .map(ArtistResponse::new)
                 .orElseGet(ArtistResponse::createEmpty);
     }
