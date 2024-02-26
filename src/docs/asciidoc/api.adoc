@@ -37,6 +37,12 @@ operation::register-interest-artist[snippets='http-request,request-fields,http-r
 === 에러 코드
 include::{snippets}/artist-error-Code/response-body.adoc[]
 
+=== 최애 아티스트 조회
+operation::get-favorite-artist[snippets='http-request,http-response,response-fields']
+=== 관심 아티스트 조회
+operation::get-interest-artists[snippets='http-request,http-response,response-fields']
+
+
 == 사업자등록증 API
 === 사업자등록증 스캔
 operation::business-license-read[snippets='http-request,http-response,response-fields']

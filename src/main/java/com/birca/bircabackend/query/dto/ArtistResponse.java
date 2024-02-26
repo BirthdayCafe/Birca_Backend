@@ -11,4 +11,8 @@ public record ArtistResponse(
     public ArtistResponse(Artist artist) {
         this(artist.getId(), artist.getName(), artist.getImageUrl());
     }
+
+    public static ArtistResponse createEmpty() {
+        return new ArtistResponse(null, null, null);
+    }
 }
