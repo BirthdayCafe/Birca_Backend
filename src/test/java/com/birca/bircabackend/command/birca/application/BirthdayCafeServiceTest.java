@@ -229,7 +229,7 @@ class BirthdayCafeServiceTest extends ServiceTest {
             assertThatThrownBy(() -> birthdayCafeService.cancelRental(birthdayCafeId, ANOTHER_MEMBER))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
-                    .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_HOST);
+                    .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_CANCEL);
         }
     }
 }

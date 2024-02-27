@@ -15,7 +15,7 @@ public enum BirthdayCafeErrorCode implements ErrorCode {
     INVALID_PHONE_NUMBER(5004, 400, "올바르지 않은 연락처 형식입니다."),
     INVALID_CANCEL_RENTAL(5005, 400, "대관 대기 상태에서만 취소할 수 있습니다."),
     NOT_FOUND(5006, 404, "존재하지 않는 생일 카페입니다."),
-    UNAUTHORIZED_HOST(5007, 400, "대관 취소 권한이 없는 회원입니다.")
+    UNAUTHORIZED_CANCEL(5007, 400, "대관 취소 권한이 없는 회원입니다.")
 
     ;
 

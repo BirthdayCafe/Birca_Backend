@@ -45,7 +45,7 @@ public class BirthdayCafeService {
         boolean isHost = birthdayCafe.isHost(loginMember.id());
         boolean isOwner = birthdayCafeRepository.isOwner(birthdayCafe, loginMember.id());
         if (!isHost && !isOwner) {
-            throw BusinessException.from(UNAUTHORIZED_HOST);
+            throw BusinessException.from(UNAUTHORIZED_CANCEL);
         }
     }
 }
