@@ -1,11 +1,11 @@
 CREATE TABLE member
 (
     id              BIGINT AUTO_INCREMENT NOT NULL,
-    email           VARCHAR(255)          NOT NULL,
-    member_role     VARCHAR(255)          NOT NULL,
-    nickname        VARCHAR(255)          NULL,
-    social_id       VARCHAR(255)          NOT NULL,
-    social_provider VARCHAR(255)          NOT NULL,
+    email           VARCHAR(255) NOT NULL,
+    member_role     VARCHAR(255) NOT NULL,
+    nickname        VARCHAR(255) NULL,
+    social_id       VARCHAR(255) NOT NULL,
+    social_provider VARCHAR(255) NOT NULL,
     CONSTRAINT pk_member PRIMARY KEY (id)
 );
 
@@ -18,14 +18,14 @@ ALTER TABLE member
 CREATE TABLE business_license
 (
     id                 BIGINT AUTO_INCREMENT NOT NULL,
-    owner_id           BIGINT                NOT NULL,
-    owner_name         VARCHAR(255)          NOT NULL,
-    cafe_name          VARCHAR(255)          NOT NULL,
-    image_url          LONGTEXT              NOT NULL,
-    tax_office_code    VARCHAR(255)          NOT NULL,
-    business_type_code VARCHAR(255)          NOT NULL,
-    serial_code        VARCHAR(255)          NOT NULL,
-    address            VARCHAR(255)          NOT NULL,
+    owner_id           BIGINT       NOT NULL,
+    owner_name         VARCHAR(255) NOT NULL,
+    cafe_name          VARCHAR(255) NOT NULL,
+    image_url          LONGTEXT     NOT NULL,
+    tax_office_code    VARCHAR(255) NOT NULL,
+    business_type_code VARCHAR(255) NOT NULL,
+    serial_code        VARCHAR(255) NOT NULL,
+    address            VARCHAR(255) NOT NULL,
     CONSTRAINT pk_businesslicense PRIMARY KEY (id)
 );
 
@@ -38,7 +38,7 @@ ALTER TABLE business_license
 CREATE TABLE cafe
 (
     id                  BIGINT AUTO_INCREMENT NOT NULL,
-    business_license_id BIGINT                NOT NULL,
+    business_license_id BIGINT NOT NULL,
     CONSTRAINT pk_cafe PRIMARY KEY (id)
 );
 
@@ -51,8 +51,8 @@ ALTER TABLE cafe
 CREATE TABLE artist_group
 (
     id        BIGINT AUTO_INCREMENT NOT NULL,
-    name      VARCHAR(255)          NOT NULL,
-    image_url LONGTEXT              NOT NULL,
+    name      VARCHAR(255) NOT NULL,
+    image_url LONGTEXT     NOT NULL,
     CONSTRAINT pk_artistgroup PRIMARY KEY (id)
 );
 
@@ -61,9 +61,9 @@ CREATE INDEX IDX_NAME ON artist_group (name);
 CREATE TABLE artist
 (
     id        BIGINT AUTO_INCREMENT NOT NULL,
-    group_id  BIGINT                NULL,
-    name      VARCHAR(255)          NOT NULL,
-    image_url LONGTEXT              NOT NULL,
+    group_id  BIGINT NULL,
+    name      VARCHAR(255) NOT NULL,
+    image_url LONGTEXT     NOT NULL,
     CONSTRAINT pk_artist PRIMARY KEY (id)
 );
 
@@ -73,8 +73,8 @@ ALTER TABLE artist
 CREATE TABLE favorite_artist
 (
     id        BIGINT AUTO_INCREMENT NOT NULL,
-    fan_id    BIGINT                NOT NULL,
-    artist_id BIGINT                NOT NULL,
+    fan_id    BIGINT NOT NULL,
+    artist_id BIGINT NOT NULL,
     CONSTRAINT pk_favoriteartist PRIMARY KEY (id)
 );
 
@@ -90,8 +90,8 @@ ALTER TABLE favorite_artist
 CREATE TABLE interest_artist
 (
     id        BIGINT AUTO_INCREMENT NOT NULL,
-    fan_id    BIGINT                NOT NULL,
-    artist_id BIGINT                NOT NULL,
+    fan_id    BIGINT NOT NULL,
+    artist_id BIGINT NOT NULL,
     CONSTRAINT pk_interestartist PRIMARY KEY (id)
 );
 
@@ -106,20 +106,20 @@ ALTER TABLE interest_artist
 
 CREATE TABLE birthday_cafe
 (
-    id               BIGINT AUTO_INCREMENT NOT NULL,
-    host_id          BIGINT                NOT NULL,
-    artist_id        BIGINT                NOT NULL,
-    cafe_id          BIGINT                NOT NULL,
-    twitter_account  VARCHAR(255)          NULL,
-    start_date       datetime              NOT NULL,
-    end_date         datetime              NOT NULL,
-    minimum_visitant INT                   NOT NULL,
-    maximum_visitant INT                   NOT NULL,
-    host_phone_number VARCHAR(255)          NOT NULL,
-    progress_state    VARCHAR(255)          NOT NULL,
-    visibility    VARCHAR(255)          NOT NULL,
-    congestion_state    VARCHAR(255)          NOT NULL,
-    special_goods_stock_state    VARCHAR(255)          NOT NULL,
+    id                        BIGINT AUTO_INCREMENT NOT NULL,
+    host_id                   BIGINT       NOT NULL,
+    artist_id                 BIGINT       NOT NULL,
+    cafe_id                   BIGINT       NOT NULL,
+    twitter_account           VARCHAR(255) NULL,
+    start_date                datetime     NOT NULL,
+    end_date                  datetime     NOT NULL,
+    minimum_visitant          INT          NOT NULL,
+    maximum_visitant          INT          NOT NULL,
+    host_phone_number         VARCHAR(255) NOT NULL,
+    progress_state            VARCHAR(255) NOT NULL,
+    visibility                VARCHAR(255) NOT NULL,
+    congestion_state          VARCHAR(255) NOT NULL,
+    special_goods_stock_state VARCHAR(255) NOT NULL,
     CONSTRAINT pk_birthdaycafe PRIMARY KEY (id)
 );
 
@@ -135,8 +135,8 @@ ALTER TABLE birthday_cafe
 CREATE TABLE ocr_request_history
 (
     id           BIGINT AUTO_INCREMENT NOT NULL,
-    owner_id     BIGINT                NOT NULL,
-    upload_count INT                   NOT NULL,
+    owner_id     BIGINT NOT NULL,
+    upload_count INT    NOT NULL,
     CONSTRAINT pk_ocrrequesthistory PRIMARY KEY (id)
 );
 
