@@ -39,6 +39,7 @@ CREATE TABLE cafe
 (
     id                  BIGINT AUTO_INCREMENT NOT NULL,
     business_license_id BIGINT                NOT NULL,
+    name                VARCHAR(255)          NOT NULL,
     CONSTRAINT pk_cafe PRIMARY KEY (id)
 );
 
