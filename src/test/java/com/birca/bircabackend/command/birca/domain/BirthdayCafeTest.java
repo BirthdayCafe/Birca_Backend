@@ -20,6 +20,7 @@ class BirthdayCafeTest {
     private static final Long HOST_ID = 1L;
     private static final Long ARTIST_ID = 1L;
     private static final Long CAFE_ID = 1L;
+    private static final Long CAFE_OWNER_ID = 1L;
     private static final Schedule SCHEDULE = Schedule.of(LocalDateTime.now(), LocalDateTime.now().plusDays(1));
     private static final Visitants VISITANTS = Visitants.of(3, 10);
     private static final String TWITTER_ACCOUNT = "ChaseM";
@@ -34,7 +35,7 @@ class BirthdayCafeTest {
         void 대관_대기_상태로_생성된다() {
             // when
             BirthdayCafe actual = BirthdayCafe.applyRental(
-                    HOST_ID, ARTIST_ID, CAFE_ID, SCHEDULE, VISITANTS, TWITTER_ACCOUNT, HOST_PHONE_NUMBER);
+                    HOST_ID, ARTIST_ID, CAFE_ID, CAFE_OWNER_ID, SCHEDULE, VISITANTS, TWITTER_ACCOUNT, HOST_PHONE_NUMBER);
 
             // then
             assertThat(actual.getProgressState()).isEqualTo(ProgressState.RENTAL_PENDING);
@@ -44,7 +45,7 @@ class BirthdayCafeTest {
         void 공개_상태가_비공개로_생성된다() {
             // when
             BirthdayCafe actual = BirthdayCafe.applyRental(
-                    HOST_ID, ARTIST_ID, CAFE_ID, SCHEDULE, VISITANTS, TWITTER_ACCOUNT, HOST_PHONE_NUMBER);
+                    HOST_ID, ARTIST_ID, CAFE_ID, CAFE_OWNER_ID, SCHEDULE, VISITANTS, TWITTER_ACCOUNT, HOST_PHONE_NUMBER);
 
             // then
             assertThat(actual.getVisibility()).isEqualTo(Visibility.PRIVATE);
@@ -54,7 +55,7 @@ class BirthdayCafeTest {
         void 혼잡도가_원할로_생성된다() {
             // when
             BirthdayCafe actual = BirthdayCafe.applyRental(
-                    HOST_ID, ARTIST_ID, CAFE_ID, SCHEDULE, VISITANTS, TWITTER_ACCOUNT, HOST_PHONE_NUMBER);
+                    HOST_ID, ARTIST_ID, CAFE_ID, CAFE_OWNER_ID, SCHEDULE, VISITANTS, TWITTER_ACCOUNT, HOST_PHONE_NUMBER);
 
             // then
             assertThat(actual.getCongestionState()).isEqualTo(CongestionState.SMOOTH);
@@ -64,7 +65,7 @@ class BirthdayCafeTest {
         void 특전_재고는_많음으로_생성된다() {
             // when
             BirthdayCafe actual = BirthdayCafe.applyRental(
-                    HOST_ID, ARTIST_ID, CAFE_ID, SCHEDULE, VISITANTS, TWITTER_ACCOUNT, HOST_PHONE_NUMBER);
+                    HOST_ID, ARTIST_ID, CAFE_ID, CAFE_OWNER_ID, SCHEDULE, VISITANTS, TWITTER_ACCOUNT, HOST_PHONE_NUMBER);
 
             // then
             assertThat(actual.getSpecialGoodsStockState()).isEqualTo(SpecialGoodsStockState.ABUNDANT);
@@ -79,7 +80,7 @@ class BirthdayCafeTest {
         void 정상적으로_취소한다() {
             // given
             BirthdayCafe birthdayCafe = BirthdayCafe.applyRental(
-                    HOST_ID, ARTIST_ID, CAFE_ID, SCHEDULE, VISITANTS, TWITTER_ACCOUNT, HOST_PHONE_NUMBER);
+                    HOST_ID, ARTIST_ID, CAFE_ID, CAFE_OWNER_ID, SCHEDULE, VISITANTS, TWITTER_ACCOUNT, HOST_PHONE_NUMBER);
 
             // when
             birthdayCafe.cancelRental();
@@ -93,7 +94,7 @@ class BirthdayCafeTest {
         void 대관_대기_상태가_아니면_취소하지_못한다(ProgressState progressState) {
             // given
             BirthdayCafe birthdayCafe = new BirthdayCafe(
-                    HOST_ID, ARTIST_ID, CAFE_ID, SCHEDULE, VISITANTS, TWITTER_ACCOUNT, HOST_PHONE_NUMBER,
+                    HOST_ID, ARTIST_ID, CAFE_ID, CAFE_OWNER_ID, SCHEDULE, VISITANTS, TWITTER_ACCOUNT, HOST_PHONE_NUMBER,
                     progressState, Visibility.PRIVATE, CongestionState.SMOOTH, SpecialGoodsStockState.ABUNDANT);
 
             // when then

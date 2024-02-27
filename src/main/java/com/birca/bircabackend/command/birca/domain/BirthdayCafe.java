@@ -25,6 +25,9 @@ public class BirthdayCafe extends BaseEntity {
     @Column(nullable = false)
     private Long cafeId;
 
+    @Column(nullable = false)
+    private Long cafeOwnerId;
+
     @Embedded
     private Schedule schedule;
 
@@ -55,6 +58,7 @@ public class BirthdayCafe extends BaseEntity {
     public static BirthdayCafe applyRental(Long hostId,
                                            Long artistId,
                                            Long cafeId,
+                                           Long cafeOwnerId,
                                            Schedule schedule,
                                            Visitants visitants,
                                            String twitterAccount,
@@ -63,6 +67,7 @@ public class BirthdayCafe extends BaseEntity {
                 hostId,
                 artistId,
                 cafeId,
+                cafeOwnerId,
                 schedule,
                 visitants,
                 twitterAccount,

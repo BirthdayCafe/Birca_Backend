@@ -39,11 +39,15 @@ CREATE TABLE cafe
 (
     id                  BIGINT AUTO_INCREMENT NOT NULL,
     business_license_id BIGINT NOT NULL,
+    owner_id            BIGINT NOT NULL,
     CONSTRAINT pk_cafe PRIMARY KEY (id)
 );
 
 ALTER TABLE cafe
     ADD CONSTRAINT FK_CAFE_ON_BUSINESS_LICENSE FOREIGN KEY (business_license_id) REFERENCES business_license (id);
+
+ALTER TABLE cafe
+    ADD CONSTRAINT FK_CAFE_ON_MEMBER FOREIGN KEY (owner_id) REFERENCES member (id);
 
 ALTER TABLE cafe
     ADD CONSTRAINT uc_cafe_businesslicenseid UNIQUE (business_license_id);
@@ -110,6 +114,7 @@ CREATE TABLE birthday_cafe
     host_id                   BIGINT       NOT NULL,
     artist_id                 BIGINT       NOT NULL,
     cafe_id                   BIGINT       NOT NULL,
+    cafe_owner_id             BIGINT       NOT NULL,
     twitter_account           VARCHAR(255) NULL,
     start_date                datetime     NOT NULL,
     end_date                  datetime     NOT NULL,

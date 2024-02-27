@@ -11,6 +11,9 @@ public interface BirthdayCafeRepository extends Repository<BirthdayCafe, Long> {
 
     Boolean existsByHostIdAndProgressState(Long hostId, ProgressState progressState);
 
+    @Query("select c.ownerId from Cafe c where c.id = :cafeId")
+    Long findOwnerIdByCafeId(@Param("cafeId") Long cafeId);
+
     @Query("select count(bc) = 1 " +
             "from BirthdayCafe bc " +
             "join Cafe c on bc.cafeId = c.id " +
