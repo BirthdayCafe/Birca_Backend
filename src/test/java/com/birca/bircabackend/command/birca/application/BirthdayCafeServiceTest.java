@@ -32,19 +32,13 @@ class BirthdayCafeServiceTest extends ServiceTest {
     private static final long CAFE1_ID = 1L;
     private static final long CAFE2_ID = 2L;
 
-    private static final int MINIMUM_VISITANT = 5;
-    private static final int MAXIMUM_VISITANT = 10;
-    private static final LocalDateTime START_DATE = LocalDateTime.of(
-            2024, 2, 8, 0, 0, 0);
-    private static final LocalDateTime END_DATE = LocalDateTime.of(
-            2024, 2, 10, 0, 0, 0);
     private static final ApplyRentalRequest VALID_REQUEST = new ApplyRentalRequest(
             ARTIST_ID,
             CAFE1_ID,
-            START_DATE,
-            END_DATE,
-            MINIMUM_VISITANT,
-            MAXIMUM_VISITANT,
+            LocalDateTime.of(2024, 2, 8, 0, 0, 0),
+            LocalDateTime.of(2024, 2, 10, 0, 0, 0),
+            5,
+            10,
             "@ChaseM",
             "010-0000-0000"
     );
@@ -70,8 +64,10 @@ class BirthdayCafeServiceTest extends ServiceTest {
             assertAll(
                     () -> assertThat(birthdayCafe.getArtistId()).isEqualTo(VALID_REQUEST.artistId()),
                     () -> assertThat(birthdayCafe.getHostId()).isEqualTo(HOST.id()),
-                    () -> assertThat(birthdayCafe.getSchedule()).isEqualTo(Schedule.of(START_DATE, END_DATE)),
-                    () -> assertThat(birthdayCafe.getVisitants()).isEqualTo(Visitants.of(MINIMUM_VISITANT, MAXIMUM_VISITANT)),
+                    () -> assertThat(birthdayCafe.getSchedule())
+                            .isEqualTo(Schedule.of(VALID_REQUEST.startDate(), VALID_REQUEST.endDate())),
+                    () -> assertThat(birthdayCafe.getVisitants())
+                            .isEqualTo(Visitants.of(VALID_REQUEST.minimumVisitant(), VALID_REQUEST.maximumVisitant())),
                     () -> assertThat(birthdayCafe.getTwitterAccount()).isEqualTo(VALID_REQUEST.twitterAccount()),
                     () -> assertThat(birthdayCafe.getProgressState()).isEqualTo(ProgressState.RENTAL_PENDING),
                     () -> assertThat(birthdayCafe.getVisibility()).isEqualTo(Visibility.PRIVATE),
@@ -158,8 +154,8 @@ class BirthdayCafeServiceTest extends ServiceTest {
                     CAFE2_ID,
                     LocalDateTime.of(2024, 2, 8, 0, 0, 0),
                     LocalDateTime.of(2024, 2, 10, 0, 0, 0),
-                    MINIMUM_VISITANT,
-                    MAXIMUM_VISITANT,
+                    5,
+                    10,
                     "@ChaseM",
                     "010-0000-0000"
             );
