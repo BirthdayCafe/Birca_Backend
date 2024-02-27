@@ -27,8 +27,13 @@ public class BirthdayCafeService {
     public void applyRental(ApplyRentalRequest request, LoginMember loginMember) {
         Long hostId = loginMember.id();
         validateRentalPendingExists(hostId);
-        BirthdayCafe birthdayCafe = BirthdayCafe.applyRental(
-                loginMember.id(),
+        BirthdayCafe birthdayCafe = mapToBirthdayCafe(request, hostId);
+        birthdayCafeRepository.save(birthdayCafe);
+    }
+
+    private BirthdayCafe mapToBirthdayCafe(ApplyRentalRequest request, Long hostId) {
+        return BirthdayCafe.applyRental(
+                hostId,
                 request.artistId(),
                 request.cafeId(),
                 birthdayCafeRepository.findOwnerIdByCafeId(request.cafeId()),
@@ -37,7 +42,6 @@ public class BirthdayCafeService {
                 request.twitterAccount(),
                 PhoneNumber.from(request.hostPhoneNumber())
         );
-        birthdayCafeRepository.save(birthdayCafe);
     }
 
     private void validateRentalPendingExists(Long hostId) {
