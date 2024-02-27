@@ -29,10 +29,9 @@ public class BirthdayCafeService {
     }
 
     private void validateRentalPendingExists(Long hostId) {
-        birthdayCafeRepository.findByHostIdAndProgressState(hostId, ProgressState.RENTAL_PENDING)
-                .ifPresent(it -> {
-                    throw BusinessException.from(RENTAL_PENDING_EXISTS);
-                });
+        if (birthdayCafeRepository.existsByHostIdAndProgressState(hostId, ProgressState.RENTAL_PENDING)) {
+            throw BusinessException.from(RENTAL_PENDING_EXISTS);
+        }
     }
 
     public void cancelRental(Long birthdayCafeId, LoginMember loginMember) {

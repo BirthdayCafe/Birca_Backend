@@ -5,13 +5,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 
-import java.util.Optional;
-
 public interface BirthdayCafeRepository extends Repository<BirthdayCafe, Long> {
 
     void save(BirthdayCafe birthdayCafe);
 
-    Optional<BirthdayCafe> findByHostIdAndProgressState(Long hostId, ProgressState progressState);
+    Boolean existsByHostIdAndProgressState(Long hostId, ProgressState progressState);
 
     @Query("select count(bc) = 1 " +
             "from BirthdayCafe bc " +
