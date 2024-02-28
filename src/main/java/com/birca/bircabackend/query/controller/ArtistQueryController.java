@@ -7,6 +7,7 @@ import com.birca.bircabackend.query.dto.ArtistSearchResponse;
 import com.birca.bircabackend.query.dto.PagingParams;
 import com.birca.bircabackend.query.service.ArtistGroupQueryService;
 import com.birca.bircabackend.query.service.ArtistQueryService;
+import com.birca.bircabackend.query.service.ArtistSearchQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ArtistQueryController {
 
+    private final ArtistSearchQueryService artistSearchQueryService;
     private final ArtistGroupQueryService artistGroupQueryService;
     private final ArtistQueryService artistQueryService;
 
@@ -42,6 +44,6 @@ public class ArtistQueryController {
     @GetMapping("/v1/artists/search")
     @RequiredLogin
     public ResponseEntity<List<ArtistSearchResponse>> searchArtist(@RequestParam String name) {
-        return ResponseEntity.ok(artistQueryService.searchArtist(name));
+        return ResponseEntity.ok(artistSearchQueryService.searchArtist(name));
     }
 }
