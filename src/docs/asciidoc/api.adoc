@@ -42,6 +42,8 @@ operation::get-favorite-artist[snippets='http-request,http-response,response-fie
 === 관심 아티스트 조회
 operation::get-interest-artists[snippets='http-request,http-response,response-fields']
 
+=== 아티스트 검색
+operation::search-artist[snippets='http-request,http-response']
 
 == 사업자등록증 API
 === 사업자등록증 스캔
@@ -58,3 +60,7 @@ operation::register-birthday-cafe[snippets='http-request,request-fields,http-res
 operation::cancel-birthday-cafe[snippets='http-request,path-parameters,http-response']
 === 에러 코드
 include::{snippets}/birthday-cafe-error-Code/response-body.adoc[]
+
+== 카페 API
+=== 카페 검색
+operation::search-cafes[snippets='http-request,http-response']
