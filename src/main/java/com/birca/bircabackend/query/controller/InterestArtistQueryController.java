@@ -5,6 +5,7 @@ import com.birca.bircabackend.command.auth.authorization.RequiredLogin;
 import com.birca.bircabackend.query.dto.ArtistResponse;
 import com.birca.bircabackend.query.service.InterestArtistQueryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,7 +21,7 @@ public class InterestArtistQueryController {
 
     @GetMapping("/v1/artists/interest")
     @RequiredLogin
-    public List<ArtistResponse> getInterestArtists(LoginMember loginMember) {
-        return interestArtistQueryService.findInterestArtists(loginMember);
+    public ResponseEntity<List<ArtistResponse>> getInterestArtists(LoginMember loginMember) {
+        return ResponseEntity.ok(interestArtistQueryService.findInterestArtists(loginMember));
     }
 }
