@@ -54,8 +54,10 @@ operation::business-license-save[snippets='http-request,http-response']
 include::{snippets}/business-license-error-Code/response-body.adoc[]
 
 == 생일 카페 API
-=== 생일 카페 등록
+=== 생일 카페 대관 신청
 operation::register-birthday-cafe[snippets='http-request,request-fields,http-response']
+=== 생일 카페 대관 신청 취소
+operation::cancel-birthday-cafe[snippets='http-request,path-parameters,http-response']
 === 에러 코드
 include::{snippets}/birthday-cafe-error-Code/response-body.adoc[]
 

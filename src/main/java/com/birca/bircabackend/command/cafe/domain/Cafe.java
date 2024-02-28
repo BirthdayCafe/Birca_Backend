@@ -14,7 +14,10 @@ public class Cafe extends BaseEntity {
 
     @Column(nullable = false, unique = true)
     private Long businessLicenseId;
-
+  
+    @Column(nullable = false)
+    private Long ownerId;
+  
     @Column(nullable = false)
     private String name;
 }

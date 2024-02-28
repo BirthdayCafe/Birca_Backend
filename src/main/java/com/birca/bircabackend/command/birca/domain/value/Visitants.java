@@ -1,7 +1,8 @@
-package com.birca.bircabackend.command.birca.domain;
+package com.birca.bircabackend.command.birca.domain.value;
 
 import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
 import com.birca.bircabackend.common.exception.BusinessException;
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.*;
 
@@ -11,8 +12,10 @@ import lombok.*;
 @EqualsAndHashCode
 public class Visitants {
 
+    @Column(nullable = false)
     private Integer minimumVisitant;
 
+    @Column(nullable = false)
     private Integer maximumVisitant;
 
     public static Visitants of(Integer minimumVisitant, Integer maximumVisitant) {
