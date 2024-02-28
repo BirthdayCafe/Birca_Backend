@@ -227,7 +227,7 @@ class ArtistQueryServiceTest extends ServiceTest {
         }
 
         @Test
-        void 그룹명과_활동명이_겹치는_결과는_제거한다() {
+        void 중복으로_검색된_결과는_제거한다() {
             // given
             String name = "아이돌";
 
