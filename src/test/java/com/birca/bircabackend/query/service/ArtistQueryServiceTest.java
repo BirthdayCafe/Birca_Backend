@@ -1,6 +1,7 @@
 package com.birca.bircabackend.query.service;
 
 import com.birca.bircabackend.query.dto.ArtistResponse;
+import com.birca.bircabackend.query.dto.ArtistSearchResponse;
 import com.birca.bircabackend.query.dto.PagingParams;
 import com.birca.bircabackend.support.enviroment.ServiceTest;
 import org.junit.jupiter.api.DisplayName;
@@ -109,6 +110,83 @@ class ArtistQueryServiceTest extends ServiceTest {
                             new ArtistResponse(18L, "윤종신", "image18.com"),
                             new ArtistResponse(19L, "임한별", "image19.com"),
                             new ArtistResponse(20L, "하동균", "image20.com")
+                    );
+        }
+    }
+
+    @Nested
+    @DisplayName("아티스트 검색 시")
+    @Sql("/fixture/search-artist-fixture.sql")
+    class SearchArtistTest {
+
+        @Test
+        void 겹치는_아티스트를_모두_검색한다() {
+            // given
+            String name = "마크";
+
+            // when
+            List<ArtistSearchResponse> actual = artistQueryService.searchArtist(name);
+
+            // then
+            assertThat(actual)
+                    .containsOnly(
+                            new ArtistSearchResponse(21L, "마크",
+                                    "image21.com", "NCT127"
+                            ),
+                            new ArtistSearchResponse(22L, "마크",
+                                    "image22.com", "갓세븐"
+                            )
+                    );
+        }
+
+        @Test
+        void 솔로_아티스트는_그룹명이_null이다() {
+            // given
+            String name = "아이유";
+
+            // when
+            List<ArtistSearchResponse> actual = artistQueryService.searchArtist(name);
+
+            // then
+            assertThat(actual)
+                    .containsOnly(
+                            new ArtistSearchResponse(17L, "아이유",
+                                    "image17.com", null
+                            )
+                    );
+        }
+
+        @Test
+        void 그룹명으로_검색한다() {
+            // given
+            String name = "방탄소년단";
+
+            // when
+            List<ArtistSearchResponse> actual = artistQueryService.searchArtist(name);
+
+            // then
+            assertThat(actual)
+                    .containsOnly(
+                            new ArtistSearchResponse(1L, "석진",
+                                    "image1.com", "방탄소년단"
+                            ),
+                            new ArtistSearchResponse(2L, "정국",
+                                    "image2.com", "방탄소년단"
+                            ),
+                            new ArtistSearchResponse(3L, "제이홉",
+                                    "image3.com", "방탄소년단"
+                            ),
+                            new ArtistSearchResponse(4L, "RM",
+                                    "image4.com", "방탄소년단"
+                            ),
+                            new ArtistSearchResponse(5L, "뷔",
+                                    "image5.com", "방탄소년단"
+                            ),
+                            new ArtistSearchResponse(6L, "지민",
+                                    "image6.com", "방탄소년단"
+                            ), new ArtistSearchResponse(7L, "슈가",
+                                    "image7.com", "방탄소년단"
+                            )
                     );
         }
     }
