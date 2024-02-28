@@ -132,7 +132,7 @@ public class ArtistQueryControllerTest extends DocumentationTest {
     @Test
     void 아티스트를_검색한다() throws Exception {
         // given
-        given(artistQueryService.searchArtist(any()))
+        given(artistSearchQueryService.searchArtist(any()))
                 .willReturn(List.of(
                         new ArtistSearchResponse(1L, "마크", "image1.com", "NCT127"),
                         new ArtistSearchResponse(2L, "마크", "image2.com", "갓세븐")
