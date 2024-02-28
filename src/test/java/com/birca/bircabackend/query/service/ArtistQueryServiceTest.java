@@ -157,7 +157,7 @@ class ArtistQueryServiceTest extends ServiceTest {
         }
 
         @Test
-        void 그룹명으로_검색한다() {
+        void 그룹명_전체로_검색한다() {
             // given
             String name = "방탄소년단";
 
@@ -184,7 +184,43 @@ class ArtistQueryServiceTest extends ServiceTest {
                             ),
                             new ArtistSearchResponse(6L, "지민",
                                     "image6.com", "방탄소년단"
-                            ), new ArtistSearchResponse(7L, "슈가",
+                            ),
+                            new ArtistSearchResponse(7L, "슈가",
+                                    "image7.com", "방탄소년단"
+                            )
+                    );
+        }
+
+        @Test
+        void 그룹명_일부로_검색한다() {
+            // given
+            String name = "소년";
+
+            // when
+            List<ArtistSearchResponse> actual = artistQueryService.searchArtist(name);
+
+            // then
+            assertThat(actual)
+                    .containsOnly(
+                            new ArtistSearchResponse(1L, "석진",
+                                    "image1.com", "방탄소년단"
+                            ),
+                            new ArtistSearchResponse(2L, "정국",
+                                    "image2.com", "방탄소년단"
+                            ),
+                            new ArtistSearchResponse(3L, "제이홉",
+                                    "image3.com", "방탄소년단"
+                            ),
+                            new ArtistSearchResponse(4L, "RM",
+                                    "image4.com", "방탄소년단"
+                            ),
+                            new ArtistSearchResponse(5L, "뷔",
+                                    "image5.com", "방탄소년단"
+                            ),
+                            new ArtistSearchResponse(6L, "지민",
+                                    "image6.com", "방탄소년단"
+                            ),
+                            new ArtistSearchResponse(7L, "슈가",
                                     "image7.com", "방탄소년단"
                             )
                     );
