@@ -225,5 +225,21 @@ class ArtistQueryServiceTest extends ServiceTest {
                             )
                     );
         }
+
+        @Test
+        void 그룹명과_활동명이_겹치는_결과는_제거한다() {
+            // given
+            String name = "아이돌";
+
+            // when
+            List<ArtistSearchResponse> actual = artistQueryService.searchArtist(name);
+
+            assertThat(actual)
+                    .containsOnly(new ArtistSearchResponse(23L, "아이돌1",
+                            "image23.com", "아이돌그룹"),
+                            new ArtistSearchResponse(24L, "아이돌2",
+                                    "image24.com", "아이돌그룹")
+                            );
+        }
     }
 }

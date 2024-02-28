@@ -15,7 +15,8 @@ VALUES (5, '뉴진스', 'image5.com'),
        (4, '케플러', 'image4.com'),
        (10, '트와이스', 'image0.com'),
        (13, 'NCT127', 'image13.com'),
-       (14, '갓세븐', 'image14.com');
+       (14, '갓세븐', 'image14.com'),
+       (15, '아이돌그룹', 'image15.com');
 
 INSERT INTO artist (id, group_id, name, image_url)
 VALUES (1, 6, '석진', 'image1.com'),
@@ -33,7 +34,10 @@ VALUES (1, 6, '석진', 'image1.com'),
        (12, 5, '혜인', 'image12.com'),
 
        (21, 13, '마크', 'image21.com'),
-       (22, 14, '마크', 'image22.com');
+       (22, 14, '마크', 'image22.com'),
+
+       (23, 15, '아이돌1', 'image23.com'),
+       (24, 15, '아이돌2', 'image24.com');
 
 INSERT INTO artist (id, group_id, name, image_url)
 VALUES (18, NULL, '윤종신', 'image18.com'),
