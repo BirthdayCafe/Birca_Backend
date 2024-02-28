@@ -44,6 +44,8 @@ CREATE TABLE cafe
     CONSTRAINT pk_cafe PRIMARY KEY (id)
 );
 
+CREATE INDEX IDX_CAFE_NAME ON cafe (name);
+
 ALTER TABLE cafe
     ADD CONSTRAINT FK_CAFE_ON_BUSINESS_LICENSE FOREIGN KEY (business_license_id) REFERENCES business_license (id);
 
@@ -71,6 +73,8 @@ CREATE TABLE artist
     image_url LONGTEXT     NOT NULL,
     CONSTRAINT pk_artist PRIMARY KEY (id)
 );
+
+CREATE INDEX IDX_ARTIST_NAME ON artist (name);
 
 ALTER TABLE artist
     ADD CONSTRAINT FK_ARTIST_ON_GROUP FOREIGN KEY (group_id) REFERENCES artist_group (id);
