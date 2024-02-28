@@ -3,6 +3,7 @@ package com.birca.bircabackend.query.controller;
 import com.birca.bircabackend.command.auth.authorization.RequiredLogin;
 import com.birca.bircabackend.query.dto.ArtistGroupResponse;
 import com.birca.bircabackend.query.dto.ArtistResponse;
+import com.birca.bircabackend.query.dto.ArtistSearchResponse;
 import com.birca.bircabackend.query.dto.PagingParams;
 import com.birca.bircabackend.query.service.ArtistGroupQueryService;
 import com.birca.bircabackend.query.service.ArtistQueryService;
@@ -36,5 +37,11 @@ public class ArtistQueryController {
     @RequiredLogin
     public ResponseEntity<List<ArtistResponse>> getSoloArtists(@ModelAttribute PagingParams pagingParams) {
         return ResponseEntity.ok(artistQueryService.findSoloArtists(pagingParams));
+    }
+
+    @GetMapping("/v1/artists/search")
+    @RequiredLogin
+    public ResponseEntity<List<ArtistSearchResponse>> searchArtist(@RequestParam String name) {
+        return ResponseEntity.ok(artistQueryService.searchArtist(name));
     }
 }
