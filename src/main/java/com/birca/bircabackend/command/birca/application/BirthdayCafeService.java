@@ -3,11 +3,9 @@ package com.birca.bircabackend.command.birca.application;
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.birca.domain.BirthdayCafe;
 import com.birca.bircabackend.command.birca.domain.BirthdayCafeRepository;
-import com.birca.bircabackend.command.birca.domain.value.PhoneNumber;
-import com.birca.bircabackend.command.birca.domain.value.ProgressState;
-import com.birca.bircabackend.command.birca.domain.value.Schedule;
-import com.birca.bircabackend.command.birca.domain.value.Visitants;
+import com.birca.bircabackend.command.birca.domain.value.*;
 import com.birca.bircabackend.command.birca.dto.ApplyRentalRequest;
+import com.birca.bircabackend.command.birca.dto.StateChangeRequest;
 import com.birca.bircabackend.common.EntityUtil;
 import com.birca.bircabackend.common.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
@@ -55,7 +53,21 @@ public class BirthdayCafeService {
         birthdayCafe.cancelRental(loginMember.id());
     }
 
-    public void changeState(Long birthdayCafeId, String stateName, LoginMember loginMember) {
+    public void changeSpecialGoodsStockState(Long birthdayCafeId, LoginMember loginMember, StateChangeRequest request) {
         BirthdayCafe birthdayCafe = entityUtil.getEntity(BirthdayCafe.class, birthdayCafeId, NOT_FOUND);
+        SpecialGoodsStockState state = SpecialGoodsStockState.valueOf(request.state());
+        birthdayCafe.changeState(state, loginMember.id());
+    }
+
+    public void changeCongestionState(Long birthdayCafeId, LoginMember loginMember, StateChangeRequest request) {
+        BirthdayCafe birthdayCafe = entityUtil.getEntity(BirthdayCafe.class, birthdayCafeId, NOT_FOUND);
+        CongestionState state = CongestionState.valueOf(request.state());
+        birthdayCafe.changeState(state, loginMember.id());
+    }
+
+    public void changeVisibility(Long birthdayCafeId, LoginMember loginMember, StateChangeRequest request) {
+        BirthdayCafe birthdayCafe = entityUtil.getEntity(BirthdayCafe.class, birthdayCafeId, NOT_FOUND);
+        Visibility state = Visibility.valueOf(request.state());
+        birthdayCafe.changeState(state, loginMember.id());
     }
 }

@@ -86,6 +86,7 @@ public class BirthdayCafeAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
+                .body(request)
                 .patch("/api/v1/birthday-cafes/{birthdayCafeId}/specialGoods", 1)
                 .then().log().all()
                 .extract();
@@ -111,6 +112,7 @@ public class BirthdayCafeAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
+                .body(request)
                 .patch("/api/v1/birthday-cafes/{birthdayCafeId}/congestion", 1)
                 .then().log().all()
                 .extract();
@@ -136,6 +138,7 @@ public class BirthdayCafeAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
+                .body(request)
                 .patch("/api/v1/birthday-cafes/{birthdayCafeId}/visibility", 1)
                 .then().log().all()
                 .extract();

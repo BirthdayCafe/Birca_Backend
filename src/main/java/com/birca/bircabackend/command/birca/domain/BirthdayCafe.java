@@ -90,19 +90,19 @@ public class BirthdayCafe extends BaseEntity {
         progressState = ProgressState.RENTAL_CANCELED;
     }
 
-    public void changeSpecialGoodsStockState(SpecialGoodsStockState state, Long memberId) {
+    public void changeState(SpecialGoodsStockState state, Long memberId) {
         validateIsHost(memberId);
         validateIsInProgressState();
         this.specialGoodsStockState = state;
     }
 
-    public void changeCongestionState(CongestionState state, Long memberId) {
+    public void changeState(CongestionState state, Long memberId) {
         validateIsHost(memberId);
         validateIsInProgressState();
         this.congestionState = state;
     }
 
-    public void changeVisibility(Visibility visibility, Long memberId) {
+    public void changeState(Visibility visibility, Long memberId) {
         validateIsHost(memberId);
         if (progressState.isRentalPending()) {
             throw BusinessException.from(INVALID_STATE_CHANGE);

@@ -144,7 +144,7 @@ class BirthdayCafeTest {
                     ProgressState.IN_PROGRESS, Visibility.PRIVATE, CongestionState.SMOOTH, SpecialGoodsStockState.ABUNDANT);
 
             // when
-            birthdayCafe.changeSpecialGoodsStockState(SpecialGoodsStockState.SCARCE, HOST_ID);
+            birthdayCafe.changeState(SpecialGoodsStockState.SCARCE, HOST_ID);
 
             // then
             assertThat(birthdayCafe.getSpecialGoodsStockState()).isEqualTo(SpecialGoodsStockState.SCARCE);
@@ -159,7 +159,7 @@ class BirthdayCafeTest {
                     progressState, Visibility.PRIVATE, CongestionState.SMOOTH, SpecialGoodsStockState.ABUNDANT);
 
             // when then
-            assertThatThrownBy(() -> birthdayCafe.changeSpecialGoodsStockState(SpecialGoodsStockState.SCARCE, HOST_ID))
+            assertThatThrownBy(() -> birthdayCafe.changeState(SpecialGoodsStockState.SCARCE, HOST_ID))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.INVALID_STATE_CHANGE);
@@ -172,7 +172,7 @@ class BirthdayCafeTest {
                     HOST_ID, ARTIST_ID, CAFE_ID, CAFE_OWNER_ID, SCHEDULE, VISITANTS, TWITTER_ACCOUNT, HOST_PHONE_NUMBER,
                     ProgressState.IN_PROGRESS, Visibility.PRIVATE, CongestionState.SMOOTH, SpecialGoodsStockState.ABUNDANT);
 
-            assertThatThrownBy(() -> birthdayCafe.changeSpecialGoodsStockState(SpecialGoodsStockState.SCARCE, 100L))
+            assertThatThrownBy(() -> birthdayCafe.changeState(SpecialGoodsStockState.SCARCE, 100L))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_STATE_CHANGE);
@@ -190,7 +190,7 @@ class BirthdayCafeTest {
                     ProgressState.IN_PROGRESS, Visibility.PRIVATE, CongestionState.SMOOTH, SpecialGoodsStockState.ABUNDANT);
 
             // when
-            birthdayCafe.changeCongestionState(CongestionState.MODERATE, HOST_ID);
+            birthdayCafe.changeState(CongestionState.MODERATE, HOST_ID);
 
             // then
             assertThat(birthdayCafe.getCongestionState()).isEqualTo(CongestionState.MODERATE);
@@ -205,7 +205,7 @@ class BirthdayCafeTest {
                     progressState, Visibility.PRIVATE, CongestionState.SMOOTH, SpecialGoodsStockState.ABUNDANT);
 
             // when then
-            assertThatThrownBy(() -> birthdayCafe.changeCongestionState(CongestionState.MODERATE, HOST_ID))
+            assertThatThrownBy(() -> birthdayCafe.changeState(CongestionState.MODERATE, HOST_ID))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.INVALID_STATE_CHANGE);
@@ -219,7 +219,7 @@ class BirthdayCafeTest {
                     ProgressState.IN_PROGRESS, Visibility.PRIVATE, CongestionState.SMOOTH, SpecialGoodsStockState.ABUNDANT);
 
             // when then
-            assertThatThrownBy(() -> birthdayCafe.changeCongestionState(CongestionState.MODERATE, 100L))
+            assertThatThrownBy(() -> birthdayCafe.changeState(CongestionState.MODERATE, 100L))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_STATE_CHANGE);
@@ -239,7 +239,7 @@ class BirthdayCafeTest {
                     progressState, Visibility.PRIVATE, CongestionState.SMOOTH, SpecialGoodsStockState.ABUNDANT);
 
             // when
-            birthdayCafe.changeVisibility(Visibility.PUBLIC, HOST_ID);
+            birthdayCafe.changeState(Visibility.PUBLIC, HOST_ID);
 
             // then
             assertThat(birthdayCafe.getVisibility()).isEqualTo(Visibility.PUBLIC);
@@ -253,7 +253,7 @@ class BirthdayCafeTest {
                     ProgressState.RENTAL_PENDING, Visibility.PRIVATE, CongestionState.SMOOTH, SpecialGoodsStockState.ABUNDANT);
 
             // when then
-            assertThatThrownBy(() -> birthdayCafe.changeVisibility(Visibility.PUBLIC, HOST_ID))
+            assertThatThrownBy(() -> birthdayCafe.changeState(Visibility.PUBLIC, HOST_ID))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.INVALID_STATE_CHANGE);
@@ -267,7 +267,7 @@ class BirthdayCafeTest {
                     ProgressState.IN_PROGRESS, Visibility.PRIVATE, CongestionState.SMOOTH, SpecialGoodsStockState.ABUNDANT);
 
             // when then
-            assertThatThrownBy(() -> birthdayCafe.changeVisibility(Visibility.PUBLIC, 100L))
+            assertThatThrownBy(() -> birthdayCafe.changeState(Visibility.PUBLIC, 100L))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_STATE_CHANGE);
