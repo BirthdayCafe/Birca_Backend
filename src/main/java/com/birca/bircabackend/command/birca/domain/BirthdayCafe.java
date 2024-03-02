@@ -91,13 +91,27 @@ public class BirthdayCafe extends BaseEntity {
     }
 
     public void changeSpecialGoodsStockState(SpecialGoodsStockState state, Long memberId) {
+        validateIsInProgressState();
+        validateIsHost(memberId);
+        this.specialGoodsStockState = state;
+    }
+
+    public void changeCongestionState(CongestionState state, Long memberId) {
+        validateIsInProgressState();
+        validateIsHost(memberId);
+        this.congestionState = state;
+    }
+
+    private void validateIsInProgressState() {
         if (progressState != ProgressState.IN_PROGRESS) {
             throw BusinessException.from(INVALID_STATE_CHANGE);
         }
+    }
+
+    private void validateIsHost(Long memberId) {
         if (!isHost(memberId)) {
             throw BusinessException.from(UNAUTHORIZED_STATE_CHANGE);
         }
-        this.specialGoodsStockState = state;
     }
 
     private boolean isOwner(Long memberId) {

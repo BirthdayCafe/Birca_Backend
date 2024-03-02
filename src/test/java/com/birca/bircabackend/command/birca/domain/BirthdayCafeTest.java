@@ -178,4 +178,51 @@ class BirthdayCafeTest {
                     .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_STATE_CHANGE);
         }
     }
+
+    @Nested
+    @DisplayName("혼잡도 상태 변경은")
+    class CongestionStateChangeTest {
+        @Test
+        void 진행_중인_생일_카페면_가능하다() {
+            // given
+            BirthdayCafe birthdayCafe = new BirthdayCafe(
+                    HOST_ID, ARTIST_ID, CAFE_ID, CAFE_OWNER_ID, SCHEDULE, VISITANTS, TWITTER_ACCOUNT, HOST_PHONE_NUMBER,
+                    ProgressState.IN_PROGRESS, Visibility.PRIVATE, CongestionState.SMOOTH, SpecialGoodsStockState.ABUNDANT);
+
+            // when
+            birthdayCafe.changeCongestionState(CongestionState.MODERATE, HOST_ID);
+
+            // then
+            assertThat(birthdayCafe.getCongestionState()).isEqualTo(CongestionState.MODERATE);
+        }
+
+        @ParameterizedTest
+        @EnumSource(mode = EXCLUDE, names = "IN_PROGRESS")
+        void 진행_중이_아닌_생일_카페면_불가능하다(ProgressState progressState) {
+            // given
+            BirthdayCafe birthdayCafe = new BirthdayCafe(
+                    HOST_ID, ARTIST_ID, CAFE_ID, CAFE_OWNER_ID, SCHEDULE, VISITANTS, TWITTER_ACCOUNT, HOST_PHONE_NUMBER,
+                    progressState, Visibility.PRIVATE, CongestionState.SMOOTH, SpecialGoodsStockState.ABUNDANT);
+
+            // when then
+            assertThatThrownBy(() -> birthdayCafe.changeCongestionState(CongestionState.MODERATE, HOST_ID))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.INVALID_STATE_CHANGE);
+        }
+
+        @Test
+        void 주최자만_가능하다() {
+            // given
+            BirthdayCafe birthdayCafe = new BirthdayCafe(
+                    HOST_ID, ARTIST_ID, CAFE_ID, CAFE_OWNER_ID, SCHEDULE, VISITANTS, TWITTER_ACCOUNT, HOST_PHONE_NUMBER,
+                    ProgressState.IN_PROGRESS, Visibility.PRIVATE, CongestionState.SMOOTH, SpecialGoodsStockState.ABUNDANT);
+
+            // when then
+            assertThatThrownBy(() -> birthdayCafe.changeCongestionState(CongestionState.MODERATE, 100L))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_STATE_CHANGE);
+        }
+    }
 }
