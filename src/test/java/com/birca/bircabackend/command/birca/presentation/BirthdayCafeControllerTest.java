@@ -1,6 +1,7 @@
 package com.birca.bircabackend.command.birca.presentation;
 
 import com.birca.bircabackend.command.birca.dto.ApplyRentalRequest;
+import com.birca.bircabackend.command.birca.dto.StateChangeRequest;
 import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
 import com.birca.bircabackend.support.enviroment.DocumentationTest;
 import org.junit.jupiter.api.Test;
@@ -17,6 +18,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class BirthdayCafeControllerTest extends DocumentationTest {
@@ -76,6 +78,35 @@ public class BirthdayCafeControllerTest extends DocumentationTest {
                 .andDo(document("cancel-birthday-cafe", HOST_INFO, DOCUMENT_RESPONSE,
                         pathParameters(
                                 parameterWithName("birthdayCafeId").description("취소할 생일 카페 ID")
+                        )
+                ));
+    }
+
+    @Test
+    void 생일_카페_상태를_변경한다() throws Exception {
+        // given
+        Long birthdayCafeId = 1L;
+        String stateName = "congestion";
+        StateChangeRequest request = new StateChangeRequest("MODERATE");
+
+        // when
+        ResultActions result = mockMvc.perform(
+                patch("/api/v1/birthday-cafes/{birthdayCafeId}/{stateName}", birthdayCafeId, stateName)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+                        .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
+        );
+
+        // then
+        result.andExpect((status().isOk()))
+                .andDo(document("birthday-cafe-state-update", HOST_INFO, DOCUMENT_RESPONSE,
+                        pathParameters(
+                                parameterWithName("birthdayCafeId").description("취소할 생일 카페 ID"),
+                                parameterWithName("stateName")
+                                        .description("변경할 상태 이름 (specialGoods, congestion, visibility)")
+                        ),
+                        requestFields(
+                                fieldWithPath("state").type(JsonFieldType.STRING).description("변경할 상태 값")
                         )
                 ));
     }
