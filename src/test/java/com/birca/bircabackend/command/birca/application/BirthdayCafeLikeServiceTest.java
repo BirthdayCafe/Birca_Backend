@@ -46,20 +46,6 @@ class BirthdayCafeLikeServiceTest extends ServiceTest {
         }
 
         @Test
-        void 중복으로_할_수_없다() {
-            // given
-            Long birthdayCafeId = 1L;
-            LoginMember loginMember = new LoginMember(1L);
-            birthdayCafeLikeService.like(birthdayCafeId, loginMember);
-
-            // when then
-            assertThatThrownBy(() -> birthdayCafeLikeService.like(birthdayCafeId, loginMember))
-                    .isInstanceOf(BusinessException.class)
-                    .extracting("errorCode")
-                    .isEqualTo(BirthdayCafeErrorCode.ALREADY_LIKED);
-        }
-
-        @Test
         void 대관_대기_일_때는_할_수_없다() {
             // given
             Long birthdayCafeId = 2L;

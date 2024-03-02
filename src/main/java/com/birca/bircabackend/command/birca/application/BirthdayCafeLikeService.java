@@ -22,16 +22,9 @@ public class BirthdayCafeLikeService {
 
     public void like(Long birthdayCafeId, LoginMember loginMember) {
         Long visitantId = loginMember.id();
-        validateBirthdayCafeLikeExists(birthdayCafeId, visitantId);
         BirthdayCafe birthdayCafe = entityUtil.getEntity(BirthdayCafe.class, birthdayCafeId, BirthdayCafeErrorCode.NOT_FOUND);
         BirthdayCafeLike birthdayCafeLike = birthdayCafe.like(visitantId);
         birthdayCafeLikeRepository.save(birthdayCafeLike);
-    }
-
-    private void validateBirthdayCafeLikeExists(Long birthdayCafeId, Long visitantId) {
-        if (birthdayCafeLikeRepository.existsByVisitantIdAndBirthdayCafeId(birthdayCafeId, visitantId)) {
-            throw BusinessException.from(BirthdayCafeErrorCode.ALREADY_LIKED);
-        }
     }
 
     public void cancelLike(Long birthdayCafeId, LoginMember loginMember) {
