@@ -6,14 +6,11 @@ import com.birca.bircabackend.command.birca.domain.BirthdayCafeLike;
 import com.birca.bircabackend.command.birca.domain.BirthdayCafeLikeRepository;
 import com.birca.bircabackend.command.birca.domain.value.ProgressState;
 import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
-import com.birca.bircabackend.command.birca.exception.BirthdayCafeLikeErrorCode;
 import com.birca.bircabackend.common.EntityUtil;
 import com.birca.bircabackend.common.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import static com.birca.bircabackend.command.birca.exception.BirthdayCafeLikeErrorCode.ALREADY_LIKED;
 
 @Service
 @Transactional
@@ -34,14 +31,14 @@ public class BirthdayCafeLikeService {
 
     private void validateBirthdayCafeLikeExists(Long birthdayCafeId, Long visitantId) {
         if (birthdayCafeLikeRepository.existsByVisitantIdAndBirthdayCafeId(birthdayCafeId, visitantId)) {
-            throw BusinessException.from(ALREADY_LIKED);
+            throw BusinessException.from(BirthdayCafeErrorCode.ALREADY_LIKED);
         }
     }
 
     private static void checkLikeAvailability(BirthdayCafe birthdayCafe) {
         ProgressState progressState = birthdayCafe.getProgressState();
         if (progressState.isRentalPending() || progressState.isRentalCanceled()) {
-            throw BusinessException.from(BirthdayCafeLikeErrorCode.INVALID_LIKE_REQUEST);
+            throw BusinessException.from(BirthdayCafeErrorCode.INVALID_LIKE_REQUEST);
         }
     }
 
@@ -51,7 +48,7 @@ public class BirthdayCafeLikeService {
                 .ifPresentOrElse(
                         birthdayCafeLikeRepository::delete,
                         () -> {
-                            throw BusinessException.from(BirthdayCafeLikeErrorCode.NOT_FOUND);
+                            throw BusinessException.from(BirthdayCafeErrorCode.CANNOT_CANCEL_LIKE);
                         }
                 );
     }

@@ -3,7 +3,6 @@ package com.birca.bircabackend.command.birca.application;
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.birca.domain.BirthdayCafeLike;
 import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
-import com.birca.bircabackend.command.birca.exception.BirthdayCafeLikeErrorCode;
 import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.support.enviroment.ServiceTest;
 import jakarta.persistence.EntityManager;
@@ -57,7 +56,7 @@ class BirthdayCafeLikeServiceTest extends ServiceTest {
             assertThatThrownBy(() -> birthdayCafeLikeService.like(birthdayCafeId, loginMember))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
-                    .isEqualTo(BirthdayCafeLikeErrorCode.ALREADY_LIKED);
+                    .isEqualTo(BirthdayCafeErrorCode.ALREADY_LIKED);
         }
 
         @Test
@@ -70,7 +69,7 @@ class BirthdayCafeLikeServiceTest extends ServiceTest {
             assertThatThrownBy(() -> birthdayCafeLikeService.like(birthdayCafeId, loginMember))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
-                    .isEqualTo(BirthdayCafeLikeErrorCode.INVALID_LIKE_REQUEST);
+                    .isEqualTo(BirthdayCafeErrorCode.INVALID_LIKE_REQUEST);
         }
 
         @Test
@@ -83,7 +82,7 @@ class BirthdayCafeLikeServiceTest extends ServiceTest {
             assertThatThrownBy(() -> birthdayCafeLikeService.like(birthdayCafeId, loginMember))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
-                    .isEqualTo(BirthdayCafeLikeErrorCode.INVALID_LIKE_REQUEST);
+                    .isEqualTo(BirthdayCafeErrorCode.INVALID_LIKE_REQUEST);
         }
 
         @Test
@@ -120,7 +119,7 @@ class BirthdayCafeLikeServiceTest extends ServiceTest {
             assertThatThrownBy(() -> birthdayCafeLikeService.cancelLike(birthdayCafeId, loginMember))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
-                    .isEqualTo(BirthdayCafeLikeErrorCode.NOT_FOUND);
+                    .isEqualTo(BirthdayCafeErrorCode.CANNOT_CANCEL_LIKE);
         }
     }
 }
