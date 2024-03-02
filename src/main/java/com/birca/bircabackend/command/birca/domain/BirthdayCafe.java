@@ -9,8 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import static com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode.INVALID_CANCEL_RENTAL;
-import static com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode.UNAUTHORIZED_CANCEL;
+import static com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode.*;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -85,13 +84,27 @@ public class BirthdayCafe extends BaseEntity {
         if (!progressState.isRentalPending()) {
             throw BusinessException.from(INVALID_CANCEL_RENTAL);
         }
-        if (!isAuthorizedMember(memberId)) {
+        if (!(isHost(memberId) || isOwner(memberId))) {
             throw BusinessException.from(UNAUTHORIZED_CANCEL);
         }
         progressState = ProgressState.RENTAL_CANCELED;
     }
 
-    private boolean isAuthorizedMember(Long memberId) {
-        return memberId.equals(hostId) || memberId.equals(cafeOwnerId);
+    public void changeSpecialGoodsStockState(SpecialGoodsStockState state, Long memberId) {
+        if (progressState != ProgressState.IN_PROGRESS) {
+            throw BusinessException.from(INVALID_STATE_CHANGE);
+        }
+        if (!isHost(memberId)) {
+            throw BusinessException.from(UNAUTHORIZED_STATE_CHANGE);
+        }
+        this.specialGoodsStockState = state;
+    }
+
+    private boolean isOwner(Long memberId) {
+        return memberId.equals(cafeOwnerId);
+    }
+
+    private boolean isHost(Long memberId) {
+        return memberId.equals(hostId);
     }
 }

@@ -56,6 +56,6 @@ public class BirthdayCafeService {
     }
 
     public void changeState(Long birthdayCafeId, String stateName, LoginMember loginMember) {
-
+        BirthdayCafe birthdayCafe = entityUtil.getEntity(BirthdayCafe.class, birthdayCafeId, NOT_FOUND);
     }
 }

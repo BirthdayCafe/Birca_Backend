@@ -131,4 +131,51 @@ class BirthdayCafeTest {
                     .isEqualTo(BirthdayCafeErrorCode.INVALID_CANCEL_RENTAL);
         }
     }
+
+    @Nested
+    @DisplayName("특전 재고 상태 변경은")
+    class SpecialGoodsStateChangeTest {
+
+        @Test
+        void 진행_중인_생일_카페면_가능하다() {
+            // given
+            BirthdayCafe birthdayCafe = new BirthdayCafe(
+                    HOST_ID, ARTIST_ID, CAFE_ID, CAFE_OWNER_ID, SCHEDULE, VISITANTS, TWITTER_ACCOUNT, HOST_PHONE_NUMBER,
+                    ProgressState.IN_PROGRESS, Visibility.PRIVATE, CongestionState.SMOOTH, SpecialGoodsStockState.ABUNDANT);
+
+            // when
+            birthdayCafe.changeSpecialGoodsStockState(SpecialGoodsStockState.SCARCE, HOST_ID);
+
+            // then
+            assertThat(birthdayCafe.getSpecialGoodsStockState()).isEqualTo(SpecialGoodsStockState.SCARCE);
+        }
+
+        @ParameterizedTest
+        @EnumSource(mode = EXCLUDE, names = "IN_PROGRESS")
+        void 진행_중이_아닌_생일_카페면_불가능하다(ProgressState progressState) {
+            // given
+            BirthdayCafe birthdayCafe = new BirthdayCafe(
+                    HOST_ID, ARTIST_ID, CAFE_ID, CAFE_OWNER_ID, SCHEDULE, VISITANTS, TWITTER_ACCOUNT, HOST_PHONE_NUMBER,
+                    progressState, Visibility.PRIVATE, CongestionState.SMOOTH, SpecialGoodsStockState.ABUNDANT);
+
+            // when then
+            assertThatThrownBy(() -> birthdayCafe.changeSpecialGoodsStockState(SpecialGoodsStockState.SCARCE, HOST_ID))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.INVALID_STATE_CHANGE);
+        }
+
+        @Test
+        void 주최자만_가능하다() {
+            // given
+            BirthdayCafe birthdayCafe = new BirthdayCafe(
+                    HOST_ID, ARTIST_ID, CAFE_ID, CAFE_OWNER_ID, SCHEDULE, VISITANTS, TWITTER_ACCOUNT, HOST_PHONE_NUMBER,
+                    ProgressState.IN_PROGRESS, Visibility.PRIVATE, CongestionState.SMOOTH, SpecialGoodsStockState.ABUNDANT);
+
+            assertThatThrownBy(() -> birthdayCafe.changeSpecialGoodsStockState(SpecialGoodsStockState.SCARCE, 100L))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_STATE_CHANGE);
+        }
+    }
 }
