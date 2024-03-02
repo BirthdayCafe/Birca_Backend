@@ -153,7 +153,7 @@ ALTER TABLE birthday_cafe_like
     ADD CONSTRAINT FK_BIRTHDAYCAFELIKE_ON_VISITANT FOREIGN KEY (visitant_id) REFERENCES member (id);
 
 ALTER TABLE birthday_cafe_like
-    ADD CONSTRAINT uc_birthday_cafe_visitant UNIQUE (birthday_cafe_id, visitant_id);
+    ADD CONSTRAINT uc_birthday_cafe_like_birthday_cafe_visitant UNIQUE (birthday_cafe_id, visitant_id);
 
 CREATE TABLE ocr_request_history
 (
