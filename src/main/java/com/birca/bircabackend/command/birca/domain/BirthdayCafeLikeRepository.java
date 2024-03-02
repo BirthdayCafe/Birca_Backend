@@ -8,8 +8,6 @@ public interface BirthdayCafeLikeRepository extends Repository<BirthdayCafeLike,
 
     void save(BirthdayCafeLike birthdayCafeLike);
 
-    boolean existsByVisitantIdAndBirthdayCafeId(Long visitantId, Long birthdayCafeId);
-
     Optional<BirthdayCafeLike> findByVisitantIdAndBirthdayCafeId(Long visitantId, Long birthdayCafeId);
 
     void delete(BirthdayCafeLike birthdayCafeLike);
