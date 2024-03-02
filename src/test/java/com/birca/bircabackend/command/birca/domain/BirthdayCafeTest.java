@@ -225,4 +225,52 @@ class BirthdayCafeTest {
                     .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_STATE_CHANGE);
         }
     }
+
+    @Nested
+    @DisplayName("공개 상태 변경은")
+    class VisibilityChangeTest {
+
+        @ParameterizedTest
+        @EnumSource(mode = EXCLUDE, names = "RENTAL_PENDING")
+        void 대관_대기가_아닌_생일_카페면_가능하다(ProgressState progressState) {
+            // given
+            BirthdayCafe birthdayCafe = new BirthdayCafe(
+                    HOST_ID, ARTIST_ID, CAFE_ID, CAFE_OWNER_ID, SCHEDULE, VISITANTS, TWITTER_ACCOUNT, HOST_PHONE_NUMBER,
+                    progressState, Visibility.PRIVATE, CongestionState.SMOOTH, SpecialGoodsStockState.ABUNDANT);
+
+            // when
+            birthdayCafe.changeVisibility(Visibility.PUBLIC, HOST_ID);
+
+            // then
+            assertThat(birthdayCafe.getVisibility()).isEqualTo(Visibility.PUBLIC);
+        }
+
+        @Test
+        void 대관_대기인_생일_카페면_불가능하다() {
+            // given
+            BirthdayCafe birthdayCafe = new BirthdayCafe(
+                    HOST_ID, ARTIST_ID, CAFE_ID, CAFE_OWNER_ID, SCHEDULE, VISITANTS, TWITTER_ACCOUNT, HOST_PHONE_NUMBER,
+                    ProgressState.RENTAL_PENDING, Visibility.PRIVATE, CongestionState.SMOOTH, SpecialGoodsStockState.ABUNDANT);
+
+            // when then
+            assertThatThrownBy(() -> birthdayCafe.changeVisibility(Visibility.PUBLIC, HOST_ID))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.INVALID_STATE_CHANGE);
+        }
+
+        @Test
+        void 주최자만_가능하다() {
+            // given
+            BirthdayCafe birthdayCafe = new BirthdayCafe(
+                    HOST_ID, ARTIST_ID, CAFE_ID, CAFE_OWNER_ID, SCHEDULE, VISITANTS, TWITTER_ACCOUNT, HOST_PHONE_NUMBER,
+                    ProgressState.IN_PROGRESS, Visibility.PRIVATE, CongestionState.SMOOTH, SpecialGoodsStockState.ABUNDANT);
+
+            // when then
+            assertThatThrownBy(() -> birthdayCafe.changeVisibility(Visibility.PUBLIC, 100L))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_STATE_CHANGE);
+        }
+    }
 }
