@@ -54,4 +54,8 @@ public class BirthdayCafeService {
         BirthdayCafe birthdayCafe = entityUtil.getEntity(BirthdayCafe.class, birthdayCafeId, NOT_FOUND);
         birthdayCafe.cancelRental(loginMember.id());
     }
+
+    public void changeState(Long birthdayCafeId, String stateName, LoginMember loginMember) {
+
+    }
 }

@@ -56,5 +56,7 @@ include::{snippets}/business-license-error-Code/response-body.adoc[]
 operation::register-birthday-cafe[snippets='http-request,request-fields,http-response']
 === 생일 카페 대관 신청 취소
 operation::cancel-birthday-cafe[snippets='http-request,path-parameters,http-response']
+=== 생일 카페 상태 변경
+operation::birthday-cafe-state-update[snippets='http-request,request-fields,path-parameters,http-response']
 === 에러 코드
 include::{snippets}/birthday-cafe-error-Code/response-body.adoc[]

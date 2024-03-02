@@ -29,4 +29,13 @@ public class BirthdayCafeController {
         birthdayCafeService.cancelRental(birthdayCafeId, loginMember);
         return ResponseEntity.ok().build();
     }
+
+    @PatchMapping("/v1/birthday-cafes/{birthdayCafeId}/{stateName}")
+    @RequiredLogin
+    public ResponseEntity<Void> changeState(@PathVariable Long birthdayCafeId,
+                                            @PathVariable String stateName,
+                                            LoginMember loginMember) {
+        birthdayCafeService.changeState(birthdayCafeId, stateName, loginMember);
+        return ResponseEntity.ok().build();
+    }
 }
