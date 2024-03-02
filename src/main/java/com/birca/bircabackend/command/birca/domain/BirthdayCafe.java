@@ -1,6 +1,7 @@
 package com.birca.bircabackend.command.birca.domain;
 
 import com.birca.bircabackend.command.birca.domain.value.*;
+import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
 import com.birca.bircabackend.common.domain.BaseEntity;
 import com.birca.bircabackend.common.exception.BusinessException;
 import jakarta.persistence.*;
@@ -93,5 +94,12 @@ public class BirthdayCafe extends BaseEntity {
 
     private boolean isAuthorizedMember(Long memberId) {
         return memberId.equals(hostId) || memberId.equals(cafeOwnerId);
+    }
+
+    public BirthdayCafeLike like(Long visitantId) {
+        if (progressState.isRentalPending() || progressState.isRentalCanceled()) {
+            throw BusinessException.from(BirthdayCafeErrorCode.INVALID_LIKE_REQUEST);
+        }
+        return new BirthdayCafeLike(this.getId(), visitantId);
     }
 }

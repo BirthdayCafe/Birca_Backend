@@ -24,21 +24,13 @@ public class BirthdayCafeLikeService {
         Long visitantId = loginMember.id();
         validateBirthdayCafeLikeExists(birthdayCafeId, visitantId);
         BirthdayCafe birthdayCafe = entityUtil.getEntity(BirthdayCafe.class, birthdayCafeId, BirthdayCafeErrorCode.NOT_FOUND);
-        checkLikeAvailability(birthdayCafe);
-        BirthdayCafeLike birthdayCafeLike = new BirthdayCafeLike(visitantId, birthdayCafeId);
+        BirthdayCafeLike birthdayCafeLike = birthdayCafe.like(visitantId);
         birthdayCafeLikeRepository.save(birthdayCafeLike);
     }
 
     private void validateBirthdayCafeLikeExists(Long birthdayCafeId, Long visitantId) {
         if (birthdayCafeLikeRepository.existsByVisitantIdAndBirthdayCafeId(birthdayCafeId, visitantId)) {
             throw BusinessException.from(BirthdayCafeErrorCode.ALREADY_LIKED);
-        }
-    }
-
-    private static void checkLikeAvailability(BirthdayCafe birthdayCafe) {
-        ProgressState progressState = birthdayCafe.getProgressState();
-        if (progressState.isRentalPending() || progressState.isRentalCanceled()) {
-            throw BusinessException.from(BirthdayCafeErrorCode.INVALID_LIKE_REQUEST);
         }
     }
 
