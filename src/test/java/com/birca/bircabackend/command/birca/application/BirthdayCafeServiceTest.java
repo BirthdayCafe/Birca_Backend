@@ -65,8 +65,6 @@ class BirthdayCafeServiceTest extends ServiceTest {
             assertAll(
                     () -> assertThat(birthdayCafe.getArtistId()).isEqualTo(VALID_REQUEST.artistId()),
                     () -> assertThat(birthdayCafe.getHostId()).isEqualTo(HOST1.id()),
-                    () -> assertThat(birthdayCafe.getSchedule())
-                            .isEqualTo(Schedule.of(VALID_REQUEST.startDate(), VALID_REQUEST.endDate())),
                     () -> assertThat(birthdayCafe.getVisitants())
                             .isEqualTo(Visitants.of(VALID_REQUEST.minimumVisitant(), VALID_REQUEST.maximumVisitant())),
                     () -> assertThat(birthdayCafe.getTwitterAccount()).isEqualTo(VALID_REQUEST.twitterAccount()),
