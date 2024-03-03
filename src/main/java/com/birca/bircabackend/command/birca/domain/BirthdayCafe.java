@@ -10,8 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import static com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode.INVALID_CANCEL_RENTAL;
-import static com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode.UNAUTHORIZED_CANCEL;
+import static com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode.*;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -86,14 +85,50 @@ public class BirthdayCafe extends BaseEntity {
         if (!progressState.isRentalPending()) {
             throw BusinessException.from(INVALID_CANCEL_RENTAL);
         }
-        if (!isAuthorizedMember(memberId)) {
+        if (!(isHost(memberId) || isOwner(memberId))) {
             throw BusinessException.from(UNAUTHORIZED_CANCEL);
         }
         progressState = ProgressState.RENTAL_CANCELED;
     }
 
-    private boolean isAuthorizedMember(Long memberId) {
-        return memberId.equals(hostId) || memberId.equals(cafeOwnerId);
+    public void changeState(SpecialGoodsStockState state, Long memberId) {
+        validateIsHost(memberId);
+        validateIsInProgressState();
+        this.specialGoodsStockState = state;
+    }
+
+    public void changeState(CongestionState state, Long memberId) {
+        validateIsHost(memberId);
+        validateIsInProgressState();
+        this.congestionState = state;
+    }
+
+    public void changeState(Visibility visibility, Long memberId) {
+        validateIsHost(memberId);
+        if (progressState.isRentalPending()) {
+            throw BusinessException.from(INVALID_STATE_CHANGE);
+        }
+        this.visibility = visibility;
+    }
+
+    private void validateIsInProgressState() {
+        if (progressState != ProgressState.IN_PROGRESS) {
+            throw BusinessException.from(INVALID_STATE_CHANGE);
+        }
+    }
+
+    private void validateIsHost(Long memberId) {
+        if (!isHost(memberId)) {
+            throw BusinessException.from(UNAUTHORIZED_STATE_CHANGE);
+        }
+    }
+
+    private boolean isOwner(Long memberId) {
+        return memberId.equals(cafeOwnerId);
+    }
+
+    private boolean isHost(Long memberId) {
+        return memberId.equals(hostId);
     }
 
     public BirthdayCafeLike like(Long visitantId) {

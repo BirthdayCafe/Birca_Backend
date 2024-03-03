@@ -1,6 +1,7 @@
 package com.birca.bircabackend.command.birca.acceptance;
 
 import com.birca.bircabackend.command.birca.dto.ApplyRentalRequest;
+import com.birca.bircabackend.command.birca.dto.StateChangeRequest;
 import com.birca.bircabackend.support.enviroment.AcceptanceTest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -18,8 +19,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Sql("/fixture/birthday-cafe-fixture.sql")
 public class BirthdayCafeAcceptanceTest extends AcceptanceTest {
 
-    private static final Long MEMBER_ID = 1L;
-    private static final ApplyRentalRequest REQUEST = new ApplyRentalRequest(
+    private static final Long HOST_1_ID = 1L;
+    private static final Long HOST_2_ID = 2L;
+    private static final Long RENTAL_PENDING_CAFE = 1L;
+    private static final Long IN_PROGRESS_CAFE = 2L;
+    private static final ApplyRentalRequest APPLY_RENTAL_REQUEST = new ApplyRentalRequest(
             1L,
             1L,
             LocalDateTime.of(2024, 2, 8, 0, 0, 0),
@@ -35,8 +39,8 @@ public class BirthdayCafeAcceptanceTest extends AcceptanceTest {
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
-                .body(REQUEST)
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(HOST_2_ID))
+                .body(APPLY_RENTAL_REQUEST)
                 .post("/api/v1/birthday-cafes")
                 .then().log().all()
                 .extract();
@@ -47,20 +51,89 @@ public class BirthdayCafeAcceptanceTest extends AcceptanceTest {
 
     @Test
     void 생일_카페_대관을_취소한다() {
+        // when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(HOST_1_ID))
+                .post("/api/v1/birthday-cafes/{birthdayCafeId}/cancel", RENTAL_PENDING_CAFE)
+                .then().log().all()
+                .extract();
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Test
+    void 생일_카페_특전_상태를_변경한다() {
         // given
         RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
-                .body(REQUEST)
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(HOST_1_ID))
+                .body(APPLY_RENTAL_REQUEST)
                 .post("/api/v1/birthday-cafes")
                 .then().log().all()
                 .extract();
 
+        StateChangeRequest request = new StateChangeRequest("SCARCE");
+
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
-                .post("/api/v1/birthday-cafes/{birthdayCafeId}/cancel", 1)
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(HOST_1_ID))
+                .body(request)
+                .patch("/api/v1/birthday-cafes/{birthdayCafeId}/specialGoods", IN_PROGRESS_CAFE)
+                .then().log().all()
+                .extract();
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Test
+    void 생일_카페_혼잡도_상태를_변경한다() {
+        // given
+        RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(HOST_1_ID))
+                .body(APPLY_RENTAL_REQUEST)
+                .post("/api/v1/birthday-cafes")
+                .then().log().all()
+                .extract();
+
+        StateChangeRequest request = new StateChangeRequest("MODERATE");
+
+        // when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(HOST_1_ID))
+                .body(request)
+                .patch("/api/v1/birthday-cafes/{birthdayCafeId}/congestion", IN_PROGRESS_CAFE)
+                .then().log().all()
+                .extract();
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Test
+    void 생일_카페_공개_상태를_변경한다() {
+        // given
+        RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(HOST_1_ID))
+                .body(APPLY_RENTAL_REQUEST)
+                .post("/api/v1/birthday-cafes")
+                .then().log().all()
+                .extract();
+
+        StateChangeRequest request = new StateChangeRequest("PUBLIC");
+
+        // when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(HOST_1_ID))
+                .body(request)
+                .patch("/api/v1/birthday-cafes/{birthdayCafeId}/visibility", IN_PROGRESS_CAFE)
                 .then().log().all()
                 .extract();
 
