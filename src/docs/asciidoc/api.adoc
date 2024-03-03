@@ -34,8 +34,6 @@ operation::get-artists-solo[snippets='http-request,query-parameters,http-respons
 operation::register-favorite-artist[snippets='http-request,request-fields,http-response']
 === 관심 아티스트 등록
 operation::register-interest-artist[snippets='http-request,request-fields,http-response']
-=== 에러 코드
-include::{snippets}/artist-error-Code/response-body.adoc[]
 
 === 최애 아티스트 조회
 operation::get-favorite-artist[snippets='http-request,http-response,response-fields']
@@ -44,6 +42,8 @@ operation::get-interest-artists[snippets='http-request,http-response,response-fi
 
 === 아티스트 검색
 operation::search-artist[snippets='http-request,http-response']
+=== 에러 코드
+include::{snippets}/artist-error-Code/response-body.adoc[]
 
 == 사업자등록증 API
 === 사업자등록증 스캔
