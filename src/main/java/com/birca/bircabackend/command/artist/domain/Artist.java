@@ -1,9 +1,7 @@
 package com.birca.bircabackend.command.artist.domain;
 
 import com.birca.bircabackend.common.domain.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Lob;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

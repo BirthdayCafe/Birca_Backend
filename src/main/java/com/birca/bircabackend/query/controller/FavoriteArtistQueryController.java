@@ -5,6 +5,7 @@ import com.birca.bircabackend.command.auth.authorization.RequiredLogin;
 import com.birca.bircabackend.query.dto.ArtistResponse;
 import com.birca.bircabackend.query.service.FavoriteArtistQueryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +19,7 @@ public class FavoriteArtistQueryController {
 
     @GetMapping("/v1/artists/favorite")
     @RequiredLogin
-    public ArtistResponse getFavoriteArtist(LoginMember loginMember) {
-        return favoriteArtistQueryService.findFavoriteArtist(loginMember);
+    public ResponseEntity<ArtistResponse> getFavoriteArtist(LoginMember loginMember) {
+        return ResponseEntity.ok(favoriteArtistQueryService.findFavoriteArtist(loginMember));
     }
 }

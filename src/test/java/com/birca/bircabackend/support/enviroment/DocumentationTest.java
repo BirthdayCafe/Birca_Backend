@@ -2,6 +2,7 @@ package com.birca.bircabackend.support.enviroment;
 
 import com.birca.bircabackend.command.artist.application.ArtistService;
 import com.birca.bircabackend.command.auth.application.token.JwtParseUtil;
+import com.birca.bircabackend.command.birca.application.BirthdayCafeLikeService;
 import com.birca.bircabackend.command.birca.application.BirthdayCafeService;
 import com.birca.bircabackend.command.cafe.application.BusinessLicenseFacade;
 import com.birca.bircabackend.command.cafe.application.BusinessLicenseService;
@@ -89,6 +90,15 @@ public class DocumentationTest {
 
     @MockBean
     protected InterestArtistQueryService interestArtistQueryService;
+
+    @MockBean
+    protected CafeQueryService cafeQueryService;
+
+    @MockBean
+    protected ArtistSearchQueryService artistSearchQueryService;
+
+    @MockBean
+    protected BirthdayCafeLikeService birthdayCafeLikeService;
 
     protected List<FieldDescriptor> getErrorDescriptor(ErrorCode[] errorCodes) {
         return Arrays.stream(errorCodes)

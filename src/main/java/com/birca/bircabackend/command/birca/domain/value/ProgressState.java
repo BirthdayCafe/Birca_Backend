@@ -13,4 +13,8 @@ public enum ProgressState {
     public boolean isRentalPending() {
         return this == RENTAL_PENDING;
     }
+
+    public boolean isRentalCanceled() {
+        return this == RENTAL_CANCELED;
+    }
 }

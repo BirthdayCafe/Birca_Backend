@@ -17,12 +17,12 @@ INSERT INTO business_license(id, owner_id, owner_name, cafe_name, tax_office_cod
 VALUES (1, 3, '카페 사장', '스타벅스', '123', '12', '12345', '서울', 'business-license-imgae.com');
 
 -- 사장님의 카페
-INSERT INTO cafe (id, business_license_id, owner_id)
-VALUES (1, 1, 3);
+INSERT INTO cafe (id, owner_id, business_license_id, name)
+VALUES (1, 3, 1, '메가커피');
 
 -- 다른 카페
-INSERT INTO cafe (id, business_license_id, owner_id)
-VALUES (2, 2, 4);
+INSERT INTO cafe (id, owner_id, business_license_id, name)
+VALUES (2, 4, 2, '스타벅스');
 
 -- 아티스트
 INSERT INTO artist (id, group_id, name, image_url)

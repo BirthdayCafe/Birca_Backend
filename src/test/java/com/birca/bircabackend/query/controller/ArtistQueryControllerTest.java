@@ -2,6 +2,7 @@ package com.birca.bircabackend.query.controller;
 
 import com.birca.bircabackend.query.dto.ArtistGroupResponse;
 import com.birca.bircabackend.query.dto.ArtistResponse;
+import com.birca.bircabackend.query.dto.ArtistSearchResponse;
 import com.birca.bircabackend.support.enviroment.DocumentationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -124,6 +125,37 @@ public class ArtistQueryControllerTest extends DocumentationTest {
                                 fieldWithPath("[].artistId").type(JsonFieldType.NUMBER).description("아티스트 ID"),
                                 fieldWithPath("[].artistName").type(JsonFieldType.STRING).description("아티스트 이름"),
                                 fieldWithPath("[].artistImage").type(JsonFieldType.STRING).description("아티스트 이미지 url")
+                        )
+                ));
+    }
+
+    @Test
+    void 아티스트를_검색한다() throws Exception {
+        // given
+        given(artistSearchQueryService.searchArtist(any()))
+                .willReturn(List.of(
+                        new ArtistSearchResponse(1L, "마크", "image1.com", "NCT127"),
+                        new ArtistSearchResponse(2L, "마크", "image2.com", "갓세븐")
+                ));
+
+        // when
+        ResultActions result = mockMvc.perform(get("/api/v1/artists/search")
+                .contentType(MediaType.APPLICATION_JSON)
+                .queryParam("name", "마크")
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
+        );
+
+        // then
+        result.andExpect((status().isOk()))
+                .andDo(document("search-artist", HOST_INFO, DOCUMENT_RESPONSE,
+                        queryParameters(
+                                parameterWithName("name").description("아티스트 이름")
+                        ),
+                        responseFields(
+                                fieldWithPath("[].artistId").type(JsonFieldType.NUMBER).description("아티스트 ID"),
+                                fieldWithPath("[].artistName").type(JsonFieldType.STRING).description("아티스트 이름"),
+                                fieldWithPath("[].artistImageUrl").type(JsonFieldType.STRING).description("아티스트 이미지 url"),
+                                fieldWithPath("[].groupName").type(JsonFieldType.STRING).description("그룹명")
                         )
                 ));
     }
