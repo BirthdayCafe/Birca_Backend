@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(indexes = @Index(name = "IDX_NAME", columnList = "name"))
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class ArtistGroup extends BaseEntity {
