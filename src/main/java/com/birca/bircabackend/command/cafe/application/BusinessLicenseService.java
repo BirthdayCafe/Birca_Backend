@@ -20,7 +20,7 @@ public class BusinessLicenseService {
     private final BusinessLicenseRepository businessLicenseRepository;
 
     public void saveBusinessLicense(LoginMember loginMember, BusinessLicenseCreateRequest request) {
-        BusinessLicenseCode businessLicenseCode = new BusinessLicenseCode(request.businessLicenseNumber());
+        BusinessLicenseCode businessLicenseCode = BusinessLicenseCode.from(request.businessLicenseNumber());
         checkDuplicateBusinessLicenseCode(businessLicenseCode);
         BusinessLicense businessLicense = request.toBusinessLicense(loginMember, businessLicenseCode);
         businessLicenseRepository.save(businessLicense);
