@@ -57,7 +57,7 @@ public class BirthdayCafe extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private SpecialGoodsStockState specialGoodsStockState;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "special_goods")
     private List<SpecialGoods> specialGoods = new ArrayList<>();
 
