@@ -10,6 +10,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -292,7 +293,7 @@ class BirthdayCafeTest {
             BirthdayCafe birthdayCafe = BirthdayCafe.builder()
                     .hostId(HOST_ID)
                     .progressState(progressState)
-                    .visibility((Visibility.PRIVATE))
+                    .visibility(Visibility.PRIVATE)
                     .build();
 
             // when
@@ -308,7 +309,7 @@ class BirthdayCafeTest {
             BirthdayCafe birthdayCafe = BirthdayCafe.builder()
                     .hostId(HOST_ID)
                     .progressState(ProgressState.RENTAL_PENDING)
-                    .visibility((Visibility.PRIVATE))
+                    .visibility(Visibility.PRIVATE)
                     .build();
 
             // when then
@@ -324,11 +325,83 @@ class BirthdayCafeTest {
             BirthdayCafe birthdayCafe = BirthdayCafe.builder()
                     .hostId(HOST_ID)
                     .progressState(ProgressState.IN_PROGRESS)
-                    .visibility((Visibility.PRIVATE))
+                    .visibility(Visibility.PRIVATE)
                     .build();
 
             // when then
             assertThatThrownBy(() -> birthdayCafe.changeState(Visibility.PUBLIC, 100L))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_UPDATE);
+        }
+    }
+
+    @Nested
+    @DisplayName("생일 카페 특전 등록은")
+    class SpecialGoodsTest {
+
+        private final List<SpecialGoods> specialGoods = List.of(
+                new SpecialGoods("기본", "ID, 포토카드"),
+                    new SpecialGoods("기본", "ID, 포토카드")
+            );
+
+        @ParameterizedTest
+        @EnumSource(mode = INCLUDE, names = {"RENTAL_APPROVED", "IN_PROGRESS"})
+        void 대관_승인됨과_진행_중일_때만_가능하다(ProgressState progressState) {
+            // given
+            BirthdayCafe birthdayCafe = BirthdayCafe.builder()
+                    .hostId(HOST_ID)
+                    .progressState(progressState)
+                    .build();
+
+            // when
+            birthdayCafe.registerSpecialGoods(HOST_ID, specialGoods);
+
+            // then
+            assertThat(birthdayCafe.getSpecialGoods()).isEqualTo(specialGoods);
+        }
+
+        @Test
+        void 기존의_특전을_완전히_대체한다() {
+            // given
+            BirthdayCafe birthdayCafe = BirthdayCafe.builder()
+                    .hostId(HOST_ID)
+                    .progressState(ProgressState.RENTAL_APPROVED)
+                    .specialGoods(List.of(new SpecialGoods("기존 특전", "포토카드")))
+                    .build();
+
+            // when
+            birthdayCafe.registerSpecialGoods(HOST_ID, specialGoods);
+
+            // then
+            assertThat(birthdayCafe.getSpecialGoods()).isEqualTo(specialGoods);
+        }
+
+        @ParameterizedTest
+        @EnumSource(mode = EXCLUDE, names = {"RENTAL_APPROVED", "IN_PROGRESS"})
+        void 대관_승인됨과_진행_중이_아니면_불가능하다(ProgressState progressState) {
+            // given
+            BirthdayCafe birthdayCafe = BirthdayCafe.builder()
+                    .hostId(HOST_ID)
+                    .progressState(progressState)
+                    .build();
+
+            // when then
+            assertThatThrownBy(() -> birthdayCafe.registerSpecialGoods(HOST_ID, specialGoods))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.INVALID_UPDATE);
+        }
+
+        @Test
+        void 주최자만_가능하다() {
+            BirthdayCafe birthdayCafe = BirthdayCafe.builder()
+                    .hostId(HOST_ID)
+                    .progressState(ProgressState.IN_PROGRESS)
+                    .build();
+
+            // then
+            assertThatThrownBy(() -> birthdayCafe.registerSpecialGoods(100L, specialGoods))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_UPDATE);
