@@ -1,6 +1,7 @@
 package com.birca.bircabackend.command.birca.presentation;
 
 import com.birca.bircabackend.command.birca.dto.ApplyRentalRequest;
+import com.birca.bircabackend.command.birca.dto.SpecialGoodsRequest;
 import com.birca.bircabackend.command.birca.dto.StateChangeRequest;
 import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
 import com.birca.bircabackend.support.enviroment.DocumentationTest;
@@ -107,6 +108,33 @@ public class BirthdayCafeControllerTest extends DocumentationTest {
                         ),
                         requestFields(
                                 fieldWithPath("state").type(JsonFieldType.STRING).description("변경할 상태 값")
+                        )
+                ));
+    }
+
+    @Test
+    void 생일_카페_특전을_추가한다() throws Exception {
+        // given
+        Long birthdayCafeId = 1L;
+        SpecialGoodsRequest request = new SpecialGoodsRequest("기본", "종이컵, 포토카드");
+
+        // when
+        ResultActions result = mockMvc.perform(
+                post("/api/v1/birthday-cafes/{birthdayCafeId}/special-goods", birthdayCafeId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+                        .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
+        );
+
+        // then
+        result.andExpect((status().isOk()))
+                .andDo(document("birthday-cafe-special-goods", HOST_INFO, DOCUMENT_RESPONSE,
+                        pathParameters(
+                                parameterWithName("birthdayCafeId").description("특전을 추가할 생일 카페 ID")
+                        ),
+                        requestFields(
+                                fieldWithPath("name").type(JsonFieldType.STRING).description("특전의 이름"),
+                                fieldWithPath("details").type(JsonFieldType.STRING).description("특전의 세부 내용")
                         )
                 ));
     }

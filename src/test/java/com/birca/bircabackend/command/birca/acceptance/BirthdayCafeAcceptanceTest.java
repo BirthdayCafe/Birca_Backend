@@ -1,6 +1,7 @@
 package com.birca.bircabackend.command.birca.acceptance;
 
 import com.birca.bircabackend.command.birca.dto.ApplyRentalRequest;
+import com.birca.bircabackend.command.birca.dto.SpecialGoodsRequest;
 import com.birca.bircabackend.command.birca.dto.StateChangeRequest;
 import com.birca.bircabackend.support.enviroment.AcceptanceTest;
 import io.restassured.RestAssured;
@@ -119,9 +120,18 @@ public class BirthdayCafeAcceptanceTest extends AcceptanceTest {
     @Test
     void 생일_카페_특전을_추가한다() {
         // given
+        SpecialGoodsRequest request = new SpecialGoodsRequest("기본", "종이컵, 포토카드");
 
         // when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(HOST_1_ID))
+                .body(request)
+                .post("/api/v1/birthday-cafes/{birthdayCafeId}/special-goods", IN_PROGRESS_CAFE)
+                .then().log().all()
+                .extract();
 
         // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 }
