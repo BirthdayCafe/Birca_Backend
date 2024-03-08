@@ -7,17 +7,16 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import static com.birca.bircabackend.command.cafe.exception.BusinessLicenseErrorCode.*;
+import java.util.regex.Pattern;
+
+import static com.birca.bircabackend.command.cafe.exception.BusinessLicenseErrorCode.INVALID_BUSINESS_LICENSE_NUMBER;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class BusinessLicenseCode {
 
-    private static final int TAX_OFFICE_CODE_LENGTH = 3;
-    private static final int BUSINESS_TYPE_CODE_LENGTH = 2;
-    private static final int SERIAL_CODE_LENGTH = 5;
-    private static final int BUSINESS_LICENSE_PARTS = 3;
+    private static final Pattern VALID_PATTERN = Pattern.compile("^\\d{3}-\\d{2}-\\d{5}$");
 
     @Column(nullable = false)
     private String taxOfficeCode;
@@ -28,26 +27,21 @@ public class BusinessLicenseCode {
     @Column(nullable = false)
     private String serialCode;
 
-    public BusinessLicenseCode(String businessLicenseNumber) {
+    public static BusinessLicenseCode from(String businessLicenseNumber) {
+        return new BusinessLicenseCode(businessLicenseNumber);
+    }
+
+    private BusinessLicenseCode(String businessLicenseNumber) {
+        validateBusinessLicenseNumber(businessLicenseNumber);
         String[] codes = businessLicenseNumber.split("-");
-        validateBusinessLicenseNumberForm(codes);
         this.taxOfficeCode = codes[0];
         this.businessTypeCode = codes[1];
         this.serialCode = codes[2];
     }
 
-    private void validateBusinessLicenseNumberForm(String[] codes) {
-        if (codes.length != BUSINESS_LICENSE_PARTS) {
-            throw BusinessException.from(INVALID_BUSINESS_LICENSE_NUMBER_FORM);
-        }
-        if (codes[0].length() != TAX_OFFICE_CODE_LENGTH) {
-            throw BusinessException.from(INVALID_TAX_OFFICE_CODE_LENGTH);
-        }
-        if (codes[1].length() != BUSINESS_TYPE_CODE_LENGTH) {
-            throw BusinessException.from(INVALID_BUSINESS_TYPE_CODE_LENGTH);
-        }
-        if (codes[2].length() != SERIAL_CODE_LENGTH) {
-            throw BusinessException.from(INVALID_SERIAL_CODE_LENGTH);
+    private void validateBusinessLicenseNumber(String businessLicenseNumber) {
+        if (!VALID_PATTERN.matcher(businessLicenseNumber).matches()) {
+            throw BusinessException.from(INVALID_BUSINESS_LICENSE_NUMBER);
         }
     }
 }

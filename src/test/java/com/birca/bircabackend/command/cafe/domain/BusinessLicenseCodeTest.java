@@ -3,9 +3,11 @@ package com.birca.bircabackend.command.cafe.domain;
 import com.birca.bircabackend.common.exception.BusinessException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-import static com.birca.bircabackend.command.cafe.exception.BusinessLicenseErrorCode.*;
+import static com.birca.bircabackend.command.cafe.exception.BusinessLicenseErrorCode.INVALID_BUSINESS_LICENSE_NUMBER;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class BusinessLicenseCodeTest {
@@ -14,39 +16,28 @@ class BusinessLicenseCodeTest {
     @DisplayName("사업자등록증 번호 생성 시")
     class BusinessLicenseCodeCreateTest {
 
-        @Test
-        void 형식에_맞지_않은_번호는_예외가_발생한다() {
-            //when then
-            assertThatThrownBy(() -> new BusinessLicenseCode("1234567890"))
-                    .isInstanceOf(BusinessException.class)
-                    .extracting("errorCode")
-                    .isEqualTo(INVALID_BUSINESS_LICENSE_NUMBER_FORM);
-        }
-        @Test
-        void 세무서_번호의_길이가_3이_아니면_예외가_발생한다() {
-            //when then
-            assertThatThrownBy(() -> new BusinessLicenseCode("12-34-56789"))
-                    .isInstanceOf(BusinessException.class)
-                    .extracting("errorCode")
-                    .isEqualTo(INVALID_TAX_OFFICE_CODE_LENGTH);
+        @ParameterizedTest
+        @ValueSource(strings = {"012-34-56789"})
+        void 올바른_형식으로_생성한다(String businessLicense) {
+            // when
+            BusinessLicenseCode businessLicenseCode = BusinessLicenseCode.from(businessLicense);
+
+            // then
+            assertThat(businessLicenseCode.getTaxOfficeCode()).isEqualTo("012");
+            assertThat(businessLicenseCode.getBusinessTypeCode()).isEqualTo("34");
+            assertThat(businessLicenseCode.getSerialCode()).isEqualTo("56789");
         }
 
-        @Test
-        void 사업자_성격_번호의_길이가_2가_아니면_예외가_발생한다() {
+        @ParameterizedTest
+        @ValueSource(strings = {
+                "0123456789", "01-12-34567", "012-3-45678", "012-23-4567"
+        })
+        void 형식에_맞지_않은_사업자등록번호는_예외가_발생한다(String businessLicense) {
             //when then
-            assertThatThrownBy(() -> new BusinessLicenseCode("123-4-56789"))
+            assertThatThrownBy(() -> BusinessLicenseCode.from(businessLicense))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
-                    .isEqualTo(INVALID_BUSINESS_TYPE_CODE_LENGTH);
-        }
-
-        @Test
-        void 일련_번호의_길이가_5가_아니면_예외가_발생한다() {
-            //when then
-            assertThatThrownBy(() -> new BusinessLicenseCode("123-45-6789"))
-                    .isInstanceOf(BusinessException.class)
-                    .extracting("errorCode")
-                    .isEqualTo(INVALID_SERIAL_CODE_LENGTH);
+                    .isEqualTo(INVALID_BUSINESS_LICENSE_NUMBER);
         }
     }
 }
