@@ -24,25 +24,13 @@ public class BirthdayCafeService {
 
     private final BirthdayCafeRepository birthdayCafeRepository;
     private final EntityUtil entityUtil;
+    private final BirthdayCafeMapper birthdayCafeMapper;
 
     public void applyRental(ApplyRentalRequest request, LoginMember loginMember) {
         Long hostId = loginMember.id();
         validateRentalPendingExists(hostId);
-        BirthdayCafe birthdayCafe = mapToBirthdayCafe(request, hostId);
+        BirthdayCafe birthdayCafe = birthdayCafeMapper.toBirthdayCafe(request, hostId);
         birthdayCafeRepository.save(birthdayCafe);
-    }
-
-    private BirthdayCafe mapToBirthdayCafe(ApplyRentalRequest request, Long hostId) {
-        return BirthdayCafe.applyRental(
-                hostId,
-                request.artistId(),
-                request.cafeId(),
-                birthdayCafeRepository.findOwnerIdByCafeId(request.cafeId()),
-                Schedule.of(request.startDate(), request.endDate()),
-                Visitants.of(request.minimumVisitant(), request.maximumVisitant()),
-                request.twitterAccount(),
-                PhoneNumber.from(request.hostPhoneNumber())
-        );
     }
 
     private void validateRentalPendingExists(Long hostId) {
