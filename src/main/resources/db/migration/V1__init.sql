@@ -155,6 +155,16 @@ ALTER TABLE birthday_cafe_like
 ALTER TABLE birthday_cafe_like
     ADD CONSTRAINT uc_birthday_cafe_like_birthday_cafe_visitant UNIQUE (birthday_cafe_id, visitant_id);
 
+CREATE TABLE special_goods
+(
+    birthday_cafe_id BIGINT       NOT NULL,
+    name             VARCHAR(255) NOT NULL,
+    details          VARCHAR(255) NOT NULL
+);
+
+ALTER TABLE special_goods
+    ADD CONSTRAINT fk_special_goods_on_birthday_cafe FOREIGN KEY (birthday_cafe_id) REFERENCES birthday_cafe (id);
+
 CREATE TABLE ocr_request_history
 (
     id           BIGINT AUTO_INCREMENT NOT NULL,

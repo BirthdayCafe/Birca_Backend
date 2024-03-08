@@ -77,6 +77,10 @@ public class BirthdayCafeService {
     public void registerSpecialGoods(Long birthdayCafeId,
                                      LoginMember loginMember,
                                      List<SpecialGoodsRequest> request) {
-
+        BirthdayCafe birthdayCafe = entityUtil.getEntity(BirthdayCafe.class, birthdayCafeId, NOT_FOUND);
+        List<SpecialGoods> specialGoods = request.stream()
+                .map(req -> new SpecialGoods(req.name(), req.details()))
+                .toList();
+        birthdayCafe.registerSpecialGoods(loginMember.id(), specialGoods);
     }
 }

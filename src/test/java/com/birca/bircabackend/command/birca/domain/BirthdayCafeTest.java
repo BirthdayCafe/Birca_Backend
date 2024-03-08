@@ -121,9 +121,10 @@ class BirthdayCafeTest {
         @EnumSource(mode = EXCLUDE, names = "RENTAL_PENDING")
         void 대관_대기_상태가_아니면_취소하지_못한다(ProgressState progressState) {
             // given
-            BirthdayCafe birthdayCafe = new BirthdayCafe(
-                    HOST_ID, ARTIST_ID, CAFE_ID, CAFE_OWNER_ID, SCHEDULE, VISITANTS, TWITTER_ACCOUNT, HOST_PHONE_NUMBER,
-                    progressState, Visibility.PRIVATE, CongestionState.SMOOTH, SpecialGoodsStockState.ABUNDANT);
+            BirthdayCafe birthdayCafe = BirthdayCafe.builder()
+                    .hostId(HOST_ID)
+                    .progressState(progressState)
+                    .build();
 
             // when then
             assertThatThrownBy(() -> birthdayCafe.cancelRental(HOST_ID))
@@ -142,10 +143,10 @@ class BirthdayCafeTest {
         void 누른다(ProgressState progressState) {
             // given
             Long visitantId = 1L;
-
-            BirthdayCafe birthdayCafe = new BirthdayCafe(
-                    HOST_ID, ARTIST_ID, CAFE_ID, CAFE_OWNER_ID, SCHEDULE, VISITANTS, TWITTER_ACCOUNT, HOST_PHONE_NUMBER,
-                    progressState, Visibility.PRIVATE, CongestionState.SMOOTH, SpecialGoodsStockState.ABUNDANT);
+            BirthdayCafe birthdayCafe = BirthdayCafe.builder()
+                    .hostId(HOST_ID)
+                    .progressState(progressState)
+                    .build();
 
             // when
             BirthdayCafeLike birthdayCafeLike = birthdayCafe.like(visitantId);
@@ -161,9 +162,10 @@ class BirthdayCafeTest {
             // given
             Long visitantId = 1L;
 
-            BirthdayCafe birthdayCafe = new BirthdayCafe(
-                    HOST_ID, ARTIST_ID, CAFE_ID, CAFE_OWNER_ID, SCHEDULE, VISITANTS, TWITTER_ACCOUNT, HOST_PHONE_NUMBER,
-                    progressState, Visibility.PRIVATE, CongestionState.SMOOTH, SpecialGoodsStockState.ABUNDANT);
+            BirthdayCafe birthdayCafe = BirthdayCafe.builder()
+                    .hostId(HOST_ID)
+                    .progressState(progressState)
+                    .build();
 
             // when then
             assertThatThrownBy(() -> birthdayCafe.like(visitantId))
@@ -180,9 +182,11 @@ class BirthdayCafeTest {
         @Test
         void 진행_중인_생일_카페면_가능하다() {
             // given
-            BirthdayCafe birthdayCafe = new BirthdayCafe(
-                    HOST_ID, ARTIST_ID, CAFE_ID, CAFE_OWNER_ID, SCHEDULE, VISITANTS, TWITTER_ACCOUNT, HOST_PHONE_NUMBER,
-                    ProgressState.IN_PROGRESS, Visibility.PRIVATE, CongestionState.SMOOTH, SpecialGoodsStockState.ABUNDANT);
+            BirthdayCafe birthdayCafe = BirthdayCafe.builder()
+                    .hostId(HOST_ID)
+                    .progressState(ProgressState.IN_PROGRESS)
+                    .specialGoodsStockState(SpecialGoodsStockState.ABUNDANT)
+                    .build();
 
             // when
             birthdayCafe.changeState(SpecialGoodsStockState.SCARCE, HOST_ID);
@@ -195,28 +199,32 @@ class BirthdayCafeTest {
         @EnumSource(mode = EXCLUDE, names = "IN_PROGRESS")
         void 진행_중이_아닌_생일_카페면_불가능하다(ProgressState progressState) {
             // given
-            BirthdayCafe birthdayCafe = new BirthdayCafe(
-                    HOST_ID, ARTIST_ID, CAFE_ID, CAFE_OWNER_ID, SCHEDULE, VISITANTS, TWITTER_ACCOUNT, HOST_PHONE_NUMBER,
-                    progressState, Visibility.PRIVATE, CongestionState.SMOOTH, SpecialGoodsStockState.ABUNDANT);
+            BirthdayCafe birthdayCafe = BirthdayCafe.builder()
+                    .hostId(HOST_ID)
+                    .progressState(progressState)
+                    .specialGoodsStockState(SpecialGoodsStockState.ABUNDANT)
+                    .build();
 
             // when then
             assertThatThrownBy(() -> birthdayCafe.changeState(SpecialGoodsStockState.SCARCE, HOST_ID))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
-                    .isEqualTo(BirthdayCafeErrorCode.INVALID_STATE_CHANGE);
+                    .isEqualTo(BirthdayCafeErrorCode.INVALID_UPDATE);
         }
 
         @Test
         void 주최자만_가능하다() {
             // given
-            BirthdayCafe birthdayCafe = new BirthdayCafe(
-                    HOST_ID, ARTIST_ID, CAFE_ID, CAFE_OWNER_ID, SCHEDULE, VISITANTS, TWITTER_ACCOUNT, HOST_PHONE_NUMBER,
-                    ProgressState.IN_PROGRESS, Visibility.PRIVATE, CongestionState.SMOOTH, SpecialGoodsStockState.ABUNDANT);
+            BirthdayCafe birthdayCafe = BirthdayCafe.builder()
+                    .hostId(HOST_ID)
+                    .progressState(ProgressState.IN_PROGRESS)
+                    .specialGoodsStockState(SpecialGoodsStockState.ABUNDANT)
+                    .build();
 
             assertThatThrownBy(() -> birthdayCafe.changeState(SpecialGoodsStockState.SCARCE, 100L))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
-                    .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_STATE_CHANGE);
+                    .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_UPDATE);
         }
     }
 
@@ -226,9 +234,11 @@ class BirthdayCafeTest {
         @Test
         void 진행_중인_생일_카페면_가능하다() {
             // given
-            BirthdayCafe birthdayCafe = new BirthdayCafe(
-                    HOST_ID, ARTIST_ID, CAFE_ID, CAFE_OWNER_ID, SCHEDULE, VISITANTS, TWITTER_ACCOUNT, HOST_PHONE_NUMBER,
-                    ProgressState.IN_PROGRESS, Visibility.PRIVATE, CongestionState.SMOOTH, SpecialGoodsStockState.ABUNDANT);
+            BirthdayCafe birthdayCafe = BirthdayCafe.builder()
+                    .hostId(HOST_ID)
+                    .progressState(ProgressState.IN_PROGRESS)
+                    .congestionState(CongestionState.SMOOTH)
+                    .build();
 
             // when
             birthdayCafe.changeState(CongestionState.MODERATE, HOST_ID);
@@ -241,29 +251,33 @@ class BirthdayCafeTest {
         @EnumSource(mode = EXCLUDE, names = "IN_PROGRESS")
         void 진행_중이_아닌_생일_카페면_불가능하다(ProgressState progressState) {
             // given
-            BirthdayCafe birthdayCafe = new BirthdayCafe(
-                    HOST_ID, ARTIST_ID, CAFE_ID, CAFE_OWNER_ID, SCHEDULE, VISITANTS, TWITTER_ACCOUNT, HOST_PHONE_NUMBER,
-                    progressState, Visibility.PRIVATE, CongestionState.SMOOTH, SpecialGoodsStockState.ABUNDANT);
+            BirthdayCafe birthdayCafe = BirthdayCafe.builder()
+                    .hostId(HOST_ID)
+                    .progressState(progressState)
+                    .congestionState(CongestionState.SMOOTH)
+                    .build();
 
             // when then
             assertThatThrownBy(() -> birthdayCafe.changeState(CongestionState.MODERATE, HOST_ID))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
-                    .isEqualTo(BirthdayCafeErrorCode.INVALID_STATE_CHANGE);
+                    .isEqualTo(BirthdayCafeErrorCode.INVALID_UPDATE);
         }
 
         @Test
         void 주최자만_가능하다() {
             // given
-            BirthdayCafe birthdayCafe = new BirthdayCafe(
-                    HOST_ID, ARTIST_ID, CAFE_ID, CAFE_OWNER_ID, SCHEDULE, VISITANTS, TWITTER_ACCOUNT, HOST_PHONE_NUMBER,
-                    ProgressState.IN_PROGRESS, Visibility.PRIVATE, CongestionState.SMOOTH, SpecialGoodsStockState.ABUNDANT);
+            BirthdayCafe birthdayCafe = BirthdayCafe.builder()
+                    .hostId(HOST_ID)
+                    .progressState(ProgressState.IN_PROGRESS)
+                    .congestionState(CongestionState.SMOOTH)
+                    .build();
 
             // when then
             assertThatThrownBy(() -> birthdayCafe.changeState(CongestionState.MODERATE, 100L))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
-                    .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_STATE_CHANGE);
+                    .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_UPDATE);
         }
     }
 
@@ -275,9 +289,11 @@ class BirthdayCafeTest {
         @EnumSource(mode = EXCLUDE, names = "RENTAL_PENDING")
         void 대관_대기가_아닌_생일_카페면_가능하다(ProgressState progressState) {
             // given
-            BirthdayCafe birthdayCafe = new BirthdayCafe(
-                    HOST_ID, ARTIST_ID, CAFE_ID, CAFE_OWNER_ID, SCHEDULE, VISITANTS, TWITTER_ACCOUNT, HOST_PHONE_NUMBER,
-                    progressState, Visibility.PRIVATE, CongestionState.SMOOTH, SpecialGoodsStockState.ABUNDANT);
+            BirthdayCafe birthdayCafe = BirthdayCafe.builder()
+                    .hostId(HOST_ID)
+                    .progressState(progressState)
+                    .visibility((Visibility.PRIVATE))
+                    .build();
 
             // when
             birthdayCafe.changeState(Visibility.PUBLIC, HOST_ID);
@@ -289,29 +305,33 @@ class BirthdayCafeTest {
         @Test
         void 대관_대기인_생일_카페면_불가능하다() {
             // given
-            BirthdayCafe birthdayCafe = new BirthdayCafe(
-                    HOST_ID, ARTIST_ID, CAFE_ID, CAFE_OWNER_ID, SCHEDULE, VISITANTS, TWITTER_ACCOUNT, HOST_PHONE_NUMBER,
-                    ProgressState.RENTAL_PENDING, Visibility.PRIVATE, CongestionState.SMOOTH, SpecialGoodsStockState.ABUNDANT);
+            BirthdayCafe birthdayCafe = BirthdayCafe.builder()
+                    .hostId(HOST_ID)
+                    .progressState(ProgressState.RENTAL_PENDING)
+                    .visibility((Visibility.PRIVATE))
+                    .build();
 
             // when then
             assertThatThrownBy(() -> birthdayCafe.changeState(Visibility.PUBLIC, HOST_ID))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
-                    .isEqualTo(BirthdayCafeErrorCode.INVALID_STATE_CHANGE);
+                    .isEqualTo(BirthdayCafeErrorCode.INVALID_UPDATE);
         }
 
         @Test
         void 주최자만_가능하다() {
             // given
-            BirthdayCafe birthdayCafe = new BirthdayCafe(
-                    HOST_ID, ARTIST_ID, CAFE_ID, CAFE_OWNER_ID, SCHEDULE, VISITANTS, TWITTER_ACCOUNT, HOST_PHONE_NUMBER,
-                    ProgressState.IN_PROGRESS, Visibility.PRIVATE, CongestionState.SMOOTH, SpecialGoodsStockState.ABUNDANT);
+            BirthdayCafe birthdayCafe = BirthdayCafe.builder()
+                    .hostId(HOST_ID)
+                    .progressState(ProgressState.IN_PROGRESS)
+                    .visibility((Visibility.PRIVATE))
+                    .build();
 
             // when then
             assertThatThrownBy(() -> birthdayCafe.changeState(Visibility.PUBLIC, 100L))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
-                    .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_STATE_CHANGE);
+                    .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_UPDATE);
         }
     }
 }
