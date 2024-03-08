@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -120,7 +121,10 @@ public class BirthdayCafeAcceptanceTest extends AcceptanceTest {
     @Test
     void 생일_카페_특전을_추가한다() {
         // given
-        SpecialGoodsRequest request = new SpecialGoodsRequest("기본", "종이컵, 포토카드");
+        List<SpecialGoodsRequest> request = List.of(
+                new SpecialGoodsRequest("기본", "종이컵, 포토카드"),
+                new SpecialGoodsRequest("디저트", "종이컵, 포토카드, ID카드")
+        );
 
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()

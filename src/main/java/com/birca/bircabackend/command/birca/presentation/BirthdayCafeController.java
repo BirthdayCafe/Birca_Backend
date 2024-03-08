@@ -4,10 +4,13 @@ import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.auth.authorization.RequiredLogin;
 import com.birca.bircabackend.command.birca.application.BirthdayCafeService;
 import com.birca.bircabackend.command.birca.dto.ApplyRentalRequest;
+import com.birca.bircabackend.command.birca.dto.SpecialGoodsRequest;
 import com.birca.bircabackend.command.birca.dto.StateChangeRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -55,6 +58,15 @@ public class BirthdayCafeController {
                                                       LoginMember loginMember,
                                                       @RequestBody StateChangeRequest request) {
         birthdayCafeService.changeVisibility(birthdayCafeId, loginMember, request);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/v1/birthday-cafes/{birthdayCafeId}/special-goods")
+    @RequiredLogin
+    public ResponseEntity<Void> registerSpecialGoods(@PathVariable Long birthdayCafeId,
+                                                      LoginMember loginMember,
+                                                      @RequestBody List<SpecialGoodsRequest> request) {
+        birthdayCafeService.registerSpecialGoods(birthdayCafeId, loginMember, request);
         return ResponseEntity.ok().build();
     }
 }

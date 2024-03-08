@@ -12,6 +12,7 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
@@ -116,7 +117,10 @@ public class BirthdayCafeControllerTest extends DocumentationTest {
     void 생일_카페_특전을_추가한다() throws Exception {
         // given
         Long birthdayCafeId = 1L;
-        SpecialGoodsRequest request = new SpecialGoodsRequest("기본", "종이컵, 포토카드");
+        List<SpecialGoodsRequest> request = List.of(
+                new SpecialGoodsRequest("기본", "종이컵, 포토카드"),
+                new SpecialGoodsRequest("디저트", "종이컵, 포토카드, ID카드")
+        );
 
         // when
         ResultActions result = mockMvc.perform(
@@ -133,8 +137,8 @@ public class BirthdayCafeControllerTest extends DocumentationTest {
                                 parameterWithName("birthdayCafeId").description("특전을 추가할 생일 카페 ID")
                         ),
                         requestFields(
-                                fieldWithPath("name").type(JsonFieldType.STRING).description("특전의 이름"),
-                                fieldWithPath("details").type(JsonFieldType.STRING).description("특전의 세부 내용")
+                                fieldWithPath("[].name").type(JsonFieldType.STRING).description("특전의 이름"),
+                                fieldWithPath("[].details").type(JsonFieldType.STRING).description("특전의 세부 내용")
                         )
                 ));
     }

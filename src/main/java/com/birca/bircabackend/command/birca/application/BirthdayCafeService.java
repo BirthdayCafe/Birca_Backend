@@ -5,12 +5,15 @@ import com.birca.bircabackend.command.birca.domain.BirthdayCafe;
 import com.birca.bircabackend.command.birca.domain.BirthdayCafeRepository;
 import com.birca.bircabackend.command.birca.domain.value.*;
 import com.birca.bircabackend.command.birca.dto.ApplyRentalRequest;
+import com.birca.bircabackend.command.birca.dto.SpecialGoodsRequest;
 import com.birca.bircabackend.command.birca.dto.StateChangeRequest;
 import com.birca.bircabackend.common.EntityUtil;
 import com.birca.bircabackend.common.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode.*;
 
@@ -69,5 +72,11 @@ public class BirthdayCafeService {
         BirthdayCafe birthdayCafe = entityUtil.getEntity(BirthdayCafe.class, birthdayCafeId, NOT_FOUND);
         Visibility state = Visibility.valueOf(request.state());
         birthdayCafe.changeState(state, loginMember.id());
+    }
+
+    public void registerSpecialGoods(Long birthdayCafeId,
+                                     LoginMember loginMember,
+                                     List<SpecialGoodsRequest> request) {
+
     }
 }
