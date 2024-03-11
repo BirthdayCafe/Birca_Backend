@@ -116,7 +116,7 @@ public class BirthdayCafe extends BaseEntity {
         return new BirthdayCafeLike(this.getId(), visitantId);
     }
 
-    public void registerSpecialGoods(Long memberId, List<SpecialGoods> specialGoods) {
+    public void replaceSpecialGoods(Long memberId, List<SpecialGoods> specialGoods) {
         validateIsHost(memberId);
         if (!progressState.isInProgress() && !progressState.isRentalApproved()) {
             throw BusinessException.from(INVALID_UPDATE);

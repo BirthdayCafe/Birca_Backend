@@ -356,7 +356,7 @@ class BirthdayCafeTest {
                     .sample();
 
             // when
-            birthdayCafe.registerSpecialGoods(HOST_ID, specialGoods);
+            birthdayCafe.replaceSpecialGoods(HOST_ID, specialGoods);
 
             // then
             assertThat(birthdayCafe.getSpecialGoods()).isEqualTo(specialGoods);
@@ -372,7 +372,7 @@ class BirthdayCafeTest {
                     .sample();
 
             // when
-            birthdayCafe.registerSpecialGoods(HOST_ID, specialGoods);
+            birthdayCafe.replaceSpecialGoods(HOST_ID, specialGoods);
 
             // then
             assertThat(birthdayCafe.getSpecialGoods()).isEqualTo(specialGoods);
@@ -388,7 +388,7 @@ class BirthdayCafeTest {
                     .sample();
 
             // when then
-            assertThatThrownBy(() -> birthdayCafe.registerSpecialGoods(HOST_ID, specialGoods))
+            assertThatThrownBy(() -> birthdayCafe.replaceSpecialGoods(HOST_ID, specialGoods))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.INVALID_UPDATE);
@@ -403,7 +403,7 @@ class BirthdayCafeTest {
                     .sample();
 
             // when then
-            assertThatThrownBy(() -> birthdayCafe.registerSpecialGoods(100L, specialGoods))
+            assertThatThrownBy(() -> birthdayCafe.replaceSpecialGoods(100L, specialGoods))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_UPDATE);

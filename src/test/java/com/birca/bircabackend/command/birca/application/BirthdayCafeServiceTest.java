@@ -288,7 +288,7 @@ class BirthdayCafeServiceTest extends ServiceTest {
         @Test
         void 진행_중인_카페에서_가능하다() {
             // when
-            birthdayCafeService.registerSpecialGoods(inProgressCafeId, HOST1, request);
+            birthdayCafeService.replaceSpecialGoods(inProgressCafeId, HOST1, request);
 
             // then
             BirthdayCafe actual = entityManager.find(BirthdayCafe.class, inProgressCafeId);
@@ -303,10 +303,10 @@ class BirthdayCafeServiceTest extends ServiceTest {
         @Test
         void 기존_특전을_완전히_대체한다() {
             // given
-            birthdayCafeService.registerSpecialGoods(inProgressCafeId, HOST1, request);
+            birthdayCafeService.replaceSpecialGoods(inProgressCafeId, HOST1, request);
 
             // when
-            birthdayCafeService.registerSpecialGoods(inProgressCafeId, HOST1, List.of(
+            birthdayCafeService.replaceSpecialGoods(inProgressCafeId, HOST1, List.of(
                     new SpecialGoodsRequest("바뀐 특전", "새로운 포토카드"),
                     new SpecialGoodsRequest("바뀐 디저트", "새로운 포토카드, 새로운 ID 카드"),
                     new SpecialGoodsRequest("스페셜", "특별 선물")
@@ -326,7 +326,7 @@ class BirthdayCafeServiceTest extends ServiceTest {
         @Test
         void 대관_대기_상태에선_못한다() {
             // when then
-            assertThatThrownBy(() -> birthdayCafeService.registerSpecialGoods(rentalPendingCafeId, HOST1, request))
+            assertThatThrownBy(() -> birthdayCafeService.replaceSpecialGoods(rentalPendingCafeId, HOST1, request))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.INVALID_UPDATE);
@@ -335,7 +335,7 @@ class BirthdayCafeServiceTest extends ServiceTest {
         @Test
         void 주최자가_아니면_못한다() {
             // when then
-            assertThatThrownBy(() -> birthdayCafeService.registerSpecialGoods(inProgressCafeId, ANOTHER_MEMBER, request))
+            assertThatThrownBy(() -> birthdayCafeService.replaceSpecialGoods(inProgressCafeId, ANOTHER_MEMBER, request))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_UPDATE);

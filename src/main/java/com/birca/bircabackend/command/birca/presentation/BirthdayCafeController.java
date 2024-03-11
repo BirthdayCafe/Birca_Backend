@@ -63,10 +63,10 @@ public class BirthdayCafeController {
 
     @PostMapping("/v1/birthday-cafes/{birthdayCafeId}/special-goods")
     @RequiredLogin
-    public ResponseEntity<Void> registerSpecialGoods(@PathVariable Long birthdayCafeId,
-                                                      LoginMember loginMember,
-                                                      @RequestBody List<SpecialGoodsRequest> request) {
-        birthdayCafeService.registerSpecialGoods(birthdayCafeId, loginMember, request);
+    public ResponseEntity<Void> replaceSpecialGoods(@PathVariable Long birthdayCafeId,
+                                                    LoginMember loginMember,
+                                                    @RequestBody List<SpecialGoodsRequest> request) {
+        birthdayCafeService.replaceSpecialGoods(birthdayCafeId, loginMember, request);
         return ResponseEntity.ok().build();
     }
 }
