@@ -64,6 +64,8 @@ operation::birthday-cafe-state-update[snippets='http-request,request-fields,path
 operation::like-birthday-cafe[snippets='http-request,path-parameters,http-response']
 === 생일 카페 찜하기 취소
 operation::like-cancel-birthday-cafe[snippets='http-request,path-parameters,http-response']
+=== 생일 카페 특전 등록
+operation::birthday-cafe-special-goods[snippets='http-request,request-fields,path-parameters,http-response']
 === 에러 코드
 include::{snippets}/birthday-cafe-error-Code/response-body.adoc[]
 

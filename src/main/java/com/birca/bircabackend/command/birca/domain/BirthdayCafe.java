@@ -1,20 +1,20 @@
 package com.birca.bircabackend.command.birca.domain;
 
 import com.birca.bircabackend.command.birca.domain.value.*;
-import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
 import com.birca.bircabackend.common.domain.BaseEntity;
 import com.birca.bircabackend.common.exception.BusinessException;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode.*;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder(access = AccessLevel.PRIVATE)
 @Getter
 public class BirthdayCafe extends BaseEntity {
 
@@ -57,28 +57,26 @@ public class BirthdayCafe extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private SpecialGoodsStockState specialGoodsStockState;
 
-    public static BirthdayCafe applyRental(Long hostId,
-                                           Long artistId,
-                                           Long cafeId,
-                                           Long cafeOwnerId,
-                                           Schedule schedule,
-                                           Visitants visitants,
-                                           String twitterAccount,
-                                           PhoneNumber hostPhoneNumber) {
-        return new BirthdayCafe(
-                hostId,
-                artistId,
-                cafeId,
-                cafeOwnerId,
-                schedule,
-                visitants,
-                twitterAccount,
-                hostPhoneNumber,
-                ProgressState.RENTAL_PENDING,
-                Visibility.PRIVATE,
-                CongestionState.SMOOTH,
-                SpecialGoodsStockState.ABUNDANT
-        );
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "special_goods")
+    private List<SpecialGoods> specialGoods = new ArrayList<>();
+
+    public static BirthdayCafe applyRental(Long hostId, Long artistId, Long cafeId, Long cafeOwnerId, Schedule schedule,
+                                           Visitants visitants, String twitterAccount, PhoneNumber hostPhoneNumber) {
+        return BirthdayCafe.builder()
+                .hostId(hostId)
+                .artistId(artistId)
+                .cafeId(cafeId)
+                .cafeOwnerId(cafeOwnerId)
+                .schedule(schedule)
+                .visitants(visitants)
+                .twitterAccount(twitterAccount)
+                .hostPhoneNumber(hostPhoneNumber)
+                .progressState(ProgressState.RENTAL_PENDING)
+                .visibility(Visibility.PRIVATE)
+                .congestionState(CongestionState.SMOOTH)
+                .specialGoodsStockState(SpecialGoodsStockState.ABUNDANT)
+                .build();
     }
 
     public void cancelRental(Long memberId) {
@@ -106,20 +104,35 @@ public class BirthdayCafe extends BaseEntity {
     public void changeState(Visibility visibility, Long memberId) {
         validateIsHost(memberId);
         if (progressState.isRentalPending()) {
-            throw BusinessException.from(INVALID_STATE_CHANGE);
+            throw BusinessException.from(INVALID_UPDATE);
         }
         this.visibility = visibility;
     }
 
-    private void validateIsInProgressState() {
-        if (progressState != ProgressState.IN_PROGRESS) {
-            throw BusinessException.from(INVALID_STATE_CHANGE);
+    public BirthdayCafeLike like(Long visitantId) {
+        if (progressState.isRentalPending() || progressState.isRentalCanceled()) {
+            throw BusinessException.from(INVALID_LIKE_REQUEST);
         }
+        return new BirthdayCafeLike(this.getId(), visitantId);
+    }
+
+    public void replaceSpecialGoods(Long memberId, List<SpecialGoods> specialGoods) {
+        validateIsHost(memberId);
+        if (!progressState.isInProgress() && !progressState.isRentalApproved()) {
+            throw BusinessException.from(INVALID_UPDATE);
+        }
+        this.specialGoods = specialGoods;
     }
 
     private void validateIsHost(Long memberId) {
         if (!isHost(memberId)) {
-            throw BusinessException.from(UNAUTHORIZED_STATE_CHANGE);
+            throw BusinessException.from(UNAUTHORIZED_UPDATE);
+        }
+    }
+
+    private void validateIsInProgressState() {
+        if (!progressState.isInProgress()) {
+            throw BusinessException.from(INVALID_UPDATE);
         }
     }
 
@@ -129,12 +142,5 @@ public class BirthdayCafe extends BaseEntity {
 
     private boolean isHost(Long memberId) {
         return memberId.equals(hostId);
-    }
-
-    public BirthdayCafeLike like(Long visitantId) {
-        if (progressState.isRentalPending() || progressState.isRentalCanceled()) {
-            throw BusinessException.from(BirthdayCafeErrorCode.INVALID_LIKE_REQUEST);
-        }
-        return new BirthdayCafeLike(this.getId(), visitantId);
     }
 }

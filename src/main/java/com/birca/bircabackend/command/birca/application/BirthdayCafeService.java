@@ -5,12 +5,15 @@ import com.birca.bircabackend.command.birca.domain.BirthdayCafe;
 import com.birca.bircabackend.command.birca.domain.BirthdayCafeRepository;
 import com.birca.bircabackend.command.birca.domain.value.*;
 import com.birca.bircabackend.command.birca.dto.ApplyRentalRequest;
+import com.birca.bircabackend.command.birca.dto.SpecialGoodsRequest;
 import com.birca.bircabackend.command.birca.dto.StateChangeRequest;
 import com.birca.bircabackend.common.EntityUtil;
 import com.birca.bircabackend.common.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode.*;
 
@@ -21,25 +24,13 @@ public class BirthdayCafeService {
 
     private final BirthdayCafeRepository birthdayCafeRepository;
     private final EntityUtil entityUtil;
+    private final BirthdayCafeMapper birthdayCafeMapper;
 
     public void applyRental(ApplyRentalRequest request, LoginMember loginMember) {
         Long hostId = loginMember.id();
         validateRentalPendingExists(hostId);
-        BirthdayCafe birthdayCafe = mapToBirthdayCafe(request, hostId);
+        BirthdayCafe birthdayCafe = birthdayCafeMapper.toBirthdayCafe(request, hostId);
         birthdayCafeRepository.save(birthdayCafe);
-    }
-
-    private BirthdayCafe mapToBirthdayCafe(ApplyRentalRequest request, Long hostId) {
-        return BirthdayCafe.applyRental(
-                hostId,
-                request.artistId(),
-                request.cafeId(),
-                birthdayCafeRepository.findOwnerIdByCafeId(request.cafeId()),
-                Schedule.of(request.startDate(), request.endDate()),
-                Visitants.of(request.minimumVisitant(), request.maximumVisitant()),
-                request.twitterAccount(),
-                PhoneNumber.from(request.hostPhoneNumber())
-        );
     }
 
     private void validateRentalPendingExists(Long hostId) {
@@ -69,5 +60,15 @@ public class BirthdayCafeService {
         BirthdayCafe birthdayCafe = entityUtil.getEntity(BirthdayCafe.class, birthdayCafeId, NOT_FOUND);
         Visibility state = Visibility.valueOf(request.state());
         birthdayCafe.changeState(state, loginMember.id());
+    }
+
+    public void replaceSpecialGoods(Long birthdayCafeId,
+                                    LoginMember loginMember,
+                                    List<SpecialGoodsRequest> request) {
+        BirthdayCafe birthdayCafe = entityUtil.getEntity(BirthdayCafe.class, birthdayCafeId, NOT_FOUND);
+        List<SpecialGoods> specialGoods = request.stream()
+                .map(req -> new SpecialGoods(req.name(), req.details()))
+                .toList();
+        birthdayCafe.replaceSpecialGoods(loginMember.id(), specialGoods);
     }
 }

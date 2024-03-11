@@ -4,6 +4,7 @@ import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.birca.domain.BirthdayCafe;
 import com.birca.bircabackend.command.birca.domain.value.*;
 import com.birca.bircabackend.command.birca.dto.ApplyRentalRequest;
+import com.birca.bircabackend.command.birca.dto.SpecialGoodsRequest;
 import com.birca.bircabackend.command.birca.dto.StateChangeRequest;
 import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
 import com.birca.bircabackend.common.exception.BusinessException;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -268,6 +270,75 @@ class BirthdayCafeServiceTest extends ServiceTest {
             // then
             BirthdayCafe actual = entityManager.find(BirthdayCafe.class, inProgressCafeId);
             assertThat(actual.getVisibility()).isEqualTo(Visibility.PUBLIC);
+        }
+    }
+
+    @Nested
+    @DisplayName("생일 카페 특전 등록은")
+    class SpecialGoodsTest {
+
+        private final Long rentalPendingCafeId = 1L;
+        private final Long inProgressCafeId = 2L;
+
+        private final List<SpecialGoodsRequest> request = List.of(
+                new SpecialGoodsRequest("특전", "포토카드"),
+                new SpecialGoodsRequest("디저트", "포토카드, ID 카드")
+        );
+
+        @Test
+        void 진행_중인_카페에서_가능하다() {
+            // when
+            birthdayCafeService.replaceSpecialGoods(inProgressCafeId, HOST1, request);
+
+            // then
+            BirthdayCafe actual = entityManager.find(BirthdayCafe.class, inProgressCafeId);
+            assertThat(actual.getSpecialGoods())
+                    .usingRecursiveComparison()
+                    .isEqualTo(List.of(
+                            new SpecialGoods("특전", "포토카드"),
+                            new SpecialGoods("디저트", "포토카드, ID 카드")
+                    ));
+        }
+
+        @Test
+        void 기존_특전을_완전히_대체한다() {
+            // given
+            birthdayCafeService.replaceSpecialGoods(inProgressCafeId, HOST1, request);
+
+            // when
+            birthdayCafeService.replaceSpecialGoods(inProgressCafeId, HOST1, List.of(
+                    new SpecialGoodsRequest("바뀐 특전", "새로운 포토카드"),
+                    new SpecialGoodsRequest("바뀐 디저트", "새로운 포토카드, 새로운 ID 카드"),
+                    new SpecialGoodsRequest("스페셜", "특별 선물")
+            ));
+
+            // then
+            BirthdayCafe actual = entityManager.find(BirthdayCafe.class, inProgressCafeId);
+            assertThat(actual.getSpecialGoods())
+                    .usingRecursiveComparison()
+                    .isEqualTo(List.of(
+                            new SpecialGoods("바뀐 특전", "새로운 포토카드"),
+                            new SpecialGoods("바뀐 디저트", "새로운 포토카드, 새로운 ID 카드"),
+                            new SpecialGoods("스페셜", "특별 선물")
+                    ));
+        }
+
+        @Test
+        void 대관_대기_상태에선_못한다() {
+            // when then
+            assertThatThrownBy(() -> birthdayCafeService.replaceSpecialGoods(rentalPendingCafeId, HOST1, request))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.INVALID_UPDATE);
+        }
+
+        @Test
+        void 주최자가_아니면_못한다() {
+            // when then
+            assertThatThrownBy(() -> birthdayCafeService.replaceSpecialGoods(inProgressCafeId, ANOTHER_MEMBER, request))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_UPDATE);
         }
     }
 }

@@ -38,3 +38,6 @@ out/
 
 ## QType
 /src/main/generated/
+
+## fixture monkey
+.jqwik-database
