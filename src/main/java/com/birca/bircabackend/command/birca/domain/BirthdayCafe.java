@@ -14,7 +14,7 @@ import static com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCo
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder(access = AccessLevel.PACKAGE)
+@Builder(access = AccessLevel.PRIVATE)
 @Getter
 public class BirthdayCafe extends BaseEntity {
 
