@@ -1,6 +1,7 @@
 package com.birca.bircabackend.command.birca.presentation;
 
 import com.birca.bircabackend.command.birca.dto.ApplyRentalRequest;
+import com.birca.bircabackend.command.birca.dto.MenuRequest;
 import com.birca.bircabackend.command.birca.dto.SpecialGoodsRequest;
 import com.birca.bircabackend.command.birca.dto.StateChangeRequest;
 import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
@@ -139,6 +140,37 @@ public class BirthdayCafeControllerTest extends DocumentationTest {
                         requestFields(
                                 fieldWithPath("[].name").type(JsonFieldType.STRING).description("특전의 이름"),
                                 fieldWithPath("[].details").type(JsonFieldType.STRING).description("특전의 세부 내용")
+                        )
+                ));
+    }
+
+    @Test
+    void 생일_카페_메뉴를_추가한다() throws Exception {
+        // given
+        Long birthdayCafeId = 1L;
+        List<MenuRequest> request = List.of(
+                new MenuRequest("기본", "아메리카노+포토카드+ID카드", 10000),
+                new MenuRequest("디저트", "케이크+포토카드+ID카드", 10000)
+        );
+
+        // when
+        ResultActions result = mockMvc.perform(
+                post("/api/v1/birthday-cafes/{birthdayCafeId}/menus", birthdayCafeId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+                        .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
+        );
+
+        // then
+        result.andExpect((status().isOk()))
+                .andDo(document("birthday-cafe-menus", HOST_INFO, DOCUMENT_RESPONSE,
+                        pathParameters(
+                                parameterWithName("birthdayCafeId").description("메뉴를 추가할 생일 카페 ID")
+                        ),
+                        requestFields(
+                                fieldWithPath("[].name").type(JsonFieldType.STRING).description("메뉴의 이름"),
+                                fieldWithPath("[].details").type(JsonFieldType.STRING).description("메뉴의 세부 내용"),
+                                fieldWithPath("[].price").type(JsonFieldType.NUMBER).description("메뉴의 가격")
                         )
                 ));
     }
