@@ -409,4 +409,77 @@ class BirthdayCafeTest {
                     .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_UPDATE);
         }
     }
+
+    @Nested
+    @DisplayName("생일 카페 메뉴 등록은")
+    class MenuTest {
+
+        private final List<Menu> menus = List.of(
+                Menu.of("기본", "아메리카노+포토카드+ID카드", 10000),
+                Menu.of("디저트", "케이크+포토카드+ID카드", 10000)
+        );
+
+        @ParameterizedTest
+        @EnumSource(mode = INCLUDE, names = {"RENTAL_APPROVED", "IN_PROGRESS"})
+        void 대관_승인됨과_진행_중일_때만_가능하다(ProgressState progressState) {
+            // given
+            BirthdayCafe birthdayCafe = fixtureMonkey.giveMeBuilder(BirthdayCafe.class)
+                    .set("hostId", HOST_ID)
+                    .set("progressState", progressState)
+                    .sample();
+
+            // when
+            birthdayCafe.replaceMenus(HOST_ID, menus);
+
+            // then
+            assertThat(birthdayCafe.getMenus()).isEqualTo(menus);
+        }
+
+        @Test
+        void 기존의_메뉴를_완전히_대체한다() {
+            // given
+            BirthdayCafe birthdayCafe = fixtureMonkey.giveMeBuilder(BirthdayCafe.class)
+                    .set("hostId", HOST_ID)
+                    .set("progressState", ProgressState.RENTAL_APPROVED)
+                    .set("menus", List.of(Menu.of("기존 메뉴", "포토카드", 7000)))
+                    .sample();
+
+            // when
+            birthdayCafe.replaceMenus(HOST_ID, menus);
+
+            // then
+            assertThat(birthdayCafe.getMenus()).isEqualTo(menus);
+        }
+
+        @ParameterizedTest
+        @EnumSource(mode = EXCLUDE, names = {"RENTAL_APPROVED", "IN_PROGRESS"})
+        void 대관_승인됨과_진행_중이_아니면_불가능하다(ProgressState progressState) {
+            // given
+            BirthdayCafe birthdayCafe = fixtureMonkey.giveMeBuilder(BirthdayCafe.class)
+                    .set("hostId", HOST_ID)
+                    .set("progressState", progressState)
+                    .sample();
+
+            // when then
+            assertThatThrownBy(() -> birthdayCafe.replaceMenus(HOST_ID, menus))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.INVALID_UPDATE);
+        }
+
+        @Test
+        void 주최자만_가능하다() {
+            // given
+            BirthdayCafe birthdayCafe = fixtureMonkey.giveMeBuilder(BirthdayCafe.class)
+                    .set("hostId", HOST_ID)
+                    .set("progressState", ProgressState.IN_PROGRESS)
+                    .sample();
+
+            // when then
+            assertThatThrownBy(() -> birthdayCafe.replaceMenus(100L, menus))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_UPDATE);
+        }
+    }
 }

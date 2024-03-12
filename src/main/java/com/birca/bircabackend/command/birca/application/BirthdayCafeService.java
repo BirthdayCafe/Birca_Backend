@@ -5,6 +5,7 @@ import com.birca.bircabackend.command.birca.domain.BirthdayCafe;
 import com.birca.bircabackend.command.birca.domain.BirthdayCafeRepository;
 import com.birca.bircabackend.command.birca.domain.value.*;
 import com.birca.bircabackend.command.birca.dto.ApplyRentalRequest;
+import com.birca.bircabackend.command.birca.dto.MenuRequest;
 import com.birca.bircabackend.command.birca.dto.SpecialGoodsRequest;
 import com.birca.bircabackend.command.birca.dto.StateChangeRequest;
 import com.birca.bircabackend.common.EntityUtil;
@@ -70,5 +71,15 @@ public class BirthdayCafeService {
                 .map(req -> new SpecialGoods(req.name(), req.details()))
                 .toList();
         birthdayCafe.replaceSpecialGoods(loginMember.id(), specialGoods);
+    }
+
+    public void replaceMenus(Long birthdayCafeId,
+                             LoginMember loginMember,
+                             List<MenuRequest> request) {
+        BirthdayCafe birthdayCafe = entityUtil.getEntity(BirthdayCafe.class, birthdayCafeId, NOT_FOUND);
+        List<Menu> menus = request.stream()
+                .map(req -> Menu.of(req.name(), req.details(), req.price()))
+                .toList();
+        birthdayCafe.replaceMenus(loginMember.id(), menus);
     }
 }

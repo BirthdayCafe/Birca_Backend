@@ -4,6 +4,7 @@ import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.auth.authorization.RequiredLogin;
 import com.birca.bircabackend.command.birca.application.BirthdayCafeService;
 import com.birca.bircabackend.command.birca.dto.ApplyRentalRequest;
+import com.birca.bircabackend.command.birca.dto.MenuRequest;
 import com.birca.bircabackend.command.birca.dto.SpecialGoodsRequest;
 import com.birca.bircabackend.command.birca.dto.StateChangeRequest;
 import lombok.RequiredArgsConstructor;
@@ -67,6 +68,15 @@ public class BirthdayCafeController {
                                                     LoginMember loginMember,
                                                     @RequestBody List<SpecialGoodsRequest> request) {
         birthdayCafeService.replaceSpecialGoods(birthdayCafeId, loginMember, request);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/v1/birthday-cafes/{birthdayCafeId}/menus")
+    @RequiredLogin
+    public ResponseEntity<Void> replaceMenus(@PathVariable Long birthdayCafeId,
+                                             LoginMember loginMember,
+                                             @RequestBody List<MenuRequest> request) {
+        birthdayCafeService.replaceMenus(birthdayCafeId, loginMember, request);
         return ResponseEntity.ok().build();
     }
 }

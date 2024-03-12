@@ -4,6 +4,7 @@ import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.birca.domain.BirthdayCafe;
 import com.birca.bircabackend.command.birca.domain.value.*;
 import com.birca.bircabackend.command.birca.dto.ApplyRentalRequest;
+import com.birca.bircabackend.command.birca.dto.MenuRequest;
 import com.birca.bircabackend.command.birca.dto.SpecialGoodsRequest;
 import com.birca.bircabackend.command.birca.dto.StateChangeRequest;
 import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
@@ -336,6 +337,76 @@ class BirthdayCafeServiceTest extends ServiceTest {
         void 주최자가_아니면_못한다() {
             // when then
             assertThatThrownBy(() -> birthdayCafeService.replaceSpecialGoods(inProgressCafeId, ANOTHER_MEMBER, request))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_UPDATE);
+        }
+    }
+
+    @Nested
+    @DisplayName("생일 카페 메뉴 등록은")
+    class MenuTest {
+
+        private final Long rentalPendingCafeId = 1L;
+        private final Long inProgressCafeId = 2L;
+
+        private final List<MenuRequest> request = List.of(
+                new MenuRequest("기본", "아메리카노+포토카드+ID카드", 10000),
+                new MenuRequest("디저트", "케이크+포토카드+ID카드", 10000)
+        );
+
+        @Test
+        void 진행_중인_카페에서_가능하다() {
+            // when
+            birthdayCafeService.replaceMenus(inProgressCafeId, HOST1, request);
+
+            // then
+            BirthdayCafe actual = entityManager.find(BirthdayCafe.class, inProgressCafeId);
+            assertThat(actual.getMenus())
+                    .usingRecursiveComparison()
+                    .isEqualTo(List.of(
+                            Menu.of("기본", "아메리카노+포토카드+ID카드", 10000),
+                            Menu.of("디저트", "케이크+포토카드+ID카드", 10000)
+
+                    ));
+        }
+
+        @Test
+        void 기존_특전을_완전히_대체한다() {
+            // given
+            birthdayCafeService.replaceMenus(inProgressCafeId, HOST1, request);
+
+            // when
+            birthdayCafeService.replaceMenus(inProgressCafeId, HOST1, List.of(
+                    new MenuRequest("바뀐 기본 메뉴", "새로운 포토카드", 10000),
+                    new MenuRequest("바뀐 디저트", "새로운 케이크, 새로운 ID 카드", 8000),
+                    new MenuRequest("바뀐 메뉴", "새로운 ID 카드", 7500)
+            ));
+
+            // then
+            BirthdayCafe actual = entityManager.find(BirthdayCafe.class, inProgressCafeId);
+            assertThat(actual.getMenus())
+                    .usingRecursiveComparison()
+                    .isEqualTo(List.of(
+                            new MenuRequest("바뀐 기본 메뉴", "새로운 포토카드", 10000),
+                            new MenuRequest("바뀐 디저트", "새로운 케이크, 새로운 ID 카드", 8000),
+                            new MenuRequest("바뀐 메뉴", "새로운 ID 카드", 7500)
+                    ));
+        }
+
+        @Test
+        void 대관_대기_상태에선_못한다() {
+            // when then
+            assertThatThrownBy(() -> birthdayCafeService.replaceMenus(rentalPendingCafeId, HOST1, request))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.INVALID_UPDATE);
+        }
+
+        @Test
+        void 주최자가_아니면_못한다() {
+            // when then
+            assertThatThrownBy(() -> birthdayCafeService.replaceMenus(inProgressCafeId, ANOTHER_MEMBER, request))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_UPDATE);

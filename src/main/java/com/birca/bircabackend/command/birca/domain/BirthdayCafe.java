@@ -61,6 +61,10 @@ public class BirthdayCafe extends BaseEntity {
     @CollectionTable(name = "special_goods")
     private List<SpecialGoods> specialGoods = new ArrayList<>();
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "menu")
+    private List<Menu> menus = new ArrayList<>();
+
     public static BirthdayCafe applyRental(Long hostId, Long artistId, Long cafeId, Long cafeOwnerId, Schedule schedule,
                                            Visitants visitants, String twitterAccount, PhoneNumber hostPhoneNumber) {
         return BirthdayCafe.builder()
@@ -122,6 +126,14 @@ public class BirthdayCafe extends BaseEntity {
             throw BusinessException.from(INVALID_UPDATE);
         }
         this.specialGoods = specialGoods;
+    }
+
+    public void replaceMenus(Long memberId, List<Menu> menus) {
+        validateIsHost(memberId);
+        if (!progressState.isInProgress() && !progressState.isRentalApproved()) {
+            throw BusinessException.from(INVALID_UPDATE);
+        }
+        this.menus = menus;
     }
 
     private void validateIsHost(Long memberId) {
