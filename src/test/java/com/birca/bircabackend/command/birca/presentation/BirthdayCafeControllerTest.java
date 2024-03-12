@@ -1,9 +1,6 @@
 package com.birca.bircabackend.command.birca.presentation;
 
-import com.birca.bircabackend.command.birca.dto.ApplyRentalRequest;
-import com.birca.bircabackend.command.birca.dto.MenuRequest;
-import com.birca.bircabackend.command.birca.dto.SpecialGoodsRequest;
-import com.birca.bircabackend.command.birca.dto.StateChangeRequest;
+import com.birca.bircabackend.command.birca.dto.*;
 import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
 import com.birca.bircabackend.support.enviroment.DocumentationTest;
 import org.junit.jupiter.api.Test;
@@ -171,6 +168,36 @@ public class BirthdayCafeControllerTest extends DocumentationTest {
                                 fieldWithPath("[].name").type(JsonFieldType.STRING).description("메뉴의 이름"),
                                 fieldWithPath("[].details").type(JsonFieldType.STRING).description("메뉴의 세부 내용"),
                                 fieldWithPath("[].price").type(JsonFieldType.NUMBER).description("메뉴의 가격")
+                        )
+                ));
+    }
+
+    @Test
+    void 생일_카페_럭키_드로우를_추가한다() throws Exception {
+        // given
+        Long birthdayCafeId = 1L;
+        List<LuckyDrawRequest> request = List.of(
+                new LuckyDrawRequest(1, "머그컵"),
+                new LuckyDrawRequest(2, "포토 카드")
+        );
+
+        // when
+        ResultActions result = mockMvc.perform(
+                post("/api/v1/birthday-cafes/{birthdayCafeId}/lucky-draws", birthdayCafeId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+                        .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
+        );
+
+        // then
+        result.andExpect((status().isOk()))
+                .andDo(document("birthday-cafe-lucky-draw", HOST_INFO, DOCUMENT_RESPONSE,
+                        pathParameters(
+                                parameterWithName("birthdayCafeId").description("메뉴를 추가할 생일 카페 ID")
+                        ),
+                        requestFields(
+                                fieldWithPath("[].rank").type(JsonFieldType.NUMBER).description("등수"),
+                                fieldWithPath("[].prize").type(JsonFieldType.STRING).description("상품")
                         )
                 ));
     }

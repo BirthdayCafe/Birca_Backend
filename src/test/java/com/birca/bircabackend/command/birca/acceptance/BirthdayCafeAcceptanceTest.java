@@ -1,9 +1,6 @@
 package com.birca.bircabackend.command.birca.acceptance;
 
-import com.birca.bircabackend.command.birca.dto.ApplyRentalRequest;
-import com.birca.bircabackend.command.birca.dto.MenuRequest;
-import com.birca.bircabackend.command.birca.dto.SpecialGoodsRequest;
-import com.birca.bircabackend.command.birca.dto.StateChangeRequest;
+import com.birca.bircabackend.command.birca.dto.*;
 import com.birca.bircabackend.support.enviroment.AcceptanceTest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -154,6 +151,26 @@ public class BirthdayCafeAcceptanceTest extends AcceptanceTest {
                 .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(HOST_1_ID))
                 .body(request)
                 .post("/api/v1/birthday-cafes/{birthdayCafeId}/menus", IN_PROGRESS_CAFE)
+                .then().log().all()
+                .extract();
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Test
+    void 생일_카페_럭키_드로우를_추가한다() {
+        // given
+        List<LuckyDrawRequest> request = List.of(
+                new LuckyDrawRequest(1, "머그컵"),
+                new LuckyDrawRequest(2, "포토 카드")
+        );
+
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(HOST_1_ID))
+                .body(request)
+                .post("/api/v1/birthday-cafes/{birthdayCafeId}/lucky-draws", IN_PROGRESS_CAFE)
                 .then().log().all()
                 .extract();
 
