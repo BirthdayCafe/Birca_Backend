@@ -482,4 +482,78 @@ class BirthdayCafeTest {
                     .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_UPDATE);
         }
     }
+
+    @Nested
+    @DisplayName("생일 카페 럭키 드로우 등록은")
+    class LuckyDrawTest {
+
+        private final List<LuckyDraw> luckyDraws = List.of(
+                new LuckyDraw(1, "머그컵"),
+                new LuckyDraw(2, "포토 카드")
+        );
+
+        @ParameterizedTest
+        @EnumSource(mode = INCLUDE, names = {"RENTAL_APPROVED", "IN_PROGRESS"})
+        void 대관_승인됨과_진행_중일_때만_가능하다(ProgressState progressState) {
+            // given
+            BirthdayCafe birthdayCafe = fixtureMonkey.giveMeBuilder(BirthdayCafe.class)
+                    .set("hostId", HOST_ID)
+                    .set("progressState", progressState)
+                    .sample();
+
+            // when
+            birthdayCafe.replaceLuckyDraws(HOST_ID, luckyDraws);
+
+            // then
+            assertThat(birthdayCafe.getLuckyDraws()).isEqualTo(luckyDraws);
+        }
+
+        @Test
+        void 기존의_럭키_드로우를_완전히_대체한다() {
+            // given
+            BirthdayCafe birthdayCafe = fixtureMonkey.giveMeBuilder(BirthdayCafe.class)
+                    .set("hostId", HOST_ID)
+                    .set("progressState", ProgressState.IN_PROGRESS)
+                    .set("luckyDraws", List.of(new LuckyDraw(1, "머그컵")))
+                    .sample();
+
+            // when
+            birthdayCafe.replaceLuckyDraws(HOST_ID, luckyDraws);
+
+            // then
+            assertThat(birthdayCafe.getLuckyDraws()).isEqualTo(luckyDraws);
+
+        }
+
+        @ParameterizedTest
+        @EnumSource(mode = EXCLUDE, names = {"RENTAL_APPROVED", "IN_PROGRESS"})
+        void 대관_승인됨과_진행_중이_아니면_불가능하다(ProgressState progressState) {
+            // given
+            BirthdayCafe birthdayCafe = fixtureMonkey.giveMeBuilder(BirthdayCafe.class)
+                    .set("hostId", HOST_ID)
+                    .set("progressState", progressState)
+                    .sample();
+
+            // when then
+            assertThatThrownBy(() -> birthdayCafe.replaceLuckyDraws(HOST_ID, luckyDraws))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.INVALID_UPDATE);
+        }
+
+        @Test
+        void 주최자만_가능하다() {
+            // given
+            BirthdayCafe birthdayCafe = fixtureMonkey.giveMeBuilder(BirthdayCafe.class)
+                    .set("hostId", HOST_ID)
+                    .set("progressState", ProgressState.IN_PROGRESS)
+                    .sample();
+
+            // when then
+            assertThatThrownBy(() -> birthdayCafe.replaceLuckyDraws(100L, luckyDraws))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_UPDATE);
+        }
+    }
 }
