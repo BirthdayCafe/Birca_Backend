@@ -176,6 +176,16 @@ CREATE TABLE menu
 ALTER TABLE menu
     ADD CONSTRAINT fk_menu_on_birthday_cafe FOREIGN KEY (birthday_cafe_id) REFERENCES birthday_cafe (id);
 
+CREATE TABLE lucky_draw
+(
+    birthday_cafe_id BIGINT       NOT NULL,
+    `rank`           INT          NOT NULL,
+    prize            VARCHAR(255) NOT NULL
+);
+
+ALTER TABLE lucky_draw
+    ADD CONSTRAINT fk_lucky_draw_on_birthday_cafe FOREIGN KEY (birthday_cafe_id) REFERENCES birthday_cafe (id);
+
 CREATE TABLE ocr_request_history
 (
     id           BIGINT AUTO_INCREMENT NOT NULL,

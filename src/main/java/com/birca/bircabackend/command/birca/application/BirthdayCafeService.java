@@ -83,6 +83,10 @@ public class BirthdayCafeService {
     public void replaceLuckyDraws(Long birthdayCafeId,
                                   LoginMember loginMember,
                                   List<LuckyDrawRequest> request) {
-
+        BirthdayCafe birthdayCafe = entityUtil.getEntity(BirthdayCafe.class, birthdayCafeId, NOT_FOUND);
+        List<LuckyDraw> luckyDraws = request.stream()
+                .map(req -> new LuckyDraw(req.rank(), req.prize()))
+                .toList();
+        birthdayCafe.replaceLuckyDraws(loginMember.id(), luckyDraws);
     }
 }
