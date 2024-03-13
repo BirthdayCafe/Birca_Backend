@@ -3,10 +3,7 @@ package com.birca.bircabackend.command.birca.application;
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.birca.domain.BirthdayCafe;
 import com.birca.bircabackend.command.birca.domain.value.*;
-import com.birca.bircabackend.command.birca.dto.ApplyRentalRequest;
-import com.birca.bircabackend.command.birca.dto.MenuRequest;
-import com.birca.bircabackend.command.birca.dto.SpecialGoodsRequest;
-import com.birca.bircabackend.command.birca.dto.StateChangeRequest;
+import com.birca.bircabackend.command.birca.dto.*;
 import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
 import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.support.enviroment.ServiceTest;
@@ -35,6 +32,9 @@ class BirthdayCafeServiceTest extends ServiceTest {
     private static final long ARTIST_ID = 1L;
     private static final long CAFE1_ID = 1L;
     private static final long CAFE2_ID = 2L;
+
+    private static final Long PENDING_BIRTHDAY_CAFE_ID = 1L;
+    private static final Long IN_PROGRESS_BIRTHDAY_CAFE_ID = 2L;
 
     private static final ApplyRentalRequest VALID_REQUEST = new ApplyRentalRequest(
             ARTIST_ID,
@@ -173,35 +173,33 @@ class BirthdayCafeServiceTest extends ServiceTest {
     @DisplayName("생일 카페 대관 신청을 취소할 때")
     class CancelRentalTest {
 
-        private final Long rentalPendingCafeId = 1L;
-
         @Test
         void 주최자_취소한다() {
             // when
-            birthdayCafeService.cancelRental(rentalPendingCafeId, HOST1);
+            birthdayCafeService.cancelRental(PENDING_BIRTHDAY_CAFE_ID, HOST1);
 
             // then
-            BirthdayCafe actual = entityManager.find(BirthdayCafe.class, rentalPendingCafeId);
+            BirthdayCafe actual = entityManager.find(BirthdayCafe.class, PENDING_BIRTHDAY_CAFE_ID);
             assertThat(actual.getProgressState()).isEqualTo(ProgressState.RENTAL_CANCELED);
         }
 
         @Test
         void 카페_사장님이_취소한다() {
             // when
-            birthdayCafeService.cancelRental(rentalPendingCafeId, CAFE_1_OWNER);
+            birthdayCafeService.cancelRental(PENDING_BIRTHDAY_CAFE_ID, CAFE_1_OWNER);
 
             // then
-            BirthdayCafe actual = entityManager.find(BirthdayCafe.class, rentalPendingCafeId);
+            BirthdayCafe actual = entityManager.find(BirthdayCafe.class, PENDING_BIRTHDAY_CAFE_ID);
             assertThat(actual.getProgressState()).isEqualTo(ProgressState.RENTAL_CANCELED);
         }
 
         @Test
         void 대관_대기_상태가_아니면_예외가_발생한다() {
             // given
-            birthdayCafeService.cancelRental(rentalPendingCafeId, HOST1);
+            birthdayCafeService.cancelRental(PENDING_BIRTHDAY_CAFE_ID, HOST1);
 
             // when then
-            assertThatThrownBy(() -> birthdayCafeService.cancelRental(rentalPendingCafeId, HOST1))
+            assertThatThrownBy(() -> birthdayCafeService.cancelRental(PENDING_BIRTHDAY_CAFE_ID, HOST1))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.INVALID_CANCEL_RENTAL);
@@ -222,7 +220,7 @@ class BirthdayCafeServiceTest extends ServiceTest {
         @Test
         void 생일_카페_주최자_또는_카페_사장님이_아니면_취소할_수_없다() {
             // when // than
-            assertThatThrownBy(() -> birthdayCafeService.cancelRental(rentalPendingCafeId, ANOTHER_MEMBER))
+            assertThatThrownBy(() -> birthdayCafeService.cancelRental(PENDING_BIRTHDAY_CAFE_ID, ANOTHER_MEMBER))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_CANCEL);
@@ -278,9 +276,6 @@ class BirthdayCafeServiceTest extends ServiceTest {
     @DisplayName("생일 카페 특전 등록은")
     class SpecialGoodsTest {
 
-        private final Long rentalPendingCafeId = 1L;
-        private final Long inProgressCafeId = 2L;
-
         private final List<SpecialGoodsRequest> request = List.of(
                 new SpecialGoodsRequest("특전", "포토카드"),
                 new SpecialGoodsRequest("디저트", "포토카드, ID 카드")
@@ -289,11 +284,14 @@ class BirthdayCafeServiceTest extends ServiceTest {
         @Test
         void 진행_중인_카페에서_가능하다() {
             // when
-            birthdayCafeService.replaceSpecialGoods(inProgressCafeId, HOST1, request);
+            birthdayCafeService.replaceSpecialGoods(IN_PROGRESS_BIRTHDAY_CAFE_ID, HOST1, request);
 
             // then
-            BirthdayCafe actual = entityManager.find(BirthdayCafe.class, inProgressCafeId);
-            assertThat(actual.getSpecialGoods())
+            List<SpecialGoods> actual = entityManager.createQuery(
+                            "select bc.specialGoods from BirthdayCafe bc where bc.id = :id", SpecialGoods.class)
+                    .setParameter("id", IN_PROGRESS_BIRTHDAY_CAFE_ID)
+                    .getResultList();
+            assertThat(actual)
                     .usingRecursiveComparison()
                     .isEqualTo(List.of(
                             new SpecialGoods("특전", "포토카드"),
@@ -304,18 +302,21 @@ class BirthdayCafeServiceTest extends ServiceTest {
         @Test
         void 기존_특전을_완전히_대체한다() {
             // given
-            birthdayCafeService.replaceSpecialGoods(inProgressCafeId, HOST1, request);
+            birthdayCafeService.replaceSpecialGoods(IN_PROGRESS_BIRTHDAY_CAFE_ID, HOST1, request);
 
             // when
-            birthdayCafeService.replaceSpecialGoods(inProgressCafeId, HOST1, List.of(
+            birthdayCafeService.replaceSpecialGoods(IN_PROGRESS_BIRTHDAY_CAFE_ID, HOST1, List.of(
                     new SpecialGoodsRequest("바뀐 특전", "새로운 포토카드"),
                     new SpecialGoodsRequest("바뀐 디저트", "새로운 포토카드, 새로운 ID 카드"),
                     new SpecialGoodsRequest("스페셜", "특별 선물")
             ));
 
             // then
-            BirthdayCafe actual = entityManager.find(BirthdayCafe.class, inProgressCafeId);
-            assertThat(actual.getSpecialGoods())
+            List<SpecialGoods> actual = entityManager.createQuery(
+                            "select bc.specialGoods from BirthdayCafe bc where bc.id = :id", SpecialGoods.class)
+                    .setParameter("id", IN_PROGRESS_BIRTHDAY_CAFE_ID)
+                    .getResultList();
+            assertThat(actual)
                     .usingRecursiveComparison()
                     .isEqualTo(List.of(
                             new SpecialGoods("바뀐 특전", "새로운 포토카드"),
@@ -327,7 +328,7 @@ class BirthdayCafeServiceTest extends ServiceTest {
         @Test
         void 대관_대기_상태에선_못한다() {
             // when then
-            assertThatThrownBy(() -> birthdayCafeService.replaceSpecialGoods(rentalPendingCafeId, HOST1, request))
+            assertThatThrownBy(() -> birthdayCafeService.replaceSpecialGoods(PENDING_BIRTHDAY_CAFE_ID, HOST1, request))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.INVALID_UPDATE);
@@ -336,7 +337,7 @@ class BirthdayCafeServiceTest extends ServiceTest {
         @Test
         void 주최자가_아니면_못한다() {
             // when then
-            assertThatThrownBy(() -> birthdayCafeService.replaceSpecialGoods(inProgressCafeId, ANOTHER_MEMBER, request))
+            assertThatThrownBy(() -> birthdayCafeService.replaceSpecialGoods(IN_PROGRESS_BIRTHDAY_CAFE_ID, ANOTHER_MEMBER, request))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_UPDATE);
@@ -347,9 +348,6 @@ class BirthdayCafeServiceTest extends ServiceTest {
     @DisplayName("생일 카페 메뉴 등록은")
     class MenuTest {
 
-        private final Long rentalPendingCafeId = 1L;
-        private final Long inProgressCafeId = 2L;
-
         private final List<MenuRequest> request = List.of(
                 new MenuRequest("기본", "아메리카노+포토카드+ID카드", 10000),
                 new MenuRequest("디저트", "케이크+포토카드+ID카드", 10000)
@@ -358,11 +356,14 @@ class BirthdayCafeServiceTest extends ServiceTest {
         @Test
         void 진행_중인_카페에서_가능하다() {
             // when
-            birthdayCafeService.replaceMenus(inProgressCafeId, HOST1, request);
+            birthdayCafeService.replaceMenus(IN_PROGRESS_BIRTHDAY_CAFE_ID, HOST1, request);
 
             // then
-            BirthdayCafe actual = entityManager.find(BirthdayCafe.class, inProgressCafeId);
-            assertThat(actual.getMenus())
+            List<Menu> actual = entityManager.createQuery(
+                            "select bc.menus from BirthdayCafe bc where bc.id = :id", Menu.class)
+                    .setParameter("id", IN_PROGRESS_BIRTHDAY_CAFE_ID)
+                    .getResultList();
+            assertThat(actual)
                     .usingRecursiveComparison()
                     .isEqualTo(List.of(
                             Menu.of("기본", "아메리카노+포토카드+ID카드", 10000),
@@ -372,20 +373,23 @@ class BirthdayCafeServiceTest extends ServiceTest {
         }
 
         @Test
-        void 기존_특전을_완전히_대체한다() {
+        void 기존_메뉴를_완전히_대체한다() {
             // given
-            birthdayCafeService.replaceMenus(inProgressCafeId, HOST1, request);
+            birthdayCafeService.replaceMenus(IN_PROGRESS_BIRTHDAY_CAFE_ID, HOST1, request);
 
             // when
-            birthdayCafeService.replaceMenus(inProgressCafeId, HOST1, List.of(
+            birthdayCafeService.replaceMenus(IN_PROGRESS_BIRTHDAY_CAFE_ID, HOST1, List.of(
                     new MenuRequest("바뀐 기본 메뉴", "새로운 포토카드", 10000),
                     new MenuRequest("바뀐 디저트", "새로운 케이크, 새로운 ID 카드", 8000),
                     new MenuRequest("바뀐 메뉴", "새로운 ID 카드", 7500)
             ));
 
             // then
-            BirthdayCafe actual = entityManager.find(BirthdayCafe.class, inProgressCafeId);
-            assertThat(actual.getMenus())
+            List<Menu> actual = entityManager.createQuery(
+                            "select bc.menus from BirthdayCafe bc where bc.id = :id", Menu.class)
+                    .setParameter("id", IN_PROGRESS_BIRTHDAY_CAFE_ID)
+                    .getResultList();
+            assertThat(actual)
                     .usingRecursiveComparison()
                     .isEqualTo(List.of(
                             new MenuRequest("바뀐 기본 메뉴", "새로운 포토카드", 10000),
@@ -397,7 +401,7 @@ class BirthdayCafeServiceTest extends ServiceTest {
         @Test
         void 대관_대기_상태에선_못한다() {
             // when then
-            assertThatThrownBy(() -> birthdayCafeService.replaceMenus(rentalPendingCafeId, HOST1, request))
+            assertThatThrownBy(() -> birthdayCafeService.replaceMenus(PENDING_BIRTHDAY_CAFE_ID, HOST1, request))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.INVALID_UPDATE);
@@ -406,7 +410,71 @@ class BirthdayCafeServiceTest extends ServiceTest {
         @Test
         void 주최자가_아니면_못한다() {
             // when then
-            assertThatThrownBy(() -> birthdayCafeService.replaceMenus(inProgressCafeId, ANOTHER_MEMBER, request))
+            assertThatThrownBy(() -> birthdayCafeService.replaceMenus(IN_PROGRESS_BIRTHDAY_CAFE_ID, ANOTHER_MEMBER, request))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_UPDATE);
+        }
+    }
+
+    @Nested
+    @DisplayName("생일 카페 럭키 드로우 등록은")
+    class LuckyDrawTest {
+
+        private final List<LuckyDrawRequest> requests = List.of(
+                new LuckyDrawRequest(1, "머그컵"),
+                new LuckyDrawRequest(2, "포토 카드")
+        );
+
+        @Test
+        void 진행_중인_카페에서_가능하다() {
+            // when
+            birthdayCafeService.replaceLuckyDraws(IN_PROGRESS_BIRTHDAY_CAFE_ID, HOST1, requests);
+
+            // then
+            List<LuckyDraw> actual = entityManager.createQuery(
+                            "select bc.luckyDraws from BirthdayCafe bc where bc.id = :id", LuckyDraw.class)
+                    .setParameter("id", IN_PROGRESS_BIRTHDAY_CAFE_ID)
+                    .getResultList();
+            assertThat(actual)
+                    .usingRecursiveComparison()
+                    .isEqualTo(List.of(
+                            new LuckyDraw(1, "머그컵"),
+                            new LuckyDraw(2, "포토 카드")
+
+                    ));
+        }
+
+        @Test
+        void 기존_럭키드로우를_완전히_대체한다() {
+            // given
+            birthdayCafeService.replaceLuckyDraws(IN_PROGRESS_BIRTHDAY_CAFE_ID, HOST1, requests);
+
+            // when
+            birthdayCafeService.replaceLuckyDraws(IN_PROGRESS_BIRTHDAY_CAFE_ID, HOST1, List.of());
+
+            // then
+            List<LuckyDraw> actual = entityManager.createQuery(
+                            "select bc.luckyDraws from BirthdayCafe bc where bc.id = :id", LuckyDraw.class)
+                    .setParameter("id", IN_PROGRESS_BIRTHDAY_CAFE_ID)
+                    .getResultList();
+            assertThat(actual).isEmpty();
+        }
+
+        @Test
+        void 대관_대기_상태에선_못한다() {
+            // when then
+            assertThatThrownBy(() -> birthdayCafeService.replaceLuckyDraws(PENDING_BIRTHDAY_CAFE_ID, HOST1, requests))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.INVALID_UPDATE);
+        }
+
+        @Test
+        void 주최자가_아니면_못한다() {
+            // when then
+            assertThatThrownBy(() ->
+                    birthdayCafeService.replaceLuckyDraws(IN_PROGRESS_BIRTHDAY_CAFE_ID, ANOTHER_MEMBER, requests))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_UPDATE);

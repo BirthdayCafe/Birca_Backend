@@ -57,13 +57,17 @@ public class BirthdayCafe extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private SpecialGoodsStockState specialGoodsStockState;
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection
     @CollectionTable(name = "special_goods")
     private List<SpecialGoods> specialGoods = new ArrayList<>();
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection
     @CollectionTable(name = "menu")
     private List<Menu> menus = new ArrayList<>();
+
+    @ElementCollection
+    @CollectionTable(name = "lucky_draw")
+    private List<LuckyDraw> luckyDraws = new ArrayList<>();
 
     public static BirthdayCafe applyRental(Long hostId, Long artistId, Long cafeId, Long cafeOwnerId, Schedule schedule,
                                            Visitants visitants, String twitterAccount, PhoneNumber hostPhoneNumber) {
@@ -134,6 +138,14 @@ public class BirthdayCafe extends BaseEntity {
             throw BusinessException.from(INVALID_UPDATE);
         }
         this.menus = menus;
+    }
+
+    public void replaceLuckyDraws(Long memberId, List<LuckyDraw> luckyDraws) {
+        validateIsHost(memberId);
+        if (!progressState.isInProgress() && !progressState.isRentalApproved()) {
+            throw BusinessException.from(INVALID_UPDATE);
+        }
+        this.luckyDraws = luckyDraws;
     }
 
     private void validateIsHost(Long memberId) {

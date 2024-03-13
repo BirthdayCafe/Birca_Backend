@@ -4,10 +4,7 @@ import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.birca.domain.BirthdayCafe;
 import com.birca.bircabackend.command.birca.domain.BirthdayCafeRepository;
 import com.birca.bircabackend.command.birca.domain.value.*;
-import com.birca.bircabackend.command.birca.dto.ApplyRentalRequest;
-import com.birca.bircabackend.command.birca.dto.MenuRequest;
-import com.birca.bircabackend.command.birca.dto.SpecialGoodsRequest;
-import com.birca.bircabackend.command.birca.dto.StateChangeRequest;
+import com.birca.bircabackend.command.birca.dto.*;
 import com.birca.bircabackend.common.EntityUtil;
 import com.birca.bircabackend.common.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
@@ -81,5 +78,15 @@ public class BirthdayCafeService {
                 .map(req -> Menu.of(req.name(), req.details(), req.price()))
                 .toList();
         birthdayCafe.replaceMenus(loginMember.id(), menus);
+    }
+
+    public void replaceLuckyDraws(Long birthdayCafeId,
+                                  LoginMember loginMember,
+                                  List<LuckyDrawRequest> request) {
+        BirthdayCafe birthdayCafe = entityUtil.getEntity(BirthdayCafe.class, birthdayCafeId, NOT_FOUND);
+        List<LuckyDraw> luckyDraws = request.stream()
+                .map(req -> new LuckyDraw(req.rank(), req.prize()))
+                .toList();
+        birthdayCafe.replaceLuckyDraws(loginMember.id(), luckyDraws);
     }
 }
