@@ -287,8 +287,11 @@ class BirthdayCafeServiceTest extends ServiceTest {
             birthdayCafeService.replaceSpecialGoods(IN_PROGRESS_BIRTHDAY_CAFE_ID, HOST1, request);
 
             // then
-            BirthdayCafe actual = entityManager.find(BirthdayCafe.class, IN_PROGRESS_BIRTHDAY_CAFE_ID);
-            assertThat(actual.getSpecialGoods())
+            List<SpecialGoods> actual = entityManager.createQuery(
+                            "select bc.specialGoods from BirthdayCafe bc where bc.id = :id", SpecialGoods.class)
+                    .setParameter("id", IN_PROGRESS_BIRTHDAY_CAFE_ID)
+                    .getResultList();
+            assertThat(actual)
                     .usingRecursiveComparison()
                     .isEqualTo(List.of(
                             new SpecialGoods("특전", "포토카드"),
@@ -309,8 +312,11 @@ class BirthdayCafeServiceTest extends ServiceTest {
             ));
 
             // then
-            BirthdayCafe actual = entityManager.find(BirthdayCafe.class, IN_PROGRESS_BIRTHDAY_CAFE_ID);
-            assertThat(actual.getSpecialGoods())
+            List<SpecialGoods> actual = entityManager.createQuery(
+                            "select bc.specialGoods from BirthdayCafe bc where bc.id = :id", SpecialGoods.class)
+                    .setParameter("id", IN_PROGRESS_BIRTHDAY_CAFE_ID)
+                    .getResultList();
+            assertThat(actual)
                     .usingRecursiveComparison()
                     .isEqualTo(List.of(
                             new SpecialGoods("바뀐 특전", "새로운 포토카드"),
@@ -353,8 +359,11 @@ class BirthdayCafeServiceTest extends ServiceTest {
             birthdayCafeService.replaceMenus(IN_PROGRESS_BIRTHDAY_CAFE_ID, HOST1, request);
 
             // then
-            BirthdayCafe actual = entityManager.find(BirthdayCafe.class, IN_PROGRESS_BIRTHDAY_CAFE_ID);
-            assertThat(actual.getMenus())
+            List<Menu> actual = entityManager.createQuery(
+                            "select bc.menus from BirthdayCafe bc where bc.id = :id", Menu.class)
+                    .setParameter("id", IN_PROGRESS_BIRTHDAY_CAFE_ID)
+                    .getResultList();
+            assertThat(actual)
                     .usingRecursiveComparison()
                     .isEqualTo(List.of(
                             Menu.of("기본", "아메리카노+포토카드+ID카드", 10000),
@@ -376,8 +385,11 @@ class BirthdayCafeServiceTest extends ServiceTest {
             ));
 
             // then
-            BirthdayCafe actual = entityManager.find(BirthdayCafe.class, IN_PROGRESS_BIRTHDAY_CAFE_ID);
-            assertThat(actual.getMenus())
+            List<Menu> actual = entityManager.createQuery(
+                            "select bc.menus from BirthdayCafe bc where bc.id = :id", Menu.class)
+                    .setParameter("id", IN_PROGRESS_BIRTHDAY_CAFE_ID)
+                    .getResultList();
+            assertThat(actual)
                     .usingRecursiveComparison()
                     .isEqualTo(List.of(
                             new MenuRequest("바뀐 기본 메뉴", "새로운 포토카드", 10000),
@@ -420,8 +432,11 @@ class BirthdayCafeServiceTest extends ServiceTest {
             birthdayCafeService.replaceLuckyDraws(IN_PROGRESS_BIRTHDAY_CAFE_ID, HOST1, requests);
 
             // then
-            BirthdayCafe actual = entityManager.find(BirthdayCafe.class, IN_PROGRESS_BIRTHDAY_CAFE_ID);
-            assertThat(actual.getLuckyDraws())
+            List<LuckyDraw> actual = entityManager.createQuery(
+                            "select bc.luckyDraws from BirthdayCafe bc where bc.id = :id", LuckyDraw.class)
+                    .setParameter("id", IN_PROGRESS_BIRTHDAY_CAFE_ID)
+                    .getResultList();
+            assertThat(actual)
                     .usingRecursiveComparison()
                     .isEqualTo(List.of(
                             new LuckyDraw(1, "머그컵"),
@@ -439,8 +454,11 @@ class BirthdayCafeServiceTest extends ServiceTest {
             birthdayCafeService.replaceLuckyDraws(IN_PROGRESS_BIRTHDAY_CAFE_ID, HOST1, List.of());
 
             // then
-            BirthdayCafe actual = entityManager.find(BirthdayCafe.class, IN_PROGRESS_BIRTHDAY_CAFE_ID);
-            assertThat(actual.getLuckyDraws()).isEmpty();
+            List<LuckyDraw> actual = entityManager.createQuery(
+                            "select bc.luckyDraws from BirthdayCafe bc where bc.id = :id", LuckyDraw.class)
+                    .setParameter("id", IN_PROGRESS_BIRTHDAY_CAFE_ID)
+                    .getResultList();
+            assertThat(actual).isEmpty();
         }
 
         @Test
