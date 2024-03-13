@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 @Sql("/fixture/birthday-cafe-fixture.sql")
 public class BirthdayCafeQueryAcceptanceTest extends AcceptanceTest {
 
-    private static final Long BIRTHDAY_CAFE_ID = 1L;
+    private static final Long BIRTHDAY_CAFE_ID = 2L;
 
     @Test
     void 생일_카페_특전_목록을_조회한다() {

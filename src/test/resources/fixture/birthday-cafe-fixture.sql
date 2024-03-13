@@ -40,14 +40,14 @@ VALUES (2, 1, 1, 1, 3, '2024-02-08T00:00:00', '2024-02-10T00:00:00', 5, 10, '@Ch
 
 INSERT INTO special_goods
 (birthday_cafe_id, name, details)
-VALUES (1, '특전', '포토카드'), (1, '디저트', '포토카드, ID 카드');
+VALUES (2, '특전', '포토카드'), (2, '디저트', '포토카드, ID 카드');
 
 INSERT INTO menu
 (birthday_cafe_id, name, details, price)
-VALUES (1, '기본', '아메리카노+포토카드+ID카드', 6000), (1, '디저트', '케이크+포토카드+ID카드', 10000);
+VALUES (2, '기본', '아메리카노+포토카드+ID카드', 6000), (2, '디저트', '케이크+포토카드+ID카드', 10000);
 
 INSERT INTO lucky_draw
 (birthday_cafe_id, ranks, prize)
-VALUES (1, 1, '티셔츠'), (1, 2, '머그컵');
+VALUES (2, 1, '티셔츠'), (2, 2, '머그컵');
 
 SET foreign_key_checks = 1;

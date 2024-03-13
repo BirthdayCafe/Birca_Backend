@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Sql("/fixture/birthday-cafe-fixture.sql")
 class BirthdayCafeQueryServiceTest extends ServiceTest {
 
-    private static final Long BIRTHDAY_CAFE_ID = 1L;
+    private static final Long BIRTHDAY_CAFE_ID = 2L;
 
     @Autowired
     private BirthdayCafeQueryService birthdayCafeQueryService;
