@@ -13,7 +13,7 @@ import org.springframework.test.context.jdbc.Sql;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Sql("/fixture/cafe-fixture.sql")
-public class CafeAcceptanceTest extends AcceptanceTest {
+public class CafeQueryAcceptanceTest extends AcceptanceTest {
 
     @Test
     void 카페를_검색한다() {
