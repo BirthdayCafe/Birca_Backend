@@ -373,7 +373,7 @@ class BirthdayCafeServiceTest extends ServiceTest {
         }
 
         @Test
-        void 기존_특전을_완전히_대체한다() {
+        void 기존_메뉴를_완전히_대체한다() {
             // given
             birthdayCafeService.replaceMenus(IN_PROGRESS_BIRTHDAY_CAFE_ID, HOST1, request);
 
@@ -446,7 +446,7 @@ class BirthdayCafeServiceTest extends ServiceTest {
         }
 
         @Test
-        void 기존_특전을_완전히_대체한다() {
+        void 기존_럭키드로우를_완전히_대체한다() {
             // given
             birthdayCafeService.replaceLuckyDraws(IN_PROGRESS_BIRTHDAY_CAFE_ID, HOST1, requests);
 

@@ -179,7 +179,7 @@ ALTER TABLE menu
 CREATE TABLE lucky_draw
 (
     birthday_cafe_id BIGINT       NOT NULL,
-    `rank`           INT          NOT NULL,
+    ranks           INT          NOT NULL,
     prize            VARCHAR(255) NOT NULL
 );
 

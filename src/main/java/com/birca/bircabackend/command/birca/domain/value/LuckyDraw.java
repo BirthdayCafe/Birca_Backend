@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 public class LuckyDraw {
 
-    @Column(nullable = false)
+    @Column(name = "ranks", nullable = false)
     private Integer rank;
 
     @Column(nullable = false)
