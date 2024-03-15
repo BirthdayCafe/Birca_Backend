@@ -76,6 +76,8 @@ operation::get-special-goods[snippets='http-request,path-parameters,http-respons
 operation::get-menus[snippets='http-request,path-parameters,http-response']
 === 생일 카페 럭키 드로우 조회
 operation::get-lucky-draws[snippets='http-request,path-parameters,http-response']
+=== 생일 카페 이미지 업로드
+operation::upload-birthday-cafe-image[snippets='http-request,http-response']
 === 에러 코드
 include::{snippets}/birthday-cafe-error-Code/response-body.adoc[]
 
