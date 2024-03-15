@@ -34,7 +34,7 @@ public class MockEnvironment {
     @MockBean
     private OAuthProviderFactory providerFactory;
 
-    @Autowired
+    @MockBean
     private AmazonS3 amazonS3;
 
     @BeforeEach
