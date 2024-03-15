@@ -556,4 +556,74 @@ class BirthdayCafeTest {
                     .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_UPDATE);
         }
     }
+
+    @Nested
+    @DisplayName("생일 카페 이름 수정은")
+    class UpdateNameTest {
+
+        @Test
+        void 주최자만_가능하다() {
+            // given
+            BirthdayCafe birthdayCafe = fixtureMonkey.giveMeBuilder(BirthdayCafe.class)
+                    .set("hostId", HOST_ID)
+                    .sample();
+            String name = "생일 카페 이름";
+
+            // when
+            birthdayCafe.updateName(HOST_ID, name);
+
+            // then
+            assertThat(birthdayCafe.getName()).isEqualTo(name);
+        }
+
+        @Test
+        void 주최자가_아니면_할_수_없다() {
+            // given
+            BirthdayCafe birthdayCafe = fixtureMonkey.giveMeBuilder(BirthdayCafe.class)
+                    .set("hostId", HOST_ID)
+                    .sample();
+            String name = "생일 카페 이름";
+
+            // when then
+            assertThatThrownBy(() -> birthdayCafe.updateName(100L, name))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_UPDATE);
+        }
+    }
+
+    @Nested
+    @DisplayName("생일 카페 이름 수정은")
+    class UpdateTwitterAccountTest {
+
+        @Test
+        void 주최자만_가능하다() {
+            // given
+            BirthdayCafe birthdayCafe = fixtureMonkey.giveMeBuilder(BirthdayCafe.class)
+                    .set("hostId", HOST_ID)
+                    .sample();
+            String twitterAccount = "@twitterAccount";
+
+            // when
+            birthdayCafe.updateTwitterAccount(HOST_ID, twitterAccount);
+
+            // then
+            assertThat(birthdayCafe.getTwitterAccount()).isEqualTo(twitterAccount);
+        }
+
+        @Test
+        void 주최자가_아니면_할_수_없다() {
+            // given
+            BirthdayCafe birthdayCafe = fixtureMonkey.giveMeBuilder(BirthdayCafe.class)
+                    .set("hostId", HOST_ID)
+                    .sample();
+            String twitterAccount = "@twitterAccount";
+
+            // when then
+            assertThatThrownBy(() -> birthdayCafe.updateTwitterAccount(100L, twitterAccount))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_UPDATE);
+        }
+    }
 }
