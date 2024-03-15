@@ -24,14 +24,14 @@ class BirthdayCafeImageServiceTest extends ServiceTest {
     @Test
     void 생일_카페_이미지를_저장한다() {
         // given
-        Long birthdayCafeId = 1L;
+        Long birthdayCafeId = 2L;
         List<String> imagesUrl = List.of("mega-coffee.png", "compose-coffee.png");
 
         // when
         birthdayCafeImageService.save(birthdayCafeId, imagesUrl);
         List<BirthdayCafeImage> actual = em.createQuery(
                         "select bci from BirthdayCafeImage bci where bci.birthdayCafeId = :birthdayCafeId", BirthdayCafeImage.class)
-                .setParameter("birthdayCafeId", 1L)
+                .setParameter("birthdayCafeId", 2L)
                 .getResultList();
 
         // then
