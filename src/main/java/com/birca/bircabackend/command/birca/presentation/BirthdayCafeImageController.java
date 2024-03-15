@@ -1,7 +1,7 @@
 package com.birca.bircabackend.command.birca.presentation;
 
 import com.birca.bircabackend.command.auth.authorization.RequiredLogin;
-import com.birca.bircabackend.command.birca.application.BirthdayCafeImageService;
+import com.birca.bircabackend.command.birca.application.BirthdayCafeImageFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,13 +14,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BirthdayCafeImageController {
 
-    private final BirthdayCafeImageService birthdayCafeImageService;
+    private final BirthdayCafeImageFacade birthdayCafeImageFacade;
 
     @PostMapping("/v1/birthday-cafes/{birthdayCafeId}/images")
     @RequiredLogin
     public ResponseEntity<Void> uploadImage(@PathVariable Long birthdayCafeId,
                                             @ModelAttribute List<MultipartFile> images) {
-        birthdayCafeImageService.save(birthdayCafeId, images);
+        birthdayCafeImageFacade.save(birthdayCafeId, images);
         return ResponseEntity.ok().build();
     }
 }
