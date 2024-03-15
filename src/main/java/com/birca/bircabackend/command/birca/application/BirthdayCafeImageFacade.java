@@ -20,12 +20,11 @@ public class BirthdayCafeImageFacade {
     private final EntityUtil entityUtil;
 
     public void save(Long birthdayCafeId, List<MultipartFile> images) {
-        birthdayCafeImageValidator.validateImagesSize(images);
+        birthdayCafeImageValidator.validateImagesSize(birthdayCafeId, images);
         entityUtil.getEntity(BirthdayCafe.class, birthdayCafeId, BirthdayCafeErrorCode.NOT_FOUND);
         List<String> imagesUrl = images.stream()
                 .map(imageUploader::upload)
                 .toList();
         birthdayCafeImageService.save(birthdayCafeId, imagesUrl);
     }
-
 }

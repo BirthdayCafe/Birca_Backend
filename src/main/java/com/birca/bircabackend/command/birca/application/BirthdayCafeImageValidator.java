@@ -1,5 +1,7 @@
 package com.birca.bircabackend.command.birca.application;
 
+import com.birca.bircabackend.command.birca.domain.BirthdayCafeImage;
+import com.birca.bircabackend.command.birca.domain.BirthdayCafeImageRepository;
 import com.birca.bircabackend.common.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -15,8 +17,11 @@ public class BirthdayCafeImageValidator {
 
     private static final int MAX_SIZE = 10;
 
-    public void validateImagesSize(List<MultipartFile> images) {
-        if (images.size() > MAX_SIZE) {
+    private final BirthdayCafeImageRepository birthdayCafeImageRepository;
+
+    public void validateImagesSize(Long birthdayCafeId, List<MultipartFile> images) {
+        List<BirthdayCafeImage> registeredImages = birthdayCafeImageRepository.findByBirthdayCafeId(birthdayCafeId);
+        if (registeredImages.size() + images.size() > MAX_SIZE) {
             throw BusinessException.from(INVALID_UPLOAD_SIZE_REQUEST);
         }
     }
