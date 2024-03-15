@@ -20,6 +20,7 @@ import java.util.stream.IntStream;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @Sql("/fixture/birthday-cafe-image-fixture.sql")
@@ -52,9 +53,10 @@ class BirthdayCafeImageServiceTest extends ServiceTest {
                     .getResultList();
 
             // then
-            Assertions.assertThat(actual.size()).isEqualTo(2);
-            String birthdayCafeImage = actual.get(0).getBirthdayCafeImage();
-            System.out.println("birthdayCafeImage = " + birthdayCafeImage);
+            assertThat(actual.size()).isEqualTo(2);
+            assertThat(actual)
+                    .extracting(BirthdayCafeImage::getIsMain)
+                    .containsExactlyElementsOf(List.of(false, false));
         }
 
         @Test
