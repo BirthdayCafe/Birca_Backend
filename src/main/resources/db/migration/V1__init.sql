@@ -179,7 +179,7 @@ ALTER TABLE menu
 CREATE TABLE lucky_draw
 (
     birthday_cafe_id BIGINT       NOT NULL,
-    ranks           INT          NOT NULL,
+    ranks            INT          NOT NULL,
     prize            VARCHAR(255) NOT NULL
 );
 
@@ -196,3 +196,15 @@ CREATE TABLE ocr_request_history
 
 ALTER TABLE ocr_request_history
     ADD CONSTRAINT FK_OCRREQUESTHISTORY_ON_OWNER FOREIGN KEY (owner_id) REFERENCES member (id);
+
+CREATE TABLE birthday_cafe_image
+(
+    id                  BIGINT AUTO_INCREMENT NOT NULL,
+    birthday_cafe_id    BIGINT     NOT NULL,
+    birthday_cafe_image LONGTEXT   NOT NULL,
+    is_main             TINYINT(1) NOT NULL,
+    CONSTRAINT pk_birthdaycafeimage PRIMARY KEY (id)
+);
+
+ALTER TABLE birthday_cafe_image
+    ADD CONSTRAINT fk_birthday_cafe_image_on_birthday_cafe FOREIGN KEY (birthday_cafe_id) REFERENCES birthday_cafe (id);

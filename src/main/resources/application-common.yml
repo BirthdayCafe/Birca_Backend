@@ -16,3 +16,19 @@ ocr:
 
 service-key:
   key: key
+
+cloud:
+  aws:
+    credentials:
+      access-key: access-key
+      secret-key: secret-key
+    region:
+      static: region
+    s3:
+      bucket: s3-bucket
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB

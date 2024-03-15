@@ -19,7 +19,8 @@ public enum BirthdayCafeErrorCode implements ErrorCode {
     INVALID_LIKE_REQUEST(5008, 400, "대관 대기, 취소 상태에서는 찜하기를할 수 없습니다."),
     CANNOT_CANCEL_LIKE(5009, 400, "찜하지 않은 생일 카페는 찜을 취소할 수 없습니다."),
     INVALID_UPDATE(5010, 400, "현재 상태로는 해당 정보를 변경할 수 없습니다."),
-    UNAUTHORIZED_UPDATE(5011, 400, "생일 카페 변경 권한이 없는 회원입니다.")
+    UNAUTHORIZED_UPDATE(5011, 400, "생일 카페 변경 권한이 없는 회원입니다."),
+    INVALID_UPLOAD_SIZE_REQUEST(5012, 400, "생일 카페 사진은 최대 10장까지 업로드할 수 있습니다.")
 
     ;
 
