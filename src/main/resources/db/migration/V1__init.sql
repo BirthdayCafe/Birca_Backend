@@ -117,6 +117,7 @@ CREATE TABLE birthday_cafe
     cafe_id                   BIGINT       NOT NULL,
     cafe_owner_id             BIGINT       NOT NULL,
     twitter_account           VARCHAR(255) NULL,
+    name                      VARCHAR(255) NULL,
     start_date                datetime     NOT NULL,
     end_date                  datetime     NOT NULL,
     minimum_visitant          INT          NOT NULL,
@@ -179,7 +180,7 @@ ALTER TABLE menu
 CREATE TABLE lucky_draw
 (
     birthday_cafe_id BIGINT       NOT NULL,
-    ranks           INT          NOT NULL,
+    ranks            INT          NOT NULL,
     prize            VARCHAR(255) NOT NULL
 );
 

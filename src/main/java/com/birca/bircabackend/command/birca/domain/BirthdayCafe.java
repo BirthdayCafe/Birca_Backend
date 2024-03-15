@@ -38,6 +38,8 @@ public class BirthdayCafe extends BaseEntity {
 
     private String twitterAccount;
 
+    private String name;
+
     @Embedded
     private PhoneNumber hostPhoneNumber;
 
@@ -95,6 +97,16 @@ public class BirthdayCafe extends BaseEntity {
             throw BusinessException.from(UNAUTHORIZED_CANCEL);
         }
         progressState = ProgressState.RENTAL_CANCELED;
+    }
+
+    public void updateName(Long memberId, String name) {
+        validateIsHost(memberId);
+        this.name = name;
+    }
+
+    public void updateTwitterAccount(Long memberId, String twitterAccount) {
+        validateIsHost(memberId);
+        this.twitterAccount = twitterAccount;
     }
 
     public void changeState(SpecialGoodsStockState state, Long memberId) {
