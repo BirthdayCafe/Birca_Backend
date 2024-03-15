@@ -203,6 +203,33 @@ public class BirthdayCafeControllerTest extends DocumentationTest {
     }
 
     @Test
+    void 생일_카페_정보를_수정한다() throws Exception {
+        // given
+        Long birthdayCafeId = 1L;
+        BirthdayCafeUpdateRequest request = new BirthdayCafeUpdateRequest("BTS 생카", "@bts-birca");
+
+        // when
+        ResultActions result = mockMvc.perform(
+                patch("/api/v1/birthday-cafes/{birthdayCafeId}", birthdayCafeId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+                        .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
+        );
+
+        // then
+        result.andExpect((status().isOk()))
+                .andDo(document("birthday-cafe-update", HOST_INFO, DOCUMENT_RESPONSE,
+                        pathParameters(
+                                parameterWithName("birthdayCafeId").description("정보를 수정할 생일 카페 ID")
+                        ),
+                        requestFields(
+                                fieldWithPath("birthdayCafeName").type(JsonFieldType.STRING).description("생일 카페 이름"),
+                                fieldWithPath("birthdayCafeTwitterAccount").type(JsonFieldType.STRING).description("생일 카페 트위터 계정")
+                        )
+                ));
+    }
+
+    @Test
     void 생일_카페_에러_코드() throws Exception {
         // when
         ResultActions result = mockMvc.perform(get("/error-codes")

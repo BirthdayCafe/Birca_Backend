@@ -89,4 +89,13 @@ public class BirthdayCafeService {
                 .toList();
         birthdayCafe.replaceLuckyDraws(loginMember.id(), luckyDraws);
     }
+
+    public void updateBirthdayCafe(Long birthdayCafeId,
+                                   LoginMember loginMember,
+                                   BirthdayCafeUpdateRequest request) {
+        BirthdayCafe birthdayCafe = entityUtil.getEntity(BirthdayCafe.class, birthdayCafeId, NOT_FOUND);
+        Long memberId = loginMember.id();
+        birthdayCafe.updateName(memberId, request.birthdayCafeName());
+        birthdayCafe.updateTwitterAccount(memberId, request.birthdayCafeTwitterAccount());
+    }
 }
