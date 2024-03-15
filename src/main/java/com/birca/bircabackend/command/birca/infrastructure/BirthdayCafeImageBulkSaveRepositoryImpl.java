@@ -37,7 +37,7 @@ public class BirthdayCafeImageBulkSaveRepositoryImpl implements BirthdayCafeImag
         Map<String, Object> params = new HashMap<>();
         params.put("birthday_cafe_id", birthdayCafeImage.getBirthdayCafeId());
         params.put("image_url", birthdayCafeImage.getImageUrl());
-        params.put("is_main", false);
+        params.put("is_main", birthdayCafeImage.getIsMain());
         return params;
     }
 }
