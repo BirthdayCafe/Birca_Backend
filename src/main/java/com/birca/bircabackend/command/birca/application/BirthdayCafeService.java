@@ -89,4 +89,10 @@ public class BirthdayCafeService {
                 .toList();
         birthdayCafe.replaceLuckyDraws(loginMember.id(), luckyDraws);
     }
+
+    public void updateBirthdayCafe(Long birthdayCafeId,
+                                   LoginMember loginMember,
+                                   BirthdayCafeUpdateRequest request) {
+
+    }
 }
