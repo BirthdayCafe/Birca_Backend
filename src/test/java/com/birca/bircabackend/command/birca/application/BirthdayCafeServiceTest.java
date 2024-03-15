@@ -480,4 +480,42 @@ class BirthdayCafeServiceTest extends ServiceTest {
                     .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_UPDATE);
         }
     }
+
+    @Nested
+    @DisplayName("생일 카페 정보 수정")
+    class UpdateTest {
+
+        @Test
+        void 주최자만_가능하다() {
+            // given
+            String name = "BTS 생카";
+            String twitterAccount = "@bts-birca";
+            BirthdayCafeUpdateRequest request = new BirthdayCafeUpdateRequest(name, twitterAccount);
+
+            // when
+            birthdayCafeService.updateBirthdayCafe(PENDING_BIRTHDAY_CAFE_ID, HOST1, request);
+
+            // then
+            BirthdayCafe birthdayCafe = entityManager.find(BirthdayCafe.class, PENDING_BIRTHDAY_CAFE_ID);
+            assertAll(
+                    () -> assertThat(birthdayCafe.getName()).isEqualTo(name),
+                    () -> assertThat(birthdayCafe.getTwitterAccount()).isEqualTo(twitterAccount)
+            );
+        }
+
+        @Test
+        void 주최자가_아니면_할_수_없다() {
+            // given
+            String name = "BTS 생카";
+            String twitterAccount = "@bts-birca";
+            BirthdayCafeUpdateRequest request = new BirthdayCafeUpdateRequest(name, twitterAccount);
+
+            // when then
+            assertThatThrownBy(() ->
+                    birthdayCafeService.updateBirthdayCafe(PENDING_BIRTHDAY_CAFE_ID, ANOTHER_MEMBER, request))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_UPDATE);
+        }
+    }
 }
