@@ -200,10 +200,10 @@ ALTER TABLE ocr_request_history
 
 CREATE TABLE birthday_cafe_image
 (
-    id                  BIGINT AUTO_INCREMENT NOT NULL,
-    birthday_cafe_id    BIGINT     NOT NULL,
-    birthday_cafe_image LONGTEXT   NOT NULL,
-    is_main             TINYINT(1) NOT NULL,
+    id               BIGINT AUTO_INCREMENT NOT NULL,
+    birthday_cafe_id BIGINT   NOT NULL,
+    image_url        LONGTEXT NOT NULL,
+    is_main          TINYINT(1) NOT NULL,
     CONSTRAINT pk_birthdaycafeimage PRIMARY KEY (id)
 );
 

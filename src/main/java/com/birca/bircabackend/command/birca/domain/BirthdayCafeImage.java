@@ -16,14 +16,14 @@ public class BirthdayCafeImage extends BaseEntity {
     private Long birthdayCafeId;
 
     @Column(nullable = false)
-    private String birthdayCafeImage;
+    private String imageUrl;
 
     @Column(nullable = false)
     private Boolean isMain;
 
-    public BirthdayCafeImage(Long birthdayCafeId, String birthdayCafeImage) {
+    public BirthdayCafeImage(Long birthdayCafeId, String imageUrl) {
         this.birthdayCafeId = birthdayCafeId;
-        this.birthdayCafeImage = birthdayCafeImage;
+        this.imageUrl = imageUrl;
         this.isMain = false;
     }
 }

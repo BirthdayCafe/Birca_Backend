@@ -17,8 +17,8 @@ import java.util.Map;
 public class BirthdayCafeImageBulkSaveRepositoryImpl implements BirthdayCafeImageBulkSaveRepository {
 
     private static final String INSERT_SQL =
-            "INSERT INTO birthday_cafe_image(birthday_cafe_id, birthday_cafe_image, is_main) " +
-            "values(:birthday_cafe_id, :birthday_cafe_image, :is_main)";
+            "INSERT INTO birthday_cafe_image(birthday_cafe_id, image_url, is_main) " +
+            "values(:birthday_cafe_id, :image_url, :is_main)";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -36,7 +36,7 @@ public class BirthdayCafeImageBulkSaveRepositoryImpl implements BirthdayCafeImag
     private Map<String, Object> generateParams(BirthdayCafeImage birthdayCafeImage) {
         Map<String, Object> params = new HashMap<>();
         params.put("birthday_cafe_id", birthdayCafeImage.getBirthdayCafeId());
-        params.put("birthday_cafe_image", birthdayCafeImage.getBirthdayCafeImage());
+        params.put("image_url", birthdayCafeImage.getImageUrl());
         params.put("is_main", false);
         return params;
     }
