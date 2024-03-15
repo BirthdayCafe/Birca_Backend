@@ -1,10 +1,12 @@
 package com.birca.bircabackend.command.birca.acceptance;
 
+import com.birca.bircabackend.command.birca.application.BirthdayCafeImageFacade;
 import com.birca.bircabackend.support.enviroment.AcceptanceTest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,6 +21,9 @@ public class BirthdayCafeImageAcceptanceTest extends AcceptanceTest {
 
     private static final Long MEMBER_ID = 1L;
     private static final Long BIRTHDAY_CAFE_ID = 1L;
+
+    @MockBean
+    private BirthdayCafeImageFacade birthdayCafeImageFacade;
 
     @Test
     void 생일_카페_이미지를_저장한다() {

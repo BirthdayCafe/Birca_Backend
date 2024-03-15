@@ -10,7 +10,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DatabaseIsolation
-public class AcceptanceTest extends MockEnvironment {
+public class AcceptanceTest extends MockOAuthEnvironment {
 
     @LocalServerPort
     private int port;
