@@ -166,11 +166,30 @@ public class BirthdayCafeAcceptanceTest extends AcceptanceTest {
                 new LuckyDrawRequest(2, "포토 카드")
         );
 
+        // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(HOST_1_ID))
                 .body(request)
                 .post("/api/v1/birthday-cafes/{birthdayCafeId}/lucky-draws", IN_PROGRESS_CAFE)
+                .then().log().all()
+                .extract();
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Test
+    void 생일_카페_정보를_수정한다() {
+        // given
+        BirthdayCafeUpdateRequest request = new BirthdayCafeUpdateRequest("BTS 생카", "@bts-birca");
+
+        // when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(HOST_1_ID))
+                .body(request)
+                .patch("/api/v1/birthday-cafes/{birthdayCafeId}", IN_PROGRESS_CAFE)
                 .then().log().all()
                 .extract();
 

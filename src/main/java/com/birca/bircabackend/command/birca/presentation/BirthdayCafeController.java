@@ -80,9 +80,18 @@ public class BirthdayCafeController {
     @PostMapping("/v1/birthday-cafes/{birthdayCafeId}/lucky-draws")
     @RequiredLogin
     public ResponseEntity<Void> replaceLuckyDraws(@PathVariable Long birthdayCafeId,
-                                             LoginMember loginMember,
-                                             @RequestBody List<LuckyDrawRequest> request) {
+                                                  LoginMember loginMember,
+                                                  @RequestBody List<LuckyDrawRequest> request) {
         birthdayCafeService.replaceLuckyDraws(birthdayCafeId, loginMember, request);
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/v1/birthday-cafes/{birthdayCafeId}")
+    @RequiredLogin
+    public ResponseEntity<Void> updateBirthdayCafe(@PathVariable Long birthdayCafeId,
+                                                   LoginMember loginMember,
+                                                   @RequestBody BirthdayCafeUpdateRequest request) {
+        birthdayCafeService.updateBirthdayCafe(birthdayCafeId, loginMember, request);
         return ResponseEntity.ok().build();
     }
 }
