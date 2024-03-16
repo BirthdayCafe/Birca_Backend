@@ -1,5 +1,7 @@
 package com.birca.bircabackend.command.birca.application;
 
+import com.birca.bircabackend.command.birca.domain.BirthdayCafe;
+import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
 import com.birca.bircabackend.common.EntityUtil;
 import com.birca.bircabackend.common.upload.ImageUploader;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +19,7 @@ public class BirthdayCafeImageFacade {
 
     public void save(Long birthdayCafeId, MultipartFile birthdayCafeImage) {
         birthdayCafeImageValidator.validateImagesSize(birthdayCafeId);
-        //entityUtil.getEntity(BirthdayCafe.class, birthdayCafeId, BirthdayCafeErrorCode.NOT_FOUND);
+        entityUtil.getEntity(BirthdayCafe.class, birthdayCafeId, BirthdayCafeErrorCode.NOT_FOUND);
         String imageUrl = imageUploader.upload(birthdayCafeImage);
         birthdayCafeImageService.save(birthdayCafeId, imageUrl);
     }
