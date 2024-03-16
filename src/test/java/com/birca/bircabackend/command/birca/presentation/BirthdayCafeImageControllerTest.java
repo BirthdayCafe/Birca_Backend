@@ -7,14 +7,11 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.util.List;
-
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.multipart;
 import static org.springframework.restdocs.request.RequestDocumentation.partWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParts;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 
 class BirthdayCafeImageControllerTest extends DocumentationTest {
 
@@ -24,15 +21,12 @@ class BirthdayCafeImageControllerTest extends DocumentationTest {
     void 생일_카페_이미지를_저장한다() throws Exception {
         // given
         Long birthdayCafeId = 1L;
-        List<MockMultipartFile> birthdayCafeImages = List.of(
-                new MockMultipartFile("birthdayCafeImage", "image1.png", MediaType.IMAGE_PNG_VALUE, "image1".getBytes()),
-                new MockMultipartFile("birthdayCafeImage", "image2.png", MediaType.IMAGE_PNG_VALUE, "image2".getBytes())
-        );
+        MockMultipartFile birthdayCafeImage =
+                new MockMultipartFile("birthdayCafeImage",  "birthdayCafeImage".getBytes());
 
         // when
         ResultActions result = mockMvc.perform(multipart("/api/v1/birthday-cafes/{birthdayCafeId}/images", birthdayCafeId)
-                .file(birthdayCafeImages.get(0))
-                .file(birthdayCafeImages.get(1))
+                .file(birthdayCafeImage)
                 .contentType(MediaType.MULTIPART_FORM_DATA)
                 .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID)
                 ));
