@@ -31,7 +31,7 @@ class BirthdayCafeImageServiceTest extends ServiceTest {
         birthdayCafeImageService.save(birthdayCafeId, imageUrl);
         List<BirthdayCafeImage> actual = em.createQuery(
                         "select bci from BirthdayCafeImage bci where bci.birthdayCafeId = :birthdayCafeId", BirthdayCafeImage.class)
-                .setParameter("birthdayCafeId", 2L)
+                .setParameter("birthdayCafeId", birthdayCafeId)
                 .getResultList();
 
         // then
