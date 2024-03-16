@@ -17,8 +17,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AwsS3Uploader implements ImageUploader {
 
-    private static final ObjectMetadata OBJECT_METADATA = new ObjectMetadata();
-
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
@@ -28,8 +26,9 @@ public class AwsS3Uploader implements ImageUploader {
     public String upload(MultipartFile image) {
         try {
             String s3FileName = UUID.randomUUID() + "-" + image.getOriginalFilename();
-            OBJECT_METADATA.setContentLength(image.getInputStream().available());
-            amazonS3.putObject(bucket, s3FileName, image.getInputStream(), OBJECT_METADATA);
+            ObjectMetadata objectMetadata = new ObjectMetadata();
+            objectMetadata.setContentLength(image.getInputStream().available());
+            amazonS3.putObject(bucket, s3FileName, image.getInputStream(), objectMetadata);
             return amazonS3.getUrl(bucket, s3FileName).toString();
         } catch (Exception e) {
             log.error("S3 업로드 중 문제가 발생했습니다.");
