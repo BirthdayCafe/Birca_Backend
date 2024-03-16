@@ -29,7 +29,7 @@ public class MockEnvironment {
     private OAuthProviderFactory providerFactory;
 
     @MockBean
-    private ImageUploader imageUploader;
+    protected ImageUploader imageUploader;
 
     @BeforeEach
     void mockOAuthProvider() {

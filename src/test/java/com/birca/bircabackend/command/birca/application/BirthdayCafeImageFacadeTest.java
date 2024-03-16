@@ -14,6 +14,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @Sql("/fixture/birthday-cafe-fixture.sql")
 class BirthdayCafeImageFacadeTest extends ServiceTest {
@@ -40,5 +43,6 @@ class BirthdayCafeImageFacadeTest extends ServiceTest {
 
         // then
         assertThat(images.size()).isEqualTo(2);
+        verify(imageUploader, times(2)).upload(any());
     }
 }
