@@ -7,8 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -19,8 +17,8 @@ public class BirthdayCafeImageController {
     @PostMapping("/v1/birthday-cafes/{birthdayCafeId}/images")
     @RequiredLogin
     public ResponseEntity<Void> uploadImage(@PathVariable Long birthdayCafeId,
-                                            @ModelAttribute List<MultipartFile> images) {
-        birthdayCafeImageFacade.save(birthdayCafeId, images);
+                                            @ModelAttribute MultipartFile birthdayCafeImage) {
+        birthdayCafeImageFacade.save(birthdayCafeId, birthdayCafeImage);
         return ResponseEntity.ok().build();
     }
 }

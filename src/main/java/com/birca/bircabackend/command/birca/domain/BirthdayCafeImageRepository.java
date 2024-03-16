@@ -6,5 +6,7 @@ import java.util.List;
 
 public interface BirthdayCafeImageRepository extends Repository<BirthdayCafeImage, Long> {
 
+    void save(BirthdayCafeImage birthdayCafeImage);
+
     List<BirthdayCafeImage> findByBirthdayCafeId(Long birthdayCafeId);
 }
