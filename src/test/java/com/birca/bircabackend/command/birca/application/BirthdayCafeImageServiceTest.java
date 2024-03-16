@@ -25,19 +25,19 @@ class BirthdayCafeImageServiceTest extends ServiceTest {
     void 생일_카페_이미지를_저장한다() {
         // given
         Long birthdayCafeId = 2L;
-        List<String> imagesUrl = List.of("mega-coffee.png", "compose-coffee.png");
+        String imageUrl = "mega-coffee.png";
 
         // when
-        birthdayCafeImageService.save(birthdayCafeId, imagesUrl);
+        birthdayCafeImageService.save(birthdayCafeId, imageUrl);
         List<BirthdayCafeImage> actual = em.createQuery(
                         "select bci from BirthdayCafeImage bci where bci.birthdayCafeId = :birthdayCafeId", BirthdayCafeImage.class)
                 .setParameter("birthdayCafeId", 2L)
                 .getResultList();
 
         // then
-        assertThat(actual.size()).isEqualTo(2);
+        assertThat(actual.size()).isEqualTo(4);
         assertThat(actual)
                 .extracting(BirthdayCafeImage::getIsMain)
-                .containsExactlyElementsOf(List.of(false, false));
+                .containsExactlyElementsOf(List.of(false, false, false, false));
     }
 }

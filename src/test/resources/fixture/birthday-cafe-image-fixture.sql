@@ -13,6 +13,18 @@ INSERT INTO birthday_cafe_image
 VALUES (1, 1, 'image1.com', false),
        (2, 1, 'image2.com', false),
        (3, 1, 'image3.com', false),
-       (4, 1, 'image4.com', false);
+       (4, 1, 'image4.com', false),
+       (5, 1, 'image5.com', false),
+       (6, 1, 'image6.com', false),
+       (7, 1, 'image7.com', false),
+       (8, 1, 'image8.com', false),
+       (9, 1, 'image9.com', false),
+       (10, 1, 'image10.com', false);
+
+INSERT INTO birthday_cafe_image
+(id, birthday_cafe_id, image_url, is_main)
+VALUES (11, 2, 'image1.com', false),
+       (12, 2, 'image2.com', false),
+       (13, 2, 'image3.com', false);
 
 SET foreign_key_checks = 1;

@@ -31,18 +31,18 @@ class BirthdayCafeImageFacadeTest extends ServiceTest {
     void 생일_카페_이미지를_S3에_업로드하고_저장한다() {
         // given
         Long birthdayCafeId = 1L;
-        List<MultipartFile> birthdayCafeImages = List.of(
-                new MockMultipartFile("birthdayCafeImage", "image1.png", MediaType.IMAGE_PNG_VALUE, "image1".getBytes()),
-                new MockMultipartFile("birthdayCafeImage", "image2.png", MediaType.IMAGE_PNG_VALUE, "image2".getBytes())
-        );
+        MultipartFile birthdayCafeImage =
+                new MockMultipartFile(
+                        "birthdayCafeImage", "image1.png", MediaType.IMAGE_PNG_VALUE, "image1".getBytes()
+                );
 
         // when
-        birthdayCafeImageFacade.save(birthdayCafeId, birthdayCafeImages);
+        birthdayCafeImageFacade.save(birthdayCafeId, birthdayCafeImage);
         List<BirthdayCafeImage> images = entityManager.createQuery("select bci from BirthdayCafeImage bci", BirthdayCafeImage.class)
                 .getResultList();
 
         // then
-        assertThat(images.size()).isEqualTo(2);
-        verify(imageUploader, times(2)).upload(any());
+        assertThat(images.size()).isEqualTo(1);
+        verify(imageUploader, times(1)).upload(any());
     }
 }

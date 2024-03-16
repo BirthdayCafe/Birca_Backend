@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class BirthdayCafeImageAcceptanceTest extends AcceptanceTest {
 
     private static final Long MEMBER_ID = 1L;
-    private static final Long BIRTHDAY_CAFE_ID = 1L;
+    private static final Long BIRTHDAY_CAFE_ID = 2L;
 
     @Test
     void 생일_카페_이미지를_저장한다() {
@@ -29,7 +29,7 @@ public class BirthdayCafeImageAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
                 .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
-                .multiPart("images", birthdayCafeImage)
+                .multiPart("birthdayCafeImage", birthdayCafeImage)
                 .post("/api/v1/birthday-cafes/{birthdayCafeId}/images", BIRTHDAY_CAFE_ID)
                 .then().log().all()
                 .extract();
