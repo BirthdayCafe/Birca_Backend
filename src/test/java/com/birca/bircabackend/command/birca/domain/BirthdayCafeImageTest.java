@@ -17,5 +17,7 @@ class BirthdayCafeImageTest {
 
         // then
         assertThat(birthdayCafeImage.getIsMain()).isFalse();
+        assertThat(birthdayCafeImage.getBirthdayCafeId()).isEqualTo(1L);
+        assertThat(birthdayCafeImage.getImageUrl()).isEqualTo(imageUrl);
     }
 }
