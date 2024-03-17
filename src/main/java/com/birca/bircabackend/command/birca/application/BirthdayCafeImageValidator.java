@@ -14,7 +14,7 @@ import static com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCo
 @RequiredArgsConstructor
 public class BirthdayCafeImageValidator {
 
-    private static final int MAX_SIZE = 10;
+    private static final int MAX_SIZE = 11;
     private static final int IMAGE_COUNT = 1;
 
     private final BirthdayCafeImageRepository birthdayCafeImageRepository;
