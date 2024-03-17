@@ -8,5 +8,5 @@ public interface BirthdayCafeImageRepository extends Repository<BirthdayCafeImag
 
     void save(BirthdayCafeImage birthdayCafeImage);
 
-    List<BirthdayCafeImage> findByBirthdayCafeId(Long birthdayCafeId);
+    List<BirthdayCafeImage> findByBirthdayCafeIdAndIsMain(Long birthdayCafeId, Boolean isMain);
 }

@@ -14,13 +14,13 @@ import static com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCo
 @RequiredArgsConstructor
 public class BirthdayCafeImageValidator {
 
-    private static final int MAX_SIZE = 11;
+    private static final int MAX_SIZE = 10;
     private static final int IMAGE_COUNT = 1;
 
     private final BirthdayCafeImageRepository birthdayCafeImageRepository;
 
     public void validateImagesSize(Long birthdayCafeId) {
-        List<BirthdayCafeImage> registeredImages = birthdayCafeImageRepository.findByBirthdayCafeId(birthdayCafeId);
+        List<BirthdayCafeImage> registeredImages = birthdayCafeImageRepository.findByBirthdayCafeIdAndIsMain(birthdayCafeId, false);
         if (registeredImages.size() + IMAGE_COUNT > MAX_SIZE) {
             throw BusinessException.from(INVALID_UPLOAD_SIZE_REQUEST);
         }
