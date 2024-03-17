@@ -17,7 +17,7 @@ class BirthdayCafeImageValidatorTest extends ServiceTest {
     private BirthdayCafeImageValidator birthdayCafeImageValidator;
 
     @Test
-    void 이미지_수가_10이_초과하면_예외가_발생한다() {
+    void 기본_이미지_수가_10이_초과하면_예외가_발생한다() {
         // given
         Long birthdayCafeId = 1L;
 
