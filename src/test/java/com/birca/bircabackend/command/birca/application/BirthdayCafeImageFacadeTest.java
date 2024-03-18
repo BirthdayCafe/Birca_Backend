@@ -26,8 +26,8 @@ class BirthdayCafeImageFacadeTest extends ServiceTest {
             new MockMultipartFile("birthdayCafeImage",  "image1".getBytes());
 
     @Nested
-    @DisplayName("생일 카페 이미지 업로드 시")
-    class UploadTest {
+    @DisplayName("생일 카페 기본 이미지 업로드 시")
+    class UploadDefaultImageTest {
 
         @Test
         void 정상적으로_저장한다() {
@@ -35,7 +35,7 @@ class BirthdayCafeImageFacadeTest extends ServiceTest {
             Long birthdayCafeId = 2L;
 
             // when
-            birthdayCafeImageFacade.save(birthdayCafeId, BIRTHDAY_CAFE_IMAGE);
+            birthdayCafeImageFacade.updateDefaultImage(birthdayCafeId, BIRTHDAY_CAFE_IMAGE);
 
             // then
             verify(imageUploader, times(1)).upload(any());
@@ -47,7 +47,7 @@ class BirthdayCafeImageFacadeTest extends ServiceTest {
             Long birthdayCafeId = 1L;
 
             // when then
-            assertThatThrownBy(() -> birthdayCafeImageFacade.save(birthdayCafeId, BIRTHDAY_CAFE_IMAGE))
+            assertThatThrownBy(() -> birthdayCafeImageFacade.updateDefaultImage(birthdayCafeId, BIRTHDAY_CAFE_IMAGE))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.INVALID_UPLOAD_SIZE_REQUEST);
@@ -59,7 +59,48 @@ class BirthdayCafeImageFacadeTest extends ServiceTest {
             Long birthdayCafeId = 100L;
 
             // when then
-            assertThatThrownBy(() -> birthdayCafeImageFacade.save(birthdayCafeId, BIRTHDAY_CAFE_IMAGE))
+            assertThatThrownBy(() -> birthdayCafeImageFacade.updateDefaultImage(birthdayCafeId, BIRTHDAY_CAFE_IMAGE))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.NOT_FOUND);
+        }
+    }
+
+    @Nested
+    @DisplayName("생일 카페 대표 이미지 업로드 시")
+    class uploadMainImageTest {
+
+        @Test
+        void 존재하면_변경한다() {
+            // given
+            Long birthdayCafeId = 1L;
+
+            // when
+            birthdayCafeImageFacade.updateMainImage(birthdayCafeId, BIRTHDAY_CAFE_IMAGE);
+
+            // then
+            verify(imageUploader, times(1)).upload(any());
+            verify(imageUploader, times(1)).delete(any());
+        }
+
+        @Test
+        void 존재하지_않으면_새로_저장한다() {
+            // given
+            Long birthdayCafeId = 2L;
+
+            // when
+            birthdayCafeImageFacade.updateMainImage(birthdayCafeId, BIRTHDAY_CAFE_IMAGE);
+            verify(imageUploader, times(1)).upload(any());
+            verify(imageUploader, times(0)).delete(any());
+        }
+
+        @Test
+        void 존재하지_생일_카페는_예외가_발생한다() {
+            // given
+            Long birthdayCafeId = 100L;
+
+            // when then
+            assertThatThrownBy(() -> birthdayCafeImageFacade.updateDefaultImage(birthdayCafeId, BIRTHDAY_CAFE_IMAGE))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.NOT_FOUND);
