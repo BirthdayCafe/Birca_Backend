@@ -1,8 +1,10 @@
 package com.birca.bircabackend.query.controller;
 
+import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.auth.authorization.RequiredLogin;
 import com.birca.bircabackend.query.dto.LuckyDrawResponse;
 import com.birca.bircabackend.query.dto.MenuResponse;
+import com.birca.bircabackend.query.dto.MyBirthdayCafeResponse;
 import com.birca.bircabackend.query.dto.SpecialGoodsResponse;
 import com.birca.bircabackend.query.service.BirthdayCafeQueryService;
 import lombok.RequiredArgsConstructor;
@@ -37,5 +39,11 @@ public class BirthdayCafeQueryController {
     @RequiredLogin
     public ResponseEntity<List<LuckyDrawResponse>> findLuckyDraws(@PathVariable Long birthdayCafeId) {
         return ResponseEntity.ok(birthdayCafeQueryService.findLuckyDraws(birthdayCafeId));
+    }
+
+    @GetMapping("/v1/birthday-cafes/me")
+    @RequiredLogin
+    public ResponseEntity<List<MyBirthdayCafeResponse>> findMyBirthdayCafes(LoginMember loginMember) {
+        return ResponseEntity.ok(birthdayCafeQueryService.findMyBirthdayCafes(loginMember));
     }
 }

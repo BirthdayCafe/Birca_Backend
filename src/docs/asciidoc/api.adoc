@@ -80,6 +80,8 @@ operation::get-lucky-draws[snippets='http-request,path-parameters,http-response'
 operation::birthday-cafe-update[snippets='http-request,path-parameters,request-fields,http-response']
 === 생일 카페 이미지 업로드
 operation::upload-birthday-cafe-image[snippets='http-request,http-response']
+=== 주최자의 나의 생일 카페 목록 조회
+operation::get-my-birthday-cafe-list[snippets='http-request,http-response,response-fields']
 === 에러 코드
 include::{snippets}/birthday-cafe-error-Code/response-body.adoc[]
 

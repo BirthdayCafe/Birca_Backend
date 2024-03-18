@@ -1,7 +1,9 @@
 package com.birca.bircabackend.query.controller;
 
+import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.query.dto.LuckyDrawResponse;
 import com.birca.bircabackend.query.dto.MenuResponse;
+import com.birca.bircabackend.query.dto.MyBirthdayCafeResponse;
 import com.birca.bircabackend.query.dto.SpecialGoodsResponse;
 import com.birca.bircabackend.support.enviroment.DocumentationTest;
 import org.junit.jupiter.api.Test;
@@ -10,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -117,6 +120,27 @@ class BirthdayCafeQueryControllerTest extends DocumentationTest {
     @Test
     void 주최자의_생일_카페_목록을_조회한다() throws Exception {
         // given
+        given(birthdayCafeQueryService.findMyBirthdayCafes(new LoginMember(MEMBER_ID)))
+                .willReturn(List.of(
+                        new MyBirthdayCafeResponse(new MyBirthdayCafeResponse.BirthdayCafe(
+                                1L,
+                                "image.com",
+                                LocalDateTime.of(2024, 3, 18, 0, 0, 0),
+                                LocalDateTime.of(2024, 3, 19, 0, 0, 0),
+                                "민호의 생일 카페",
+                                "FINISHED",
+                                new MyBirthdayCafeResponse.Artist("샤이니", "민호")
+                        )),
+                        new MyBirthdayCafeResponse(new MyBirthdayCafeResponse.BirthdayCafe(
+                                2L,
+                                "image.com",
+                                LocalDateTime.of(2024, 3, 20, 0, 0, 0),
+                                LocalDateTime.of(2024, 3, 23, 0, 0, 0),
+                                "아이유의 생일 카페",
+                                "IN_PROGRESS",
+                                new MyBirthdayCafeResponse.Artist(null, "아이유")
+                        ))
+                ));
 
         // when
         ResultActions result = mockMvc.perform(
@@ -134,7 +158,7 @@ class BirthdayCafeQueryControllerTest extends DocumentationTest {
                                 fieldWithPath("[].birthdayCafe.endDate").type(JsonFieldType.STRING).description("생일 카페 종료일"),
                                 fieldWithPath("[].birthdayCafe.name").type(JsonFieldType.STRING).description("생일 카페 이름"),
                                 fieldWithPath("[].birthdayCafe.progressState").type(JsonFieldType.STRING).description("생일 카페 진행 상태"),
-                                fieldWithPath("[].birthdayCafe.artist.groupName").type(JsonFieldType.STRING).description("아티스트 그룹 이름"),
+                                fieldWithPath("[].birthdayCafe.artist.groupName").type(JsonFieldType.STRING).description("아티스트 그룹 이름").optional(),
                                 fieldWithPath("[].birthdayCafe.artist.name").type(JsonFieldType.STRING).description("아티스트 이름")
                         )
                 ));

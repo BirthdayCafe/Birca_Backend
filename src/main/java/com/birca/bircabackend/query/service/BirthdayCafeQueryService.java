@@ -1,7 +1,9 @@
 package com.birca.bircabackend.query.service;
 
+import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.query.dto.LuckyDrawResponse;
 import com.birca.bircabackend.query.dto.MenuResponse;
+import com.birca.bircabackend.query.dto.MyBirthdayCafeResponse;
 import com.birca.bircabackend.query.dto.SpecialGoodsResponse;
 import com.birca.bircabackend.query.repository.BirthdayCafeQueryRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,5 +38,9 @@ public class BirthdayCafeQueryService {
                 .stream()
                 .map(luckyDraw -> new LuckyDrawResponse(luckyDraw.getRank(), luckyDraw.getPrize()))
                 .toList();
+    }
+
+    public List<MyBirthdayCafeResponse> findMyBirthdayCafes(LoginMember loginMember) {
+        return null;
     }
 }
