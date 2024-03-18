@@ -11,9 +11,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.UUID;
+
+import static java.time.format.DateTimeFormatter.ofPattern;
 
 @Slf4j
 @Component
@@ -31,7 +32,7 @@ public class AwsS3Uploader implements ImageUploader {
     @Override
     public String upload(MultipartFile image) {
         try {
-            String s3FileName = UUID.randomUUID() + "-" + image.getOriginalFilename();
+            String s3FileName = generateS3FileName();
             ObjectMetadata objectMetadata = new ObjectMetadata();
             objectMetadata.setContentLength(image.getInputStream().available());
             amazonS3.putObject(bucket, s3FileName, image.getInputStream(), objectMetadata);
@@ -42,13 +43,16 @@ public class AwsS3Uploader implements ImageUploader {
         }
     }
 
+    private String generateS3FileName() {
+        return UUID.randomUUID() + "-" + LocalDateTime.now().format(ofPattern("yyyyMMddHHmmss"));
+    }
+
     @Override
     public void delete(String imageUrl) {
         amazonS3.deleteObject(new DeleteObjectRequest(bucket, getKey(imageUrl)));
     }
 
     private String getKey(String imageUrl) {
-        String key = imageUrl.replaceAll(path, "");
-        return URLDecoder.decode(key, StandardCharsets.UTF_8);
+        return imageUrl.replaceAll(path, "");
     }
 }
