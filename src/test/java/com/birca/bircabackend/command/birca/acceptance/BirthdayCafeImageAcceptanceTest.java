@@ -21,7 +21,7 @@ public class BirthdayCafeImageAcceptanceTest extends AcceptanceTest {
     private static final Long BIRTHDAY_CAFE_ID = 2L;
 
     @Test
-    void 생일_카페_이미지를_저장한다() {
+    void 생일_카페_기본_이미지를_업로드한다() {
         //given
         File birthdayCafeImage = new File("src/test/resources/birthdayCafe.jpeg");
 
@@ -31,6 +31,24 @@ public class BirthdayCafeImageAcceptanceTest extends AcceptanceTest {
                 .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
                 .multiPart("birthdayCafeImage", birthdayCafeImage)
                 .post("/api/v1/birthday-cafes/{birthdayCafeId}/images", BIRTHDAY_CAFE_ID)
+                .then().log().all()
+                .extract();
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Test
+    void 생일_카페_대표_이미지를_업로드한다() {
+        //given
+        File birthdayCafeImage = new File("src/test/resources/birthdayCafe.jpeg");
+
+        // when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
+                .multiPart("birthdayCafeImage", birthdayCafeImage)
+                .post("/api/v1/birthday-cafes/{birthdayCafeId}/images/main", BIRTHDAY_CAFE_ID)
                 .then().log().all()
                 .extract();
 
