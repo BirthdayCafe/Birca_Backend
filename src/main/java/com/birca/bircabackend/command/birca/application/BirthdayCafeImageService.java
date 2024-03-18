@@ -21,7 +21,7 @@ public class BirthdayCafeImageService {
     }
 
     public Optional<String> updateMainImage(Long birthdayCafeId, String imageUrl) {
-        return birthdayCafeImageRepository.findMainByBirthdayCafeIdAndIsMain(birthdayCafeId, true)
+        return birthdayCafeImageRepository.findMainByBirthdayCafeId(birthdayCafeId)
                 .map(mainImage -> {
                     String previousImageUrl = mainImage.getImageUrl();
                     mainImage.updateUrl(imageUrl);

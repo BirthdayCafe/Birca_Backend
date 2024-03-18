@@ -20,7 +20,7 @@ public class BirthdayCafeImageValidator {
     private final BirthdayCafeImageRepository birthdayCafeImageRepository;
 
     public void validateImagesSize(Long birthdayCafeId) {
-        List<BirthdayCafeImage> registeredImages = birthdayCafeImageRepository.findDefaultByBirthdayCafeIdAndIsMain(birthdayCafeId, false);
+        List<BirthdayCafeImage> registeredImages = birthdayCafeImageRepository.findDefaultByBirthdayCafeId(birthdayCafeId);
         if (registeredImages.size() + IMAGE_COUNT > MAX_SIZE) {
             throw BusinessException.from(INVALID_UPLOAD_SIZE_REQUEST);
         }

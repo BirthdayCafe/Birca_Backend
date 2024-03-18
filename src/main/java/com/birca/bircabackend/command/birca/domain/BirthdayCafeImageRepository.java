@@ -1,5 +1,6 @@
 package com.birca.bircabackend.command.birca.domain;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 
 import java.util.List;
@@ -9,7 +10,9 @@ public interface BirthdayCafeImageRepository extends Repository<BirthdayCafeImag
 
     void save(BirthdayCafeImage birthdayCafeImage);
 
-    List<BirthdayCafeImage> findDefaultByBirthdayCafeIdAndIsMain(Long birthdayCafeId, Boolean isMain);
+    @Query("select bci from BirthdayCafeImage bci where bci.birthdayCafeId = :birthdayCafeId and bci.isMain = false")
+    List<BirthdayCafeImage> findDefaultByBirthdayCafeId(Long birthdayCafeId);
 
-    Optional<BirthdayCafeImage> findMainByBirthdayCafeIdAndIsMain(Long birthdayCafeId, Boolean isMain);
+    @Query("select bci from BirthdayCafeImage bci where bci.birthdayCafeId = :birthdayCafeId and bci.isMain = true")
+    Optional<BirthdayCafeImage> findMainByBirthdayCafeId(Long birthdayCafeId);
 }
