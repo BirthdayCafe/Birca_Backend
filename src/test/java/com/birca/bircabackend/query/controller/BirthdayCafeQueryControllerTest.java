@@ -113,4 +113,30 @@ class BirthdayCafeQueryControllerTest extends DocumentationTest {
                         )
                 ));
     }
+
+    @Test
+    void 주최자의_생일_카페_목록을_조회한다() throws Exception {
+        // given
+
+        // when
+        ResultActions result = mockMvc.perform(
+                get("/api/v1/birthday-cafes/me")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID)));
+
+        // then
+        result.andExpect((status().isOk()))
+                .andDo(document("get-my-birthday-cafe-list", HOST_INFO, DOCUMENT_RESPONSE,
+                        responseFields(
+                                fieldWithPath("[].birthdayCafe.id").type(JsonFieldType.NUMBER).description("생일 카페 ID"),
+                                fieldWithPath("[].birthdayCafe.mainImageUrl").type(JsonFieldType.STRING).description("생일 카페 메인 이미지 url"),
+                                fieldWithPath("[].birthdayCafe.startDate").type(JsonFieldType.STRING).description("생일 카페 시작일"),
+                                fieldWithPath("[].birthdayCafe.endDate").type(JsonFieldType.STRING).description("생일 카페 종료일"),
+                                fieldWithPath("[].birthdayCafe.name").type(JsonFieldType.STRING).description("생일 카페 이름"),
+                                fieldWithPath("[].birthdayCafe.progressState").type(JsonFieldType.STRING).description("생일 카페 진행 상태"),
+                                fieldWithPath("[].birthdayCafe.artist.groupName").type(JsonFieldType.STRING).description("아티스트 그룹 이름"),
+                                fieldWithPath("[].birthdayCafe.artist.name").type(JsonFieldType.STRING).description("아티스트 이름")
+                        )
+                ));
+    }
 }
