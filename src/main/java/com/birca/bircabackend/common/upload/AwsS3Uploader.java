@@ -20,7 +20,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AwsS3Uploader implements ImageUploader {
 
-    private static final String DEFAULT_PATH = "https://birca-bucket.s3.ap-northeast-2.amazonaws.com/";
+    @Value("${cloud.aws.s3.path}")
+    private String path;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
@@ -47,7 +48,7 @@ public class AwsS3Uploader implements ImageUploader {
     }
 
     private String getKey(String imageUrl) {
-        String key = imageUrl.replaceAll(DEFAULT_PATH, "");
+        String key = imageUrl.replaceAll(path, "");
         return URLDecoder.decode(key, StandardCharsets.UTF_8);
     }
 }
