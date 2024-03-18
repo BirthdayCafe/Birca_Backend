@@ -21,9 +21,21 @@ public class BirthdayCafeImage extends BaseEntity {
     @Column(nullable = false)
     private Boolean isMain;
 
-    public BirthdayCafeImage(Long birthdayCafeId, String imageUrl) {
+    public static BirthdayCafeImage createDefaultImage(Long birthdayCafeId, String imageUrl) {
+        return new BirthdayCafeImage(birthdayCafeId, imageUrl, false);
+    }
+
+    public static BirthdayCafeImage createMainImage(Long birthdayCafeId, String imageUrl) {
+        return new BirthdayCafeImage(birthdayCafeId, imageUrl, true);
+    }
+
+    private BirthdayCafeImage(Long birthdayCafeId, String imageUrl, Boolean isMain) {
         this.birthdayCafeId = birthdayCafeId;
         this.imageUrl = imageUrl;
-        this.isMain = false;
+        this.isMain = isMain;
+    }
+
+    public void updateMainImage(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

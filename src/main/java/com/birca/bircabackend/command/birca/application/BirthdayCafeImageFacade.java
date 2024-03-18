@@ -5,9 +5,11 @@ import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
 import com.birca.bircabackend.common.EntityUtil;
 import com.birca.bircabackend.common.upload.ImageUploader;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class BirthdayCafeImageFacade {
@@ -17,10 +19,17 @@ public class BirthdayCafeImageFacade {
     private final ImageUploader imageUploader;
     private final EntityUtil entityUtil;
 
-    public void save(Long birthdayCafeId, MultipartFile birthdayCafeImage) {
+    public void updateDefaultImage(Long birthdayCafeId, MultipartFile defaultImage) {
         birthdayCafeImageValidator.validateImagesSize(birthdayCafeId);
         entityUtil.getEntity(BirthdayCafe.class, birthdayCafeId, BirthdayCafeErrorCode.NOT_FOUND);
-        String imageUrl = imageUploader.upload(birthdayCafeImage);
-        birthdayCafeImageService.save(birthdayCafeId, imageUrl);
+        String imageUrl = imageUploader.upload(defaultImage);
+        birthdayCafeImageService.saveDefaultImage(birthdayCafeId, imageUrl);
+    }
+
+    public void updateMainImage(Long birthdayCafeId, MultipartFile mainImage) {
+        entityUtil.getEntity(BirthdayCafe.class, birthdayCafeId, BirthdayCafeErrorCode.NOT_FOUND);
+        String imageUrl = imageUploader.upload(mainImage);
+        birthdayCafeImageService.updateMainImage(birthdayCafeId, imageUrl)
+                .ifPresent(imageUploader::delete);
     }
 }
