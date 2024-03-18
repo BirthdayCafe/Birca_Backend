@@ -35,7 +35,7 @@ public class BirthdayCafeImage extends BaseEntity {
         this.isMain = isMain;
     }
 
-    public void updateMainImage(String imageUrl) {
+    public void updateUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 }

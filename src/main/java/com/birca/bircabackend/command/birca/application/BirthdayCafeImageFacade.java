@@ -17,7 +17,7 @@ public class BirthdayCafeImageFacade {
     private final ImageUploader imageUploader;
     private final EntityUtil entityUtil;
 
-    public void updateDefaultImage(Long birthdayCafeId, MultipartFile defaultImage) {
+    public void saveDefaultImage(Long birthdayCafeId, MultipartFile defaultImage) {
         birthdayCafeImageValidator.validateImagesSize(birthdayCafeId);
         entityUtil.getEntity(BirthdayCafe.class, birthdayCafeId, BirthdayCafeErrorCode.NOT_FOUND);
         String imageUrl = imageUploader.upload(defaultImage);
