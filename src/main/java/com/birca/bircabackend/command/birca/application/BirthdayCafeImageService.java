@@ -21,13 +21,11 @@ public class BirthdayCafeImageService {
     }
 
     public Optional<String> updateMainImage(Long birthdayCafeId, String imageUrl) {
-        return birthdayCafeImageRepository.findByBirthdayCafeIdAndIsMain(birthdayCafeId, true)
-                .stream()
-                .findFirst()
+        return birthdayCafeImageRepository.findMainByBirthdayCafeIdAndIsMain(birthdayCafeId, true)
                 .map(mainImage -> {
                     String previousImageUrl = mainImage.getImageUrl();
-                    mainImage.updateMainImage(imageUrl);
-                    return Optional.ofNullable(previousImageUrl);
+                    mainImage.updateUrl(imageUrl);
+                    return Optional.of(previousImageUrl);
                 })
                 .orElseGet(() -> {
                     saveMainImage(birthdayCafeId, imageUrl);
