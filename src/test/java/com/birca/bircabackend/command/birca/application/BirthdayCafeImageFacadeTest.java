@@ -100,7 +100,7 @@ class BirthdayCafeImageFacadeTest extends ServiceTest {
             Long birthdayCafeId = 100L;
 
             // when then
-            assertThatThrownBy(() -> birthdayCafeImageFacade.updateDefaultImage(birthdayCafeId, BIRTHDAY_CAFE_IMAGE))
+            assertThatThrownBy(() -> birthdayCafeImageFacade.updateMainImage(birthdayCafeId, BIRTHDAY_CAFE_IMAGE))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.NOT_FOUND);
