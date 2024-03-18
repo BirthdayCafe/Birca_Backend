@@ -18,7 +18,7 @@ public class BirthdayCafeImageController {
     @RequiredLogin
     public ResponseEntity<Void> uploadDefaultImage(@PathVariable Long birthdayCafeId,
                                             @ModelAttribute MultipartFile defaultImage) {
-        birthdayCafeImageFacade.updateDefaultImage(birthdayCafeId, defaultImage);
+        birthdayCafeImageFacade.saveDefaultImage(birthdayCafeId, defaultImage);
         return ResponseEntity.ok().build();
     }
 
