@@ -35,7 +35,7 @@ class BirthdayCafeImageFacadeTest extends ServiceTest {
             Long birthdayCafeId = 2L;
 
             // when
-            birthdayCafeImageFacade.updateDefaultImage(birthdayCafeId, BIRTHDAY_CAFE_IMAGE);
+            birthdayCafeImageFacade.saveDefaultImage(birthdayCafeId, BIRTHDAY_CAFE_IMAGE);
 
             // then
             verify(imageUploader, times(1)).upload(any());
@@ -47,7 +47,7 @@ class BirthdayCafeImageFacadeTest extends ServiceTest {
             Long birthdayCafeId = 1L;
 
             // when then
-            assertThatThrownBy(() -> birthdayCafeImageFacade.updateDefaultImage(birthdayCafeId, BIRTHDAY_CAFE_IMAGE))
+            assertThatThrownBy(() -> birthdayCafeImageFacade.saveDefaultImage(birthdayCafeId, BIRTHDAY_CAFE_IMAGE))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.INVALID_UPLOAD_SIZE_REQUEST);
@@ -59,7 +59,7 @@ class BirthdayCafeImageFacadeTest extends ServiceTest {
             Long birthdayCafeId = 100L;
 
             // when then
-            assertThatThrownBy(() -> birthdayCafeImageFacade.updateDefaultImage(birthdayCafeId, BIRTHDAY_CAFE_IMAGE))
+            assertThatThrownBy(() -> birthdayCafeImageFacade.saveDefaultImage(birthdayCafeId, BIRTHDAY_CAFE_IMAGE))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.NOT_FOUND);

@@ -44,7 +44,7 @@ class BirthdayCafeImageTest {
         BirthdayCafeImage birthdayCafeImage = BirthdayCafeImage.createMainImage(BIRTHDAY_CAFE_ID, IMAGE_URL);
 
         // when
-        birthdayCafeImage.updateMainImage("mega-coffee.png");
+        birthdayCafeImage.updateUrl("mega-coffee.png");
 
         // then
         assertThat(birthdayCafeImage.getImageUrl()).isEqualTo("mega-coffee.png");
