@@ -122,23 +122,23 @@ class BirthdayCafeQueryControllerTest extends DocumentationTest {
         // given
         given(birthdayCafeQueryService.findMyBirthdayCafes(new LoginMember(MEMBER_ID)))
                 .willReturn(List.of(
-                        new MyBirthdayCafeResponse(new MyBirthdayCafeResponse.BirthdayCafe(
+                        new MyBirthdayCafeResponse(new MyBirthdayCafeResponse.BirthdayCafeResponse(
                                 1L,
                                 "image.com",
                                 LocalDateTime.of(2024, 3, 18, 0, 0, 0),
                                 LocalDateTime.of(2024, 3, 19, 0, 0, 0),
                                 "민호의 생일 카페",
                                 "FINISHED",
-                                new MyBirthdayCafeResponse.Artist("샤이니", "민호")
+                                new MyBirthdayCafeResponse.ArtistResponse("샤이니", "민호")
                         )),
-                        new MyBirthdayCafeResponse(new MyBirthdayCafeResponse.BirthdayCafe(
+                        new MyBirthdayCafeResponse(new MyBirthdayCafeResponse.BirthdayCafeResponse(
                                 2L,
                                 "image.com",
                                 LocalDateTime.of(2024, 3, 20, 0, 0, 0),
                                 LocalDateTime.of(2024, 3, 23, 0, 0, 0),
                                 "아이유의 생일 카페",
                                 "IN_PROGRESS",
-                                new MyBirthdayCafeResponse.Artist(null, "아이유")
+                                new MyBirthdayCafeResponse.ArtistResponse(null, "아이유")
                         ))
                 ));
 
