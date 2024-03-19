@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 @Sql("/fixture/birthday-cafe-fixture.sql")
 public class BirthdayCafeQueryAcceptanceTest extends AcceptanceTest {
 
+    private static final Long HOST_ID = 1L;
     private static final Long BIRTHDAY_CAFE_ID = 2L;
 
     @Test
@@ -25,7 +26,7 @@ public class BirthdayCafeQueryAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .when()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(1L))
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(HOST_ID))
                 .get("/api/v1/birthday-cafes/{birthdayCafeId}/special-goods", BIRTHDAY_CAFE_ID)
                 .then().log().all()
                 .extract();
@@ -43,7 +44,7 @@ public class BirthdayCafeQueryAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .when()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(1L))
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(HOST_ID))
                 .get("/api/v1/birthday-cafes/{birthdayCafeId}/menus", BIRTHDAY_CAFE_ID)
                 .then().log().all()
                 .extract();
@@ -61,8 +62,26 @@ public class BirthdayCafeQueryAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .when()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(1L))
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(HOST_ID))
                 .get("/api/v1/birthday-cafes/{birthdayCafeId}/lucky-draws", BIRTHDAY_CAFE_ID)
+                .then().log().all()
+                .extract();
+
+        // then
+        assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
+                () -> assertThat(response.jsonPath().getList(".")).hasSize(2)
+        );
+    }
+
+    @Test
+    void 주최자가_나의_생일카페_목록을_조회한다() {
+        // when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .when()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(HOST_ID))
+                .get("/api/v1/birthday-cafes/me")
                 .then().log().all()
                 .extract();
 
