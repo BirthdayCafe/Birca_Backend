@@ -1,8 +1,11 @@
 package com.birca.bircabackend.command.birca.application;
 
+import com.birca.bircabackend.command.birca.dto.BirthdayCafeImageDeleteRequest;
 import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
 import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.support.enviroment.ServiceTest;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -11,6 +14,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.web.multipart.MultipartFile;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
@@ -21,6 +25,9 @@ class BirthdayCafeImageFacadeTest extends ServiceTest {
 
     @Autowired
     private BirthdayCafeImageFacade birthdayCafeImageFacade;
+
+    @PersistenceContext
+    private EntityManager em;
 
     private static final MultipartFile BIRTHDAY_CAFE_IMAGE =
             new MockMultipartFile("birthdayCafeImage",  "image1".getBytes());
@@ -101,6 +108,42 @@ class BirthdayCafeImageFacadeTest extends ServiceTest {
 
             // when then
             assertThatThrownBy(() -> birthdayCafeImageFacade.updateMainImage(birthdayCafeId, BIRTHDAY_CAFE_IMAGE))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.NOT_FOUND);
+        }
+    }
+
+    @Nested
+    @DisplayName("생일_카페_이미지를_삭제할_때")
+    class DeleteBirthdayCafeImageTest {
+
+        @Test
+        void 정상적으로_삭제한다() {
+            // given
+            Long birthdayCafeId = 1L;
+            BirthdayCafeImageDeleteRequest request = new BirthdayCafeImageDeleteRequest("image1.com");
+
+            // when
+            birthdayCafeImageFacade.delete(birthdayCafeId, request);
+            Long count = em.createQuery(
+                            "select count(*) from BirthdayCafeImage bci where bci.birthdayCafeId = :birthdayCafeId", Long.class)
+                    .setParameter("birthdayCafeId", birthdayCafeId)
+                    .getSingleResult();
+
+            // then
+            verify(imageUploader, times(1)).delete(any());
+            assertThat(count).isEqualTo(10);
+        }
+
+        @Test
+        void 존재하지_생일_카페는_예외가_발생한다() {
+            // given
+            Long birthdayCafeId = 100L;
+            BirthdayCafeImageDeleteRequest request = new BirthdayCafeImageDeleteRequest("image1.com");
+
+            // when then
+            assertThatThrownBy(() -> birthdayCafeImageFacade.delete(birthdayCafeId, request))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.NOT_FOUND);
