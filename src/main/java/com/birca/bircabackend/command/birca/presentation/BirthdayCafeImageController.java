@@ -16,9 +16,17 @@ public class BirthdayCafeImageController {
 
     @PostMapping("/v1/birthday-cafes/{birthdayCafeId}/images")
     @RequiredLogin
-    public ResponseEntity<Void> uploadImage(@PathVariable Long birthdayCafeId,
-                                            @ModelAttribute MultipartFile birthdayCafeImage) {
-        birthdayCafeImageFacade.save(birthdayCafeId, birthdayCafeImage);
+    public ResponseEntity<Void> uploadDefaultImage(@PathVariable Long birthdayCafeId,
+                                            @ModelAttribute MultipartFile defaultImage) {
+        birthdayCafeImageFacade.saveDefaultImage(birthdayCafeId, defaultImage);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/v1/birthday-cafes/{birthdayCafeId}/images/main")
+    @RequiredLogin
+    public ResponseEntity<Void> uploadMainImage(@PathVariable Long birthdayCafeId,
+                                                @ModelAttribute MultipartFile mainImage) {
+        birthdayCafeImageFacade.updateMainImage(birthdayCafeId, mainImage);
         return ResponseEntity.ok().build();
     }
 }

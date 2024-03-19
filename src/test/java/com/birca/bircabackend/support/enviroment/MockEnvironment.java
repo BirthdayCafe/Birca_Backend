@@ -9,6 +9,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 
 public class MockEnvironment {
 
@@ -41,5 +42,7 @@ public class MockEnvironment {
     void mockImageUploader() {
         given(imageUploader.upload(any()))
                 .willReturn(URL);
+        doNothing().when(imageUploader)
+                .delete(any());
     }
 }

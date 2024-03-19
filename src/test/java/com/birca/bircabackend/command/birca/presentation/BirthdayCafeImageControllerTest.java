@@ -18,26 +18,49 @@ class BirthdayCafeImageControllerTest extends DocumentationTest {
     private static final Long MEMBER_ID = 1L;
 
     @Test
-    void 생일_카페_이미지를_저장한다() throws Exception {
+    void 생일_카페_기본_이미지를_저장한다() throws Exception {
         // given
         Long birthdayCafeId = 1L;
-        MockMultipartFile birthdayCafeImage =
-                new MockMultipartFile("birthdayCafeImage",  "birthdayCafeImage".getBytes());
+        MockMultipartFile defaultImage = new MockMultipartFile("defaultImage",  "defaultImage".getBytes());
 
         // when
         ResultActions result = mockMvc.perform(multipart("/api/v1/birthday-cafes/{birthdayCafeId}/images", birthdayCafeId)
-                .file(birthdayCafeImage)
+                .file(defaultImage)
                 .contentType(MediaType.MULTIPART_FORM_DATA)
                 .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID)
                 ));
 
         // then
         result.andExpect((status().isOk()))
-                .andDo(document("upload-birthday-cafe-image",
+                .andDo(document("upload-birthday-cafe-default-image",
                         HOST_INFO,
                         DOCUMENT_RESPONSE,
                         requestParts(
-                                partWithName("birthdayCafeImage").description("생일 카페 이미지")
+                                partWithName("defaultImage").description("생일 카페 기본 이미지")
+                        )
+                ));
+    }
+
+    @Test
+    void 생일_카페_대표_이미지를_저장한다() throws Exception {
+        // given
+        Long birthdayCafeId = 1L;
+        MockMultipartFile mainImage = new MockMultipartFile("mainImage",  "mainImage".getBytes());
+
+        // when
+        ResultActions result = mockMvc.perform(multipart("/api/v1/birthday-cafes/{birthdayCafeId}/images/main", birthdayCafeId)
+                .file(mainImage)
+                .contentType(MediaType.MULTIPART_FORM_DATA)
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID)
+                ));
+
+        // then
+        result.andExpect((status().isOk()))
+                .andDo(document("upload-birthday-cafe-main-image",
+                        HOST_INFO,
+                        DOCUMENT_RESPONSE,
+                        requestParts(
+                                partWithName("mainImage").description("생일 카페 대표 이미지")
                         )
                 ));
     }
