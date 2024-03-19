@@ -27,6 +27,7 @@ public interface BirthdayCafeQueryRepository extends Repository<BirthdayCafe, Lo
             "join Artist a on a.id = bc.artistId " +
             "left join BirthdayCafeImage bci on bc.id = bci.birthdayCafeId and bci.isMain = true " +
             "left join ArtistGroup ag on a.groupId = ag.id " +
-            "where bc.hostId = :hostId")
+            "where bc.hostId = :hostId " +
+            "order by bc.id desc")
     List<BirthdayCafeView> findByHostIdWithArtist(@Param("hostId") Long hostId);
 }
