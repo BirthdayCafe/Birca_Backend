@@ -55,8 +55,9 @@ VALUES (2, 1, '티셔츠'),
 
 -- 주최자1의 진행 중 생일 카페 이미지
 INSERT INTO birthday_cafe_image (id, birthday_cafe_id, image_url, is_main)
-VALUES (1, 2, 'winter-cafe-main-image.com', true),
-       (2, 2, 'winter-cafe-default-image', false);
+VALUES (1, 2, 'winter-cafe-default-image', false),
+       (2, 2, 'winter-cafe-main-image.com', true),
+       (3, 2, 'winter-cafe-default-image', false);
 
 SET
 foreign_key_checks = 1;
