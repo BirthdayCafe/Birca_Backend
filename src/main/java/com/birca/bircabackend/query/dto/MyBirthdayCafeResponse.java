@@ -9,7 +9,13 @@ import com.birca.bircabackend.query.repository.model.BirthdayCafeView;
 import java.time.LocalDateTime;
 
 public record MyBirthdayCafeResponse(
-        BirthdayCafeResponse birthdayCafe
+        Long birthdayCafeId,
+        String mainImageUrl,
+        LocalDateTime startDate,
+        LocalDateTime endDate,
+        String birthdayCafeName,
+        String progressState,
+        ArtistResponse artist
 ) {
 
     public static MyBirthdayCafeResponse from(BirthdayCafeView birthdayCafeView) {
@@ -18,31 +24,18 @@ public record MyBirthdayCafeResponse(
         ArtistGroup artistGroup = birthdayCafeView.artistGroup();
         Artist artist = birthdayCafeView.artist();
         return new MyBirthdayCafeResponse(
-                new BirthdayCafeResponse(
-                        birthdayCafe.getId(),
-                        mainImage == null ? null : mainImage.getImageUrl(),
-                        birthdayCafe.getSchedule().getStartDate(),
-                        birthdayCafe.getSchedule().getEndDate(),
-                        birthdayCafe.getName(),
-                        birthdayCafe.getProgressState().name(),
-                        new ArtistResponse(
-                                artistGroup == null ? null : artistGroup.getName(),
-                                artist.getName()
-                        )
+                birthdayCafe.getId(),
+                mainImage == null ? null : mainImage.getImageUrl(),
+                birthdayCafe.getSchedule().getStartDate(),
+                birthdayCafe.getSchedule().getEndDate(),
+                birthdayCafe.getName(),
+                birthdayCafe.getProgressState().name(),
+                new ArtistResponse(
+                        artistGroup == null ? null : artistGroup.getName(),
+                        artist.getName()
                 )
+
         );
-    }
-
-    public record BirthdayCafeResponse(
-            Long id,
-            String mainImageUrl,
-            LocalDateTime startDate,
-            LocalDateTime endDate,
-            String name,
-            String progressState,
-            ArtistResponse artist
-
-    ) {
     }
 
     public record ArtistResponse(

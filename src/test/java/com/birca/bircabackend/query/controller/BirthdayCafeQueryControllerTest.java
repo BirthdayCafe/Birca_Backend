@@ -122,7 +122,7 @@ class BirthdayCafeQueryControllerTest extends DocumentationTest {
         // given
         given(birthdayCafeQueryService.findMyBirthdayCafes(new LoginMember(MEMBER_ID)))
                 .willReturn(List.of(
-                        new MyBirthdayCafeResponse(new MyBirthdayCafeResponse.BirthdayCafeResponse(
+                        new MyBirthdayCafeResponse(
                                 1L,
                                 "image.com",
                                 LocalDateTime.of(2024, 3, 18, 0, 0, 0),
@@ -130,8 +130,8 @@ class BirthdayCafeQueryControllerTest extends DocumentationTest {
                                 "민호의 생일 카페",
                                 "FINISHED",
                                 new MyBirthdayCafeResponse.ArtistResponse("샤이니", "민호")
-                        )),
-                        new MyBirthdayCafeResponse(new MyBirthdayCafeResponse.BirthdayCafeResponse(
+                        ),
+                        new MyBirthdayCafeResponse(
                                 2L,
                                 "image.com",
                                 LocalDateTime.of(2024, 3, 20, 0, 0, 0),
@@ -139,7 +139,7 @@ class BirthdayCafeQueryControllerTest extends DocumentationTest {
                                 "아이유의 생일 카페",
                                 "IN_PROGRESS",
                                 new MyBirthdayCafeResponse.ArtistResponse(null, "아이유")
-                        ))
+                        )
                 ));
 
         // when
@@ -152,14 +152,14 @@ class BirthdayCafeQueryControllerTest extends DocumentationTest {
         result.andExpect((status().isOk()))
                 .andDo(document("get-my-birthday-cafe-list", HOST_INFO, DOCUMENT_RESPONSE,
                         responseFields(
-                                fieldWithPath("[].birthdayCafe.id").type(JsonFieldType.NUMBER).description("생일 카페 ID"),
-                                fieldWithPath("[].birthdayCafe.mainImageUrl").type(JsonFieldType.STRING).description("생일 카페 메인 이미지 url"),
-                                fieldWithPath("[].birthdayCafe.startDate").type(JsonFieldType.STRING).description("생일 카페 시작일"),
-                                fieldWithPath("[].birthdayCafe.endDate").type(JsonFieldType.STRING).description("생일 카페 종료일"),
-                                fieldWithPath("[].birthdayCafe.name").type(JsonFieldType.STRING).description("생일 카페 이름"),
-                                fieldWithPath("[].birthdayCafe.progressState").type(JsonFieldType.STRING).description("생일 카페 진행 상태"),
-                                fieldWithPath("[].birthdayCafe.artist.groupName").type(JsonFieldType.STRING).description("아티스트 그룹 이름").optional(),
-                                fieldWithPath("[].birthdayCafe.artist.name").type(JsonFieldType.STRING).description("아티스트 이름")
+                                fieldWithPath("[].birthdayCafeId").type(JsonFieldType.NUMBER).description("생일 카페 ID"),
+                                fieldWithPath("[].mainImageUrl").type(JsonFieldType.STRING).description("생일 카페 메인 이미지 url"),
+                                fieldWithPath("[].startDate").type(JsonFieldType.STRING).description("생일 카페 시작일"),
+                                fieldWithPath("[].endDate").type(JsonFieldType.STRING).description("생일 카페 종료일"),
+                                fieldWithPath("[].birthdayCafeName").type(JsonFieldType.STRING).description("생일 카페 이름"),
+                                fieldWithPath("[].progressState").type(JsonFieldType.STRING).description("생일 카페 진행 상태"),
+                                fieldWithPath("[].artist.groupName").type(JsonFieldType.STRING).description("아티스트 그룹 이름").optional(),
+                                fieldWithPath("[].artist.name").type(JsonFieldType.STRING).description("아티스트 이름")
                         )
                 ));
     }
