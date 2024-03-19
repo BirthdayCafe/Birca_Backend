@@ -1,6 +1,7 @@
 package com.birca.bircabackend.command.birca.application;
 
 import com.birca.bircabackend.command.birca.domain.BirthdayCafe;
+import com.birca.bircabackend.command.birca.dto.BirthdayCafeImageDeleteRequest;
 import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
 import com.birca.bircabackend.common.EntityUtil;
 import com.birca.bircabackend.common.upload.ImageUploader;
@@ -29,5 +30,12 @@ public class BirthdayCafeImageFacade {
         String imageUrl = imageUploader.upload(mainImage);
         birthdayCafeImageService.updateMainImage(birthdayCafeId, imageUrl)
                 .ifPresent(imageUploader::delete);
+    }
+
+    public void delete(Long birthdayCafeId, BirthdayCafeImageDeleteRequest request) {
+        entityUtil.getEntity(BirthdayCafe.class, birthdayCafeId, BirthdayCafeErrorCode.NOT_FOUND);
+        String imageUrl = request.imageUrl();
+        imageUploader.delete(imageUrl);
+        birthdayCafeImageService.delete(birthdayCafeId, imageUrl);
     }
 }

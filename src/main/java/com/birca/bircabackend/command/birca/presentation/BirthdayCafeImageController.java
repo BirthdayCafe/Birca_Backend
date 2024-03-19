@@ -2,6 +2,7 @@ package com.birca.bircabackend.command.birca.presentation;
 
 import com.birca.bircabackend.command.auth.authorization.RequiredLogin;
 import com.birca.bircabackend.command.birca.application.BirthdayCafeImageFacade;
+import com.birca.bircabackend.command.birca.dto.BirthdayCafeImageDeleteRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class BirthdayCafeImageController {
     @PostMapping("/v1/birthday-cafes/{birthdayCafeId}/images")
     @RequiredLogin
     public ResponseEntity<Void> uploadDefaultImage(@PathVariable Long birthdayCafeId,
-                                            @ModelAttribute MultipartFile defaultImage) {
+                                                   @ModelAttribute MultipartFile defaultImage) {
         birthdayCafeImageFacade.saveDefaultImage(birthdayCafeId, defaultImage);
         return ResponseEntity.ok().build();
     }
@@ -27,6 +28,14 @@ public class BirthdayCafeImageController {
     public ResponseEntity<Void> uploadMainImage(@PathVariable Long birthdayCafeId,
                                                 @ModelAttribute MultipartFile mainImage) {
         birthdayCafeImageFacade.updateMainImage(birthdayCafeId, mainImage);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/v1/birthday-cafes/{birthdayCafeId}/images")
+    @RequiredLogin
+    public ResponseEntity<Void> deleteImage(@PathVariable Long birthdayCafeId,
+                                            @RequestBody BirthdayCafeImageDeleteRequest request) {
+        birthdayCafeImageFacade.delete(birthdayCafeId, request);
         return ResponseEntity.ok().build();
     }
 }
