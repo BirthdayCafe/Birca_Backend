@@ -26,6 +26,7 @@ cloud:
       static: region
     s3:
       bucket: s3-bucket
+      path: path
 
 spring:
   servlet:

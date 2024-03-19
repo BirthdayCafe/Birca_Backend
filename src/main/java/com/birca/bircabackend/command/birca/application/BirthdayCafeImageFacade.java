@@ -17,10 +17,17 @@ public class BirthdayCafeImageFacade {
     private final ImageUploader imageUploader;
     private final EntityUtil entityUtil;
 
-    public void save(Long birthdayCafeId, MultipartFile birthdayCafeImage) {
+    public void saveDefaultImage(Long birthdayCafeId, MultipartFile defaultImage) {
         birthdayCafeImageValidator.validateImagesSize(birthdayCafeId);
         entityUtil.getEntity(BirthdayCafe.class, birthdayCafeId, BirthdayCafeErrorCode.NOT_FOUND);
-        String imageUrl = imageUploader.upload(birthdayCafeImage);
-        birthdayCafeImageService.save(birthdayCafeId, imageUrl);
+        String imageUrl = imageUploader.upload(defaultImage);
+        birthdayCafeImageService.saveDefaultImage(birthdayCafeId, imageUrl);
+    }
+
+    public void updateMainImage(Long birthdayCafeId, MultipartFile mainImage) {
+        entityUtil.getEntity(BirthdayCafe.class, birthdayCafeId, BirthdayCafeErrorCode.NOT_FOUND);
+        String imageUrl = imageUploader.upload(mainImage);
+        birthdayCafeImageService.updateMainImage(birthdayCafeId, imageUrl)
+                .ifPresent(imageUploader::delete);
     }
 }

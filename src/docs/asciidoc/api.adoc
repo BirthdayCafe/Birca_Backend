@@ -78,6 +78,10 @@ operation::get-menus[snippets='http-request,path-parameters,http-response']
 operation::get-lucky-draws[snippets='http-request,path-parameters,http-response']
 === 생일 카페 정보 수정
 operation::birthday-cafe-update[snippets='http-request,path-parameters,request-fields,http-response']
+=== 생일 카페 기본 이미지 업로드
+operation::upload-birthday-cafe-default-image[snippets='http-request,http-response']
+=== 생일 카페 대표 이미지 업로드
+operation::upload-birthday-cafe-main-image[snippets='http-request,http-response']
 === 생일 카페 이미지 업로드
 operation::upload-birthday-cafe-image[snippets='http-request,http-response']
 === 주최자의 나의 생일 카페 목록 조회
