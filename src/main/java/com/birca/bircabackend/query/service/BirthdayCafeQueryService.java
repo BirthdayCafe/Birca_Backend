@@ -41,7 +41,7 @@ public class BirthdayCafeQueryService {
     }
 
     public List<MyBirthdayCafeResponse> findMyBirthdayCafes(LoginMember loginMember) {
-        return birthdayCafeQueryRepository.findByHostIdWithArtist(loginMember.id())
+        return birthdayCafeQueryRepository.findMyBirthdayCafes(loginMember.id())
                 .stream()
                 .map(MyBirthdayCafeResponse::from)
                 .toList();

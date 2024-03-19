@@ -29,5 +29,5 @@ public interface BirthdayCafeQueryRepository extends Repository<BirthdayCafe, Lo
             "left join ArtistGroup ag on a.groupId = ag.id " +
             "where bc.hostId = :hostId " +
             "order by bc.id desc")
-    List<BirthdayCafeView> findByHostIdWithArtist(@Param("hostId") Long hostId);
+    List<BirthdayCafeView> findMyBirthdayCafes(@Param("hostId") Long hostId);
 }
