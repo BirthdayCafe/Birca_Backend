@@ -16,5 +16,5 @@ public interface BirthdayCafeImageRepository extends Repository<BirthdayCafeImag
     @Query("select bci from BirthdayCafeImage bci where bci.birthdayCafeId = :birthdayCafeId and bci.isMain = true")
     Optional<BirthdayCafeImage> findMainByBirthdayCafeId(Long birthdayCafeId);
 
-    void deleteByBirthdayCafeIdAndImageUrl(Long birthdayCafeId, String imageUrl);
+    void deleteByImageUrl(String imageUrl);
 }
