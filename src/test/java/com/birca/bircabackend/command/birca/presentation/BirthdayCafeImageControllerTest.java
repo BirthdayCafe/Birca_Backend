@@ -1,14 +1,19 @@
 package com.birca.bircabackend.command.birca.presentation;
 
+import com.birca.bircabackend.command.birca.dto.BirthdayCafeImageDeleteRequest;
 import com.birca.bircabackend.support.enviroment.DocumentationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.multipart;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.request.RequestDocumentation.partWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParts;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -61,6 +66,29 @@ class BirthdayCafeImageControllerTest extends DocumentationTest {
                         DOCUMENT_RESPONSE,
                         requestParts(
                                 partWithName("mainImage").description("생일 카페 대표 이미지")
+                        )
+                ));
+    }
+
+    @Test
+    void 생일_카페_이미지를_삭제한다() throws Exception {
+        // given
+        Long birthdayCafeId = 1L;
+        BirthdayCafeImageDeleteRequest request = new BirthdayCafeImageDeleteRequest("image");
+
+        // when
+        ResultActions result = mockMvc.perform(delete("/api/v1/birthday-cafes/{birthdayCafeId}/images", birthdayCafeId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
+                .content(objectMapper.writeValueAsString(request)));
+
+        // then
+        result.andExpect((status().isOk()))
+                .andDo(document("delete-birthday-cafe-image",
+                        HOST_INFO,
+                        DOCUMENT_RESPONSE,
+                        requestFields(
+                                fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("삭제할 생일 카페 이미지")
                         )
                 ));
     }

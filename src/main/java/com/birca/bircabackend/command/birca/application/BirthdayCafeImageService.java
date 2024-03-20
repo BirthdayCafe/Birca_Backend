@@ -37,4 +37,8 @@ public class BirthdayCafeImageService {
         BirthdayCafeImage mainImage = BirthdayCafeImage.createMainImage(birthdayCafeId, imageUrl);
         birthdayCafeImageRepository.save(mainImage);
     }
+
+    public void delete(String imageUrl) {
+        birthdayCafeImageRepository.deleteByImageUrl(imageUrl);
+    }
 }
