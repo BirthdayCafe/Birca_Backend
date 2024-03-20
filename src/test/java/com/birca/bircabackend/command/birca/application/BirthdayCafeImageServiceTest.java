@@ -87,17 +87,16 @@ class BirthdayCafeImageServiceTest extends ServiceTest {
     @Test
     void 생일_카페_이미지를_삭제한다() {
         // given
-        Long birthdayCafeId = 1L;
         String imageUrl = "image1.com";
 
         // when
-        birthdayCafeImageService.delete(birthdayCafeId, imageUrl);
-        Long count = em.createQuery(
-                        "select count(*) from BirthdayCafeImage bci where bci.birthdayCafeId = :birthdayCafeId", Long.class)
-                .setParameter("birthdayCafeId", birthdayCafeId)
+        birthdayCafeImageService.delete(imageUrl);
+        Boolean actual = em.createQuery(
+                        "select count(*) > 0 from BirthdayCafeImage bci where bci.imageUrl = :imageUrl", Boolean.class)
+                .setParameter("imageUrl", imageUrl)
                 .getSingleResult();
 
         // then
-        assertThat(count).isEqualTo(10);
+        assertThat(actual).isFalse();
     }
 }

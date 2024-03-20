@@ -126,14 +126,14 @@ class BirthdayCafeImageFacadeTest extends ServiceTest {
 
             // when
             birthdayCafeImageFacade.delete(birthdayCafeId, request);
-            Long count = em.createQuery(
-                            "select count(*) from BirthdayCafeImage bci where bci.birthdayCafeId = :birthdayCafeId", Long.class)
-                    .setParameter("birthdayCafeId", birthdayCafeId)
+            Boolean isExist = em.createQuery(
+                            "select count(*) > 0 from BirthdayCafeImage bci where bci.imageUrl = :imageUrl", Boolean.class)
+                    .setParameter("imageUrl", request.imageUrl())
                     .getSingleResult();
 
             // then
             verify(imageUploader, times(1)).delete(any());
-            assertThat(count).isEqualTo(10);
+            assertThat(isExist).isFalse();
         }
 
         @Test
