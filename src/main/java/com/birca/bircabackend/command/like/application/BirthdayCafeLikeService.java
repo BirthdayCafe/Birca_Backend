@@ -2,7 +2,10 @@ package com.birca.bircabackend.command.like.application;
 
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
-import com.birca.bircabackend.command.like.domain.*;
+import com.birca.bircabackend.command.like.domain.Like;
+import com.birca.bircabackend.command.like.domain.LikeRepository;
+import com.birca.bircabackend.command.like.domain.LikeTarget;
+import com.birca.bircabackend.command.like.domain.LikeTargetType;
 import com.birca.bircabackend.common.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class BirthdayCafeLikeService {
 
-    private final BirthdayCafeLikeRepository birthdayCafeLikeRepository;
     private final BirthdayCafeLikeValidator likeValidator;
     private final LikeRepository likeRepository;
 
@@ -25,10 +27,10 @@ public class BirthdayCafeLikeService {
     }
 
     public void cancelLike(Long birthdayCafeId, LoginMember loginMember) {
-        birthdayCafeLikeRepository
-                .findByVisitantIdAndBirthdayCafeId(loginMember.id(), birthdayCafeId)
+        LikeTarget likeTarget = new LikeTarget(birthdayCafeId, LikeTargetType.BIRTHDAY_CAFE);
+        likeRepository.findByVisitantIdAndTarget(loginMember.id(), likeTarget)
                 .ifPresentOrElse(
-                        birthdayCafeLikeRepository::delete,
+                        likeRepository::delete,
                         () -> {
                             throw BusinessException.from(BirthdayCafeErrorCode.CANNOT_CANCEL_LIKE);
                         }
