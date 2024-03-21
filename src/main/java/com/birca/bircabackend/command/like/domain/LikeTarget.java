@@ -21,4 +21,9 @@ public class LikeTarget {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private LikeTargetType targetType;
+
+    public LikeTarget(Long targetId, LikeTargetType targetType) {
+        this.targetId = targetId;
+        this.targetType = targetType;
+    }
 }

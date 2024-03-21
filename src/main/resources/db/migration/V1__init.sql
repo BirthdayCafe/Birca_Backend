@@ -213,6 +213,7 @@ ALTER TABLE birthday_cafe_image
 CREATE TABLE likes
 (
     id          BIGINT AUTO_INCREMENT NOT NULL,
+    member_id   BIGINT                NOT NULL,
     target_id   BIGINT                NOT NULL,
     target_type VARCHAR(255)          NOT NULL,
     CONSTRAINT pk_likes PRIMARY KEY (id)
