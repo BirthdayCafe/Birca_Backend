@@ -17,13 +17,12 @@ import static com.birca.bircabackend.command.like.exception.LikeErrorCode.INVALI
 @RequiredArgsConstructor
 public class BirthdayCafeLikeService {
 
-    private final BirthdayCafeLikeValidator likeValidator;
     private final LikeRepository likeRepository;
+    private final BirthdayCafeLikeValidator likeValidator;
 
     public void like(Long birthdayCafeId, LoginMember loginMember) {
-        Long visitantId = loginMember.id();
         LikeTarget likeTarget = new LikeTarget(birthdayCafeId, LikeTargetType.BIRTHDAY_CAFE);
-        Like like = Like.create(visitantId, likeTarget, likeValidator);
+        Like like = Like.create(loginMember.id(), likeTarget, likeValidator);
         likeRepository.save(like);
     }
 
