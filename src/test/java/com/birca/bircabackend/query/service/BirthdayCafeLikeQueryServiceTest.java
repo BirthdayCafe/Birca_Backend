@@ -23,7 +23,7 @@ class BirthdayCafeLikeQueryServiceTest extends ServiceTest {
         Long visitantId = 1L;
 
         // when
-        List<BirthdayCafeLikeResponse> actual = birthdayCafeLikeQueryService.findBirthdayCafeLikes(visitantId);
+        List<BirthdayCafeLikeResponse> actual = birthdayCafeLikeQueryService.findLikedBirthdayCafes(visitantId);
 
         // then
         assertThat(actual).containsExactly(

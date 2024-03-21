@@ -25,7 +25,7 @@ class BirthdayCafeLikeQueryControllerTest extends DocumentationTest {
     @Test
     void 찜한_생일_카페_목록을_조회한다() throws Exception {
         // given
-        given(birthdayCafeLikeQueryService.findBirthdayCafeLikes(any()))
+        given(birthdayCafeLikeQueryService.findLikedBirthdayCafes(any()))
                 .willReturn(List.of(
                         new BirthdayCafeLikeResponse(
                                 1L,

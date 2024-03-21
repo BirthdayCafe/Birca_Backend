@@ -21,7 +21,7 @@ public class BirthdayCafeLikeQueryController {
 
     @GetMapping("/v1/birthday-cafes/like")
     @RequiredLogin
-    public ResponseEntity<List<BirthdayCafeLikeResponse>> findBirthdayCafeLikes(LoginMember loginMember) {
-        return ResponseEntity.ok(birthdayCafeLikeQueryService.findBirthdayCafeLikes(loginMember.id()));
+    public ResponseEntity<List<BirthdayCafeLikeResponse>> findLikedBirthdayCafes(LoginMember loginMember) {
+        return ResponseEntity.ok(birthdayCafeLikeQueryService.findLikedBirthdayCafes(loginMember.id()));
     }
 }

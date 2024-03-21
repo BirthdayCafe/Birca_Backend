@@ -17,5 +17,5 @@ public interface BirthdayCafeLikeQueryRepository extends Repository<BirthdayCafe
             "left join Artist a on a.id = bc.artistId " +
             "left join ArtistGroup ag on a.groupId = ag.id " +
             "where bcl.visitantId = :visitantId")
-    List<BirthdayCafeView> findBirthdayCafeLikes(@Param("visitantId") Long visitantId);
+    List<BirthdayCafeView> findLikedBirthdayCafes(@Param("visitantId") Long visitantId);
 }

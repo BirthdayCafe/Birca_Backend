@@ -15,8 +15,8 @@ public class BirthdayCafeLikeQueryService {
 
     private final BirthdayCafeLikeQueryRepository birthdayCafeLikeQueryRepository;
 
-    public List<BirthdayCafeLikeResponse> findBirthdayCafeLikes(Long visitantId) {
-        return birthdayCafeLikeQueryRepository.findBirthdayCafeLikes(visitantId)
+    public List<BirthdayCafeLikeResponse> findLikedBirthdayCafes(Long visitantId) {
+        return birthdayCafeLikeQueryRepository.findLikedBirthdayCafes(visitantId)
                 .stream()
                 .map(BirthdayCafeLikeResponse::from)
                 .toList();
