@@ -2,6 +2,7 @@ package com.birca.bircabackend.command.birca.domain;
 
 import com.birca.bircabackend.command.birca.domain.value.*;
 import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
+import com.birca.bircabackend.command.like.domain.BirthdayCafeLike;
 import com.birca.bircabackend.common.exception.BusinessException;
 import com.navercorp.fixturemonkey.FixtureMonkey;
 import com.navercorp.fixturemonkey.api.introspector.FieldReflectionArbitraryIntrospector;

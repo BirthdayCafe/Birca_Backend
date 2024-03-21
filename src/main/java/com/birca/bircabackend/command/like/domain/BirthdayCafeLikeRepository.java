@@ -1,4 +1,4 @@
-package com.birca.bircabackend.command.birca.domain;
+package com.birca.bircabackend.command.like.domain;
 
 import org.springframework.data.repository.Repository;
 

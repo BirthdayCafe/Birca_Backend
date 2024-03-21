@@ -1,6 +1,7 @@
 package com.birca.bircabackend.command.birca.domain;
 
 import com.birca.bircabackend.command.birca.domain.value.*;
+import com.birca.bircabackend.command.like.domain.BirthdayCafeLike;
 import com.birca.bircabackend.common.domain.BaseEntity;
 import com.birca.bircabackend.common.exception.BusinessException;
 import jakarta.persistence.*;

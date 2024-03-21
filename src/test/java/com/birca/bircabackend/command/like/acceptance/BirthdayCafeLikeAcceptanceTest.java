@@ -1,4 +1,4 @@
-package com.birca.bircabackend.command.birca.acceptance;
+package com.birca.bircabackend.command.like.acceptance;
 
 import com.birca.bircabackend.support.enviroment.AcceptanceTest;
 import io.restassured.RestAssured;

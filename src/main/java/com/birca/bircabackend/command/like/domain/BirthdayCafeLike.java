@@ -1,4 +1,4 @@
-package com.birca.bircabackend.command.birca.domain;
+package com.birca.bircabackend.command.like.domain;
 
 import com.birca.bircabackend.common.domain.BaseEntity;
 import jakarta.persistence.Column;

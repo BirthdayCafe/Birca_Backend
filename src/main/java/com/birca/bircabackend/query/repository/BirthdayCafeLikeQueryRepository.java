@@ -1,6 +1,6 @@
 package com.birca.bircabackend.query.repository;
 
-import com.birca.bircabackend.command.birca.domain.BirthdayCafeLike;
+import com.birca.bircabackend.command.like.domain.BirthdayCafeLike;
 import com.birca.bircabackend.query.repository.model.BirthdayCafeView;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;

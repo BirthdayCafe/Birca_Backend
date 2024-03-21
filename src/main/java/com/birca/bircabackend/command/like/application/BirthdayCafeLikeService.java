@@ -1,10 +1,9 @@
-package com.birca.bircabackend.command.birca.application;
+package com.birca.bircabackend.command.like.application;
 
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.birca.domain.BirthdayCafe;
-import com.birca.bircabackend.command.birca.domain.BirthdayCafeLike;
-import com.birca.bircabackend.command.birca.domain.BirthdayCafeLikeRepository;
-import com.birca.bircabackend.command.birca.domain.value.ProgressState;
+import com.birca.bircabackend.command.like.domain.BirthdayCafeLike;
+import com.birca.bircabackend.command.like.domain.BirthdayCafeLikeRepository;
 import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
 import com.birca.bircabackend.common.EntityUtil;
 import com.birca.bircabackend.common.exception.BusinessException;
