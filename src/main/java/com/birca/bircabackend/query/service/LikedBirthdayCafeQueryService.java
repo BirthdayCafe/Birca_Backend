@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class BirthdayCafeLikeQueryService {
+public class LikedBirthdayCafeQueryService {
 
     private final LikedBirthdayCafeQueryRepository likedBirthdayCafeQueryRepository;
 
