@@ -209,3 +209,14 @@ CREATE TABLE birthday_cafe_image
 
 ALTER TABLE birthday_cafe_image
     ADD CONSTRAINT fk_birthday_cafe_image_on_birthday_cafe FOREIGN KEY (birthday_cafe_id) REFERENCES birthday_cafe (id);
+
+CREATE TABLE likes
+(
+    id          BIGINT AUTO_INCREMENT NOT NULL,
+    target_id   BIGINT                NOT NULL,
+    target_type VARCHAR(255)          NOT NULL,
+    CONSTRAINT pk_likes PRIMARY KEY (id)
+);
+
+ALTER TABLE likes
+    ADD CONSTRAINT uc_like_target UNIQUE (target_id, target_type);
