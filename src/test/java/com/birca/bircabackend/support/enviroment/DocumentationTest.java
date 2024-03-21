@@ -107,6 +107,9 @@ public class DocumentationTest {
     @MockBean
     protected BirthdayCafeImageFacade birthdayCafeImageFacade;
 
+    @MockBean
+    protected BirthdayCafeLikeQueryService birthdayCafeLikeQueryService;
+
     protected List<FieldDescriptor> getErrorDescriptor(ErrorCode[] errorCodes) {
         return Arrays.stream(errorCodes)
                 .flatMap(errorCode -> Stream.of(
