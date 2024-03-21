@@ -139,23 +139,6 @@ ALTER TABLE birthday_cafe
 ALTER TABLE birthday_cafe
     ADD CONSTRAINT FK_BIRTHDAYCAFE_ON_HOST FOREIGN KEY (host_id) REFERENCES member (id);
 
-CREATE TABLE birthday_cafe_like
-(
-    id               BIGINT AUTO_INCREMENT NOT NULL,
-    birthday_cafe_id BIGINT NOT NULL,
-    visitant_id      BIGINT NOT NULL,
-    CONSTRAINT pk_birthdaycafelike PRIMARY KEY (id)
-);
-
-ALTER TABLE birthday_cafe_like
-    ADD CONSTRAINT FK_BIRTHDAYCAFELIKE_ON_BIRTHDAYCAFE FOREIGN KEY (birthday_cafe_id) REFERENCES birthday_cafe (id);
-
-ALTER TABLE birthday_cafe_like
-    ADD CONSTRAINT FK_BIRTHDAYCAFELIKE_ON_VISITANT FOREIGN KEY (visitant_id) REFERENCES member (id);
-
-ALTER TABLE birthday_cafe_like
-    ADD CONSTRAINT uc_birthday_cafe_like_birthday_cafe_visitant UNIQUE (birthday_cafe_id, visitant_id);
-
 CREATE TABLE special_goods
 (
     birthday_cafe_id BIGINT       NOT NULL,

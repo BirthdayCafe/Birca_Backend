@@ -50,9 +50,9 @@ INSERT INTO birthday_cafe_image
 VALUES (1, 1, 'image1.com', true),
        (2, 2, 'image2.com', true);
 
-INSERT INTO birthday_cafe_like
-(id, birthday_cafe_id, visitant_id)
-VALUES (1, 1, 1),
-       (2, 2, 1),
-       (3, 3, 2),
-       (4, 4, 2);
+INSERT INTO likes
+(id, target_id, visitant_id, target_type)
+VALUES (1, 1, 1, 'BIRTHDAY_CAFE'),
+       (2, 2, 1, 'BIRTHDAY_CAFE'),
+       (3, 3, 2, 'BIRTHDAY_CAFE'),
+       (4, 4, 2, 'BIRTHDAY_CAFE');

@@ -1,7 +1,7 @@
 package com.birca.bircabackend.query.service;
 
 import com.birca.bircabackend.query.dto.BirthdayCafeLikeResponse;
-import com.birca.bircabackend.query.repository.BirthdayCafeLikeQueryRepository;
+import com.birca.bircabackend.query.repository.LikedBirthdayCafeQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,10 +13,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BirthdayCafeLikeQueryService {
 
-    private final BirthdayCafeLikeQueryRepository birthdayCafeLikeQueryRepository;
+    private final LikedBirthdayCafeQueryRepository likedBirthdayCafeQueryRepository;
+
 
     public List<BirthdayCafeLikeResponse> findLikedBirthdayCafes(Long visitantId) {
-        return birthdayCafeLikeQueryRepository.findLikedBirthdayCafes(visitantId)
+        return likedBirthdayCafeQueryRepository.findLikedBirthdayCafes(visitantId)
                 .stream()
                 .map(BirthdayCafeLikeResponse::from)
                 .toList();
