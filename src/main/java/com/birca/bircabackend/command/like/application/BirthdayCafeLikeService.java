@@ -1,7 +1,6 @@
 package com.birca.bircabackend.command.like.application;
 
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
-import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
 import com.birca.bircabackend.command.like.domain.Like;
 import com.birca.bircabackend.command.like.domain.LikeRepository;
 import com.birca.bircabackend.command.like.domain.LikeTarget;
@@ -10,6 +9,8 @@ import com.birca.bircabackend.common.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import static com.birca.bircabackend.command.like.exception.LikeErrorCode.INVALID_BIRTHDAY_CAFE_CANCEL;
 
 @Service
 @Transactional
@@ -32,7 +33,7 @@ public class BirthdayCafeLikeService {
                 .ifPresentOrElse(
                         likeRepository::delete,
                         () -> {
-                            throw BusinessException.from(BirthdayCafeErrorCode.CANNOT_CANCEL_LIKE);
+                            throw BusinessException.from(INVALID_BIRTHDAY_CAFE_CANCEL);
                         }
                 );
     }

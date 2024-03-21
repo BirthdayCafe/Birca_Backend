@@ -3,6 +3,7 @@ package com.birca.bircabackend.command.like.application;
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
 import com.birca.bircabackend.command.like.domain.Like;
+import com.birca.bircabackend.command.like.exception.LikeErrorCode;
 import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.support.enviroment.ServiceTest;
 import jakarta.persistence.EntityManager;
@@ -55,7 +56,7 @@ class BirthdayCafeLikeServiceTest extends ServiceTest {
             assertThatThrownBy(() -> birthdayCafeLikeService.like(birthdayCafeId, loginMember))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
-                    .isEqualTo(BirthdayCafeErrorCode.INVALID_LIKE_REQUEST);
+                    .isEqualTo(LikeErrorCode.INVALID_BIRTHDAY_CAFE_LIKE);
         }
 
         @Test
@@ -68,7 +69,7 @@ class BirthdayCafeLikeServiceTest extends ServiceTest {
             assertThatThrownBy(() -> birthdayCafeLikeService.like(birthdayCafeId, loginMember))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
-                    .isEqualTo(BirthdayCafeErrorCode.INVALID_LIKE_REQUEST);
+                    .isEqualTo(LikeErrorCode.INVALID_BIRTHDAY_CAFE_LIKE);
         }
 
         @Test
@@ -105,7 +106,7 @@ class BirthdayCafeLikeServiceTest extends ServiceTest {
             assertThatThrownBy(() -> birthdayCafeLikeService.cancelLike(birthdayCafeId, loginMember))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
-                    .isEqualTo(BirthdayCafeErrorCode.CANNOT_CANCEL_LIKE);
+                    .isEqualTo(LikeErrorCode.INVALID_BIRTHDAY_CAFE_CANCEL);
         }
     }
 }
