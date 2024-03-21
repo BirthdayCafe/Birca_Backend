@@ -213,11 +213,11 @@ ALTER TABLE birthday_cafe_image
 CREATE TABLE likes
 (
     id          BIGINT AUTO_INCREMENT NOT NULL,
-    member_id   BIGINT                NOT NULL,
+    visitant_id BIGINT                NOT NULL,
     target_id   BIGINT                NOT NULL,
     target_type VARCHAR(255)          NOT NULL,
     CONSTRAINT pk_likes PRIMARY KEY (id)
 );
 
 ALTER TABLE likes
-    ADD CONSTRAINT uc_like_target UNIQUE (target_id, target_type);
+    ADD CONSTRAINT uc_like_target UNIQUE (visitant_id, target_id, target_type);

@@ -1,8 +1,8 @@
 package com.birca.bircabackend.command.like.application;
 
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
-import com.birca.bircabackend.command.like.domain.BirthdayCafeLike;
 import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
+import com.birca.bircabackend.command.like.domain.Like;
 import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.support.enviroment.ServiceTest;
 import jakarta.persistence.EntityManager;
@@ -40,8 +40,8 @@ class BirthdayCafeLikeServiceTest extends ServiceTest {
             birthdayCafeLikeService.like(birthdayCafeId, loginMember);
 
             // then
-            BirthdayCafeLike birthdayCafeLike = entityManager.find(BirthdayCafeLike.class, 1L);
-            assertThat(birthdayCafeLike.getBirthdayCafeId()).isEqualTo(1L);
+            Like birthdayCafeLike = entityManager.find(Like.class, 1L);
+            assertThat(birthdayCafeLike.getTarget().getTargetId()).isEqualTo(1L);
             assertThat(birthdayCafeLike.getVisitantId()).isEqualTo(1L);
         }
 

@@ -8,13 +8,13 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "likes", uniqueConstraints = {@UniqueConstraint(
-        name = "uc_like_target", columnNames = {"targetId", "targetType"})})
+        name = "uc_like_target", columnNames = {"visitantId", "targetId", "targetType"})})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Like extends BaseEntity {
 
     @Column(nullable = false)
-    private Long memberId;
+    private Long visitantId;
 
     @Embedded
     private LikeTarget target;
@@ -24,8 +24,8 @@ public class Like extends BaseEntity {
         return new Like(memberId, target);
     }
 
-    private Like(Long memberId, LikeTarget target) {
-        this.memberId = memberId;
+    private Like(Long visitantId, LikeTarget target) {
+        this.visitantId = visitantId;
         this.target = target;
     }
 }

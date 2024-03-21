@@ -2,7 +2,6 @@ package com.birca.bircabackend.command.birca.domain;
 
 import com.birca.bircabackend.command.birca.domain.value.*;
 import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
-import com.birca.bircabackend.command.like.domain.BirthdayCafeLike;
 import com.birca.bircabackend.common.exception.BusinessException;
 import com.navercorp.fixturemonkey.FixtureMonkey;
 import com.navercorp.fixturemonkey.api.introspector.FieldReflectionArbitraryIntrospector;
@@ -135,46 +134,6 @@ class BirthdayCafeTest {
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.INVALID_CANCEL_RENTAL);
-        }
-    }
-
-    @Nested
-    @DisplayName("생일 카페 찜하기를")
-    class BirthdayCafeLikeTest {
-
-        @ParameterizedTest
-        @EnumSource(mode = EXCLUDE, names = {"RENTAL_PENDING", "RENTAL_CANCELED"})
-        void 누른다(ProgressState progressState) {
-            // given
-            Long visitantId = 1L;
-            BirthdayCafe birthdayCafe = fixtureMonkey.giveMeBuilder(BirthdayCafe.class)
-                    .set("hostId", HOST_ID)
-                    .set("progressState", progressState)
-                    .sample();
-
-            // when
-            BirthdayCafeLike birthdayCafeLike = birthdayCafe.like(visitantId);
-
-            // then
-            assertThat(birthdayCafeLike.getBirthdayCafeId()).isEqualTo(birthdayCafe.getId());
-            assertThat(birthdayCafeLike.getVisitantId()).isEqualTo(1L);
-        }
-
-        @ParameterizedTest
-        @EnumSource(mode = INCLUDE, names = {"RENTAL_PENDING", "RENTAL_CANCELED"})
-        void 대관_대기_상태나_취소_상태의_생일_카페는_누를_수_없다(ProgressState progressState) {
-            // given
-            Long visitantId = 1L;
-            BirthdayCafe birthdayCafe = fixtureMonkey.giveMeBuilder(BirthdayCafe.class)
-                    .set("hostId", HOST_ID)
-                    .set("progressState", progressState)
-                    .sample();
-
-            // when then
-            assertThatThrownBy(() -> birthdayCafe.like(visitantId))
-                    .isInstanceOf(BusinessException.class)
-                    .extracting("errorCode")
-                    .isEqualTo(BirthdayCafeErrorCode.INVALID_LIKE_REQUEST);
         }
     }
 
