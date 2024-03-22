@@ -12,10 +12,10 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Sql("/fixture/birthday-cafe-like-query-fixture.sql")
-class BirthdayCafeLikeQueryServiceTest extends ServiceTest {
+class LikedBirthdayCafeQueryServiceTest extends ServiceTest {
 
     @Autowired
-    private BirthdayCafeLikeQueryService birthdayCafeLikeQueryService;
+    private LikedBirthdayCafeQueryService likedBirthdayCafeQueryService;
 
     @Test
     void 찜한_생일_카페_목록을_조회한다() {
@@ -23,7 +23,7 @@ class BirthdayCafeLikeQueryServiceTest extends ServiceTest {
         Long visitantId = 1L;
 
         // when
-        List<BirthdayCafeLikeResponse> actual = birthdayCafeLikeQueryService.findLikedBirthdayCafes(visitantId);
+        List<BirthdayCafeLikeResponse> actual = likedBirthdayCafeQueryService.findLikedBirthdayCafes(visitantId);
 
         // then
         assertThat(actual).containsExactly(

@@ -129,13 +129,6 @@ public class BirthdayCafe extends BaseEntity {
         this.visibility = visibility;
     }
 
-    public BirthdayCafeLike like(Long visitantId) {
-        if (progressState.isRentalPending() || progressState.isRentalCanceled()) {
-            throw BusinessException.from(INVALID_LIKE_REQUEST);
-        }
-        return new BirthdayCafeLike(this.getId(), visitantId);
-    }
-
     public void replaceSpecialGoods(Long memberId, List<SpecialGoods> specialGoods) {
         validateIsHost(memberId);
         if (!progressState.isInProgress() && !progressState.isRentalApproved()) {

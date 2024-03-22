@@ -1,4 +1,4 @@
-package com.birca.bircabackend.command.birca.presentation;
+package com.birca.bircabackend.command.like.presentation;
 
 import com.birca.bircabackend.support.enviroment.DocumentationTest;
 import org.junit.jupiter.api.Test;

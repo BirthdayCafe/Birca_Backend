@@ -1,8 +1,8 @@
-package com.birca.bircabackend.command.birca.presentation;
+package com.birca.bircabackend.command.like.presentation;
 
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.auth.authorization.RequiredLogin;
-import com.birca.bircabackend.command.birca.application.BirthdayCafeLikeService;
+import com.birca.bircabackend.command.like.application.BirthdayCafeLikeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
