@@ -2,6 +2,7 @@ package com.birca.bircabackend.command.like.application;
 
 import com.birca.bircabackend.command.birca.domain.BirthdayCafe;
 import com.birca.bircabackend.command.birca.domain.value.ProgressState;
+import com.birca.bircabackend.command.like.domain.Like;
 import com.birca.bircabackend.command.like.domain.LikeTarget;
 import com.birca.bircabackend.command.like.domain.LikeValidator;
 import com.birca.bircabackend.common.EntityUtil;
@@ -19,7 +20,8 @@ public class BirthdayCafeLikeValidator implements LikeValidator {
     private final EntityUtil entityUtil;
 
     @Override
-    public void validate(LikeTarget target) {
+    public void validate(Like like) {
+        LikeTarget target = like.getTarget();
         BirthdayCafe birthdayCafe = entityUtil.getEntity(BirthdayCafe.class, target.getTargetId(), NOT_FOUND);
         ProgressState progressState = birthdayCafe.getProgressState();
         if (progressState.isRentalPending() || progressState.isRentalCanceled()) {

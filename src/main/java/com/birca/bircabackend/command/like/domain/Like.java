@@ -22,7 +22,8 @@ public class Like extends BaseEntity {
     private LikeTarget target;
 
     public static Like create(Long memberId, LikeTarget target, LikeValidator validator) {
-        validator.validate(target);
-        return new Like(memberId, target);
+        Like like = new Like(memberId, target);
+        validator.validate(like);
+        return like;
     }
 }

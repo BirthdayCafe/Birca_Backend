@@ -2,6 +2,7 @@ package com.birca.bircabackend.command.like.application;
 
 import com.birca.bircabackend.command.birca.domain.BirthdayCafe;
 import com.birca.bircabackend.command.birca.domain.value.ProgressState;
+import com.birca.bircabackend.command.like.domain.Like;
 import com.birca.bircabackend.command.like.domain.LikeTarget;
 import com.birca.bircabackend.command.like.domain.LikeTargetType;
 import com.birca.bircabackend.command.like.exception.LikeErrorCode;
@@ -44,6 +45,9 @@ class BirthdayCafeLikeValidatorTest {
 
         private static final Long TARGET_ID = 1L;
         private static final LikeTarget LIKE_TARGET = new LikeTarget(TARGET_ID, LikeTargetType.BIRTHDAY_CAFE);
+        private static final Like LIKE = fixtureMonkey.giveMeBuilder(Like.class)
+                .set("target", LIKE_TARGET)
+                .sample();
 
         @ParameterizedTest
         @EnumSource(mode = EXCLUDE, names = {"RENTAL_PENDING", "RENTAL_CANCELED"})
@@ -57,7 +61,7 @@ class BirthdayCafeLikeValidatorTest {
                     .willReturn(birthdayCafe);
 
             // when then
-            assertDoesNotThrow(() -> likeValidator.validate(LIKE_TARGET));
+            assertDoesNotThrow(() -> likeValidator.validate(LIKE));
         }
 
         @ParameterizedTest
@@ -72,7 +76,7 @@ class BirthdayCafeLikeValidatorTest {
                     .willReturn(birthdayCafe);
 
             // when then
-            assertThatThrownBy(() -> likeValidator.validate(LIKE_TARGET))
+            assertThatThrownBy(() -> likeValidator.validate(LIKE))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(LikeErrorCode.INVALID_BIRTHDAY_CAFE_LIKE);

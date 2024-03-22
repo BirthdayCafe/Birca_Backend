@@ -35,7 +35,7 @@ class LikeTest {
             assertAll(
                     () -> assertThat(like.getVisitantId()).isEqualTo(MEMBER_ID),
                     () -> assertThat(like.getTarget()).isEqualTo(TARGET),
-                    () -> verify(likeValidator).validate(TARGET)
+                    () -> verify(likeValidator).validate(like)
             );
 
 
@@ -45,13 +45,13 @@ class LikeTest {
         void 예외를_발생시키면_생성하지_못한다() {
             // given
             doThrow(BusinessException.class)
-                    .when(likeValidator).validate(TARGET);
+                    .when(likeValidator).validate(any());
 
             // when then
             assertAll(
                     () -> assertThatThrownBy(() -> Like.create(MEMBER_ID, TARGET, likeValidator))
                             .isInstanceOf(BusinessException.class),
-                    () -> verify(likeValidator).validate(TARGET)
+                    () -> verify(likeValidator).validate(any())
             );
         }
     }
