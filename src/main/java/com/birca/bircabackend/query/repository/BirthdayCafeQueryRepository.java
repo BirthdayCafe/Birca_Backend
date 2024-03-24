@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface BirthdayCafeQueryRepository extends Repository<BirthdayCafe, Long> {
+public interface BirthdayCafeQueryRepository extends Repository<BirthdayCafe, Long>, BirthdayCafeDynamicRepository {
 
     @Query("select bc.specialGoods from BirthdayCafe bc where bc.id = :id")
     List<SpecialGoods> findSpecialGoodsById(Long id);
