@@ -46,6 +46,9 @@ public class BirthdayCafeQueryService {
 
     public List<BirthdayCafeResponse> findBirthdayCafes(BirthdayCafeParams birthdayCafeParams,
                                                         PagingParams pagingParams) {
-        return null;
+        return birthdayCafeQueryRepository.findByParams(birthdayCafeParams, pagingParams)
+                .stream()
+                .map(BirthdayCafeResponse::from)
+                .toList();
     }
 }
