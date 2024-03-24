@@ -32,9 +32,9 @@ INSERT INTO birthday_cafe
 VALUES (1, null, 1, 1, 1, 3, '2024-02-08T00:00:00', '2024-02-10T00:00:00', 5, 10, '@ChaseM', '010-0000-0000',
         'RENTAL_PENDING', 'PRIVATE', 'SMOOTH', 'ABUNDANT'), -- 주최자1의 대관 대기 카페
        (2, '윈터의 생일 카페', 1, 3, 1, 3, '2024-02-08T00:00:00', '2024-02-10T00:00:00', 5, 10, '@ChaseM', '010-0000-0000', 'IN_PROGRESS',
-        'PRIVATE', 'SMOOTH', 'ABUNDANT'), -- 주최자1의 진행 중 카페
+        'PUBLIC', 'SMOOTH', 'ABUNDANT'), -- 주최자1의 진행 중 카페
        (3, null, 2, 1, 1, 3, '2024-02-08T00:00:00', '2024-02-10T00:00:00', 5, 10, '@ChaseM', '010-0000-0000', 'IN_PROGRESS',
-        'PRIVATE', 'SMOOTH', 'ABUNDANT'); -- 주최자 2의 진행 중 카페
+        'PUBLIC', 'SMOOTH', 'ABUNDANT'); -- 주최자 2의 진행 중 카페
 
 
 -- 주최자1의 진행 중 생일 카페 특전, 메뉴, 럭키 드로우

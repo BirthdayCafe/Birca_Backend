@@ -91,4 +91,22 @@ public class BirthdayCafeQueryAcceptanceTest extends AcceptanceTest {
                 () -> assertThat(response.jsonPath().getList(".")).hasSize(2)
         );
     }
+
+    @Test
+    void 방문자가_생일_카페_목록을_조회한다() {
+        // when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .when()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(HOST_ID))
+                .get("/api/v1/birthday-cafes")
+                .then().log().all()
+                .extract();
+
+        // then
+        assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
+                () -> assertThat(response.jsonPath().getList(".")).hasSize(2)
+        );
+    }
 }
