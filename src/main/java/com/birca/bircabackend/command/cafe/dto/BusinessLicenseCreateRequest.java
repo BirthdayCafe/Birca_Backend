@@ -1,6 +1,5 @@
 package com.birca.bircabackend.command.cafe.dto;
 
-import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.cafe.domain.BusinessLicense;
 import com.birca.bircabackend.command.cafe.domain.BusinessLicenseCode;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,13 +11,15 @@ public record BusinessLicenseCreateRequest(
         String owner,
         String address
 ) {
-    public BusinessLicense toBusinessLicense(LoginMember loginMember, BusinessLicenseCode businessLicenseCode) {
+
+    public BusinessLicense toBusinessLicense(Long ownerId, BusinessLicenseCode businessLicenseCode, String imageUrl) {
         return BusinessLicense.createBusinessLicense(
-                loginMember.id(),
+                ownerId,
                 owner,
                 cafeName,
                 businessLicenseCode,
                 address,
-                businessLicense.getOriginalFilename());
+                imageUrl
+        );
     }
 }

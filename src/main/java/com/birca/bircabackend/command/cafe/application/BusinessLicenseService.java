@@ -1,6 +1,5 @@
 package com.birca.bircabackend.command.cafe.application;
 
-import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.cafe.domain.BusinessLicense;
 import com.birca.bircabackend.command.cafe.domain.BusinessLicenseCode;
 import com.birca.bircabackend.command.cafe.domain.BusinessLicenseRepository;
@@ -19,10 +18,10 @@ public class BusinessLicenseService {
 
     private final BusinessLicenseRepository businessLicenseRepository;
 
-    public void saveBusinessLicense(LoginMember loginMember, BusinessLicenseCreateRequest request) {
+    public void saveBusinessLicense(Long ownerId, BusinessLicenseCreateRequest request, String imageUrl) {
         BusinessLicenseCode businessLicenseCode = BusinessLicenseCode.from(request.businessLicenseNumber());
         checkDuplicateBusinessLicenseCode(businessLicenseCode);
-        BusinessLicense businessLicense = request.toBusinessLicense(loginMember, businessLicenseCode);
+        BusinessLicense businessLicense = request.toBusinessLicense(ownerId, businessLicenseCode, imageUrl);
         businessLicenseRepository.save(businessLicense);
     }
 
