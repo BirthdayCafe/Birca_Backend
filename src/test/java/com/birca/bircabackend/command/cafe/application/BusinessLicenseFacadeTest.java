@@ -4,8 +4,6 @@ import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.cafe.dto.BusinessLicenseCreateRequest;
 import com.birca.bircabackend.command.cafe.dto.BusinessLicenseResponse;
 import com.birca.bircabackend.support.enviroment.ServiceTest;
-import com.navercorp.fixturemonkey.FixtureMonkey;
-import com.navercorp.fixturemonkey.api.introspector.ConstructorPropertiesArbitraryIntrospector;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
