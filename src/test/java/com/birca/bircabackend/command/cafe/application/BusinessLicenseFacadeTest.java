@@ -1,9 +1,13 @@
 package com.birca.bircabackend.command.cafe.application;
 
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
+import com.birca.bircabackend.command.cafe.domain.BusinessLicense;
+import com.birca.bircabackend.command.cafe.domain.BusinessLicenseCode;
 import com.birca.bircabackend.command.cafe.dto.BusinessLicenseCreateRequest;
 import com.birca.bircabackend.command.cafe.dto.BusinessLicenseResponse;
 import com.birca.bircabackend.support.enviroment.ServiceTest;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -13,6 +17,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -22,6 +27,9 @@ class BusinessLicenseFacadeTest extends ServiceTest {
 
     @Autowired
     private BusinessLicenseFacade businessLicenseFacade;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Nested
     @DisplayName("사업자등록증을")
@@ -52,9 +60,17 @@ class BusinessLicenseFacadeTest extends ServiceTest {
 
             // when
             businessLicenseFacade.saveBusinessLicense(LOGIN_MEMBER, request);
+            BusinessLicense actual = entityManager.find(BusinessLicense.class, LOGIN_MEMBER.id());
 
             // then
             verify(imageUploader, times(1)).upload(any());
+            assertAll(
+                    () -> assertThat(actual.getCafeName()).isEqualTo("STARBUCKS"),
+                    () -> assertThat(actual.getAddress()).isEqualTo("서울 중앙로 212 빌딩 1층"),
+                    () -> assertThat(actual.getOwnerName()).isEqualTo("최민혁"),
+                    () -> assertThat(actual.getCode()).isEqualTo(BusinessLicenseCode.from("123-45-67890")),
+                    () -> assertThat(actual.getImageUrl()).isEqualTo("https://s3.ap-northeast-2.amazonaws.com/fileupload/image/example.png")
+            );
         }
     }
 }
