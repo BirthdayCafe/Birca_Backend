@@ -11,6 +11,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.birca.bircabackend.command.artist.domain.QArtist.artist;
@@ -30,6 +31,8 @@ public class BirthdayCafeDynamicRepositoryImpl implements BirthdayCafeDynamicRep
     public List<BirthdayCafeView> findByBirthdayCafes(Long visitantId,
                                                       BirthdayCafeParams birthdayCafeParams,
                                                       PagingParams pagingParams) {
+        Long cursor = pagingParams.getCursor();
+        LocalDateTime cursorStartDate = findCursorStartDate(cursor);
         return queryFactory.select(Projections.constructor(BirthdayCafeView.class,
                         birthdayCafe, birthdayCafeImage, artist, artistGroup, like))
                 .from(birthdayCafe)
@@ -53,8 +56,19 @@ public class BirthdayCafeDynamicRepositoryImpl implements BirthdayCafeDynamicRep
                         .and(() -> birthdayCafe.progressState.eq(ProgressState.valueOf(birthdayCafeParams.getProgressState())))
                         .and(() -> birthdayCafe.artistId.eq(birthdayCafeParams.getArtistId()))
                         .and(() -> birthdayCafe.cafeId.eq(birthdayCafeParams.getCafeId()))
+                        .and(() -> birthdayCafe.schedule.startDate.eq(cursorStartDate).and(birthdayCafe.id.gt(cursor))
+                                .or(birthdayCafe.schedule.startDate.gt(cursorStartDate)))
                         .build()
                 )
+                .orderBy(birthdayCafe.schedule.startDate.asc(), birthdayCafe.id.asc())
+                .limit(pagingParams.getSize())
                 .fetch();
+    }
+
+    private LocalDateTime findCursorStartDate(Long cursor) {
+        return queryFactory.select(birthdayCafe.schedule.startDate)
+                .from(birthdayCafe)
+                .where(birthdayCafe.id.eq(cursor))
+                .fetchOne();
     }
 }

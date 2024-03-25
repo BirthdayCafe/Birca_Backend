@@ -118,7 +118,8 @@ class BirthdayCafeQueryServiceTest extends ServiceTest {
         @Test
         void 실시간_생일_카페만_조회한다() {
             // given
-            birthdayCafeParams.setProgressState("IN_PROGRESS");
+            String progressState = "IN_PROGRESS";
+            birthdayCafeParams.setProgressState(progressState);
 
             // when
             List<BirthdayCafeResponse> actual = birthdayCafeQueryService.findBirthdayCafes(
@@ -135,7 +136,8 @@ class BirthdayCafeQueryServiceTest extends ServiceTest {
         @Test
         void 특정_아티스트의_카페만_조회한다() {
             // given
-            birthdayCafeParams.setArtistId(3L);
+            long artistId = 3L;
+            birthdayCafeParams.setArtistId(artistId);
 
             // when
             List<BirthdayCafeResponse> actual = birthdayCafeQueryService.findBirthdayCafes(
@@ -152,7 +154,8 @@ class BirthdayCafeQueryServiceTest extends ServiceTest {
         @Test
         void 특정_카페에서_진행_되는_생일_카페만_조회한다() {
             // given
-            birthdayCafeParams.setCafeId(1L);
+            long cafeId = 1L;
+            birthdayCafeParams.setCafeId(cafeId);
 
             // when
             List<BirthdayCafeResponse> actual = birthdayCafeQueryService.findBirthdayCafes(
@@ -163,6 +166,42 @@ class BirthdayCafeQueryServiceTest extends ServiceTest {
                     () -> assertThat(actual)
                             .map(BirthdayCafeResponse::birthdayCafeId)
                             .containsExactly(2L, 3L, 5L)
+            );
+        }
+
+        @Test
+        void 지정한_개수만큼_조회한다() {
+            // given
+            int size = 3;
+            pagingParams.setSize(size);
+
+            // when
+            List<BirthdayCafeResponse> actual = birthdayCafeQueryService.findBirthdayCafes(
+                    birthdayCafeParams, pagingParams, new LoginMember(VISITANT_ID));
+
+            // then
+            assertAll(
+                    () -> assertThat(actual)
+                            .map(BirthdayCafeResponse::birthdayCafeId)
+                            .containsExactly(2L, 3L, 4L)
+            );
+        }
+
+        @Test
+        void 커서_이후로_조회한다() {
+            // given
+            long cursor = 3L;
+            pagingParams.setCursor(cursor);
+
+            // when
+            List<BirthdayCafeResponse> actual = birthdayCafeQueryService.findBirthdayCafes(
+                    birthdayCafeParams, pagingParams, new LoginMember(VISITANT_ID));
+
+            // then
+            assertAll(
+                    () -> assertThat(actual)
+                            .map(BirthdayCafeResponse::birthdayCafeId)
+                            .containsExactly(4L, 5L, 6L)
             );
         }
     }
