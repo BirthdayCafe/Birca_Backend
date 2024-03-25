@@ -176,7 +176,7 @@ class BirthdayCafeQueryControllerTest extends DocumentationTest {
         birthdayCafeParams.setCafeId(cafeId);
         birthdayCafeParams.setArtistId(artistId);
         birthdayCafeParams.setProgressState(progressState);
-        given(birthdayCafeQueryService.findBirthdayCafes(birthdayCafeParams, pagingParams))
+        given(birthdayCafeQueryService.findBirthdayCafes(birthdayCafeParams, pagingParams, new LoginMember(1L)))
                 .willReturn(List.of(
                         new BirthdayCafeResponse(
                                 1L,

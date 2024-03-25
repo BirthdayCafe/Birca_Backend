@@ -1,10 +1,7 @@
 package com.birca.bircabackend.query.service;
 
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
-import com.birca.bircabackend.query.dto.LuckyDrawResponse;
-import com.birca.bircabackend.query.dto.MenuResponse;
-import com.birca.bircabackend.query.dto.MyBirthdayCafeResponse;
-import com.birca.bircabackend.query.dto.SpecialGoodsResponse;
+import com.birca.bircabackend.query.dto.*;
 import com.birca.bircabackend.support.enviroment.ServiceTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -16,12 +13,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @Sql("/fixture/birthday-cafe-fixture.sql")
 class BirthdayCafeQueryServiceTest extends ServiceTest {
 
     private static final Long BIRTHDAY_CAFE_ID = 2L;
     private static final Long HOST_ID = 1L;
+    private static final Long VISITANT_ID = 4L;
 
     @Autowired
     private BirthdayCafeQueryService birthdayCafeQueryService;
@@ -97,6 +96,38 @@ class BirthdayCafeQueryServiceTest extends ServiceTest {
                             "RENTAL_PENDING",
                             new MyBirthdayCafeResponse.ArtistResponse(null, "아이유")
                     )
+            );
+        }
+    }
+
+    @Nested
+    @DisplayName("방문자가 생일 카페 목록을")
+    class GetBirthdayCafesTest {
+
+        private final BirthdayCafeParams birthdayCafeParams = new BirthdayCafeParams();
+        private final PagingParams pagingParams = new PagingParams();
+
+        @Test
+        void 공개된_것만_전부_조회한다() {
+            // when
+            List<BirthdayCafeResponse> actual = birthdayCafeQueryService.findBirthdayCafes(
+                    birthdayCafeParams, pagingParams, new LoginMember(VISITANT_ID));
+
+            // then
+            assertAll(
+                    () -> assertThat(actual)
+                            .map(BirthdayCafeResponse::birthdayCafeId)
+                            .containsExactly(2L, 3L),
+                    () -> assertThat(actual.get(0))
+                            .isEqualTo(new BirthdayCafeResponse(
+                                    2L,
+                                    "winter-cafe-main-image.com",
+                                    LocalDateTime.of(2024, 2, 8, 0, 0, 0),
+                                    LocalDateTime.of(2024, 2, 10, 0, 0, 0),
+                                    "윈터의 생일 카페",
+                                    false,
+                                    new BirthdayCafeResponse.ArtistResponse("에스파", "윈터")
+                            ))
             );
         }
     }

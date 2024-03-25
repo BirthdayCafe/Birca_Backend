@@ -8,5 +8,7 @@ import java.util.List;
 
 public interface BirthdayCafeDynamicRepository {
 
-    List<BirthdayCafeView> findByParams(BirthdayCafeParams birthdayCafeParams, PagingParams pagingParams);
+    List<BirthdayCafeView> findByBirthdayCafes(Long visitantId,
+                                               BirthdayCafeParams birthdayCafeParams,
+                                               PagingParams pagingParams);
 }

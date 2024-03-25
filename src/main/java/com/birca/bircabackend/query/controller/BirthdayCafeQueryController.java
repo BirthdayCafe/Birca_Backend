@@ -44,7 +44,8 @@ public class BirthdayCafeQueryController {
     @GetMapping("/v1/birthday-cafes")
     @RequiredLogin
     public ResponseEntity<List<BirthdayCafeResponse>> findBirthdayCafes(@ModelAttribute BirthdayCafeParams birthdayCafeParams,
-                                                                        @ModelAttribute PagingParams pagingParams) {
-        return ResponseEntity.ok(birthdayCafeQueryService.findBirthdayCafes(birthdayCafeParams, pagingParams));
+                                                                        @ModelAttribute PagingParams pagingParams,
+                                                                        LoginMember loginMember) {
+        return ResponseEntity.ok(birthdayCafeQueryService.findBirthdayCafes(birthdayCafeParams, pagingParams, loginMember));
     }
 }
