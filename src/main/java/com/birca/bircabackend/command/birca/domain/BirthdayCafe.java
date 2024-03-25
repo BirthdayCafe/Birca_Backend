@@ -12,6 +12,7 @@ import java.util.List;
 import static com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode.*;
 
 @Entity
+@Table(indexes = @Index(name = "idx_start_date", columnList = "startDate"))
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder(access = AccessLevel.PRIVATE)
