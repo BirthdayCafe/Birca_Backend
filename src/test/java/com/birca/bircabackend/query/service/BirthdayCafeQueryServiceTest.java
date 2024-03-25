@@ -108,7 +108,7 @@ class BirthdayCafeQueryServiceTest extends ServiceTest {
         private final PagingParams pagingParams = new PagingParams();
 
         @Test
-        void 공개된_것만_전부_조회한다() {
+        void 공개된_것만_시작일_순으로_조회한다() {
             // when
             List<BirthdayCafeResponse> actual = birthdayCafeQueryService.findBirthdayCafes(
                     birthdayCafeParams, pagingParams, new LoginMember(VISITANT_ID));
@@ -129,6 +129,19 @@ class BirthdayCafeQueryServiceTest extends ServiceTest {
                                     new BirthdayCafeResponse.ArtistResponse("에스파", "윈터")
                             ))
             );
+        }
+
+        @Test
+        void 찜한_생일_카페는_true로_표시한다() {
+            // when
+            List<BirthdayCafeResponse> actual = birthdayCafeQueryService.findBirthdayCafes(
+                    birthdayCafeParams, pagingParams, new LoginMember(VISITANT_ID));
+
+            // then
+            assertThat(actual)
+                    .filteredOn(BirthdayCafeResponse::isLiked)
+                    .map(BirthdayCafeResponse::birthdayCafeId)
+                    .containsExactly(3L);
         }
     }
 }
