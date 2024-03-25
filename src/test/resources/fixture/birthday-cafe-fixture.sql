@@ -70,7 +70,8 @@ VALUES (1, 4, 'winter-cafe-default-image', false),
 
 -- 방문자(id=4)가 누른 찜
 INSERT INTO likes (visitant_id, target_id, target_type)
-VALUES (4, 3, 'BIRTHDAY_CAFE');
+VALUES (4, 3, 'BIRTHDAY_CAFE'),
+       (4, 6, 'BIRTHDAY_CAFE');
 
 SET
 foreign_key_checks = 1;

@@ -112,7 +112,7 @@ class BirthdayCafeQueryServiceTest extends ServiceTest {
             assertThat(actual)
                     .filteredOn(BirthdayCafeResponse::isLiked)
                     .map(BirthdayCafeResponse::birthdayCafeId)
-                    .containsExactly(3L);
+                    .containsExactly(3L, 6L);
         }
 
         @Test
