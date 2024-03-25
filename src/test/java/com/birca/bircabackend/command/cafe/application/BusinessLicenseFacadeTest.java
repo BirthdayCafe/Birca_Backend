@@ -33,9 +33,6 @@ class BusinessLicenseFacadeTest extends ServiceTest {
         private static final MockMultipartFile BUSINESS_LICENSE = new MockMultipartFile(
                 "businessLicense", "businessLicense".getBytes(UTF_8)
         );
-        private static final FixtureMonkey fixtureMonkey = FixtureMonkey.builder()
-                .objectIntrospector(ConstructorPropertiesArbitraryIntrospector.INSTANCE)
-                .build();
 
         @Test
         void 스캔하고_업로드_횟수를_증가시킨다() {
@@ -50,11 +47,10 @@ class BusinessLicenseFacadeTest extends ServiceTest {
         @Test
         void 저장한다() {
             // given
-            BusinessLicenseCreateRequest request = fixtureMonkey.giveMeBuilder(BusinessLicenseCreateRequest.class)
-                    .set("businessLicense", BUSINESS_LICENSE)
-                    .set("businessLicenseNumber", "123-45-67890")
-                    .build()
-                    .sample();
+            BusinessLicenseCreateRequest request =
+                    new BusinessLicenseCreateRequest(
+                            BUSINESS_LICENSE, "STARBUCKS", "123-45-67890", "최민혁", "서울 중앙로 212 빌딩 1층"
+                    );
 
             // when
             businessLicenseFacade.saveBusinessLicense(LOGIN_MEMBER, request);
