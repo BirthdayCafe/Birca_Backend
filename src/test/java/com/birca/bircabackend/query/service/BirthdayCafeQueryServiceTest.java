@@ -148,5 +148,22 @@ class BirthdayCafeQueryServiceTest extends ServiceTest {
                             .containsExactly(4L, 5L)
             );
         }
+
+        @Test
+        void 특정_카페에서_진행_되는_생일_카페만_조회한다() {
+            // given
+            birthdayCafeParams.setCafeId(1L);
+
+            // when
+            List<BirthdayCafeResponse> actual = birthdayCafeQueryService.findBirthdayCafes(
+                    birthdayCafeParams, pagingParams, new LoginMember(VISITANT_ID));
+
+            // then
+            assertAll(
+                    () -> assertThat(actual)
+                            .map(BirthdayCafeResponse::birthdayCafeId)
+                            .containsExactly(2L, 3L, 5L)
+            );
+        }
     }
 }
