@@ -34,7 +34,7 @@ class BirthdayCafeServiceTest extends ServiceTest {
     private static final long CAFE2_ID = 2L;
 
     private static final Long PENDING_BIRTHDAY_CAFE_ID = 1L;
-    private static final Long IN_PROGRESS_BIRTHDAY_CAFE_ID = 2L;
+    private static final Long IN_PROGRESS_BIRTHDAY_CAFE_ID = 4L;
 
     private static final ApplyRentalRequest VALID_REQUEST = new ApplyRentalRequest(
             ARTIST_ID,
@@ -230,7 +230,7 @@ class BirthdayCafeServiceTest extends ServiceTest {
     @Nested
     @DisplayName("생일 카페 상태에서")
     class ChangeStateTest {
-        private final Long inProgressCafeId = 2L;
+        private final Long inProgressCafeId = 4L;
 
         @Test
         void 특전_재고_상태를_변경한다() {

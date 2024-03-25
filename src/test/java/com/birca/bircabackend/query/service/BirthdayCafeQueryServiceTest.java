@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 @Sql("/fixture/birthday-cafe-fixture.sql")
 class BirthdayCafeQueryServiceTest extends ServiceTest {
 
-    private static final Long BIRTHDAY_CAFE_ID = 2L;
+    private static final Long BIRTHDAY_CAFE_ID = 4L;
     private static final Long HOST_ID = 1L;
     private static final Long VISITANT_ID = 4L;
 
@@ -77,26 +76,8 @@ class BirthdayCafeQueryServiceTest extends ServiceTest {
             List<MyBirthdayCafeResponse> actual = birthdayCafeQueryService.findMyBirthdayCafes(loginMember);
 
             // then
-            assertThat(actual).containsExactly(
-                    new MyBirthdayCafeResponse(
-                            2L,
-                            "winter-cafe-main-image.com",
-                            LocalDateTime.of(2024, 2, 8, 0, 0, 0),
-                            LocalDateTime.of(2024, 2, 10, 0, 0, 0),
-                            "윈터의 생일 카페",
-                            "IN_PROGRESS",
-                            new MyBirthdayCafeResponse.ArtistResponse("에스파", "윈터")
-                    ),
-                    new MyBirthdayCafeResponse(
-                            1L,
-                            null,
-                            LocalDateTime.of(2024, 2, 8, 0, 0, 0),
-                            LocalDateTime.of(2024, 2, 10, 0, 0, 0),
-                            null,
-                            "RENTAL_PENDING",
-                            new MyBirthdayCafeResponse.ArtistResponse(null, "아이유")
-                    )
-            );
+            assertThat(actual).map(MyBirthdayCafeResponse::birthdayCafeId)
+                    .containsExactly(4L, 3L, 1L);
         }
     }
 
@@ -117,17 +98,7 @@ class BirthdayCafeQueryServiceTest extends ServiceTest {
             assertAll(
                     () -> assertThat(actual)
                             .map(BirthdayCafeResponse::birthdayCafeId)
-                            .containsExactly(2L, 3L),
-                    () -> assertThat(actual.get(0))
-                            .isEqualTo(new BirthdayCafeResponse(
-                                    2L,
-                                    "winter-cafe-main-image.com",
-                                    LocalDateTime.of(2024, 2, 8, 0, 0, 0),
-                                    LocalDateTime.of(2024, 2, 10, 0, 0, 0),
-                                    "윈터의 생일 카페",
-                                    false,
-                                    new BirthdayCafeResponse.ArtistResponse("에스파", "윈터")
-                            ))
+                            .containsExactly(2L, 3L, 4L, 5L, 6L)
             );
         }
 

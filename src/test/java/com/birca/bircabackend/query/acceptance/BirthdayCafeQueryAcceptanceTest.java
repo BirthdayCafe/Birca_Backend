@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 public class BirthdayCafeQueryAcceptanceTest extends AcceptanceTest {
 
     private static final Long HOST_ID = 1L;
-    private static final Long BIRTHDAY_CAFE_ID = 2L;
+    private static final Long BIRTHDAY_CAFE_ID = 4L;
 
     @Test
     void 생일_카페_특전_목록을_조회한다() {
@@ -88,7 +88,7 @@ public class BirthdayCafeQueryAcceptanceTest extends AcceptanceTest {
         // then
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
-                () -> assertThat(response.jsonPath().getList(".")).hasSize(2)
+                () -> assertThat(response.jsonPath().getList(".")).hasSize(3)
         );
     }
 
@@ -106,7 +106,7 @@ public class BirthdayCafeQueryAcceptanceTest extends AcceptanceTest {
         // then
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
-                () -> assertThat(response.jsonPath().getList(".")).hasSize(2)
+                () -> assertThat(response.jsonPath().getList(".")).hasSize(5)
         );
     }
 }
