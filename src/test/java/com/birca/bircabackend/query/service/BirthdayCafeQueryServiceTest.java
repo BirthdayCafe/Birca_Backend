@@ -103,7 +103,7 @@ class BirthdayCafeQueryServiceTest extends ServiceTest {
         }
 
         @Test
-        void 찜한_생일_카페는_true로_표시한다() {
+        void 조회_시_찜한_생일_카페는_true로_표시한다() {
             // when
             List<BirthdayCafeResponse> actual = birthdayCafeQueryService.findBirthdayCafes(
                     birthdayCafeParams, pagingParams, new LoginMember(VISITANT_ID));
@@ -129,6 +129,23 @@ class BirthdayCafeQueryServiceTest extends ServiceTest {
                     () -> assertThat(actual)
                             .map(BirthdayCafeResponse::birthdayCafeId)
                             .containsExactly(4L, 6L)
+            );
+        }
+
+        @Test
+        void 특정_아티스트의_카페만_조회한다() {
+            // given
+            birthdayCafeParams.setArtistId(3L);
+
+            // when
+            List<BirthdayCafeResponse> actual = birthdayCafeQueryService.findBirthdayCafes(
+                    birthdayCafeParams, pagingParams, new LoginMember(VISITANT_ID));
+
+            // then
+            assertAll(
+                    () -> assertThat(actual)
+                            .map(BirthdayCafeResponse::birthdayCafeId)
+                            .containsExactly(4L, 5L)
             );
         }
     }

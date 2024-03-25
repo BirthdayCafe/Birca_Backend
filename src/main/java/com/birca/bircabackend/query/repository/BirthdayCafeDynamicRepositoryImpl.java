@@ -51,6 +51,7 @@ public class BirthdayCafeDynamicRepositoryImpl implements BirthdayCafeDynamicRep
                 .where(birthdayCafe.visibility.eq(Visibility.PUBLIC))
                 .where(DynamicBooleanBuilder.builder()
                         .and(() -> birthdayCafe.progressState.eq(ProgressState.valueOf(birthdayCafeParams.getProgressState())))
+                        .and(() -> birthdayCafe.artistId.eq(birthdayCafeParams.getArtistId()))
                         .build()
                 )
                 .fetch();
