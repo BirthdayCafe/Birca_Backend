@@ -1,6 +1,5 @@
 package com.birca.bircabackend.command.cafe.application;
 
-import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.cafe.domain.BusinessLicense;
 import com.birca.bircabackend.command.cafe.dto.BusinessLicenseCreateRequest;
 import com.birca.bircabackend.common.EntityUtil;
@@ -35,15 +34,20 @@ class BusinessLicenseServiceTest extends ServiceTest {
     @DisplayName("사업자등록증 저장 시")
     class saveBusinessLicenseTest {
 
+        private static final Long OWNER_ID = 1L;
+        private static final String IMAGE_URL = "image.com";
+        private static final MockMultipartFile BUSINESS_LICENSE =
+                new MockMultipartFile("businessLicense", "businessLicense.pdf",
+                        "application/pdf", "businessLicense".getBytes(UTF_8)
+                );
+
         @Test
         void 정상적으로_저장한다() {
             // given
-            MockMultipartFile businessLicense = createMockMultipartFile();
-            BusinessLicenseCreateRequest request = createBusinessLicenseCreateRequest(businessLicense,
-                    "123-45-67890");
+            BusinessLicenseCreateRequest request = createBusinessLicenseCreateRequest("123-45-67890");
 
             // when
-            businessLicenseService.saveBusinessLicense(new LoginMember(1L), request);
+            businessLicenseService.saveBusinessLicense(OWNER_ID, request, IMAGE_URL);
             EntityUtil entityUtil = new EntityUtil(entityManager);
             BusinessLicense findBusinessLicense = entityUtil
                     .getEntity(BusinessLicense.class, 1L, BUSINESS_LICENSE_NOT_FOUND);
@@ -60,47 +64,34 @@ class BusinessLicenseServiceTest extends ServiceTest {
         @Test
         void 이미_등록된_사업자등록증이면_예외가_발생한다() {
             // given
-            LoginMember loginMember = new LoginMember(1L);
-            MockMultipartFile businessLicense = createMockMultipartFile();
-            BusinessLicenseCreateRequest request = createBusinessLicenseCreateRequest(businessLicense,
-                    "123-45-67890");
-            businessLicenseService.saveBusinessLicense(loginMember, request);
+            BusinessLicenseCreateRequest request = createBusinessLicenseCreateRequest("123-45-67890");
+            businessLicenseService.saveBusinessLicense(OWNER_ID, request, IMAGE_URL);
 
             // when then
-            assertThatThrownBy(() -> businessLicenseService.saveBusinessLicense(loginMember, request))
+            assertThatThrownBy(() -> businessLicenseService.saveBusinessLicense(OWNER_ID, request, IMAGE_URL))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(DUPLICATE_BUSINESS_LICENSE_NUMBER);
         }
 
         @ParameterizedTest
-        @ValueSource(strings = {
-                "0123456789", "01-12-34567", "012-3-45678", "012-23-4567"
-        })
+        @ValueSource(strings = {"0123456789", "01-12-34567", "012-3-45678", "012-23-4567"})
         void 사업자등록번호가_형식에_맞지_않으면_예외가_발생한다(String businessLicenseNumber) {
             // given
-            MockMultipartFile businessLicense = createMockMultipartFile();
-            BusinessLicenseCreateRequest request = createBusinessLicenseCreateRequest(businessLicense,
-                    businessLicenseNumber);
+            BusinessLicenseCreateRequest request = createBusinessLicenseCreateRequest(businessLicenseNumber);
 
             // when then
-            assertThatThrownBy(() -> businessLicenseService.saveBusinessLicense(new LoginMember(1L), request))
+            assertThatThrownBy(() -> businessLicenseService.saveBusinessLicense(OWNER_ID, request, IMAGE_URL))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(INVALID_BUSINESS_LICENSE_NUMBER);
         }
-    }
 
-    private MockMultipartFile createMockMultipartFile() {
-        return new MockMultipartFile("businessLicense",
-                "businessLicense.pdf", "application/pdf", "businessLicense".getBytes(UTF_8));
-    }
-
-    private BusinessLicenseCreateRequest createBusinessLicenseCreateRequest(MockMultipartFile businessLicense,
-                                                                            String businessLicenseNumber) {
-        return new BusinessLicenseCreateRequest(
-                businessLicense, "카페 벌스데이", businessLicenseNumber,
-                "최민혁", "서울 마포구 와우산로29길 26-33 1층 커피 벌스데이"
-        );
+        private BusinessLicenseCreateRequest createBusinessLicenseCreateRequest(String businessLicenseNumber) {
+            return new BusinessLicenseCreateRequest(
+                    BUSINESS_LICENSE, "카페 벌스데이", businessLicenseNumber,
+                    "최민혁", "서울 마포구 와우산로29길 26-33 1층 커피 벌스데이"
+            );
+        }
     }
 }
