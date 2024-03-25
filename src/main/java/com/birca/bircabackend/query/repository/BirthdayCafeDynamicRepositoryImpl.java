@@ -1,5 +1,6 @@
 package com.birca.bircabackend.query.repository;
 
+import com.birca.bircabackend.command.birca.domain.value.ProgressState;
 import com.birca.bircabackend.command.birca.domain.value.Visibility;
 import com.birca.bircabackend.command.like.domain.LikeTargetType;
 import com.birca.bircabackend.query.dto.BirthdayCafeParams;
@@ -48,6 +49,10 @@ public class BirthdayCafeDynamicRepositoryImpl implements BirthdayCafeDynamicRep
                                 .and(like.visitantId.eq(visitantId))
                 )
                 .where(birthdayCafe.visibility.eq(Visibility.PUBLIC))
+                .where(DynamicBooleanBuilder.builder()
+                        .and(() -> birthdayCafe.progressState.eq(ProgressState.valueOf(birthdayCafeParams.getProgressState())))
+                        .build()
+                )
                 .fetch();
     }
 }
