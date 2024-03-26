@@ -1,6 +1,10 @@
 package com.birca.bircabackend.query.controller;
 
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
+import com.birca.bircabackend.command.birca.domain.value.CongestionState;
+import com.birca.bircabackend.command.birca.domain.value.ProgressState;
+import com.birca.bircabackend.command.birca.domain.value.SpecialGoodsStockState;
+import com.birca.bircabackend.command.birca.domain.value.Visibility;
 import com.birca.bircabackend.query.dto.*;
 import com.birca.bircabackend.support.enviroment.DocumentationTest;
 import org.junit.jupiter.api.Test;
@@ -228,6 +232,62 @@ class BirthdayCafeQueryControllerTest extends DocumentationTest {
                                 fieldWithPath("[].isLiked").type(JsonFieldType.BOOLEAN).description("찜 했는지 여부"),
                                 fieldWithPath("[].artist.groupName").type(JsonFieldType.STRING).description("아티스트 그룹 이름").optional(),
                                 fieldWithPath("[].artist.name").type(JsonFieldType.STRING).description("아티스트 이름")
+                        )
+                ));
+    }
+
+    @Test
+    void 생일_카페_상세를_조회한다() throws Exception {
+        // given
+        Long birthdayCafeId = 1L;
+        given(birthdayCafeQueryService.findBirthdayCafeDetail(any(), any()))
+                .willReturn(new BirthdayCafeDetailResponse(
+                        new BirthdayCafeDetailResponse.ArtistResponse("샤이니", "민호"),
+                        LocalDateTime.of(2024, 3, 20, 0, 0, 0),
+                        LocalDateTime.of(2024, 3, 23, 0, 0, 0),
+                        "아이유의 생일 카페",
+                        10,
+                        true,
+                        "@ChaseM",
+                        5,
+                        10,
+                        CongestionState.SMOOTH,
+                        Visibility.PUBLIC,
+                        ProgressState.IN_PROGRESS,
+                        SpecialGoodsStockState.ABUNDANT,
+                        "image.com",
+                        List.of("image1.com", "image2.com")
+                ));
+
+        // when
+        ResultActions result = mockMvc.perform(
+                get("/api/v1/birthday-cafes/{birthdayCafeId}", birthdayCafeId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID)));
+
+        // then
+        result.andExpect((status().isOk()))
+                .andDo(document("get-birthday-cafe-detail", HOST_INFO, DOCUMENT_RESPONSE,
+                        pathParameters(
+                                parameterWithName("birthdayCafeId").description("생일 카페 ID")
+                        ),
+                        responseFields(
+                                fieldWithPath("artistResponse.groupName").type(JsonFieldType.STRING).description("아티스트 그룹 이름").optional(),
+                                fieldWithPath("artistResponse.name").type(JsonFieldType.STRING).description("아티스트 이름"),
+                                fieldWithPath("startDate").type(JsonFieldType.STRING).description("생일 카페 시작일"),
+                                fieldWithPath("endDate").type(JsonFieldType.STRING).description("생일 카페 종료일"),
+                                fieldWithPath("birthdayCafeName").type(JsonFieldType.STRING).description("생일 카페 이름"),
+                                fieldWithPath("likeCount").type(JsonFieldType.NUMBER).description("생일 카페 찜된 수"),
+                                fieldWithPath("isLiked").type(JsonFieldType.BOOLEAN).description("찜 했는지 여부"),
+                                fieldWithPath("twitterAccount").type(JsonFieldType.STRING).description("트위터 계정"),
+                                fieldWithPath("minimumVisitant").type(JsonFieldType.NUMBER).description("생일 카페 최소 방문자 수"),
+                                fieldWithPath("maximumVisitant").type(JsonFieldType.NUMBER).description("생일 카페 최대 방문자 수"),
+                                fieldWithPath("congestionState").type(JsonFieldType.STRING).description("생일 카페 혼잡도"),
+                                fieldWithPath("visibility").type(JsonFieldType.STRING).description("생일 카페 공개 여부"),
+                                fieldWithPath("progressState").type(JsonFieldType.STRING).description("생일 카페 진행 상태"),
+                                fieldWithPath("specialGoodsStockState").type(JsonFieldType.STRING).description("생일 카페 굿즈 양"),
+                                fieldWithPath("mainImage").type(JsonFieldType.STRING).description("생일 카페 메인 이미지 url"),
+                                fieldWithPath("defaultImages.[]").type(JsonFieldType.ARRAY).description("생일 카페 기본 이미지 url")
                         )
                 ));
     }
