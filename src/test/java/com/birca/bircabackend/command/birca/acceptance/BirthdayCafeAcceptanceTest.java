@@ -22,7 +22,7 @@ public class BirthdayCafeAcceptanceTest extends AcceptanceTest {
     private static final Long HOST_1_ID = 1L;
     private static final Long HOST_2_ID = 2L;
     private static final Long RENTAL_PENDING_CAFE = 1L;
-    private static final Long IN_PROGRESS_CAFE = 2L;
+    private static final Long IN_PROGRESS_CAFE = 4L;
     private static final ApplyRentalRequest APPLY_RENTAL_REQUEST = new ApplyRentalRequest(
             1L,
             1L,

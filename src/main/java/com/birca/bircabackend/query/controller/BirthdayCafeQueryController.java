@@ -2,17 +2,11 @@ package com.birca.bircabackend.query.controller;
 
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.auth.authorization.RequiredLogin;
-import com.birca.bircabackend.query.dto.LuckyDrawResponse;
-import com.birca.bircabackend.query.dto.MenuResponse;
-import com.birca.bircabackend.query.dto.MyBirthdayCafeResponse;
-import com.birca.bircabackend.query.dto.SpecialGoodsResponse;
+import com.birca.bircabackend.query.dto.*;
 import com.birca.bircabackend.query.service.BirthdayCafeQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -45,5 +39,13 @@ public class BirthdayCafeQueryController {
     @RequiredLogin
     public ResponseEntity<List<MyBirthdayCafeResponse>> findMyBirthdayCafes(LoginMember loginMember) {
         return ResponseEntity.ok(birthdayCafeQueryService.findMyBirthdayCafes(loginMember));
+    }
+
+    @GetMapping("/v1/birthday-cafes")
+    @RequiredLogin
+    public ResponseEntity<List<BirthdayCafeResponse>> findBirthdayCafes(@ModelAttribute BirthdayCafeParams birthdayCafeParams,
+                                                                        @ModelAttribute PagingParams pagingParams,
+                                                                        LoginMember loginMember) {
+        return ResponseEntity.ok(birthdayCafeQueryService.findBirthdayCafes(birthdayCafeParams, pagingParams, loginMember));
     }
 }

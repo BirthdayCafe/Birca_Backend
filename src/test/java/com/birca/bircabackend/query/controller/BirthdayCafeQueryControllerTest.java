@@ -1,10 +1,7 @@
 package com.birca.bircabackend.query.controller;
 
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
-import com.birca.bircabackend.query.dto.LuckyDrawResponse;
-import com.birca.bircabackend.query.dto.MenuResponse;
-import com.birca.bircabackend.query.dto.MyBirthdayCafeResponse;
-import com.birca.bircabackend.query.dto.SpecialGoodsResponse;
+import com.birca.bircabackend.query.dto.*;
 import com.birca.bircabackend.support.enviroment.DocumentationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -21,8 +18,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class BirthdayCafeQueryControllerTest extends DocumentationTest {
@@ -158,6 +154,78 @@ class BirthdayCafeQueryControllerTest extends DocumentationTest {
                                 fieldWithPath("[].endDate").type(JsonFieldType.STRING).description("생일 카페 종료일"),
                                 fieldWithPath("[].birthdayCafeName").type(JsonFieldType.STRING).description("생일 카페 이름"),
                                 fieldWithPath("[].progressState").type(JsonFieldType.STRING).description("생일 카페 진행 상태"),
+                                fieldWithPath("[].artist.groupName").type(JsonFieldType.STRING).description("아티스트 그룹 이름").optional(),
+                                fieldWithPath("[].artist.name").type(JsonFieldType.STRING).description("아티스트 이름")
+                        )
+                ));
+    }
+
+    @Test
+    void 방문자가_생일_카페_목록을_조회한다() throws Exception {
+        // given
+        PagingParams pagingParams = new PagingParams();
+        long cursor = 1L;
+        int size = 10;
+        pagingParams.setCursor(cursor);
+        pagingParams.setSize(size);
+
+        BirthdayCafeParams birthdayCafeParams = new BirthdayCafeParams();
+        long artistId = 1L;
+        long cafeId = 1L;
+        String progressState = "IN_PROGRESS";
+        birthdayCafeParams.setCafeId(cafeId);
+        birthdayCafeParams.setArtistId(artistId);
+        birthdayCafeParams.setProgressState(progressState);
+        given(birthdayCafeQueryService.findBirthdayCafes(birthdayCafeParams, pagingParams, new LoginMember(1L)))
+                .willReturn(List.of(
+                        new BirthdayCafeResponse(
+                                1L,
+                                "image.com",
+                                LocalDateTime.of(2024, 3, 18, 0, 0, 0),
+                                LocalDateTime.of(2024, 3, 19, 0, 0, 0),
+                                "민호의 생일 카페",
+                                true,
+                                new BirthdayCafeResponse.ArtistResponse("샤이니", "민호")
+                        ),
+                        new BirthdayCafeResponse(
+                                2L,
+                                "image.com",
+                                LocalDateTime.of(2024, 3, 20, 0, 0, 0),
+                                LocalDateTime.of(2024, 3, 23, 0, 0, 0),
+                                "아이유의 생일 카페",
+                                false,
+                                new BirthdayCafeResponse.ArtistResponse(null, "아이유")
+                        )
+                ));
+
+        // when
+        ResultActions result = mockMvc.perform(
+                get("/api/v1/birthday-cafes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .queryParam("cursor", String.valueOf(cursor))
+                        .queryParam("size", String.valueOf(size))
+                        .queryParam("artistId", String.valueOf(artistId))
+                        .queryParam("cafeId", String.valueOf(cafeId))
+                        .queryParam("progressState", progressState)
+                        .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID)));
+
+        // then
+        result.andExpect((status().isOk()))
+                .andDo(document("get-birthday-cafe-list", HOST_INFO, DOCUMENT_RESPONSE,
+                        queryParameters(
+                                parameterWithName("cursor").description("이전에 쿼리된 마지막 birthdayCafeId"),
+                                parameterWithName("size").description("검색할 개수"),
+                                parameterWithName("artistId").description("생일 카페의 아티스트"),
+                                parameterWithName("cafeId").description("생일 카페의 카페"),
+                                parameterWithName("progressState").description("생일 카페 진행 상태")
+                        ),
+                        responseFields(
+                                fieldWithPath("[].birthdayCafeId").type(JsonFieldType.NUMBER).description("생일 카페 ID"),
+                                fieldWithPath("[].mainImageUrl").type(JsonFieldType.STRING).description("생일 카페 메인 이미지 url"),
+                                fieldWithPath("[].startDate").type(JsonFieldType.STRING).description("생일 카페 시작일"),
+                                fieldWithPath("[].endDate").type(JsonFieldType.STRING).description("생일 카페 종료일"),
+                                fieldWithPath("[].birthdayCafeName").type(JsonFieldType.STRING).description("생일 카페 이름"),
+                                fieldWithPath("[].isLiked").type(JsonFieldType.BOOLEAN).description("찜 했는지 여부"),
                                 fieldWithPath("[].artist.groupName").type(JsonFieldType.STRING).description("아티스트 그룹 이름").optional(),
                                 fieldWithPath("[].artist.name").type(JsonFieldType.STRING).description("아티스트 이름")
                         )

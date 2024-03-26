@@ -9,11 +9,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @EqualsAndHashCode
-public class PagingParams {
+public class BirthdayCafeParams {
 
-    private static Long DEFAULT_CURSOR = 0L;
-    private static Integer DEFAULT_SIZE = 6;
-
-    private Long cursor = DEFAULT_CURSOR;
-    private Integer size = DEFAULT_SIZE;
+    private String progressState;
+    private Long artistId;
+    private Long cafeId;
 }
