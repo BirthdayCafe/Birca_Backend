@@ -1,8 +1,13 @@
 package com.birca.bircabackend.query.service;
 
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
+import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
+import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.query.dto.*;
+import com.birca.bircabackend.query.repository.BirthdayCafeImageQueryRepository;
 import com.birca.bircabackend.query.repository.BirthdayCafeQueryRepository;
+import com.birca.bircabackend.query.repository.LikedBirthdayCafeQueryRepository;
+import com.birca.bircabackend.query.repository.model.BirthdayCafeView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +20,8 @@ import java.util.List;
 public class BirthdayCafeQueryService {
 
     private final BirthdayCafeQueryRepository birthdayCafeQueryRepository;
+    private final BirthdayCafeImageQueryRepository birthdayCafeImageQueryRepository;
+    private final LikedBirthdayCafeQueryRepository likedBirthdayCafeQueryRepository;
 
     public List<SpecialGoodsResponse> findSpecialGoods(Long birthdayCafeId) {
         return birthdayCafeQueryRepository.findSpecialGoodsById(birthdayCafeId)
@@ -51,5 +58,13 @@ public class BirthdayCafeQueryService {
                 .stream()
                 .map(BirthdayCafeResponse::from)
                 .toList();
+    }
+
+    public BirthdayCafeDetailResponse findBirthdayCafeDetail(LoginMember loginMember, Long birthdayCafeId) {
+        BirthdayCafeView birthdayCafeView = birthdayCafeQueryRepository.findBirthdayCafeDetail(loginMember.id(), birthdayCafeId)
+                .orElseThrow(() -> BusinessException.from(BirthdayCafeErrorCode.NOT_FOUND));
+        List<String> defaultImages = birthdayCafeImageQueryRepository.findBirthdayCafeDefaultImages(birthdayCafeId);
+        Integer likeCount = likedBirthdayCafeQueryRepository.findLikedCount(birthdayCafeId);
+        return BirthdayCafeDetailResponse.of(birthdayCafeView, likeCount, defaultImages);
     }
 }

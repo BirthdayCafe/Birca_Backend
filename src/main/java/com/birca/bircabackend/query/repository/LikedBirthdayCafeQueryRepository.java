@@ -18,4 +18,9 @@ public interface LikedBirthdayCafeQueryRepository extends Repository<Like, Long>
             "left join ArtistGroup ag on a.groupId = ag.id " +
             "where lk.visitantId = :visitantId")
     List<BirthdayCafeView> findLikedBirthdayCafes(@Param("visitantId") Long visitantId);
+
+    @Query("select count(lk.id) " +
+            "from Like lk " +
+            "where lk.target.targetId = :birthdayCafeId and lk.target.targetType = 'BIRTHDAY_CAFE'")
+    Integer findLikedCount(Long birthdayCafeId);
 }
