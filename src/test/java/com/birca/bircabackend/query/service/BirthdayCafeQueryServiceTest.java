@@ -5,6 +5,8 @@ import com.birca.bircabackend.command.birca.domain.value.CongestionState;
 import com.birca.bircabackend.command.birca.domain.value.ProgressState;
 import com.birca.bircabackend.command.birca.domain.value.SpecialGoodsStockState;
 import com.birca.bircabackend.command.birca.domain.value.Visibility;
+import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
+import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.query.dto.*;
 import com.birca.bircabackend.support.enviroment.ServiceTest;
 import org.junit.jupiter.api.DisplayName;
@@ -17,6 +19,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 @Sql("/fixture/birthday-cafe-fixture.sql")
@@ -216,10 +219,11 @@ class BirthdayCafeQueryServiceTest extends ServiceTest {
     @DisplayName("생일 카페 상세를 조회할 때")
     class findBirthdayCafeDetailTest {
 
+        private final LoginMember loginMember = new LoginMember(4L);
+
         @Test
         void 정상적으로_조회한다() {
             // given
-            LoginMember loginMember = new LoginMember(4L);
             Long birthdayCafeId = 3L;
 
             // when
@@ -249,7 +253,14 @@ class BirthdayCafeQueryServiceTest extends ServiceTest {
 
         @Test
         void 존재하지_않는_생일_카페는_예외가_발생한다() {
+            // given
+            Long birthdayCafeId = 100L;
 
+            // when then
+            assertThatThrownBy(() -> birthdayCafeQueryService.findBirthdayCafeDetail(loginMember, birthdayCafeId))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.NOT_FOUND);
         }
     }
 }
