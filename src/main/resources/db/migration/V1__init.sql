@@ -139,6 +139,8 @@ ALTER TABLE birthday_cafe
 ALTER TABLE birthday_cafe
     ADD CONSTRAINT FK_BIRTHDAYCAFE_ON_HOST FOREIGN KEY (host_id) REFERENCES member (id);
 
+CREATE INDEX idx_start_date ON birthday_cafe (start_date);
+
 CREATE TABLE special_goods
 (
     birthday_cafe_id BIGINT       NOT NULL,

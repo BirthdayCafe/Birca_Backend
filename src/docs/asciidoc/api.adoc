@@ -86,6 +86,8 @@ operation::delete-birthday-cafe-image[snippets='http-request,request-fields,http
 operation::get-my-birthday-cafe-list[snippets='http-request,http-response,response-fields']
 === 찜한 생일 카페 목록 조회
 operation::get-birthday-cafe-likes[snippets='http-request,http-response,response-fields']
+=== 방문자의 생일 카페 목록 조회
+operation::get-birthday-cafe-list[snippets='http-request,query-parameters,http-response,response-fields']
 === 에러 코드
 include::{snippets}/birthday-cafe-error-Code/response-body.adoc[]
 
