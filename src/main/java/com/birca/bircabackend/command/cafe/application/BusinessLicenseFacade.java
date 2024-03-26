@@ -5,6 +5,7 @@ import com.birca.bircabackend.command.cafe.dto.BusinessLicenseCreateRequest;
 import com.birca.bircabackend.command.cafe.dto.BusinessLicenseInfoResponse;
 import com.birca.bircabackend.command.cafe.dto.BusinessLicenseResponse;
 import com.birca.bircabackend.command.cafe.dto.UploadCountResponse;
+import com.birca.bircabackend.common.upload.ImageUploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +18,7 @@ public class BusinessLicenseFacade {
     private final OcrRequestCountValidator ocrRequestCountValidator;
     private final OcrRequestCountProvider ocrRequestCountProvider;
     private final BusinessLicenseService businessLicenseService;
+    private final ImageUploader imageUploader;
     private final OcrProvider ocrProvider;
 
     public BusinessLicenseResponse getBusinessLicenseInfoAndUploadCount(LoginMember loginMember,
@@ -29,6 +31,7 @@ public class BusinessLicenseFacade {
 
     public void saveBusinessLicense(LoginMember loginMember, BusinessLicenseCreateRequest request) {
         businessLicenseStatusVerifier.verifyBusinessLicenseStatus(request.businessLicenseNumber());
-        businessLicenseService.saveBusinessLicense(loginMember, request);
+        String imageUrl = imageUploader.upload(request.businessLicense());
+        businessLicenseService.saveBusinessLicense(loginMember.id(), request, imageUrl);
     }
 }

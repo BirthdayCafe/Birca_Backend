@@ -4,6 +4,7 @@ import com.birca.bircabackend.common.exception.BusinessException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import static com.birca.bircabackend.command.cafe.exception.BusinessLicenseError
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@EqualsAndHashCode
 public class BusinessLicenseCode {
 
     private static final Pattern VALID_PATTERN = Pattern.compile("^\\d{3}-\\d{2}-\\d{5}$");
