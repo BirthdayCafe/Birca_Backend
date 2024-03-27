@@ -48,4 +48,10 @@ public class BirthdayCafeQueryController {
                                                                         LoginMember loginMember) {
         return ResponseEntity.ok(birthdayCafeQueryService.findBirthdayCafes(birthdayCafeParams, pagingParams, loginMember));
     }
+
+    @GetMapping("/v1/birthday-cafes/{birthdayCafeId}")
+    @RequiredLogin
+    public ResponseEntity<BirthdayCafeDetailResponse> findBirthdayCafeDetail(LoginMember loginMember, @PathVariable Long birthdayCafeId) {
+        return ResponseEntity.ok(birthdayCafeQueryService.findBirthdayCafeDetail(loginMember, birthdayCafeId));
+    }
 }

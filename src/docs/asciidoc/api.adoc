@@ -88,6 +88,8 @@ operation::get-my-birthday-cafe-list[snippets='http-request,http-response,respon
 operation::get-birthday-cafe-likes[snippets='http-request,http-response,response-fields']
 === 방문자의 생일 카페 목록 조회
 operation::get-birthday-cafe-list[snippets='http-request,query-parameters,http-response,response-fields']
+=== 생일 카페 상세 조회
+operation::get-birthday-cafe-detail[snippets='http-request,path-parameters,http-response']
 === 에러 코드
 include::{snippets}/birthday-cafe-error-Code/response-body.adoc[]
 

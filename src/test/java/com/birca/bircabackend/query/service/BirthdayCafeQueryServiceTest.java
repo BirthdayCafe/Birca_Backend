@@ -1,6 +1,12 @@
 package com.birca.bircabackend.query.service;
 
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
+import com.birca.bircabackend.command.birca.domain.value.CongestionState;
+import com.birca.bircabackend.command.birca.domain.value.ProgressState;
+import com.birca.bircabackend.command.birca.domain.value.SpecialGoodsStockState;
+import com.birca.bircabackend.command.birca.domain.value.Visibility;
+import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
+import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.query.dto.*;
 import com.birca.bircabackend.support.enviroment.ServiceTest;
 import org.junit.jupiter.api.DisplayName;
@@ -9,9 +15,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 @Sql("/fixture/birthday-cafe-fixture.sql")
@@ -203,6 +211,56 @@ class BirthdayCafeQueryServiceTest extends ServiceTest {
                             .map(BirthdayCafeResponse::birthdayCafeId)
                             .containsExactly(4L, 5L, 6L)
             );
+        }
+    }
+
+
+    @Nested
+    @DisplayName("생일 카페 상세를 조회할 때")
+    class findBirthdayCafeDetailTest {
+
+        private final LoginMember loginMember = new LoginMember(4L);
+
+        @Test
+        void 정상적으로_조회한다() {
+            // given
+            Long birthdayCafeId = 3L;
+
+            // when
+            BirthdayCafeDetailResponse actual = birthdayCafeQueryService.findBirthdayCafeDetail(loginMember, birthdayCafeId);
+
+            // then
+            assertThat(actual).isEqualTo(
+                    new BirthdayCafeDetailResponse(
+                            new BirthdayCafeDetailResponse.ArtistResponse(null, "아이유"),
+                            LocalDateTime.parse("2024-02-09T00:00"),
+                            LocalDateTime.parse("2024-02-10T00:00"),
+                            "아이유의 생일 카페",
+                            1,
+                            true,
+                            "@ChaseM",
+                            5,
+                            10,
+                            CongestionState.SMOOTH,
+                            Visibility.PUBLIC,
+                            ProgressState.FINISHED,
+                            SpecialGoodsStockState.ABUNDANT,
+                            "iu-cafe-main-image.com",
+                            List.of("iu-cafe-default-image.com", "iu-cafe-default-image.com")
+                    )
+            );
+        }
+
+        @Test
+        void 존재하지_않는_생일_카페는_예외가_발생한다() {
+            // given
+            Long birthdayCafeId = 100L;
+
+            // when then
+            assertThatThrownBy(() -> birthdayCafeQueryService.findBirthdayCafeDetail(loginMember, birthdayCafeId))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.NOT_FOUND);
         }
     }
 }

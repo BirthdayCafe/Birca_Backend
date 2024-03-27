@@ -66,7 +66,10 @@ VALUES (4, 1, '티셔츠'),
 INSERT INTO birthday_cafe_image (id, birthday_cafe_id, image_url, is_main)
 VALUES (1, 4, 'winter-cafe-default-image', false),
        (2, 4, 'winter-cafe-main-image.com', true),
-       (3, 4, 'winter-cafe-default-image', false);
+       (3, 4, 'winter-cafe-default-image', false),
+       (4, 3, 'iu-cafe-main-image.com', true),
+       (5, 3, 'iu-cafe-default-image.com', false),
+       (6, 3, 'iu-cafe-default-image.com', false);
 
 -- 방문자(id=4)가 누른 찜
 INSERT INTO likes (visitant_id, target_id, target_type)
