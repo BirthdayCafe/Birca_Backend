@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public record BirthdayCafeDetailResponse(
-        ArtistResponse artistResponse,
+        ArtistResponse artist,
         LocalDateTime startDate,
         LocalDateTime endDate,
         String birthdayCafeName,

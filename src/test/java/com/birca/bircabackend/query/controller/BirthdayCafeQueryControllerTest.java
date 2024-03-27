@@ -272,8 +272,8 @@ class BirthdayCafeQueryControllerTest extends DocumentationTest {
                                 parameterWithName("birthdayCafeId").description("생일 카페 ID")
                         ),
                         responseFields(
-                                fieldWithPath("artistResponse.groupName").type(JsonFieldType.STRING).description("아티스트 그룹 이름").optional(),
-                                fieldWithPath("artistResponse.name").type(JsonFieldType.STRING).description("아티스트 이름"),
+                                fieldWithPath("artist.groupName").type(JsonFieldType.STRING).description("아티스트 그룹 이름").optional(),
+                                fieldWithPath("artist.name").type(JsonFieldType.STRING).description("아티스트 이름"),
                                 fieldWithPath("startDate").type(JsonFieldType.STRING).description("생일 카페 시작일"),
                                 fieldWithPath("endDate").type(JsonFieldType.STRING).description("생일 카페 종료일"),
                                 fieldWithPath("birthdayCafeName").type(JsonFieldType.STRING).description("생일 카페 이름"),
