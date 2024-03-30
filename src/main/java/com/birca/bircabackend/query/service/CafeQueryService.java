@@ -16,9 +16,6 @@ public class CafeQueryService {
     private final CafeQueryRepository cafeQueryRepository;
 
     public List<CafeResponse> findCafes(String name) {
-        return cafeQueryRepository.findByName(name)
-                .stream()
-                .map(CafeResponse::new)
-                .toList();
+        return cafeQueryRepository.findByName(name);
     }
 }
