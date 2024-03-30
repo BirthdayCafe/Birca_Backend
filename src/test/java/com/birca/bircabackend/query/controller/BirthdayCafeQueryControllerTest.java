@@ -76,7 +76,7 @@ class BirthdayCafeQueryControllerTest extends DocumentationTest {
 
         // then
         result.andExpect((status().isOk()))
-                .andDo(document("get-menus", HOST_INFO, DOCUMENT_RESPONSE,
+                .andDo(document("get-birthday-cafe-menus", HOST_INFO, DOCUMENT_RESPONSE,
                         pathParameters(
                                 parameterWithName("birthdayCafeId").description("생일 카페 ID")
                         ),

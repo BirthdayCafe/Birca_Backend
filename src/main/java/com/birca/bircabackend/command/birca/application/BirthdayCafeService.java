@@ -74,10 +74,10 @@ public class BirthdayCafeService {
                              LoginMember loginMember,
                              List<MenuRequest> request) {
         BirthdayCafe birthdayCafe = entityUtil.getEntity(BirthdayCafe.class, birthdayCafeId, NOT_FOUND);
-        List<Menu> menus = request.stream()
-                .map(req -> Menu.of(req.name(), req.details(), req.price()))
+        List<BirthdayCafeMenu> birthdayCafeMenus = request.stream()
+                .map(req -> BirthdayCafeMenu.of(req.name(), req.details(), req.price()))
                 .toList();
-        birthdayCafe.replaceMenus(loginMember.id(), menus);
+        birthdayCafe.replaceMenus(loginMember.id(), birthdayCafeMenus);
     }
 
     public void replaceLuckyDraws(Long birthdayCafeId,

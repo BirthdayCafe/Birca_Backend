@@ -151,7 +151,7 @@ CREATE TABLE special_goods
 ALTER TABLE special_goods
     ADD CONSTRAINT fk_special_goods_on_birthday_cafe FOREIGN KEY (birthday_cafe_id) REFERENCES birthday_cafe (id);
 
-CREATE TABLE menu
+CREATE TABLE birthday_cafe_menu
 (
     birthday_cafe_id BIGINT       NOT NULL,
     name             VARCHAR(255) NOT NULL,
@@ -159,7 +159,7 @@ CREATE TABLE menu
     price            INT          NOT NULL
 );
 
-ALTER TABLE menu
+ALTER TABLE birthday_cafe_menu
     ADD CONSTRAINT fk_menu_on_birthday_cafe FOREIGN KEY (birthday_cafe_id) REFERENCES birthday_cafe (id);
 
 CREATE TABLE lucky_draw

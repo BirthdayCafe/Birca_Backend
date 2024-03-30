@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @EqualsAndHashCode
-public class Menu {
+public class BirthdayCafeMenu {
 
     @Column(nullable = false)
     private String name;
@@ -22,11 +22,11 @@ public class Menu {
     @Column(nullable = false)
     private Integer price;
 
-    public static Menu of(String name, String details, Integer price) {
-        return new Menu(name, details, price);
+    public static BirthdayCafeMenu of(String name, String details, Integer price) {
+        return new BirthdayCafeMenu(name, details, price);
     }
 
-    private Menu(String name, String details, Integer price) {
+    private BirthdayCafeMenu(String name, String details, Integer price) {
         this.name = name;
         this.details = details;
         this.price = price;

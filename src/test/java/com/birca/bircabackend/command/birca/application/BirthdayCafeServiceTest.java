@@ -346,7 +346,7 @@ class BirthdayCafeServiceTest extends ServiceTest {
 
     @Nested
     @DisplayName("생일 카페 메뉴 등록은")
-    class MenuTest {
+    class BirthdayCafeMenuTest {
 
         private final List<MenuRequest> request = List.of(
                 new MenuRequest("기본", "아메리카노+포토카드+ID카드", 10000),
@@ -359,15 +359,15 @@ class BirthdayCafeServiceTest extends ServiceTest {
             birthdayCafeService.replaceMenus(IN_PROGRESS_BIRTHDAY_CAFE_ID, HOST1, request);
 
             // then
-            List<Menu> actual = entityManager.createQuery(
-                            "select bc.menus from BirthdayCafe bc where bc.id = :id", Menu.class)
+            List<BirthdayCafeMenu> actual = entityManager.createQuery(
+                            "select bc.birthdayCafeMenus from BirthdayCafe bc where bc.id = :id", BirthdayCafeMenu.class)
                     .setParameter("id", IN_PROGRESS_BIRTHDAY_CAFE_ID)
                     .getResultList();
             assertThat(actual)
                     .usingRecursiveComparison()
                     .isEqualTo(List.of(
-                            Menu.of("기본", "아메리카노+포토카드+ID카드", 10000),
-                            Menu.of("디저트", "케이크+포토카드+ID카드", 10000)
+                            BirthdayCafeMenu.of("기본", "아메리카노+포토카드+ID카드", 10000),
+                            BirthdayCafeMenu.of("디저트", "케이크+포토카드+ID카드", 10000)
 
                     ));
         }
@@ -385,8 +385,8 @@ class BirthdayCafeServiceTest extends ServiceTest {
             ));
 
             // then
-            List<Menu> actual = entityManager.createQuery(
-                            "select bc.menus from BirthdayCafe bc where bc.id = :id", Menu.class)
+            List<BirthdayCafeMenu> actual = entityManager.createQuery(
+                            "select bc.birthdayCafeMenus from BirthdayCafe bc where bc.id = :id", BirthdayCafeMenu.class)
                     .setParameter("id", IN_PROGRESS_BIRTHDAY_CAFE_ID)
                     .getResultList();
             assertThat(actual)
