@@ -372,11 +372,11 @@ class BirthdayCafeTest {
 
     @Nested
     @DisplayName("생일 카페 메뉴 등록은")
-    class MenuTest {
+    class BirthdayCafeMenuTest {
 
-        private final List<Menu> menus = List.of(
-                Menu.of("기본", "아메리카노+포토카드+ID카드", 10000),
-                Menu.of("디저트", "케이크+포토카드+ID카드", 10000)
+        private final List<BirthdayCafeMenu> birthdayCafeMenus = List.of(
+                BirthdayCafeMenu.of("기본", "아메리카노+포토카드+ID카드", 10000),
+                BirthdayCafeMenu.of("디저트", "케이크+포토카드+ID카드", 10000)
         );
 
         @ParameterizedTest
@@ -389,10 +389,10 @@ class BirthdayCafeTest {
                     .sample();
 
             // when
-            birthdayCafe.replaceMenus(HOST_ID, menus);
+            birthdayCafe.replaceMenus(HOST_ID, birthdayCafeMenus);
 
             // then
-            assertThat(birthdayCafe.getMenus()).isEqualTo(menus);
+            assertThat(birthdayCafe.getBirthdayCafeMenus()).isEqualTo(birthdayCafeMenus);
         }
 
         @Test
@@ -401,14 +401,14 @@ class BirthdayCafeTest {
             BirthdayCafe birthdayCafe = fixtureMonkey.giveMeBuilder(BirthdayCafe.class)
                     .set("hostId", HOST_ID)
                     .set("progressState", ProgressState.RENTAL_APPROVED)
-                    .set("menus", List.of(Menu.of("기존 메뉴", "포토카드", 7000)))
+                    .set("menus", List.of(BirthdayCafeMenu.of("기존 메뉴", "포토카드", 7000)))
                     .sample();
 
             // when
-            birthdayCafe.replaceMenus(HOST_ID, menus);
+            birthdayCafe.replaceMenus(HOST_ID, birthdayCafeMenus);
 
             // then
-            assertThat(birthdayCafe.getMenus()).isEqualTo(menus);
+            assertThat(birthdayCafe.getBirthdayCafeMenus()).isEqualTo(birthdayCafeMenus);
         }
 
         @ParameterizedTest
@@ -421,7 +421,7 @@ class BirthdayCafeTest {
                     .sample();
 
             // when then
-            assertThatThrownBy(() -> birthdayCafe.replaceMenus(HOST_ID, menus))
+            assertThatThrownBy(() -> birthdayCafe.replaceMenus(HOST_ID, birthdayCafeMenus))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.INVALID_UPDATE);
@@ -436,7 +436,7 @@ class BirthdayCafeTest {
                     .sample();
 
             // when then
-            assertThatThrownBy(() -> birthdayCafe.replaceMenus(100L, menus))
+            assertThatThrownBy(() -> birthdayCafe.replaceMenus(100L, birthdayCafeMenus))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_UPDATE);

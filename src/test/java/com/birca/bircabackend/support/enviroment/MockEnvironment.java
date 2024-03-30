@@ -6,7 +6,7 @@ import com.birca.bircabackend.command.auth.application.oauth.OAuthProviderFactor
 import com.birca.bircabackend.command.cafe.application.BusinessLicenseStatusVerifier;
 import com.birca.bircabackend.command.cafe.application.OcrProvider;
 import com.birca.bircabackend.command.cafe.dto.BusinessLicenseInfoResponse;
-import com.birca.bircabackend.common.upload.ImageUploader;
+import com.birca.bircabackend.common.image.ImageRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
@@ -36,7 +36,7 @@ public class MockEnvironment {
     private OAuthProviderFactory providerFactory;
 
     @MockBean
-    protected ImageUploader imageUploader;
+    protected ImageRepository imageRepository;
 
     @MockBean
     protected OcrProvider ocrProvider;
@@ -52,9 +52,9 @@ public class MockEnvironment {
 
     @BeforeEach
     void mockImageUploader() {
-        given(imageUploader.upload(any()))
+        given(imageRepository.upload(any()))
                 .willReturn(URL);
-        doNothing().when(imageUploader)
+        doNothing().when(imageRepository)
                 .delete(any());
     }
 

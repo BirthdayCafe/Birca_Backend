@@ -65,8 +65,8 @@ public class BirthdayCafe extends BaseEntity {
     private List<SpecialGoods> specialGoods = new ArrayList<>();
 
     @ElementCollection
-    @CollectionTable(name = "menu")
-    private List<Menu> menus = new ArrayList<>();
+    @CollectionTable(name = "birthday_cafe_menu")
+    private List<BirthdayCafeMenu> birthdayCafeMenus = new ArrayList<>();
 
     @ElementCollection
     @CollectionTable(name = "lucky_draw")
@@ -138,12 +138,12 @@ public class BirthdayCafe extends BaseEntity {
         this.specialGoods = specialGoods;
     }
 
-    public void replaceMenus(Long memberId, List<Menu> menus) {
+    public void replaceMenus(Long memberId, List<BirthdayCafeMenu> birthdayCafeMenus) {
         validateIsHost(memberId);
         if (!progressState.isInProgress() && !progressState.isRentalApproved()) {
             throw BusinessException.from(INVALID_UPDATE);
         }
-        this.menus = menus;
+        this.birthdayCafeMenus = birthdayCafeMenus;
     }
 
     public void replaceLuckyDraws(Long memberId, List<LuckyDraw> luckyDraws) {

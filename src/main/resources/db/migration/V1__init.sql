@@ -53,6 +53,37 @@ ALTER TABLE cafe
 ALTER TABLE cafe
     ADD CONSTRAINT uc_cafe_businesslicenseid UNIQUE (business_license_id);
 
+CREATE TABLE cafe_image
+(
+    id        BIGINT AUTO_INCREMENT NOT NULL,
+    cafe_id   BIGINT   NOT NULL,
+    image_url LONGTEXT NOT NULL,
+    CONSTRAINT pk_cafe_image PRIMARY KEY (id)
+);
+
+ALTER TABLE cafe_image
+    ADD CONSTRAINT FK_CAFE_IMAGE_ON_CAFE FOREIGN KEY (cafe_id) REFERENCES cafe (id);
+
+CREATE TABLE cafe_menu
+(
+    cafe_id BIGINT       NOT NULL,
+    name    VARCHAR(255) NOT NULL,
+    price   INT          NOT NULL
+);
+
+ALTER TABLE cafe_menu
+    ADD CONSTRAINT FK_CAFE_MENU_ON_CAFE FOREIGN KEY (cafe_id) REFERENCES cafe (id);
+
+CREATE TABLE cafe_option
+(
+    cafe_id BIGINT       NOT NULL,
+    name    VARCHAR(255) NOT NULL,
+    price   INT          NOT NULL
+);
+
+ALTER TABLE cafe_option
+    ADD CONSTRAINT FK_CAFE_OPTION_ON_CAFE FOREIGN KEY (cafe_id) REFERENCES cafe (id);
+
 CREATE TABLE artist_group
 (
     id        BIGINT AUTO_INCREMENT NOT NULL,
@@ -151,7 +182,7 @@ CREATE TABLE special_goods
 ALTER TABLE special_goods
     ADD CONSTRAINT fk_special_goods_on_birthday_cafe FOREIGN KEY (birthday_cafe_id) REFERENCES birthday_cafe (id);
 
-CREATE TABLE menu
+CREATE TABLE birthday_cafe_menu
 (
     birthday_cafe_id BIGINT       NOT NULL,
     name             VARCHAR(255) NOT NULL,
@@ -159,7 +190,7 @@ CREATE TABLE menu
     price            INT          NOT NULL
 );
 
-ALTER TABLE menu
+ALTER TABLE birthday_cafe_menu
     ADD CONSTRAINT fk_menu_on_birthday_cafe FOREIGN KEY (birthday_cafe_id) REFERENCES birthday_cafe (id);
 
 CREATE TABLE lucky_draw
@@ -198,9 +229,9 @@ ALTER TABLE birthday_cafe_image
 CREATE TABLE likes
 (
     id          BIGINT AUTO_INCREMENT NOT NULL,
-    visitant_id BIGINT                NOT NULL,
-    target_id   BIGINT                NOT NULL,
-    target_type VARCHAR(255)          NOT NULL,
+    visitant_id BIGINT       NOT NULL,
+    target_id   BIGINT       NOT NULL,
+    target_type VARCHAR(255) NOT NULL,
     CONSTRAINT pk_likes PRIMARY KEY (id)
 );
 

@@ -1,4 +1,4 @@
-package com.birca.bircabackend.common.upload;
+package com.birca.bircabackend.common.image;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;

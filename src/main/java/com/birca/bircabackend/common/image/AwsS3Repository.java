@@ -1,4 +1,4 @@
-package com.birca.bircabackend.common.upload;
+package com.birca.bircabackend.common.image;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
@@ -19,7 +19,7 @@ import static java.time.format.DateTimeFormatter.ofPattern;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class AwsS3Uploader implements ImageUploader {
+public class AwsS3Repository implements ImageRepository {
 
     @Value("${cloud.aws.s3.path}")
     private String path;

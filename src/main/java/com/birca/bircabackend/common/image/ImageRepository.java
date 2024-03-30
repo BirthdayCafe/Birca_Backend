@@ -1,8 +1,8 @@
-package com.birca.bircabackend.common.upload;
+package com.birca.bircabackend.common.image;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public interface ImageUploader {
+public interface ImageRepository {
 
     String upload(MultipartFile image);
 

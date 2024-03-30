@@ -52,7 +52,7 @@ INSERT INTO special_goods
 VALUES (4, '특전', '포토카드'),
        (4, '디저트', '포토카드, ID 카드');
 
-INSERT INTO menu
+INSERT INTO birthday_cafe_menu
     (birthday_cafe_id, name, details, price)
 VALUES (4, '기본', '아메리카노+포토카드+ID카드', 6000),
        (4, '디저트', '케이크+포토카드+ID카드', 10000);

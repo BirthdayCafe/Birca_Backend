@@ -69,7 +69,7 @@ operation::birthday-cafe-lucky-draw[snippets='http-request,request-fields,path-p
 === 생일 카페 특전 조회
 operation::get-special-goods[snippets='http-request,path-parameters,http-response']
 === 생일 카페 메뉴 조회
-operation::get-menus[snippets='http-request,path-parameters,http-response']
+operation::get-birthday-cafe-menus[snippets='http-request,path-parameters,http-response']
 === 생일 카페 럭키 드로우 조회
 operation::get-lucky-draws[snippets='http-request,path-parameters,http-response']
 === 생일 카페 정보 수정

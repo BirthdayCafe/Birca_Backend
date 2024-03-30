@@ -3,7 +3,6 @@ package com.birca.bircabackend.command.cafe.application;
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.cafe.domain.BusinessLicense;
 import com.birca.bircabackend.command.cafe.domain.BusinessLicenseCode;
-import com.birca.bircabackend.command.cafe.domain.OcrRequestHistory;
 import com.birca.bircabackend.command.cafe.dto.BusinessLicenseCreateRequest;
 import com.birca.bircabackend.command.cafe.dto.BusinessLicenseResponse;
 import com.birca.bircabackend.support.enviroment.ServiceTest;
@@ -72,7 +71,7 @@ class BusinessLicenseFacadeTest extends ServiceTest {
             BusinessLicense actual = entityManager.find(BusinessLicense.class, LOGIN_MEMBER.id());
 
             // then
-            verify(imageUploader, times(1)).upload(any());
+            verify(imageRepository, times(1)).upload(any());
             assertAll(
                     () -> assertThat(actual.getCafeName()).isEqualTo("STARBUCKS"),
                     () -> assertThat(actual.getAddress()).isEqualTo("서울 중앙로 212 빌딩 1층"),
