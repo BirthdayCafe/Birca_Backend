@@ -53,6 +53,35 @@ ALTER TABLE cafe
 ALTER TABLE cafe
     ADD CONSTRAINT uc_cafe_businesslicenseid UNIQUE (business_license_id);
 
+CREATE TABLE cafe_image
+(
+    cafe_id   BIGINT   NOT NULL,
+    image_url LONGTEXT NOT NULL
+);
+
+ALTER TABLE cafe_image
+    ADD CONSTRAINT FK_CAFE_IMAGE_ON_CAFE FOREIGN KEY (cafe_id) REFERENCES cafe (id);
+
+CREATE TABLE cafe_menu
+(
+    cafe_id BIGINT       NOT NULL,
+    name    VARCHAR(255) NOT NULL,
+    price   INT          NOT NULL
+);
+
+ALTER TABLE cafe_menu
+    ADD CONSTRAINT FK_CAFE_MENU_ON_CAFE FOREIGN KEY (cafe_id) REFERENCES cafe (id);
+
+CREATE TABLE cafe_option
+(
+    cafe_id BIGINT       NOT NULL,
+    name    VARCHAR(255) NOT NULL,
+    price   INT          NOT NULL
+);
+
+ALTER TABLE cafe_option
+    ADD CONSTRAINT FK_CAFE_OPTION_ON_CAFE FOREIGN KEY (cafe_id) REFERENCES cafe (id);
+
 CREATE TABLE artist_group
 (
     id        BIGINT AUTO_INCREMENT NOT NULL,
@@ -198,9 +227,9 @@ ALTER TABLE birthday_cafe_image
 CREATE TABLE likes
 (
     id          BIGINT AUTO_INCREMENT NOT NULL,
-    visitant_id BIGINT                NOT NULL,
-    target_id   BIGINT                NOT NULL,
-    target_type VARCHAR(255)          NOT NULL,
+    visitant_id BIGINT       NOT NULL,
+    target_id   BIGINT       NOT NULL,
+    target_type VARCHAR(255) NOT NULL,
     CONSTRAINT pk_likes PRIMARY KEY (id)
 );
 
