@@ -45,7 +45,7 @@ class BirthdayCafeImageFacadeTest extends ServiceTest {
             birthdayCafeImageFacade.saveDefaultImage(birthdayCafeId, BIRTHDAY_CAFE_IMAGE);
 
             // then
-            verify(imageUploader, times(1)).upload(any());
+            verify(imageRepository, times(1)).upload(any());
         }
 
         @Test
@@ -86,8 +86,8 @@ class BirthdayCafeImageFacadeTest extends ServiceTest {
             birthdayCafeImageFacade.updateMainImage(birthdayCafeId, BIRTHDAY_CAFE_IMAGE);
 
             // then
-            verify(imageUploader, times(1)).upload(any());
-            verify(imageUploader, times(1)).delete(any());
+            verify(imageRepository, times(1)).upload(any());
+            verify(imageRepository, times(1)).delete(any());
         }
 
         @Test
@@ -97,8 +97,8 @@ class BirthdayCafeImageFacadeTest extends ServiceTest {
 
             // when
             birthdayCafeImageFacade.updateMainImage(birthdayCafeId, BIRTHDAY_CAFE_IMAGE);
-            verify(imageUploader, times(1)).upload(any());
-            verify(imageUploader, times(0)).delete(any());
+            verify(imageRepository, times(1)).upload(any());
+            verify(imageRepository, times(0)).delete(any());
         }
 
         @Test
@@ -132,7 +132,7 @@ class BirthdayCafeImageFacadeTest extends ServiceTest {
                     .getSingleResult();
 
             // then
-            verify(imageUploader, times(1)).delete(any());
+            verify(imageRepository, times(1)).delete(any());
             assertThat(isExist).isFalse();
         }
 
