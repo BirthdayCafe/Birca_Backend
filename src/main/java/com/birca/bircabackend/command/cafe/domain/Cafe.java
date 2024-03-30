@@ -1,6 +1,5 @@
 package com.birca.bircabackend.command.cafe.domain;
 
-import com.birca.bircabackend.command.cafe.domain.value.CafeImage;
 import com.birca.bircabackend.command.cafe.domain.value.CafeMenu;
 import com.birca.bircabackend.command.cafe.domain.value.CafeOption;
 import com.birca.bircabackend.common.domain.BaseEntity;
@@ -38,10 +37,6 @@ public class Cafe extends BaseEntity {
 
     @Column(nullable = false)
     private String businessHours;
-
-    @ElementCollection
-    @CollectionTable(name = "cafe_image")
-    private List<CafeImage> cafeImages = new ArrayList<>();
 
     @ElementCollection
     @CollectionTable(name = "cafe_menu")

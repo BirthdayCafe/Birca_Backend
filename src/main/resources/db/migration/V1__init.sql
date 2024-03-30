@@ -55,8 +55,10 @@ ALTER TABLE cafe
 
 CREATE TABLE cafe_image
 (
+    id        BIGINT AUTO_INCREMENT NOT NULL,
     cafe_id   BIGINT   NOT NULL,
-    image_url LONGTEXT NOT NULL
+    image_url LONGTEXT NOT NULL,
+    CONSTRAINT pk_cafe_image PRIMARY KEY (id)
 );
 
 ALTER TABLE cafe_image
