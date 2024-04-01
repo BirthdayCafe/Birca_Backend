@@ -12,8 +12,8 @@ INSERT INTO business_license(id, owner_id, owner_name, cafe_name, tax_office_cod
                              address, image_url)
 VALUES (1, 3, '카페 사장', '스타벅스', '123', '12', '12345', '서울', 'business-license-imgae.com');
 
-INSERT INTO cafe (id, owner_id, business_license_id, name)
-VALUES (1, 3, 1, '메가커피');
+INSERT INTO cafe (id, owner_id, business_license_id, name, address, twitter_account, business_hours)
+VALUES (1, 3, 1, '메가커피', '서울특별시 강남구 테헤란로 212', '@ChaseM', '9시 - 22시');
 
 INSERT INTO artist (id, group_id, name, image_url)
 VALUES (1, NULL, '아이유', 'image1.com');
