@@ -32,12 +32,13 @@ public interface BirthdayCafeQueryRepository extends Repository<BirthdayCafe, Lo
             "order by bc.id desc")
     List<BirthdayCafeView> findMyBirthdayCafes(@Param("hostId") Long hostId);
 
-    @Query("select new com.birca.bircabackend.query.repository.model.BirthdayCafeView(bc, bci, a, ag, lk) " +
+    @Query("select new com.birca.bircabackend.query.repository.model.BirthdayCafeView(bc, bci, a, ag, lk, c) " +
             "from BirthdayCafe bc " +
             "join Artist a on a.id = bc.artistId " +
             "left join BirthdayCafeImage bci on bc.id = bci.birthdayCafeId and bci.isMain = true " +
             "left join ArtistGroup ag on a.groupId = ag.id " +
             "left join Like lk on lk.target.targetId = bc.id and lk.target.targetType = 'BIRTHDAY_CAFE' and lk.visitantId = :visitantId " +
+            "left join Cafe c on c.id = bc.cafeId " +
             "where bc.id = :birthdayCafeId")
     Optional<BirthdayCafeView> findBirthdayCafeDetail(Long visitantId, Long birthdayCafeId);
 }
