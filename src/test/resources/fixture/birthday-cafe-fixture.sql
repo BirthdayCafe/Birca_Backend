@@ -14,9 +14,13 @@ INSERT INTO business_license(id, owner_id, owner_name, cafe_name, tax_office_cod
 VALUES (1, 3, '카페 사장', '스타벅스', '123', '12', '12345', '서울', 'business-license-imgae.com');
 
 -- 사장님의 카페
-INSERT INTO cafe (id, owner_id, business_license_id, name)
-VALUES (1, 3, 1, '메가커피'), -- 사장님의 카페
-       (2, 4, 2, '스타벅스'); -- 다른 카페
+INSERT INTO cafe (id, owner_id, business_license_id, name, address, twitter_account, business_hours)
+VALUES (1, 3, 1, '메가커피', '서울특별시 강남구 테헤란로 212', '@ChaseM', '9시 - 22시'), -- 사장님의 카페
+       (2, 4, 2, '스타벅스', '경기도 성남시 분당구 판교역로 235', '@ChaseM', '9시 - 22시'); -- 다른 카페
+
+INSERT INTO cafe_image(id, cafe_id, image_url)
+VALUES (1, 1, 'image1.com'),
+       (2, 1, 'image2.com');
 
 -- 아티스트
 INSERT INTO artist_group (id, name, image_url)
@@ -76,5 +80,4 @@ INSERT INTO likes (visitant_id, target_id, target_type)
 VALUES (4, 3, 'BIRTHDAY_CAFE'),
        (4, 6, 'BIRTHDAY_CAFE');
 
-SET
-foreign_key_checks = 1;
+SET foreign_key_checks = 1;

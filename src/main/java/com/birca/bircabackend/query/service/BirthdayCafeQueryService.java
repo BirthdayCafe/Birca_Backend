@@ -6,6 +6,7 @@ import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.query.dto.*;
 import com.birca.bircabackend.query.repository.BirthdayCafeImageQueryRepository;
 import com.birca.bircabackend.query.repository.BirthdayCafeQueryRepository;
+import com.birca.bircabackend.query.repository.CafeImageRepository;
 import com.birca.bircabackend.query.repository.LikedBirthdayCafeQueryRepository;
 import com.birca.bircabackend.query.repository.model.BirthdayCafeView;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class BirthdayCafeQueryService {
     private final BirthdayCafeQueryRepository birthdayCafeQueryRepository;
     private final BirthdayCafeImageQueryRepository birthdayCafeImageQueryRepository;
     private final LikedBirthdayCafeQueryRepository likedBirthdayCafeQueryRepository;
+    private final CafeImageRepository cafeImageRepository;
 
     public List<SpecialGoodsResponse> findSpecialGoods(Long birthdayCafeId) {
         return birthdayCafeQueryRepository.findSpecialGoodsById(birthdayCafeId)
@@ -65,6 +67,7 @@ public class BirthdayCafeQueryService {
                 .orElseThrow(() -> BusinessException.from(BirthdayCafeErrorCode.NOT_FOUND));
         List<String> defaultImages = birthdayCafeImageQueryRepository.findBirthdayCafeDefaultImages(birthdayCafeId);
         Integer likeCount = likedBirthdayCafeQueryRepository.findLikedCount(birthdayCafeId);
-        return BirthdayCafeDetailResponse.of(birthdayCafeView, likeCount, defaultImages);
+        List<String> cafeImages = cafeImageRepository.findByCafeId(birthdayCafeView.cafe().getId());
+        return BirthdayCafeDetailResponse.of(birthdayCafeView, likeCount, defaultImages, cafeImages);
     }
 }

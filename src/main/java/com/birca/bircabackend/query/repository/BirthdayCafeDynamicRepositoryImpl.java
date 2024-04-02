@@ -19,6 +19,7 @@ import static com.birca.bircabackend.command.artist.domain.QArtist.artist;
 import static com.birca.bircabackend.command.artist.domain.QArtistGroup.artistGroup;
 import static com.birca.bircabackend.command.birca.domain.QBirthdayCafe.birthdayCafe;
 import static com.birca.bircabackend.command.birca.domain.QBirthdayCafeImage.birthdayCafeImage;
+import static com.birca.bircabackend.command.cafe.domain.QCafe.cafe;
 import static com.birca.bircabackend.command.like.domain.QLike.like;
 
 @Repository
@@ -33,9 +34,10 @@ public class BirthdayCafeDynamicRepositoryImpl implements BirthdayCafeDynamicRep
                                                       BirthdayCafeParams birthdayCafeParams,
                                                       PagingParams pagingParams) {
         return queryFactory.select(Projections.constructor(BirthdayCafeView.class,
-                        birthdayCafe, birthdayCafeImage, artist, artistGroup, like))
+                        birthdayCafe, birthdayCafeImage, artist, artistGroup, like, cafe))
                 .from(birthdayCafe)
                 .join(artist).on(birthdayCafe.artistId.eq(artist.id))
+                .leftJoin(cafe).on(cafe.id.eq(birthdayCafe.cafeId))
                 .leftJoin(artistGroup).on(artistGroup.id.eq(artist.groupId))
                 .leftJoin(birthdayCafeImage).on(
                         birthdayCafe.id.eq(birthdayCafeImage.birthdayCafeId)

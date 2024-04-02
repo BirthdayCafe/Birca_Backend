@@ -189,7 +189,8 @@ class BirthdayCafeQueryControllerTest extends DocumentationTest {
                                 LocalDateTime.of(2024, 3, 19, 0, 0, 0),
                                 "민호의 생일 카페",
                                 true,
-                                new BirthdayCafeResponse.ArtistResponse("샤이니", "민호")
+                                new BirthdayCafeResponse.ArtistResponse("샤이니", "민호"),
+                                new BirthdayCafeResponse.CafeResponse("경기도 성남시 분당구 판교역로 235")
                         ),
                         new BirthdayCafeResponse(
                                 2L,
@@ -198,7 +199,8 @@ class BirthdayCafeQueryControllerTest extends DocumentationTest {
                                 LocalDateTime.of(2024, 3, 23, 0, 0, 0),
                                 "아이유의 생일 카페",
                                 false,
-                                new BirthdayCafeResponse.ArtistResponse(null, "아이유")
+                                new BirthdayCafeResponse.ArtistResponse(null, "아이유"),
+                                new BirthdayCafeResponse.CafeResponse("서울특별시 강남구 테헤란로 212")
                         )
                 ));
 
@@ -231,7 +233,8 @@ class BirthdayCafeQueryControllerTest extends DocumentationTest {
                                 fieldWithPath("[].birthdayCafeName").type(JsonFieldType.STRING).description("생일 카페 이름"),
                                 fieldWithPath("[].isLiked").type(JsonFieldType.BOOLEAN).description("찜 했는지 여부"),
                                 fieldWithPath("[].artist.groupName").type(JsonFieldType.STRING).description("아티스트 그룹 이름").optional(),
-                                fieldWithPath("[].artist.name").type(JsonFieldType.STRING).description("아티스트 이름")
+                                fieldWithPath("[].artist.name").type(JsonFieldType.STRING).description("아티스트 이름"),
+                                fieldWithPath("[].cafe.address").type(JsonFieldType.STRING).description("카페 주소")
                         )
                 ));
     }
@@ -242,6 +245,9 @@ class BirthdayCafeQueryControllerTest extends DocumentationTest {
         Long birthdayCafeId = 1L;
         given(birthdayCafeQueryService.findBirthdayCafeDetail(any(), any()))
                 .willReturn(new BirthdayCafeDetailResponse(
+                        new BirthdayCafeDetailResponse.CafeResponse(
+                                "스타벅스", "경기도 성남시 분당구 판교역로 235", List.of("image1.com", "image2.com")
+                        ),
                         new BirthdayCafeDetailResponse.ArtistResponse("샤이니", "민호"),
                         LocalDateTime.of(2024, 3, 20, 0, 0, 0),
                         LocalDateTime.of(2024, 3, 23, 0, 0, 0),
@@ -272,6 +278,9 @@ class BirthdayCafeQueryControllerTest extends DocumentationTest {
                                 parameterWithName("birthdayCafeId").description("생일 카페 ID")
                         ),
                         responseFields(
+                                fieldWithPath("cafe.name").type(JsonFieldType.STRING).description("카페 이름"),
+                                fieldWithPath("cafe.address").type(JsonFieldType.STRING).description("카페 주소"),
+                                fieldWithPath("cafe.images").type(JsonFieldType.ARRAY).description("카페 사진"),
                                 fieldWithPath("artist.groupName").type(JsonFieldType.STRING).description("아티스트 그룹 이름").optional(),
                                 fieldWithPath("artist.name").type(JsonFieldType.STRING).description("아티스트 이름"),
                                 fieldWithPath("startDate").type(JsonFieldType.STRING).description("생일 카페 시작일"),

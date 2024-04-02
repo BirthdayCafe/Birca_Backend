@@ -232,6 +232,9 @@ class BirthdayCafeQueryServiceTest extends ServiceTest {
             // then
             assertThat(actual).isEqualTo(
                     new BirthdayCafeDetailResponse(
+                            new BirthdayCafeDetailResponse.CafeResponse(
+                                    "메가커피", "서울특별시 강남구 테헤란로 212", List.of("image1.com", "image2.com")
+                            ),
                             new BirthdayCafeDetailResponse.ArtistResponse(null, "아이유"),
                             LocalDateTime.parse("2024-02-09T00:00"),
                             LocalDateTime.parse("2024-02-10T00:00"),
