@@ -3,7 +3,9 @@ package com.birca.bircabackend.query.repository;
 import com.birca.bircabackend.command.birca.domain.BirthdayCafe;
 import com.birca.bircabackend.command.birca.domain.value.LuckyDraw;
 import com.birca.bircabackend.command.birca.domain.value.BirthdayCafeMenu;
+import com.birca.bircabackend.command.birca.domain.value.ProgressState;
 import com.birca.bircabackend.command.birca.domain.value.SpecialGoods;
+import com.birca.bircabackend.query.dto.BirthdayCafeApplicationResponse;
 import com.birca.bircabackend.query.repository.model.BirthdayCafeView;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
@@ -41,4 +43,12 @@ public interface BirthdayCafeQueryRepository extends Repository<BirthdayCafe, Lo
             "left join Cafe c on c.id = bc.cafeId " +
             "where bc.id = :birthdayCafeId")
     Optional<BirthdayCafeView> findBirthdayCafeDetail(Long visitantId, Long birthdayCafeId);
+
+    @Query("select new com.birca.bircabackend.query.repository.model.BirthdayCafeView(bc, a, ag, m) " +
+            "from BirthdayCafe bc " +
+            "join Artist a on a.id = bc.artistId " +
+            "left join ArtistGroup ag on a.groupId = ag.id " +
+            "left join Member m on m.id = bc.hostId " +
+            "where bc.cafeOwnerId = :ownerId and bc.progressState = :progressState")
+    List<BirthdayCafeView> findBirthdayCafeApplication(Long ownerId, ProgressState progressState);
 }
