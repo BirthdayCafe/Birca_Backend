@@ -54,4 +54,11 @@ public class BirthdayCafeQueryController {
     public ResponseEntity<BirthdayCafeDetailResponse> findBirthdayCafeDetail(LoginMember loginMember, @PathVariable Long birthdayCafeId) {
         return ResponseEntity.ok(birthdayCafeQueryService.findBirthdayCafeDetail(loginMember, birthdayCafeId));
     }
+
+    @GetMapping("/v1/owners/birthday-cafes")
+    @RequiredLogin
+    public ResponseEntity<List<BirthdayCafeApplicationResponse>> findBirthdayCafeApplication(LoginMember loginMember,
+                                                                                       @RequestParam String progressState) {
+        return ResponseEntity.ok(birthdayCafeQueryService.findBirthdayCafeApplication(loginMember, progressState));
+    }
 }

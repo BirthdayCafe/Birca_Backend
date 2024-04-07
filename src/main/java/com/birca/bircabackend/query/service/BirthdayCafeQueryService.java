@@ -1,6 +1,7 @@
 package com.birca.bircabackend.query.service;
 
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
+import com.birca.bircabackend.command.birca.domain.value.ProgressState;
 import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
 import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.query.dto.*;
@@ -69,5 +70,12 @@ public class BirthdayCafeQueryService {
         Integer likeCount = likedBirthdayCafeQueryRepository.findLikedCount(birthdayCafeId);
         List<String> cafeImages = cafeImageRepository.findByCafeId(birthdayCafeView.cafe().getId());
         return BirthdayCafeDetailResponse.of(birthdayCafeView, likeCount, defaultImages, cafeImages);
+    }
+
+    public List<BirthdayCafeApplicationResponse> findBirthdayCafeApplication(LoginMember loginMember, String progressState) {
+        return birthdayCafeQueryRepository.findBirthdayCafeApplication(loginMember.id(), ProgressState.valueOf(progressState))
+                .stream()
+                .map(BirthdayCafeApplicationResponse::from)
+                .toList();
     }
 }
