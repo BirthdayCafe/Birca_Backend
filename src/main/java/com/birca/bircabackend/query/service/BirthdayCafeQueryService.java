@@ -79,8 +79,8 @@ public class BirthdayCafeQueryService {
                 .toList();
     }
 
-    public BirthdayCafeApplicationDetailResponse findBirthdayCafeApplicationDetail(Long birthdayCafeId) {
-        BirthdayCafeView birthdayCafeView = birthdayCafeQueryRepository.findBirthdayCafeApplicationDetail(birthdayCafeId)
+    public BirthdayCafeApplicationDetailResponse findBirthdayCafeApplicationDetail(LoginMember loginMember, Long birthdayCafeId) {
+        BirthdayCafeView birthdayCafeView = birthdayCafeQueryRepository.findBirthdayCafeApplicationDetail(loginMember.id(), birthdayCafeId)
                 .orElseThrow(() -> BusinessException.from(BirthdayCafeErrorCode.NOT_FOUND));
         return BirthdayCafeApplicationDetailResponse.from(birthdayCafeView);
     }

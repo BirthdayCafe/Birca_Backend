@@ -147,7 +147,7 @@ public class BirthdayCafeQueryAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .when()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(HOST_ID))
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(3L))
                 .get("/api/v1/owners/birthday-cafes/{birthdayCafeId}", BIRTHDAY_CAFE_ID)
                 .then().log().all()
                 .extract();

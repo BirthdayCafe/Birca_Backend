@@ -56,6 +56,6 @@ public interface BirthdayCafeQueryRepository extends Repository<BirthdayCafe, Lo
             "from BirthdayCafe bc " +
             "join Artist a on a.id = bc.artistId " +
             "left join ArtistGroup ag on a.groupId = ag.id " +
-            "where bc.id = :birthdayCafeId")
-    Optional<BirthdayCafeView> findBirthdayCafeApplicationDetail(Long birthdayCafeId);
+            "where bc.cafeOwnerId = :ownerId and bc.id = :birthdayCafeId")
+    Optional<BirthdayCafeView> findBirthdayCafeApplicationDetail(Long ownerId, Long birthdayCafeId);
 }

@@ -349,8 +349,9 @@ class BirthdayCafeQueryControllerTest extends DocumentationTest {
     @Test
     void 사장님이_생일_카페_신청_상세_조회를_한다() throws Exception {
         //given
+        LoginMember loginMember = new LoginMember(1L);
         Long birthdayCafeId = 1L;
-        given(birthdayCafeQueryService.findBirthdayCafeApplicationDetail(birthdayCafeId))
+        given(birthdayCafeQueryService.findBirthdayCafeApplicationDetail(loginMember, birthdayCafeId))
                 .willReturn(new BirthdayCafeApplicationDetailResponse(
                         birthdayCafeId,
                         new BirthdayCafeApplicationDetailResponse.ArtistResponse("방탄소년단", "뷔"),

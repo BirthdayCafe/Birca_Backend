@@ -301,10 +301,12 @@ class BirthdayCafeQueryServiceTest extends ServiceTest {
         @Test
         void 정상적으로_조회한다() {
             // given
+            LoginMember loginMember = new LoginMember(3L);
             Long birthdayCafeId = 1L;
 
             // when
-            BirthdayCafeApplicationDetailResponse response = birthdayCafeQueryService.findBirthdayCafeApplicationDetail(birthdayCafeId);
+            BirthdayCafeApplicationDetailResponse response =
+                    birthdayCafeQueryService.findBirthdayCafeApplicationDetail(loginMember, birthdayCafeId);
 
             // then
             assertAll(
@@ -323,10 +325,11 @@ class BirthdayCafeQueryServiceTest extends ServiceTest {
         @Test
         void 존재하지_않는_생일_카페는_예외가_발생한다() {
             // given
+            LoginMember loginMember = new LoginMember(1L);
             Long birthdayCafeId = 100L;
 
             // when then
-            assertThatThrownBy(() -> birthdayCafeQueryService.findBirthdayCafeApplicationDetail(birthdayCafeId))
+            assertThatThrownBy(() -> birthdayCafeQueryService.findBirthdayCafeApplicationDetail(loginMember, birthdayCafeId))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.NOT_FOUND);
