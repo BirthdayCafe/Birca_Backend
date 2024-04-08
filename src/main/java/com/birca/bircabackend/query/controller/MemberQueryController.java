@@ -1,7 +1,9 @@
 package com.birca.bircabackend.query.controller;
 
+import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.auth.authorization.RequiredLogin;
 import com.birca.bircabackend.query.dto.NicknameCheckResponse;
+import com.birca.bircabackend.query.dto.ProfileResponse;
 import com.birca.bircabackend.query.service.MemberQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,5 +23,11 @@ public class MemberQueryController {
     @RequiredLogin
     public ResponseEntity<NicknameCheckResponse> checkNicknameDuplicated(@RequestParam(name = "nickname") String nickname) {
         return ResponseEntity.ok(memberQueryService.checkNickname(nickname));
+    }
+
+    @GetMapping("/v1/members/me")
+    @RequiredLogin
+    public ResponseEntity<ProfileResponse> getMyProfile(LoginMember loginMember) {
+        return ResponseEntity.ok(memberQueryService.getMyProfile(loginMember));
     }
 }
