@@ -51,4 +51,11 @@ public interface BirthdayCafeQueryRepository extends Repository<BirthdayCafe, Lo
             "left join Member m on m.id = bc.hostId " +
             "where bc.cafeOwnerId = :ownerId and bc.progressState = :progressState")
     List<BirthdayCafeView> findBirthdayCafeApplication(Long ownerId, ProgressState progressState);
+
+    @Query("select new com.birca.bircabackend.query.repository.model.BirthdayCafeView(bc, a, ag) " +
+            "from BirthdayCafe bc " +
+            "join Artist a on a.id = bc.artistId " +
+            "left join ArtistGroup ag on a.groupId = ag.id " +
+            "where bc.cafeOwnerId = :ownerId and bc.id = :birthdayCafeId")
+    Optional<BirthdayCafeView> findBirthdayCafeApplicationDetail(Long ownerId, Long birthdayCafeId);
 }
