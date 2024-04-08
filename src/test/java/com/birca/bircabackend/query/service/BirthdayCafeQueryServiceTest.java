@@ -293,4 +293,43 @@ class BirthdayCafeQueryServiceTest extends ServiceTest {
             );
         }
     }
+
+    @Nested
+    @DisplayName("사장님이 생일 카페 신청 상세할 때")
+    class FindBirthdayCafeApplicationDetail {
+
+        @Test
+        void 정상적으로_조회한다() {
+            // given
+            Long birthdayCafeId = 1L;
+
+            // when
+            BirthdayCafeApplicationDetailResponse response = birthdayCafeQueryService.findBirthdayCafeApplicationDetail(birthdayCafeId);
+
+            // then
+            assertAll(
+                    () -> assertThat(response.birthdayCafeId()).isEqualTo(1L),
+                    () -> assertThat(response.artist().groupName()).isNull(),
+                    () -> assertThat(response.artist().name()).isEqualTo("아이유"),
+                    () -> assertThat(response.startDate()).isEqualTo("2024-02-08T00:00:00"),
+                    () -> assertThat(response.endDate()).isEqualTo("2024-02-10T00:00:00"),
+                    () -> assertThat(response.minimumVisitant()).isEqualTo(5),
+                    () -> assertThat(response.maximumVisitant()).isEqualTo(10),
+                    () -> assertThat(response.twitterAccount()).isEqualTo("@ChaseM"),
+                    () -> assertThat(response.hostPhoneNumber()).isEqualTo("010-0000-0000")
+            );
+        }
+
+        @Test
+        void 존재하지_않는_생일_카페는_예외가_발생한다() {
+            // given
+            Long birthdayCafeId = 100L;
+
+            // when then
+            assertThatThrownBy(() -> birthdayCafeQueryService.findBirthdayCafeApplicationDetail(birthdayCafeId))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.NOT_FOUND);
+        }
+    }
 }
