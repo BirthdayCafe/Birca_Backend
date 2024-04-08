@@ -1,6 +1,8 @@
 package com.birca.bircabackend.query.controller;
 
+import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.query.dto.NicknameCheckResponse;
+import com.birca.bircabackend.query.dto.ProfileResponse;
 import com.birca.bircabackend.support.enviroment.DocumentationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -32,7 +34,7 @@ class MemberQueryControllerTest extends DocumentationTest {
         ResultActions result = mockMvc.perform(get("/api/v1/join/check-nickname")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(memberId))
-                        .characterEncoding("UTF-8")
+                .characterEncoding("UTF-8")
                 .queryParam("nickname", requestNickname)
         );
 
@@ -44,6 +46,29 @@ class MemberQueryControllerTest extends DocumentationTest {
                         ),
                         responseFields(
                                 fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("중복 여부")
+                        )
+                ));
+    }
+
+    @Test
+    void 자신의_프로필을_조회한다() throws Exception {
+        // given
+        LoginMember loginMember = new LoginMember(1L);
+        given(memberQueryService.getMyProfile(loginMember))
+                .willReturn(new ProfileResponse("더즈"));
+
+        // when
+        ResultActions result = mockMvc.perform(get("/api/v1/members/me")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(loginMember.id()))
+                .characterEncoding("UTF-8")
+        );
+
+        // then
+        result.andExpect((status().isOk()))
+                .andDo(document("get-my-profile", HOST_INFO,
+                        responseFields(
+                                fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임")
                         )
                 ));
     }
