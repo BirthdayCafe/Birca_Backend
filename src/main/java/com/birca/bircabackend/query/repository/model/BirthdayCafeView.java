@@ -29,4 +29,8 @@ public record BirthdayCafeView(
     public BirthdayCafeView(BirthdayCafe birthdayCafe, Artist artist, ArtistGroup artistGroup, Member member) {
         this(birthdayCafe, null, artist, artistGroup, null, null, member);
     }
+
+    public BirthdayCafeView(BirthdayCafe birthdayCafe, Artist artist, ArtistGroup artistGroup) {
+        this(birthdayCafe, null, artist, artistGroup, null, null, null);
+    }
 }

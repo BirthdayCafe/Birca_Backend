@@ -78,4 +78,10 @@ public class BirthdayCafeQueryService {
                 .map(BirthdayCafeApplicationResponse::from)
                 .toList();
     }
+
+    public BirthdayCafeApplicationDetailResponse findBirthdayCafeApplicationDetail(Long birthdayCafeId) {
+        BirthdayCafeView birthdayCafeView = birthdayCafeQueryRepository.findBirthdayCafeApplicationDetail(birthdayCafeId)
+                .orElseThrow(() -> BusinessException.from(BirthdayCafeErrorCode.NOT_FOUND));
+        return BirthdayCafeApplicationDetailResponse.from(birthdayCafeView);
+    }
 }
