@@ -580,4 +580,39 @@ class BirthdayCafeServiceTest extends ServiceTest {
                     .isEqualTo(BirthdayCafeErrorCode.RENTAL_ALREADY_EXISTS);
         }
     }
+
+    @Nested
+    @DisplayName("생일 카페 신청을 거절할 때")
+    @Sql("/fixture/birthday-cafe-application-fixture.sql")
+    class CancelBirthdayCafeApplicationTest {
+
+        private static final LoginMember CAFE_OWNER = new LoginMember(2L);
+
+        @Test
+        void 정상적으로_거절한다() {
+            // given
+            Long birthdayCafeId = 1L;
+
+            // when
+            birthdayCafeService.cancelBirthdayCafeApplication(birthdayCafeId, CAFE_OWNER);
+            ProgressState progressState = entityManager.createQuery(
+                            "select bc.progressState from BirthdayCafe bc where bc.id = :id", ProgressState.class
+                    )
+                    .setParameter("id", birthdayCafeId)
+                    .getSingleResult();
+
+            // then
+            assertThat(progressState).isEqualTo(ProgressState.RENTAL_CANCELED);
+        }
+
+        @Test
+        void 존재하지_않는_생일_카페는_예외가_발생한다() {
+            // when then
+            assertThatThrownBy(() ->
+                    birthdayCafeService.cancelBirthdayCafeApplication(100L, CAFE_OWNER))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.NOT_FOUND);
+        }
+    }
 }
