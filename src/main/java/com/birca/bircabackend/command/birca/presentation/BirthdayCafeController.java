@@ -97,8 +97,15 @@ public class BirthdayCafeController {
 
     @PostMapping("/v1/owners/birthday-cafes/{birthdayCafeId}/approve")
     @RequiredLogin
-    public ResponseEntity<Void> approveBirthdayCafe(@PathVariable Long birthdayCafeId, LoginMember loginMember) {
-        birthdayCafeService.approveBirthdayCafe(birthdayCafeId, loginMember);
+    public ResponseEntity<Void> approveBirthdayCafeApplication(@PathVariable Long birthdayCafeId, LoginMember loginMember) {
+        birthdayCafeService.approveBirthdayCafeApplication(birthdayCafeId, loginMember);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/v1/owners/birthday-cafes/{birthdayCafeId}/cancel")
+    @RequiredLogin
+    public ResponseEntity<Void> cancelBirthdayCafeApplication(@PathVariable Long birthdayCafeId, LoginMember loginMember) {
+        birthdayCafeService.cancelBirthdayCafeApplication(birthdayCafeId, loginMember);
         return ResponseEntity.ok().build();
     }
 }

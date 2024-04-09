@@ -111,4 +111,8 @@ public class BirthdayCafeService {
         birthdayCafe.approveRental(loginMember.id());
     }
 
+    public void cancelBirthdayCafeApplication(Long birthdayCafeId, LoginMember loginMember) {
+        BirthdayCafe birthdayCafe = entityUtil.getEntity(BirthdayCafe.class, birthdayCafeId, NOT_FOUND);
+        birthdayCafe.cancelRental(loginMember.id());
+    }
 }
