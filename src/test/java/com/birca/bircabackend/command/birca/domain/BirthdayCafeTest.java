@@ -600,7 +600,7 @@ class BirthdayCafeTest {
                     .sample();
 
             // when
-            birthdayCafe.changeState(ProgressState.RENTAL_APPROVED, ownerId);
+            birthdayCafe.approveRental(ownerId);
 
             // then
             assertThat(birthdayCafe.getProgressState()).isEqualTo(ProgressState.RENTAL_APPROVED);
@@ -615,7 +615,7 @@ class BirthdayCafeTest {
                     .sample();
 
             // when then
-            assertThatThrownBy(() -> birthdayCafe.changeState(ProgressState.RENTAL_APPROVED, 100L))
+            assertThatThrownBy(() -> birthdayCafe.approveRental(100L))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_UPDATE);

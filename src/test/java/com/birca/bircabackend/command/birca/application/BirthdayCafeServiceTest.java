@@ -533,7 +533,7 @@ class BirthdayCafeServiceTest extends ServiceTest {
             Long rentalPendingBirthdayCafeId = 4L;
 
             // when
-            birthdayCafeService.approveBirthdayCafe(rentalPendingBirthdayCafeId, CAFE_OWNER);
+            birthdayCafeService.approveBirthdayCafeApplication(rentalPendingBirthdayCafeId, CAFE_OWNER);
             ProgressState progressState = entityManager.createQuery(
                             "select bc.progressState from BirthdayCafe bc where bc.id = :id", ProgressState.class
                     )
@@ -548,7 +548,7 @@ class BirthdayCafeServiceTest extends ServiceTest {
         void 존재하지_않는_생일_카페는_예외가_발생한다() {
             // when then
             assertThatThrownBy(() ->
-                    birthdayCafeService.approveBirthdayCafe(100L, CAFE_OWNER))
+                    birthdayCafeService.approveBirthdayCafeApplication(100L, CAFE_OWNER))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.NOT_FOUND);
@@ -561,7 +561,7 @@ class BirthdayCafeServiceTest extends ServiceTest {
 
             // when then
             assertThatThrownBy(() ->
-                    birthdayCafeService.approveBirthdayCafe(birthdayCafeId, CAFE_OWNER))
+                    birthdayCafeService.approveBirthdayCafeApplication(birthdayCafeId, CAFE_OWNER))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.RENTAL_ALREADY_EXISTS);
@@ -574,7 +574,7 @@ class BirthdayCafeServiceTest extends ServiceTest {
 
             // when then
             assertThatThrownBy(() ->
-                    birthdayCafeService.approveBirthdayCafe(birthdayCafeId, CAFE_OWNER))
+                    birthdayCafeService.approveBirthdayCafeApplication(birthdayCafeId, CAFE_OWNER))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.RENTAL_ALREADY_EXISTS);
