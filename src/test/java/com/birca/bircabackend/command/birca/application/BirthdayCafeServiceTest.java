@@ -9,6 +9,7 @@ import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.support.enviroment.ServiceTest;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -516,6 +517,67 @@ class BirthdayCafeServiceTest extends ServiceTest {
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_UPDATE);
+        }
+    }
+
+    @Nested
+    @DisplayName("카페 신청을 수락할 때")
+    @Sql("/fixture/birthday-cafe-application-fixture.sql")
+    class ApproveBirthdayCafeTest {
+
+        private static final LoginMember CAFE_OWNER = new LoginMember(2L);
+
+        @Test
+        void 정상적으로_수락한다() {
+            // given
+            Long rentalPendingBirthdayCafeId = 4L;
+
+            // when
+            birthdayCafeService.approveBirthdayCafe(rentalPendingBirthdayCafeId, CAFE_OWNER);
+            ProgressState progressState = entityManager.createQuery(
+                            "select bc.progressState from BirthdayCafe bc where bc.id = :id", ProgressState.class
+                    )
+                    .setParameter("id", rentalPendingBirthdayCafeId)
+                    .getSingleResult();
+
+            // then
+            Assertions.assertThat(progressState).isEqualTo(ProgressState.RENTAL_APPROVED);
+        }
+
+        @Test
+        void 존재하지_않는_생일_카페는_예외가_발생한다() {
+            // when then
+            assertThatThrownBy(() ->
+                    birthdayCafeService.approveBirthdayCafe(100L, CAFE_OWNER))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.NOT_FOUND);
+        }
+
+        @Test
+        void 이미_대관_완료된_날짜는_예외가_발생한다() {
+            // given
+            Long birthdayCafeId = 1L;
+
+            // when then
+            assertThatThrownBy(() ->
+                    birthdayCafeService.approveBirthdayCafe(birthdayCafeId, CAFE_OWNER))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.RENTAL_ALREADY_EXISTS);
+        }
+
+        @Test
+        void 진행_중인_날짜는_예외가_발생한다() {
+            // given
+            Long birthdayCafeId = 1L;
+
+            // when then
+            assertThatThrownBy(() ->
+                    birthdayCafeService.approveBirthdayCafe(birthdayCafeId, CAFE_OWNER))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.RENTAL_ALREADY_EXISTS);
         }
     }
 }

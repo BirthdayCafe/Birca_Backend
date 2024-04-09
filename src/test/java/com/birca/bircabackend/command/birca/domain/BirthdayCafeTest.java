@@ -586,4 +586,39 @@ class BirthdayCafeTest {
                     .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_UPDATE);
         }
     }
+
+    @Nested
+    @DisplayName("생일 카페 진행 상태를 변경할 때")
+    class ChangeProgressStateTest {
+
+        @Test
+        void 정상적으로_변경한다() {
+            // given
+            Long ownerId = 1L;
+            BirthdayCafe birthdayCafe = fixtureMonkey.giveMeBuilder(BirthdayCafe.class)
+                    .set("cafeOwnerId", ownerId)
+                    .sample();
+
+            // when
+            birthdayCafe.changeState(ProgressState.RENTAL_APPROVED, ownerId);
+
+            // then
+            assertThat(birthdayCafe.getProgressState()).isEqualTo(ProgressState.RENTAL_APPROVED);
+        }
+
+        @Test
+        void 자신의_카페가_아니면_수락할_수_없다() {
+            // given
+            Long ownerId = 1L;
+            BirthdayCafe birthdayCafe = fixtureMonkey.giveMeBuilder(BirthdayCafe.class)
+                    .set("cafeOwnerId", ownerId)
+                    .sample();
+
+            // when then
+            assertThatThrownBy(() -> birthdayCafe.changeState(ProgressState.RENTAL_APPROVED, 100L))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_UPDATE);
+        }
+    }
 }
