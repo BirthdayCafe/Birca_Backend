@@ -98,6 +98,8 @@ operation::get-birthday-cafe-application[snippets='http-request,query-parameters
 operation::get-birthday-cafe-application-detail[snippets='http-request,path-parameters,http-response']
 === 생일 카페 요청 승인
 operation::birthday-cafe-approve[snippets='http-request,path-parameters,http-response']
+=== 생일 카페 요청 거절
+operation::birthday-cafe-cancel[snippets='http-request,path-parameters,http-response']
 === 에러 코드
 include::{snippets}/birthday-cafe-error-Code/response-body.adoc[]
 

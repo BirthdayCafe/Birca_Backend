@@ -101,13 +101,18 @@ public class BirthdayCafeService {
         birthdayCafe.updateTwitterAccount(memberId, request.birthdayCafeTwitterAccount());
     }
 
-    public void approveBirthdayCafe(Long birthdayCafeId, LoginMember loginMember) {
+    public void approveBirthdayCafeApplication(Long birthdayCafeId, LoginMember loginMember) {
         BirthdayCafe birthdayCafe = entityUtil.getEntity(BirthdayCafe.class, birthdayCafeId, NOT_FOUND);
         LocalDateTime startDate = birthdayCafe.getSchedule().getStartDate();
         LocalDateTime endDate = birthdayCafe.getSchedule().getEndDate();
         if (birthdayCafeRepository.existsBirthdayCafe(startDate, endDate, birthdayCafe.getCafeId())) {
             throw BusinessException.from(RENTAL_ALREADY_EXISTS);
         }
-        birthdayCafe.changeState(RENTAL_APPROVED, loginMember.id());
+        birthdayCafe.approveRental(loginMember.id());
+    }
+
+    public void cancelBirthdayCafeApplication(Long birthdayCafeId, LoginMember loginMember) {
+        BirthdayCafe birthdayCafe = entityUtil.getEntity(BirthdayCafe.class, birthdayCafeId, NOT_FOUND);
+        birthdayCafe.cancelRental(loginMember.id());
     }
 }

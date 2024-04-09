@@ -100,6 +100,13 @@ public class BirthdayCafe extends BaseEntity {
         progressState = ProgressState.RENTAL_CANCELED;
     }
 
+    public void approveRental(Long memberId) {
+        if (!isOwner(memberId)) {
+            throw BusinessException.from(UNAUTHORIZED_UPDATE);
+        }
+        progressState = ProgressState.RENTAL_APPROVED;
+    }
+
     public void updateName(Long memberId, String name) {
         validateIsHost(memberId);
         this.name = name;
