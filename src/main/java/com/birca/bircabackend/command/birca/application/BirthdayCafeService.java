@@ -11,8 +11,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.birca.bircabackend.command.birca.domain.value.ProgressState.*;
 import static com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode.*;
 
 @Service
@@ -32,7 +34,7 @@ public class BirthdayCafeService {
     }
 
     private void validateRentalPendingExists(Long hostId) {
-        if (birthdayCafeRepository.existsByHostIdAndProgressState(hostId, ProgressState.RENTAL_PENDING)) {
+        if (birthdayCafeRepository.existsByHostIdAndProgressState(hostId, RENTAL_PENDING)) {
             throw BusinessException.from(RENTAL_PENDING_EXISTS);
         }
     }
@@ -97,5 +99,15 @@ public class BirthdayCafeService {
         Long memberId = loginMember.id();
         birthdayCafe.updateName(memberId, request.birthdayCafeName());
         birthdayCafe.updateTwitterAccount(memberId, request.birthdayCafeTwitterAccount());
+    }
+
+    public void approveBirthdayCafe(Long birthdayCafeId, LoginMember loginMember) {
+        BirthdayCafe birthdayCafe = entityUtil.getEntity(BirthdayCafe.class, birthdayCafeId, NOT_FOUND);
+        LocalDateTime startDate = birthdayCafe.getSchedule().getStartDate();
+        LocalDateTime endDate = birthdayCafe.getSchedule().getEndDate();
+        if (birthdayCafeRepository.existsBirthdayCafe(startDate, endDate, birthdayCafe.getCafeId())) {
+            throw BusinessException.from(RENTAL_ALREADY_EXISTS);
+        }
+        birthdayCafe.changeState(RENTAL_APPROVED, loginMember.id());
     }
 }

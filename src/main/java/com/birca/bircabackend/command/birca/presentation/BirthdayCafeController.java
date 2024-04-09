@@ -94,4 +94,11 @@ public class BirthdayCafeController {
         birthdayCafeService.updateBirthdayCafe(birthdayCafeId, loginMember, request);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/v1/owners/birthday-cafes/{birthdayCafeId}/approve")
+    @RequiredLogin
+    public ResponseEntity<Void> approveBirthdayCafe(@PathVariable Long birthdayCafeId, LoginMember loginMember) {
+        birthdayCafeService.approveBirthdayCafe(birthdayCafeId, loginMember);
+        return ResponseEntity.ok().build();
+    }
 }
