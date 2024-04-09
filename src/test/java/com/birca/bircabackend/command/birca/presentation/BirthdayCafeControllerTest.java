@@ -230,6 +230,27 @@ public class BirthdayCafeControllerTest extends DocumentationTest {
     }
 
     @Test
+    void 생일_카페_신청을_수락한다() throws Exception {
+        // given
+        Long birthdayCafeId = 1L;
+
+        // when
+        ResultActions result = mockMvc.perform(
+                post("/api/v1/owners/birthday-cafes/{birthdayCafeId}/approve", birthdayCafeId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
+        );
+
+        // then
+        result.andExpect((status().isOk()))
+                .andDo(document("birthday-cafe-approve", HOST_INFO, DOCUMENT_RESPONSE,
+                        pathParameters(
+                                parameterWithName("birthdayCafeId").description("요청 승인할 생일 카페 ID")
+                        )
+                ));
+    }
+
+    @Test
     void 생일_카페_에러_코드() throws Exception {
         // when
         ResultActions result = mockMvc.perform(get("/error-codes")

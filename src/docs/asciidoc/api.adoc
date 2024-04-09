@@ -96,6 +96,8 @@ operation::get-birthday-cafe-detail[snippets='http-request,path-parameters,http-
 operation::get-birthday-cafe-application[snippets='http-request,query-parameters,http-response']
 === 사장님의 생일 카페 신청 상세 조회
 operation::get-birthday-cafe-application-detail[snippets='http-request,path-parameters,http-response']
+=== 생일 카페 요청 승인
+operation::birthday-cafe-approve[snippets='http-request,path-parameters,http-response']
 === 에러 코드
 include::{snippets}/birthday-cafe-error-Code/response-body.adoc[]
 
