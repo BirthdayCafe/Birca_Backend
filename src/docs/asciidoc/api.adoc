@@ -106,6 +106,8 @@ include::{snippets}/birthday-cafe-error-Code/response-body.adoc[]
 == 카페 API
 === 카페 검색
 operation::search-cafes[snippets='http-request,http-response']
+=== 카페 상세 조회
+operation::get-cafe-detail[snippets='http-request,http-response']
 === 카페 이미지 업로드
 operation::upload-cafe-image[snippets='http-request,http-response']
 === 카페 이미지 삭제

@@ -1,5 +1,7 @@
 package com.birca.bircabackend.query.service;
 
+import com.birca.bircabackend.command.auth.authorization.LoginMember;
+import com.birca.bircabackend.query.dto.CafeDetailResponse;
 import com.birca.bircabackend.query.dto.CafeResponse;
 import com.birca.bircabackend.query.repository.CafeQueryRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,5 +19,9 @@ public class CafeQueryService {
 
     public List<CafeResponse> findCafes(String name) {
         return cafeQueryRepository.findByName(name);
+    }
+
+    public CafeDetailResponse findCafeDetail(LoginMember loginMember) {
+        return null;
     }
 }

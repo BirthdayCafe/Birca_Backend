@@ -512,6 +512,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_카페_api">카페 API</a>
 <ul class="sectlevel2">
 <li><a href="#_카페_검색">카페 검색</a></li>
+<li><a href="#_카페_상세_조회">카페 상세 조회</a></li>
 <li><a href="#_카페_이미지_업로드">카페 이미지 업로드</a></li>
 <li><a href="#_카페_이미지_삭제">카페 이미지 삭제</a></li>
 </ul>
@@ -657,7 +658,7 @@ Content-Length: 97
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/members/role-change HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzU3LCJleHAiOjE3MTI4MzE1NTd9.D-4yL0O3_FOv-58I15eMj9S7pdBsa-i7im16C-f4DOA
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTk2LCJleHAiOjE3MTI4MzQzOTZ9.l7DnfwvSmmVGt8SMzEplXlWDpqPnH_9S0eXP-flWvxs
 Content-Length: 21
 Host: www.api.birca.com
 
@@ -687,7 +688,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/join/check-nickname?nickname=does HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzYyLCJleHAiOjE3MTI4MzE1NjJ9.K9qdK-2BX6hiGKbHa8U6aCLIhtMJjgYyA8GCe6dRAnY
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTk4LCJleHAiOjE3MTI4MzQzOTh9.SgZN6m2TiIiuZsVnvmoJr18F9h6aHB1726vHVNfv2Jg
 Host: www.api.birca.com</code></pre>
 </div>
 </div>
@@ -761,7 +762,7 @@ Content-Length: 16
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/join/register-nickname HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzU3LCJleHAiOjE3MTI4MzE1NTd9.D-4yL0O3_FOv-58I15eMj9S7pdBsa-i7im16C-f4DOA
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTk2LCJleHAiOjE3MTI4MzQzOTZ9.l7DnfwvSmmVGt8SMzEplXlWDpqPnH_9S0eXP-flWvxs
 Content-Length: 30
 Host: www.api.birca.com
 
@@ -815,7 +816,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/members/me HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzYyLCJleHAiOjE3MTI4MzE1NjJ9.K9qdK-2BX6hiGKbHa8U6aCLIhtMJjgYyA8GCe6dRAnY
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTk4LCJleHAiOjE3MTI4MzQzOTh9.SgZN6m2TiIiuZsVnvmoJr18F9h6aHB1726vHVNfv2Jg
 Host: www.api.birca.com</code></pre>
 </div>
 </div>
@@ -878,7 +879,7 @@ Content-Length: 21
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/artist-groups?cursor=10&amp;size=3 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzYxLCJleHAiOjE3MTI4MzE1NjF9.WyoD23BQ-FGYZXwWy4mo63IUr8f4Z1_Q7A76I6neEp8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTk4LCJleHAiOjE3MTI4MzQzOTh9.SgZN6m2TiIiuZsVnvmoJr18F9h6aHB1726vHVNfv2Jg
 Host: www.api.birca.com</code></pre>
 </div>
 </div>
@@ -978,7 +979,7 @@ Content-Length: 250
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/artist-groups/1/artists HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzYxLCJleHAiOjE3MTI4MzE1NjF9.WyoD23BQ-FGYZXwWy4mo63IUr8f4Z1_Q7A76I6neEp8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTk4LCJleHAiOjE3MTI4MzQzOTh9.SgZN6m2TiIiuZsVnvmoJr18F9h6aHB1726vHVNfv2Jg
 Host: www.api.birca.com</code></pre>
 </div>
 </div>
@@ -1091,7 +1092,7 @@ Content-Length: 565
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/artists/solo?cursor=12&amp;size=6 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzYxLCJleHAiOjE3MTI4MzE1NjF9.WyoD23BQ-FGYZXwWy4mo63IUr8f4Z1_Q7A76I6neEp8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTk4LCJleHAiOjE3MTI4MzQzOTh9.SgZN6m2TiIiuZsVnvmoJr18F9h6aHB1726vHVNfv2Jg
 Host: www.api.birca.com</code></pre>
 </div>
 </div>
@@ -1203,7 +1204,7 @@ Content-Length: 518
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/artists/favorite HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzQ3LCJleHAiOjE3MTI4MzE1NDd9.g3JrcAMforftnbVZx_N1q_A9XiCbrRNd3JJ6J2e04tA
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTg5LCJleHAiOjE3MTI4MzQzODl9.0LxD56v4bnvyt-ZMps4ZmCpIMzkHvDfzmSAVrZeJeGI
 Content-Length: 20
 Host: www.api.birca.com
 
@@ -1257,7 +1258,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/artists/interest HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzQ3LCJleHAiOjE3MTI4MzE1NDd9.g3JrcAMforftnbVZx_N1q_A9XiCbrRNd3JJ6J2e04tA
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTg5LCJleHAiOjE3MTI4MzQzODl9.0LxD56v4bnvyt-ZMps4ZmCpIMzkHvDfzmSAVrZeJeGI
 Content-Length: 68
 Host: www.api.birca.com
 
@@ -1315,7 +1316,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/artists/favorite HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzYxLCJleHAiOjE3MTI4MzE1NjF9.WyoD23BQ-FGYZXwWy4mo63IUr8f4Z1_Q7A76I6neEp8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTk4LCJleHAiOjE3MTI4MzQzOTh9.SgZN6m2TiIiuZsVnvmoJr18F9h6aHB1726vHVNfv2Jg
 Host: www.api.birca.com</code></pre>
 </div>
 </div>
@@ -1382,7 +1383,7 @@ Content-Length: 81
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/artists/interest HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzYyLCJleHAiOjE3MTI4MzE1NjJ9.K9qdK-2BX6hiGKbHa8U6aCLIhtMJjgYyA8GCe6dRAnY
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTk4LCJleHAiOjE3MTI4MzQzOTh9.SgZN6m2TiIiuZsVnvmoJr18F9h6aHB1726vHVNfv2Jg
 Host: www.api.birca.com</code></pre>
 </div>
 </div>
@@ -1465,7 +1466,7 @@ Content-Length: 416
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/artists/search?name=%EB%A7%88%ED%81%AC HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzYxLCJleHAiOjE3MTI4MzE1NjF9.WyoD23BQ-FGYZXwWy4mo63IUr8f4Z1_Q7A76I6neEp8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTk4LCJleHAiOjE3MTI4MzQzOTh9.SgZN6m2TiIiuZsVnvmoJr18F9h6aHB1726vHVNfv2Jg
 Host: www.api.birca.com</code></pre>
 </div>
 </div>
@@ -1530,7 +1531,7 @@ Content-Length: 225
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/cafes/license-read HTTP/1.1
 Content-Type: multipart/form-data;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzU2LCJleHAiOjE3MTI4MzE1NTZ9.cilvGoCFzIh4y_2s0Asg0Fp6DDkgH7_uFlFtQ5FYbnQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTk1LCJleHAiOjE3MTI4MzQzOTV9.5nKa57SDpCO75NaKU7fOFDgpcnzCaNG-5dL2SRxt3YI
 Host: www.api.birca.com
 
 --6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
@@ -1616,7 +1617,7 @@ Content-Length: 141
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/cafes/apply HTTP/1.1
 Content-Type: multipart/form-data;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzU2LCJleHAiOjE3MTI4MzE1NTZ9.cilvGoCFzIh4y_2s0Asg0Fp6DDkgH7_uFlFtQ5FYbnQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTk1LCJleHAiOjE3MTI4MzQzOTV9.5nKa57SDpCO75NaKU7fOFDgpcnzCaNG-5dL2SRxt3YI
 Host: www.api.birca.com
 
 --6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
@@ -1690,7 +1691,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/birthday-cafes HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzUxLCJleHAiOjE3MTI4MzE1NTF9.9-jfnyzIUZartAyE_EOFL9dQ5ui9NM-bAYRHjKzjYfY
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTkyLCJleHAiOjE3MTI4MzQzOTJ9.DiDTEbt1B3Ylvqy_WFu2oSjRwiYetetoC5sw6wElRfc
 Content-Length: 234
 Host: www.api.birca.com
 
@@ -1786,7 +1787,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/birthday-cafes/1/cancel HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzUxLCJleHAiOjE3MTI4MzE1NTF9.9-jfnyzIUZartAyE_EOFL9dQ5ui9NM-bAYRHjKzjYfY
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTkyLCJleHAiOjE3MTI4MzQzOTJ9.DiDTEbt1B3Ylvqy_WFu2oSjRwiYetetoC5sw6wElRfc
 Host: www.api.birca.com</code></pre>
 </div>
 </div>
@@ -1833,7 +1834,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/v1/birthday-cafes/1/congestion HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzUxLCJleHAiOjE3MTI4MzE1NTF9.9-jfnyzIUZartAyE_EOFL9dQ5ui9NM-bAYRHjKzjYfY
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTkyLCJleHAiOjE3MTI4MzQzOTJ9.DiDTEbt1B3Ylvqy_WFu2oSjRwiYetetoC5sw6wElRfc
 Content-Length: 26
 Host: www.api.birca.com
 
@@ -1913,7 +1914,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/birthday-cafes/1/special-goods HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzUxLCJleHAiOjE3MTI4MzE1NTF9.9-jfnyzIUZartAyE_EOFL9dQ5ui9NM-bAYRHjKzjYfY
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTkyLCJleHAiOjE3MTI4MzQzOTJ9.DiDTEbt1B3Ylvqy_WFu2oSjRwiYetetoC5sw6wElRfc
 Content-Length: 147
 Host: www.api.birca.com
 
@@ -1998,7 +1999,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/birthday-cafes/1/menus HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzUxLCJleHAiOjE3MTI4MzE1NTF9.9-jfnyzIUZartAyE_EOFL9dQ5ui9NM-bAYRHjKzjYfY
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTkyLCJleHAiOjE3MTI4MzQzOTJ9.DiDTEbt1B3Ylvqy_WFu2oSjRwiYetetoC5sw6wElRfc
 Content-Length: 197
 Host: www.api.birca.com
 
@@ -2090,7 +2091,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/birthday-cafes/1/lucky-draws HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzUxLCJleHAiOjE3MTI4MzE1NTF9.9-jfnyzIUZartAyE_EOFL9dQ5ui9NM-bAYRHjKzjYfY
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTkyLCJleHAiOjE3MTI4MzQzOTJ9.DiDTEbt1B3Ylvqy_WFu2oSjRwiYetetoC5sw6wElRfc
 Content-Length: 92
 Host: www.api.birca.com
 
@@ -2175,7 +2176,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/birthday-cafes/1/special-goods HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzYxLCJleHAiOjE3MTI4MzE1NjF9.WyoD23BQ-FGYZXwWy4mo63IUr8f4Z1_Q7A76I6neEp8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTk4LCJleHAiOjE3MTI4MzQzOTh9.SgZN6m2TiIiuZsVnvmoJr18F9h6aHB1726vHVNfv2Jg
 Host: www.api.birca.com</code></pre>
 </div>
 </div>
@@ -2232,7 +2233,7 @@ Content-Length: 126
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/birthday-cafes/1/menus HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzYxLCJleHAiOjE3MTI4MzE1NjF9.WyoD23BQ-FGYZXwWy4mo63IUr8f4Z1_Q7A76I6neEp8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTk4LCJleHAiOjE3MTI4MzQzOTh9.SgZN6m2TiIiuZsVnvmoJr18F9h6aHB1726vHVNfv2Jg
 Host: www.api.birca.com</code></pre>
 </div>
 </div>
@@ -2291,7 +2292,7 @@ Content-Length: 196
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/birthday-cafes/1/lucky-draws HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzYxLCJleHAiOjE3MTI4MzE1NjF9.WyoD23BQ-FGYZXwWy4mo63IUr8f4Z1_Q7A76I6neEp8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTk4LCJleHAiOjE3MTI4MzQzOTh9.SgZN6m2TiIiuZsVnvmoJr18F9h6aHB1726vHVNfv2Jg
 Host: www.api.birca.com</code></pre>
 </div>
 </div>
@@ -2348,7 +2349,7 @@ Content-Length: 88
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/v1/birthday-cafes/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzUxLCJleHAiOjE3MTI4MzE1NTF9.9-jfnyzIUZartAyE_EOFL9dQ5ui9NM-bAYRHjKzjYfY
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTkyLCJleHAiOjE3MTI4MzQzOTJ9.DiDTEbt1B3Ylvqy_WFu2oSjRwiYetetoC5sw6wElRfc
 Content-Length: 86
 Host: www.api.birca.com
 
@@ -2430,7 +2431,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/birthday-cafes/1/images HTTP/1.1
 Content-Type: multipart/form-data;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzUxLCJleHAiOjE3MTI4MzE1NTF9.9-jfnyzIUZartAyE_EOFL9dQ5ui9NM-bAYRHjKzjYfY
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTkyLCJleHAiOjE3MTI4MzQzOTJ9.DiDTEbt1B3Ylvqy_WFu2oSjRwiYetetoC5sw6wElRfc
 Host: www.api.birca.com
 
 --6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
@@ -2461,7 +2462,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/birthday-cafes/1/images/main HTTP/1.1
 Content-Type: multipart/form-data;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzUxLCJleHAiOjE3MTI4MzE1NTF9.9-jfnyzIUZartAyE_EOFL9dQ5ui9NM-bAYRHjKzjYfY
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTkyLCJleHAiOjE3MTI4MzQzOTJ9.DiDTEbt1B3Ylvqy_WFu2oSjRwiYetetoC5sw6wElRfc
 Host: www.api.birca.com
 
 --6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
@@ -2492,7 +2493,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/birthday-cafes/1/images HTTP/1.1
 Content-Type: multipart/form-data;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzUxLCJleHAiOjE3MTI4MzE1NTF9.9-jfnyzIUZartAyE_EOFL9dQ5ui9NM-bAYRHjKzjYfY
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTkyLCJleHAiOjE3MTI4MzQzOTJ9.DiDTEbt1B3Ylvqy_WFu2oSjRwiYetetoC5sw6wElRfc
 Host: www.api.birca.com
 
 --6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
@@ -2523,7 +2524,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/v1/birthday-cafes/1/images HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzUxLCJleHAiOjE3MTI4MzE1NTF9.9-jfnyzIUZartAyE_EOFL9dQ5ui9NM-bAYRHjKzjYfY
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTkyLCJleHAiOjE3MTI4MzQzOTJ9.DiDTEbt1B3Ylvqy_WFu2oSjRwiYetetoC5sw6wElRfc
 Content-Length: 26
 Host: www.api.birca.com
 
@@ -2577,7 +2578,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/birthday-cafes/me HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzYxLCJleHAiOjE3MTI4MzE1NjF9.WyoD23BQ-FGYZXwWy4mo63IUr8f4Z1_Q7A76I6neEp8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTk4LCJleHAiOjE3MTI4MzQzOTh9.SgZN6m2TiIiuZsVnvmoJr18F9h6aHB1726vHVNfv2Jg
 Host: www.api.birca.com</code></pre>
 </div>
 </div>
@@ -2687,7 +2688,7 @@ Content-Length: 586
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/birthday-cafes/like HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzYxLCJleHAiOjE3MTI4MzE1NjF9.WyoD23BQ-FGYZXwWy4mo63IUr8f4Z1_Q7A76I6neEp8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTk4LCJleHAiOjE3MTI4MzQzOTh9.SgZN6m2TiIiuZsVnvmoJr18F9h6aHB1726vHVNfv2Jg
 Host: www.api.birca.com</code></pre>
 </div>
 </div>
@@ -2797,7 +2798,7 @@ Content-Length: 583
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/birthday-cafes?cursor=1&amp;size=10&amp;artistId=1&amp;cafeId=1&amp;progressState=IN_PROGRESS HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzYxLCJleHAiOjE3MTI4MzE1NjF9.WyoD23BQ-FGYZXwWy4mo63IUr8f4Z1_Q7A76I6neEp8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTk4LCJleHAiOjE3MTI4MzQzOTh9.SgZN6m2TiIiuZsVnvmoJr18F9h6aHB1726vHVNfv2Jg
 Host: www.api.birca.com</code></pre>
 </div>
 </div>
@@ -2955,7 +2956,7 @@ Content-Length: 722
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/birthday-cafes/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzYxLCJleHAiOjE3MTI4MzE1NjF9.WyoD23BQ-FGYZXwWy4mo63IUr8f4Z1_Q7A76I6neEp8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTk4LCJleHAiOjE3MTI4MzQzOTh9.SgZN6m2TiIiuZsVnvmoJr18F9h6aHB1726vHVNfv2Jg
 Host: www.api.birca.com</code></pre>
 </div>
 </div>
@@ -3030,7 +3031,7 @@ Content-Length: 702
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/owners/birthday-cafes?progressState=RENTAL_PENDING HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzYxLCJleHAiOjE3MTI4MzE1NjF9.WyoD23BQ-FGYZXwWy4mo63IUr8f4Z1_Q7A76I6neEp8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTk4LCJleHAiOjE3MTI4MzQzOTh9.SgZN6m2TiIiuZsVnvmoJr18F9h6aHB1726vHVNfv2Jg
 Host: www.api.birca.com</code></pre>
 </div>
 </div>
@@ -3098,7 +3099,7 @@ Content-Length: 402
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/owners/birthday-cafes/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzYxLCJleHAiOjE3MTI4MzE1NjF9.WyoD23BQ-FGYZXwWy4mo63IUr8f4Z1_Q7A76I6neEp8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTk4LCJleHAiOjE3MTI4MzQzOTh9.SgZN6m2TiIiuZsVnvmoJr18F9h6aHB1726vHVNfv2Jg
 Host: www.api.birca.com</code></pre>
 </div>
 </div>
@@ -3161,7 +3162,7 @@ Content-Length: 301
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/owners/birthday-cafes/1/approve HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzUxLCJleHAiOjE3MTI4MzE1NTF9.9-jfnyzIUZartAyE_EOFL9dQ5ui9NM-bAYRHjKzjYfY
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTkyLCJleHAiOjE3MTI4MzQzOTJ9.DiDTEbt1B3Ylvqy_WFu2oSjRwiYetetoC5sw6wElRfc
 Host: www.api.birca.com</code></pre>
 </div>
 </div>
@@ -3208,7 +3209,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/owners/birthday-cafes/1/cancel HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzUxLCJleHAiOjE3MTI4MzE1NTF9.9-jfnyzIUZartAyE_EOFL9dQ5ui9NM-bAYRHjKzjYfY
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTkyLCJleHAiOjE3MTI4MzQzOTJ9.DiDTEbt1B3Ylvqy_WFu2oSjRwiYetetoC5sw6wElRfc
 Host: www.api.birca.com</code></pre>
 </div>
 </div>
@@ -3313,7 +3314,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/cafes/search?name=%EC%BB%A4%ED%94%BC HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzYxLCJleHAiOjE3MTI4MzE1NjF9.WyoD23BQ-FGYZXwWy4mo63IUr8f4Z1_Q7A76I6neEp8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTk4LCJleHAiOjE3MTI4MzQzOTh9.SgZN6m2TiIiuZsVnvmoJr18F9h6aHB1726vHVNfv2Jg
 Host: www.api.birca.com</code></pre>
 </div>
 </div>
@@ -3341,6 +3342,49 @@ Content-Length: 106
 </div>
 </div>
 <div class="sect2">
+<h3 id="_카페_상세_조회"><a class="link" href="#_카페_상세_조회">카페 상세 조회</a></h3>
+<div class="sect3">
+<h4 id="_카페_상세_조회_http_request"><a class="link" href="#_카페_상세_조회_http_request">HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/v1/cafes/me HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTk4LCJleHAiOjE3MTI4MzQzOTh9.SgZN6m2TiIiuZsVnvmoJr18F9h6aHB1726vHVNfv2Jg
+Host: www.api.birca.com</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_카페_상세_조회_http_response"><a class="link" href="#_카페_상세_조회_http_response">HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+Content-Length: 348
+
+{
+  "cafeName" : "메가커피",
+  "cafeAddress" : "서울특별시 강남구 테헤란로 212",
+  "twitterAccount" : "@ChaseM",
+  "businessHours" : "8시 - 22시",
+  "cafeMenus" : [ {
+    "name" : "아메리카노",
+    "price" : 1500
+  } ],
+  "cafeOptions" : [ {
+    "name" : "액자",
+    "price" : 2000
+  } ],
+  "cafeImages" : [ "image.com" ]
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_카페_이미지_업로드"><a class="link" href="#_카페_이미지_업로드">카페 이미지 업로드</a></h3>
 <div class="sect3">
 <h4 id="_카페_이미지_업로드_http_request"><a class="link" href="#_카페_이미지_업로드_http_request">HTTP request</a></h4>
@@ -3348,7 +3392,7 @@ Content-Length: 106
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/cafes/1/images HTTP/1.1
 Content-Type: application/json;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzU2LCJleHAiOjE3MTI4MzE1NTZ9.cilvGoCFzIh4y_2s0Asg0Fp6DDkgH7_uFlFtQ5FYbnQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTk1LCJleHAiOjE3MTI4MzQzOTV9.5nKa57SDpCO75NaKU7fOFDgpcnzCaNG-5dL2SRxt3YI
 Host: www.api.birca.com
 
 --6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
@@ -3379,7 +3423,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/v1/cafes/1/images HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzU2LCJleHAiOjE3MTI4MzE1NTZ9.cilvGoCFzIh4y_2s0Asg0Fp6DDkgH7_uFlFtQ5FYbnQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTk1LCJleHAiOjE3MTI4MzQzOTV9.5nKa57SDpCO75NaKU7fOFDgpcnzCaNG-5dL2SRxt3YI
 Content-Length: 31
 Host: www.api.birca.com
 
@@ -3438,7 +3482,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/v1/birthday-cafes/1/like HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzU3LCJleHAiOjE3MTI4MzE1NTd9.D-4yL0O3_FOv-58I15eMj9S7pdBsa-i7im16C-f4DOA
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTk1LCJleHAiOjE3MTI4MzQzOTV9.5nKa57SDpCO75NaKU7fOFDgpcnzCaNG-5dL2SRxt3YI
 Host: www.api.birca.com</code></pre>
 </div>
 </div>
@@ -3485,7 +3529,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/v1/birthday-cafes/1/like HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODI5NzU3LCJleHAiOjE3MTI4MzE1NTd9.D-4yL0O3_FOv-58I15eMj9S7pdBsa-i7im16C-f4DOA
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNzEyODMyNTk1LCJleHAiOjE3MTI4MzQzOTV9.5nKa57SDpCO75NaKU7fOFDgpcnzCaNG-5dL2SRxt3YI
 Host: www.api.birca.com</code></pre>
 </div>
 </div>
@@ -3547,7 +3591,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-04-11 18:57:03 +0900
+Last updated 2024-04-11 19:44:45 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
