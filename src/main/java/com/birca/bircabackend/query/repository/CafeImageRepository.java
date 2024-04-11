@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface CafeImageRepository extends Repository<CafeImage, Long> {
 
+    void save(CafeImage cafeImage);
+
     @Query("select ci.imageUrl from CafeImage ci where ci.cafeId = :cafeId")
     List<String> findByCafeId(Long cafeId);
 }

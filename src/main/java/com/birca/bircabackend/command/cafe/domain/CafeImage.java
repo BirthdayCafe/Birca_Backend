@@ -17,4 +17,9 @@ public class CafeImage extends BaseEntity {
 
     @Column(nullable = false)
     private String imageUrl;
+
+    public CafeImage(Long cafeId, String imageUrl) {
+        this.cafeId = cafeId;
+        this.imageUrl = imageUrl;
+    }
 }
