@@ -12,4 +12,6 @@ public interface CafeImageRepository extends Repository<CafeImage, Long> {
 
     @Query("select ci.imageUrl from CafeImage ci where ci.cafeId = :cafeId")
     List<String> findByCafeId(Long cafeId);
+
+    void deleteByImageUrl(String imageUrl);
 }

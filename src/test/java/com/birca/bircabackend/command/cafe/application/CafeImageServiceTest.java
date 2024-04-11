@@ -61,4 +61,27 @@ class CafeImageServiceTest extends ServiceTest {
                     .isEqualTo(CafeImageErrorCode.INVALID_UPLOAD_SIZE_REQUEST);
         }
     }
+
+    @Nested
+    @DisplayName("카페 이미지를 삭제할 때")
+    class DeleteCafeImageTest {
+
+        @Test
+        void 정상적으로_삭제한다() {
+            // given
+            Long cafeId = 1L;
+            String imageUrl = "image1.com";
+
+            // when
+            cafeImageService.delete(imageUrl);
+            List<CafeImage> response = entityManager.createQuery(
+                            "select ci from CafeImage ci where ci.cafeId = :cafeId", CafeImage.class
+                    )
+                    .setParameter("cafeId", cafeId)
+                    .getResultList();
+
+            // then
+            assertThat(response.size()).isEqualTo(4);
+        }
+    }
 }

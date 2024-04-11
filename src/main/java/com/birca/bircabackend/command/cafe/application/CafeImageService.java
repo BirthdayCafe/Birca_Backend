@@ -32,4 +32,8 @@ public class CafeImageService {
             throw BusinessException.from(INVALID_UPLOAD_SIZE_REQUEST);
         }
     }
+
+    public void delete(String imageUrl) {
+        cafeImageRepository.deleteByImageUrl(imageUrl);
+    }
 }

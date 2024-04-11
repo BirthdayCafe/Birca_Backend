@@ -1,6 +1,7 @@
 package com.birca.bircabackend.command.cafe.application;
 
 import com.birca.bircabackend.command.cafe.domain.Cafe;
+import com.birca.bircabackend.command.cafe.dto.CafeImageDeleteRequest;
 import com.birca.bircabackend.command.cafe.exception.CafeErrorCode;
 import com.birca.bircabackend.common.EntityUtil;
 import com.birca.bircabackend.common.image.ImageRepository;
@@ -20,5 +21,12 @@ public class CafeImageFacade {
         entityUtil.getEntity(Cafe.class, cafeId, CafeErrorCode.NOT_FOUND);
         String imageUrl = imageRepository.upload(cafeImage);
         cafeImageService.save(cafeId, imageUrl);
+    }
+
+    public void deleteCafeImage(Long cafeId, CafeImageDeleteRequest request) {
+        entityUtil.getEntity(Cafe.class, cafeId, CafeErrorCode.NOT_FOUND);
+        String imageUrl = request.imageUrl();
+        cafeImageService.delete(imageUrl);
+        imageRepository.delete(imageUrl);
     }
 }
