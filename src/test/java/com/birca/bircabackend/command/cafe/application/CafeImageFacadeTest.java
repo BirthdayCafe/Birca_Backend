@@ -1,6 +1,7 @@
 package com.birca.bircabackend.command.cafe.application;
 
 import com.birca.bircabackend.command.cafe.domain.CafeImage;
+import com.birca.bircabackend.command.cafe.exception.CafeErrorCode;
 import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.support.enviroment.ServiceTest;
 import jakarta.persistence.EntityManager;
@@ -16,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import static com.birca.bircabackend.command.cafe.exception.CafeImageErrorCode.NOT_FOUND;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -63,7 +63,7 @@ class CafeImageFacadeTest extends ServiceTest {
             assertThatThrownBy(() -> cafeImageFacade.uploadCafeImage(cafeImage, cafeId))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
-                    .isEqualTo(NOT_FOUND);
+                    .isEqualTo(CafeErrorCode.NOT_FOUND);
         }
     }
 }
