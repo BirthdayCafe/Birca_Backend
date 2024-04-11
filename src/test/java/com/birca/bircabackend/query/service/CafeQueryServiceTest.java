@@ -57,7 +57,7 @@ class CafeQueryServiceTest extends ServiceTest {
     }
 
     @Nested
-    @DisplayName("카페 상세 조회할 때")
+    @DisplayName("사장님이 카페 상세 조회할 때")
     class FindCafeDetailTest {
 
         @Test

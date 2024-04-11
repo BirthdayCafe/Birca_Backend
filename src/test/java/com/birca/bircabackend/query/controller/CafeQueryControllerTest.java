@@ -54,7 +54,7 @@ class CafeQueryControllerTest extends DocumentationTest {
     }
 
     @Test
-    void 카페_상세_조회를_한다() throws Exception {
+    void 사장님이_카페_상세_조회를_한다() throws Exception {
         // given
         given(cafeQueryService.findCafeDetail(new LoginMember(1L)))
                 .willReturn(

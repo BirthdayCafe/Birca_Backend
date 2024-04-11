@@ -34,7 +34,7 @@ public class CafeQueryAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void 카페_상세_조회를_한다() {
+    void 사장님이_카페_상세_조회를_한다() {
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .when()
