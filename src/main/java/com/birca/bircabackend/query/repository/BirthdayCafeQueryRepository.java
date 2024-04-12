@@ -6,6 +6,7 @@ import com.birca.bircabackend.command.birca.domain.value.BirthdayCafeMenu;
 import com.birca.bircabackend.command.birca.domain.value.ProgressState;
 import com.birca.bircabackend.command.birca.domain.value.SpecialGoods;
 import com.birca.bircabackend.query.dto.BirthdayCafeApplicationResponse;
+import com.birca.bircabackend.query.dto.BirthdayCafeScheduleResponse;
 import com.birca.bircabackend.query.repository.model.BirthdayCafeView;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
@@ -58,4 +59,9 @@ public interface BirthdayCafeQueryRepository extends Repository<BirthdayCafe, Lo
             "left join ArtistGroup ag on a.groupId = ag.id " +
             "where bc.cafeOwnerId = :ownerId and bc.id = :birthdayCafeId")
     Optional<BirthdayCafeView> findBirthdayCafeApplicationDetail(Long ownerId, Long birthdayCafeId);
+
+    @Query("select new com.birca.bircabackend.query.dto.BirthdayCafeScheduleResponse(bc.id, bc.schedule.startDate, bc.schedule.endDate) " +
+            "from BirthdayCafe bc " +
+            "where YEAR(bc.schedule.startDate) = :year and MONTH(bc.schedule.startDate) = :month")
+    List<BirthdayCafeScheduleResponse> findBirthdayCafeSchedules(Integer year, Integer month);
 }

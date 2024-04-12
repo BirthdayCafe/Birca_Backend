@@ -86,6 +86,6 @@ public class BirthdayCafeQueryService {
     }
 
     public List<BirthdayCafeScheduleResponse> findBirthdayCafeSchedule(Integer year, Integer month) {
-        return null;
+        return birthdayCafeQueryRepository.findBirthdayCafeSchedules(year, month);
     }
 }
