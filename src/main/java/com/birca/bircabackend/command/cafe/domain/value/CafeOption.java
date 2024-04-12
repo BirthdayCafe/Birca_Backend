@@ -18,4 +18,9 @@ public class CafeOption {
 
     @Column(nullable = false)
     private Integer price;
+
+    public CafeOption(String name, Integer price) {
+        this.name = name;
+        this.price = price;
+    }
 }

@@ -4,6 +4,7 @@ import com.birca.bircabackend.command.artist.application.ArtistService;
 import com.birca.bircabackend.command.auth.application.token.JwtParseUtil;
 import com.birca.bircabackend.command.birca.application.BirthdayCafeImageFacade;
 import com.birca.bircabackend.command.cafe.application.CafeImageFacade;
+import com.birca.bircabackend.command.cafe.application.CafeService;
 import com.birca.bircabackend.command.like.application.BirthdayCafeLikeService;
 import com.birca.bircabackend.command.birca.application.BirthdayCafeService;
 import com.birca.bircabackend.command.cafe.application.BusinessLicenseFacade;
@@ -113,6 +114,9 @@ public class DocumentationTest {
 
     @MockBean
     protected CafeImageFacade cafeImageFacade;
+
+    @MockBean
+    protected CafeService cafeService;
     
     protected List<FieldDescriptor> getErrorDescriptor(ErrorCode[] errorCodes) {
         return Arrays.stream(errorCodes)

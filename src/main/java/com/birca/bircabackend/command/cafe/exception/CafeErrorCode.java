@@ -9,7 +9,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public enum CafeErrorCode implements ErrorCode {
 
-    NOT_FOUND(8001, 404, "존재하지 않는 카페입니다.")
+    NOT_FOUND(8001, 404, "존재하지 않는 카페입니다."),
+    UNAUTHORIZED_UPDATE(8002, 400, "카페 변경 권한이 없는 회원입니다.")
 
     ;
 
