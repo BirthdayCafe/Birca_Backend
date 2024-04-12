@@ -335,4 +335,26 @@ class BirthdayCafeQueryServiceTest extends ServiceTest {
                     .isEqualTo(BirthdayCafeErrorCode.NOT_FOUND);
         }
     }
+
+    @Nested
+    @DisplayName("사장님이 생일 카페 일정을")
+    class FindBirthdayCafeScheduleTest {
+
+        @Test
+        void 조회한다() {
+            // given
+            int year = 2024;
+            int month = 2;
+
+            // when
+            List<BirthdayCafeScheduleResponse> actual = birthdayCafeQueryService.findBirthdayCafeSchedule(year, month);
+
+            // then
+            assertAll(
+                    () -> assertThat(actual)
+                            .map(BirthdayCafeScheduleResponse::birthdayCafeId)
+                            .containsExactly(1L, 2L, 3L, 4L, 5L, 6L)
+            );
+        }
+    }
 }
