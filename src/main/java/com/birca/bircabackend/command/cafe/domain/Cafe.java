@@ -2,7 +2,9 @@ package com.birca.bircabackend.command.cafe.domain;
 
 import com.birca.bircabackend.command.cafe.domain.value.CafeMenu;
 import com.birca.bircabackend.command.cafe.domain.value.CafeOption;
+import com.birca.bircabackend.command.cafe.exception.CafeErrorCode;
 import com.birca.bircabackend.common.domain.BaseEntity;
+import com.birca.bircabackend.common.exception.BusinessException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -45,4 +47,19 @@ public class Cafe extends BaseEntity {
     @ElementCollection
     @CollectionTable(name = "cafe_option")
     private List<CafeOption> cafeOptions = new ArrayList<>();
+
+    public void update(String name, String address, String twitterAccount, String businessHours) {
+        this.name = name;
+        this.address = address;
+        this.twitterAccount = twitterAccount;
+        this.businessHours = businessHours;
+    }
+
+    public void replaceCafeMenus(List<CafeMenu> cafeMenus) {
+        this.cafeMenus = cafeMenus;
+    }
+
+    public void replaceCafeOptions(List<CafeOption> cafeOptions) {
+        this.cafeOptions = cafeOptions;
+    }
 }
