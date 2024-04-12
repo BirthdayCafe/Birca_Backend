@@ -17,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 public class BirthdayCafeQueryAcceptanceTest extends AcceptanceTest {
 
     private static final Long HOST_ID = 1L;
+    private static final Long OWNER_ID = 3L;
     private static final Long BIRTHDAY_CAFE_ID = 4L;
 
     @Test
@@ -147,8 +148,29 @@ public class BirthdayCafeQueryAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .when()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(3L))
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(OWNER_ID))
                 .get("/api/v1/owners/birthday-cafes/{birthdayCafeId}", BIRTHDAY_CAFE_ID)
+                .then().log().all()
+                .extract();
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Test
+    void 사장님이_생일_카페_일정을_조회한다() {
+        // given
+        int year = 2024;
+        int month = 3;
+
+        // when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .when()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(OWNER_ID))
+                .queryParam("year", year)
+                .queryParam("month", month)
+                .get("/api/v1/owners/birthday-cafes/schedules")
                 .then().log().all()
                 .extract();
 

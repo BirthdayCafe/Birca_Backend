@@ -84,4 +84,8 @@ public class BirthdayCafeQueryService {
                 .orElseThrow(() -> BusinessException.from(BirthdayCafeErrorCode.NOT_FOUND));
         return BirthdayCafeApplicationDetailResponse.from(birthdayCafeView);
     }
+
+    public List<BirthdayCafeScheduleResponse> findBirthdayCafeSchedule(Integer year, Integer month) {
+        return null;
+    }
 }
