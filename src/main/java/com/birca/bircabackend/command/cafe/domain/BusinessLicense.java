@@ -34,6 +34,9 @@ public class BusinessLicense extends BaseEntity {
     @Lob
     private String imageUrl;
 
+    @Column(nullable = false)
+    private Boolean registrationApproved;
+
     public static BusinessLicense createBusinessLicense(Long ownerId, String ownerName, String cafeName,
                                                         BusinessLicenseCode code, String address,
                                                         String imageUrl) {
@@ -48,5 +51,6 @@ public class BusinessLicense extends BaseEntity {
         this.code = code;
         this.address = address;
         this.imageUrl = imageUrl;
+        registrationApproved = false;
     }
 }
