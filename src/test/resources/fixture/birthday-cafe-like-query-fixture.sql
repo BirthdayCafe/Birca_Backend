@@ -4,8 +4,8 @@ VALUES (1, '더즈', 'ldk@gmail.com', '231323', 'kakao', 'VISITANT'),
        (3, '카페 사장', 'owner@gmail.com', '23412', 'kakao', 'OWNER');
 
 INSERT INTO business_license(id, owner_id, owner_name, cafe_name, tax_office_code, business_type_code, serial_code,
-                             address, image_url)
-VALUES (1, 3, '카페 사장', '스타벅스', '123', '12', '12345', '서울', 'business-license-imgae.com');
+                             address, image_url, registration_approved)
+VALUES (1, 3, '카페 사장', '스타벅스', '123', '12', '12345', '서울', 'business-license-imgae.com', false);
 
 INSERT INTO cafe (id, owner_id, business_license_id, name, address, twitter_account, business_hours)
 VALUES (1, 3, 1, '메가커피', '경기도 성남시 분당구 판교역로 235', '@ChaseM', '8시 - 22시');

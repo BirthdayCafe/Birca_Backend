@@ -10,8 +10,8 @@ VALUES (1, '더즈', 'ldk@gmail.com', '231323', 'kakao', 'HOST'), -- 주최자1
 
 -- 사장님의 사업자 등록증
 INSERT INTO business_license(id, owner_id, owner_name, cafe_name, tax_office_code, business_type_code, serial_code,
-                             address, image_url)
-VALUES (1, 3, '카페 사장', '스타벅스', '123', '12', '12345', '서울', 'business-license-imgae.com');
+                             address, image_url, registration_approved)
+VALUES (1, 3, '카페 사장', '스타벅스', '123', '12', '12345', '서울', 'business-license-imgae.com', false);
 
 -- 사장님의 카페
 INSERT INTO cafe (id, owner_id, business_license_id, name, address, twitter_account, business_hours)
