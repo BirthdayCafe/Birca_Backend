@@ -1,8 +1,7 @@
 package com.birca.bircabackend.query.controller;
 
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
-import com.birca.bircabackend.query.dto.CafeDetailResponse;
-import com.birca.bircabackend.query.dto.CafeResponse;
+import com.birca.bircabackend.query.dto.*;
 import com.birca.bircabackend.support.enviroment.DocumentationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -10,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -90,6 +90,66 @@ class CafeQueryControllerTest extends DocumentationTest {
                                 fieldWithPath("cafeOptions[].name").type(JsonFieldType.STRING).description("옵션명"),
                                 fieldWithPath("cafeOptions[].price").type(JsonFieldType.NUMBER).description("가격"),
                                 fieldWithPath("cafeImages").type(JsonFieldType.ARRAY).description("카페 이미지")
+                        )
+                ));
+    }
+
+    @Test
+    void 대관_가능한_카페_목록을_조회한다() throws Exception {
+        // given
+        CafeParams cafeParams = new CafeParams();
+        LocalDateTime startDate = LocalDateTime.of(2024, 3, 18, 0, 0, 0);
+        String startDay = "MON";
+        LocalDateTime endDate = LocalDateTime.of(2024, 3, 19, 0, 0, 0);
+        String endDay = "TUE";
+        cafeParams.setStartDate(startDate);
+        cafeParams.setStartDay(startDay);
+        cafeParams.setEndDate(endDate);
+        cafeParams.setEndDay(endDay);
+
+        PagingParams pagingParams = new PagingParams();
+        long cursor = 1L;
+        int size = 10;
+        pagingParams.setCursor(cursor);
+        pagingParams.setSize(size);
+        given(cafeQueryService.searchCafes(cafeParams, pagingParams))
+                .willReturn(List.of(
+                        new CafeSearchResponse(
+                                1L,
+                                "image.com",
+                                "@ChaseM",
+                                "서울특별시 강남구 테헤란로 212"
+                        )
+                ));
+
+        // when
+        ResultActions result = mockMvc.perform(get("/api/v1/cafes")
+                .contentType(MediaType.APPLICATION_JSON)
+                .queryParam("startDate", String.valueOf(startDate))
+                .queryParam("startDay", startDay)
+                .queryParam("endDate", String.valueOf(endDate))
+                .queryParam("endDay", endDay)
+                .queryParam("cursor", String.valueOf(cursor))
+                .queryParam("size", String.valueOf(size))
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(1L))
+        );
+
+        // then
+        result.andExpect((status().isOk()))
+                .andDo(document("search-rental-cafe", HOST_INFO, DOCUMENT_RESPONSE,
+                        queryParameters(
+                                parameterWithName("startDate").description("검색 시작 날짜"),
+                                parameterWithName("startDay").description("검색 시작 요일"),
+                                parameterWithName("endDate").description("검색 마지막 날짜"),
+                                parameterWithName("endDay").description("검색 마지막 요일"),
+                                parameterWithName("cursor").description("이전에 쿼리된 마지막 cafeId"),
+                                parameterWithName("size").description("검색할 개수")
+                        ),
+                        responseFields(
+                                fieldWithPath("[].cafeId").type(JsonFieldType.NUMBER).description("카페 이름"),
+                                fieldWithPath("[].twitterAccount").type(JsonFieldType.STRING).description("트위터 계정"),
+                                fieldWithPath("[].address").type(JsonFieldType.STRING).description("카페 주소"),
+                                fieldWithPath("[].cafeImageUrl").type(JsonFieldType.STRING).description("카페 이미지")
                         )
                 ));
     }

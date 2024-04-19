@@ -4,8 +4,7 @@ import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.cafe.domain.Cafe;
 import com.birca.bircabackend.command.cafe.exception.CafeErrorCode;
 import com.birca.bircabackend.common.exception.BusinessException;
-import com.birca.bircabackend.query.dto.CafeDetailResponse;
-import com.birca.bircabackend.query.dto.CafeResponse;
+import com.birca.bircabackend.query.dto.*;
 import com.birca.bircabackend.query.repository.CafeImageRepository;
 import com.birca.bircabackend.query.repository.CafeQueryRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,5 +30,9 @@ public class CafeQueryService {
                 .orElseThrow(() -> BusinessException.from(CafeErrorCode.NOT_FOUND));
         List<String> cafeImages = cafeImageRepository.findByCafeId(cafe.getId());
         return CafeDetailResponse.of(cafe, cafeImages);
+    }
+
+    public List<CafeSearchResponse> searchCafes(CafeParams cafeParams, PagingParams pagingParams) {
+        return null;
     }
 }
