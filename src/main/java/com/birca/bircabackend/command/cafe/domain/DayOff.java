@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class ExtraDayOff extends BaseEntity {
+public class DayOff extends BaseEntity {
 
     @Column(nullable = false)
     private Long cafeId;
@@ -20,7 +20,7 @@ public class ExtraDayOff extends BaseEntity {
     @Column(nullable = false)
     private LocalDateTime dayOffDate;
 
-    public ExtraDayOff(Long cafeId, LocalDateTime dayOffDate) {
+    public DayOff(Long cafeId, LocalDateTime dayOffDate) {
         this.cafeId = cafeId;
         this.dayOffDate = dayOffDate;
     }

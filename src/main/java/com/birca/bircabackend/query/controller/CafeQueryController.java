@@ -31,8 +31,9 @@ public class CafeQueryController {
 
     @GetMapping("/v1/cafes")
     @RequiredLogin
-    public ResponseEntity<List<CafeSearchResponse>> findCafes(@ModelAttribute CafeParams cafeParams,
+    public ResponseEntity<List<CafeSearchResponse>> findCafes(LoginMember loginMember,
+                                                              @ModelAttribute CafeParams cafeParams,
                                                               @ModelAttribute PagingParams pagingParams) {
-        return ResponseEntity.ok(cafeQueryService.searchCafes(cafeParams, pagingParams));
+        return ResponseEntity.ok(cafeQueryService.searchCafes(loginMember, cafeParams, pagingParams));
     }
 }

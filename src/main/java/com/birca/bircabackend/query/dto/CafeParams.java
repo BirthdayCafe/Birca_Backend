@@ -12,8 +12,10 @@ import java.time.LocalDateTime;
 @Setter
 @EqualsAndHashCode
 public class CafeParams {
+
+    private static Boolean LIKED = false;
+
     private LocalDateTime startDate;
-    private String startDay;
     private LocalDateTime endDate;
-    private String endDay;
+    private Boolean liked = LIKED;
 }
