@@ -34,13 +34,28 @@ public class CafeQueryAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void 사장님이_카페_상세_조회를_한다() {
+    void 사장님이_카페_상세_조회한다() {
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .when()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
                 .get("/api/v1/cafes/me")
+                .then().log().all()
+                .extract();
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Test
+    void 대관_가능한_카페_목록을_조회한다() {
+        // when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .when()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
+                .get("/api/v1/cafes")
                 .then().log().all()
                 .extract();
 

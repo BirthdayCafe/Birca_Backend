@@ -4,10 +4,11 @@ import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.cafe.domain.Cafe;
 import com.birca.bircabackend.command.cafe.exception.CafeErrorCode;
 import com.birca.bircabackend.common.exception.BusinessException;
-import com.birca.bircabackend.query.dto.CafeDetailResponse;
-import com.birca.bircabackend.query.dto.CafeResponse;
+import com.birca.bircabackend.query.dto.*;
+import com.birca.bircabackend.query.repository.CafeDynamicRepository;
 import com.birca.bircabackend.query.repository.CafeImageRepository;
 import com.birca.bircabackend.query.repository.CafeQueryRepository;
+import com.birca.bircabackend.query.repository.model.CafeView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,5 +32,12 @@ public class CafeQueryService {
                 .orElseThrow(() -> BusinessException.from(CafeErrorCode.NOT_FOUND));
         List<String> cafeImages = cafeImageRepository.findByCafeId(cafe.getId());
         return CafeDetailResponse.of(cafe, cafeImages);
+    }
+
+    public List<CafeSearchResponse> searchCafes(LoginMember loginMember, CafeParams cafeParams, PagingParams pagingParams) {
+        return cafeQueryRepository.searchCafes(loginMember, cafeParams, pagingParams)
+                .stream()
+                .map(CafeSearchResponse::from)
+                .toList();
     }
 }
