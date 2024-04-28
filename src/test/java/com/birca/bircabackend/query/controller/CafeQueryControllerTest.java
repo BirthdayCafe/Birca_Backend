@@ -97,28 +97,36 @@ class CafeQueryControllerTest extends DocumentationTest {
     @Test
     void 대관_가능한_카페_목록을_조회한다() throws Exception {
         // given
+        LoginMember loginMember = new LoginMember(1L);
+
         CafeParams cafeParams = new CafeParams();
         LocalDateTime startDate = LocalDateTime.of(2024, 3, 18, 0, 0, 0);
-        String startDay = "MON";
         LocalDateTime endDate = LocalDateTime.of(2024, 3, 19, 0, 0, 0);
-        String endDay = "TUE";
+        Boolean liked = true;
         cafeParams.setStartDate(startDate);
-        cafeParams.setStartDay(startDay);
         cafeParams.setEndDate(endDate);
-        cafeParams.setEndDay(endDay);
+        cafeParams.setLiked(liked);
 
         PagingParams pagingParams = new PagingParams();
         long cursor = 1L;
         int size = 10;
         pagingParams.setCursor(cursor);
         pagingParams.setSize(size);
-        given(cafeQueryService.searchCafes(cafeParams, pagingParams))
+        given(cafeQueryService.searchCafes(loginMember, cafeParams, pagingParams))
                 .willReturn(List.of(
                         new CafeSearchResponse(
                                 1L,
-                                "image.com",
+                                true,
+                                "image1.com",
                                 "@ChaseM",
                                 "서울특별시 강남구 테헤란로 212"
+                        ),
+                        new CafeSearchResponse(
+                                2L,
+                                true,
+                                "image2.com",
+                                "@ChaseM",
+                                "경기도 성남시 분당구 판교역로 235"
                         )
                 ));
 
@@ -126,9 +134,8 @@ class CafeQueryControllerTest extends DocumentationTest {
         ResultActions result = mockMvc.perform(get("/api/v1/cafes")
                 .contentType(MediaType.APPLICATION_JSON)
                 .queryParam("startDate", String.valueOf(startDate))
-                .queryParam("startDay", startDay)
                 .queryParam("endDate", String.valueOf(endDate))
-                .queryParam("endDay", endDay)
+                .queryParam("liked", String.valueOf(liked))
                 .queryParam("cursor", String.valueOf(cursor))
                 .queryParam("size", String.valueOf(size))
                 .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(1L))
@@ -139,17 +146,17 @@ class CafeQueryControllerTest extends DocumentationTest {
                 .andDo(document("search-rental-cafe", HOST_INFO, DOCUMENT_RESPONSE,
                         queryParameters(
                                 parameterWithName("startDate").description("검색 시작 날짜"),
-                                parameterWithName("startDay").description("검색 시작 요일"),
                                 parameterWithName("endDate").description("검색 마지막 날짜"),
-                                parameterWithName("endDay").description("검색 마지막 요일"),
+                                parameterWithName("liked").description("찜한 카페 목록 검색 여부"),
                                 parameterWithName("cursor").description("이전에 쿼리된 마지막 cafeId"),
                                 parameterWithName("size").description("검색할 개수")
                         ),
                         responseFields(
                                 fieldWithPath("[].cafeId").type(JsonFieldType.NUMBER).description("카페 이름"),
+                                fieldWithPath("[].liked").type(JsonFieldType.BOOLEAN).description("카페 찜 여부"),
+                                fieldWithPath("[].cafeImageUrl").type(JsonFieldType.STRING).description("카페 이미지"),
                                 fieldWithPath("[].twitterAccount").type(JsonFieldType.STRING).description("트위터 계정"),
-                                fieldWithPath("[].address").type(JsonFieldType.STRING).description("카페 주소"),
-                                fieldWithPath("[].cafeImageUrl").type(JsonFieldType.STRING).description("카페 이미지")
+                                fieldWithPath("[].address").type(JsonFieldType.STRING).description("카페 주소")
                         )
                 ));
     }
