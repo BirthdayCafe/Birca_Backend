@@ -57,19 +57,7 @@ ALTER TABLE cafe
 ALTER TABLE cafe
     ADD CONSTRAINT uc_cafe_businesslicenseid UNIQUE (business_license_id);
 
-CREATE TABLE regular_day_off
-(
-    id            BIGINT AUTO_INCREMENT NOT NULL,
-    cafe_id       BIGINT       NOT NULL,
-    interval_type VARCHAR(255) NOT NULL,
-    day_off_week  VARCHAR(255) NOT NULL,
-    CONSTRAINT pk_regular_off_day PRIMARY KEY (id)
-);
-
-ALTER TABLE regular_day_off
-    ADD CONSTRAINT FK_REGULAR_OFF_DAY_ON_CAFE FOREIGN KEY (cafe_id) REFERENCES cafe (id);
-
-CREATE TABLE extra_day_off
+CREATE TABLE day_off
 (
     id           BIGINT AUTO_INCREMENT NOT NULL,
     cafe_id      BIGINT   NOT NULL,
@@ -77,8 +65,8 @@ CREATE TABLE extra_day_off
     CONSTRAINT pk_extra_day_off PRIMARY KEY (id)
 );
 
-ALTER TABLE extra_day_off
-    ADD CONSTRAINT FK_EXTRA_OFF_DAY_ON_CAFE FOREIGN KEY (cafe_id) REFERENCES cafe (id);
+ALTER TABLE day_off
+    ADD CONSTRAINT FK_DAY_OFF_ON_CAFE FOREIGN KEY (cafe_id) REFERENCES cafe (id);
 
 CREATE TABLE cafe_image
 (
