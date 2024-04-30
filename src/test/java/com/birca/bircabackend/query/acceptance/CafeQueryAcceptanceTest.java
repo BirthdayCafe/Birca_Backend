@@ -62,4 +62,19 @@ public class CafeQueryAcceptanceTest extends AcceptanceTest {
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
+
+    @Test
+    void 주최자가_카페_상세_조회한다() {
+        // when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .when()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
+                .get("/api/v1/cafes/{cafeId}", 1L)
+                .then().log().all()
+                .extract();
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
 }

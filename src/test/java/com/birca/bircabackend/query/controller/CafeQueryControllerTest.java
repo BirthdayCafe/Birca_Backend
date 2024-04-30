@@ -18,8 +18,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.queryParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class CafeQueryControllerTest extends DocumentationTest {
@@ -56,15 +55,15 @@ class CafeQueryControllerTest extends DocumentationTest {
     @Test
     void 사장님이_카페_상세_조회를_한다() throws Exception {
         // given
-        given(cafeQueryService.findCafeDetail(new LoginMember(1L)))
+        given(cafeQueryService.findMyCafeDetails(new LoginMember(1L)))
                 .willReturn(
-                        new CafeDetailResponse(
+                        new MyCafeDetailResponse(
                                 "메가커피",
                                 "서울특별시 강남구 테헤란로 212",
                                 "@ChaseM",
                                 "8시 - 22시",
-                                List.of(new CafeDetailResponse.CafeMenuResponse("아메리카노", 1500)),
-                                List.of(new CafeDetailResponse.CafeOptionResponse("액자", 2000)),
+                                List.of(new MyCafeDetailResponse.CafeMenuResponse("아메리카노", 1500)),
+                                List.of(new MyCafeDetailResponse.CafeOptionResponse("액자", 2000)),
                                 List.of("image.com")
                         )
                 );
@@ -77,7 +76,7 @@ class CafeQueryControllerTest extends DocumentationTest {
 
         // then
         result.andExpect((status().isOk()))
-                .andDo(document("get-cafe-detail", HOST_INFO, DOCUMENT_RESPONSE,
+                .andDo(document("get-my-cafe-detail", HOST_INFO, DOCUMENT_RESPONSE,
                         responseFields(
                                 fieldWithPath("cafeName").type(JsonFieldType.STRING).description("카페 이름"),
                                 fieldWithPath("cafeAddress").type(JsonFieldType.STRING).description("카페 주소"),
@@ -157,6 +156,53 @@ class CafeQueryControllerTest extends DocumentationTest {
                                 fieldWithPath("[].cafeImageUrl").type(JsonFieldType.STRING).description("카페 이미지"),
                                 fieldWithPath("[].twitterAccount").type(JsonFieldType.STRING).description("트위터 계정"),
                                 fieldWithPath("[].address").type(JsonFieldType.STRING).description("카페 주소")
+                        )
+                ));
+    }
+
+    @Test
+    void 주최자가_카페_상세_조회한다() throws Exception {
+        // given
+        given(cafeQueryService.findCafeDetail(1L))
+                .willReturn(
+                        new CafeDetailResponse(
+                                "스타벅스",
+                                "경기도 성남시 분당구 판교역로 235",
+                                "@ChaseM",
+                                "8시 - 21시",
+                                List.of(
+                                        new CafeDetailResponse.RentalScheduleResponse(
+                                                LocalDateTime.of(2024, 3, 18, 0, 0, 0),
+                                                LocalDateTime.of(2024, 3, 19, 0, 0, 0)
+                                        ),
+                                        new CafeDetailResponse.RentalScheduleResponse(
+                                                LocalDateTime.of(2024, 3, 21, 0, 0, 0),
+                                                LocalDateTime.of(2024, 3, 22, 0, 0, 0)
+                                        )
+                                )
+                        )
+                );
+
+        // when
+        ResultActions result = mockMvc.perform(get("/api/v1/cafes/{cafeId}", 1L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(1L))
+        );
+
+        // then
+        result.andExpect((status().isOk()))
+                .andDo(document("get-cafe-detail", HOST_INFO, DOCUMENT_RESPONSE,
+                        pathParameters(
+                                parameterWithName("cafeId").description("카페 ID")
+                        ),
+                        responseFields(
+                                fieldWithPath("name").type(JsonFieldType.STRING).description("카페 이름"),
+                                fieldWithPath("twitterAccount").type(JsonFieldType.STRING).description("트위터 계정"),
+                                fieldWithPath("address").type(JsonFieldType.STRING).description("카페 주소"),
+                                fieldWithPath("businessHours").type(JsonFieldType.STRING).description("영업 시간"),
+                                fieldWithPath("rentalSchedules").type(JsonFieldType.ARRAY).description("대관 일정 목록"),
+                                fieldWithPath("rentalSchedules[].startDate").type(JsonFieldType.STRING).description("대관 시작일"),
+                                fieldWithPath("rentalSchedules[].endDate").type(JsonFieldType.STRING).description("대관 종료일")
                         )
                 ));
     }
