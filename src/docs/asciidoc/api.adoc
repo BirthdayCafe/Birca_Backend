@@ -108,8 +108,8 @@ include::{snippets}/birthday-cafe-error-Code/response-body.adoc[]
 == 카페 API
 === 카페 검색
 operation::search-cafes[snippets='http-request,http-response']
-=== 카페 상세 조회
-operation::get-cafe-detail[snippets='http-request,http-response']
+=== 사장님의 카페 상세 조회
+operation::get-my-cafe-detail[snippets='http-request,http-response']
 === 카페 상세 수정
 operation::cafe-update[snippets='http-request,request-fields,http-response']
 === 카페 이미지 업로드
@@ -118,6 +118,8 @@ operation::upload-cafe-image[snippets='http-request,http-response']
 operation::delete-cafe-image[snippets='http-request,request-fields,http-response']
 === 대관 가능한 카페 검색
 operation::search-rental-cafe[snippets='http-request,query-parameters,http-response']
+=== 주최자의 카페 상세 조회
+operation::get-cafe-detail[snippets='http-request,http-response']
 
 == 찜 API
 === 생일 카페 찜하기
