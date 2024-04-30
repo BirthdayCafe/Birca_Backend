@@ -25,8 +25,8 @@ public class CafeQueryController {
 
     @GetMapping("/v1/cafes/me")
     @RequiredLogin
-    public ResponseEntity<CafeDetailResponse> findCafeDetails(LoginMember loginMember) {
-        return ResponseEntity.ok(cafeQueryService.findCafeDetail(loginMember));
+    public ResponseEntity<MyCafeDetailResponse> findMyCafeDetails(LoginMember loginMember) {
+        return ResponseEntity.ok(cafeQueryService.findMyCafeDetails(loginMember));
     }
 
     @GetMapping("/v1/cafes")
@@ -35,5 +35,11 @@ public class CafeQueryController {
                                                               @ModelAttribute CafeParams cafeParams,
                                                               @ModelAttribute PagingParams pagingParams) {
         return ResponseEntity.ok(cafeQueryService.searchCafes(loginMember, cafeParams, pagingParams));
+    }
+
+    @GetMapping("/v1/cafes/{cafeId}")
+    @RequiredLogin
+    public ResponseEntity<CafeDetailResponse> findCafeDetail(@PathVariable Long cafeId) {
+        return ResponseEntity.ok(cafeQueryService.findCafeDetail(cafeId));
     }
 }

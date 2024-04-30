@@ -1,56 +1,34 @@
 package com.birca.bircabackend.query.dto;
 
+import com.birca.bircabackend.command.birca.domain.BirthdayCafe;
 import com.birca.bircabackend.command.cafe.domain.Cafe;
-import com.birca.bircabackend.command.cafe.domain.value.CafeMenu;
-import com.birca.bircabackend.command.cafe.domain.value.CafeOption;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public record CafeDetailResponse(
-        String cafeName,
-        String cafeAddress,
+        String name,
         String twitterAccount,
+        String address,
         String businessHours,
-        List<CafeMenuResponse> cafeMenus,
-        List<CafeOptionResponse> cafeOptions,
-        List<String> cafeImages
+        List<RentalScheduleResponse> rentalSchedules
 ) {
 
-    public static CafeDetailResponse of(Cafe cafe, List<String> cafeImages) {
-        List<CafeMenu> cafeMenus = cafe.getCafeMenus();
-        List<CafeOption> cafeOptions = cafe.getCafeOptions();
+    public static CafeDetailResponse from(Cafe cafe, List<BirthdayCafe> birthdayCafes) {
         return new CafeDetailResponse(
                 cafe.getName(),
-                cafe.getAddress(),
                 cafe.getTwitterAccount(),
+                cafe.getAddress(),
                 cafe.getBusinessHours(),
-                cafeMenus.stream()
-                        .map(CafeMenuResponse::from)
-                        .toList(),
-                cafeOptions.stream()
-                        .map(CafeOptionResponse::from)
-                        .toList(),
-                cafeImages
+                birthdayCafes.stream()
+                        .map(bc -> new RentalScheduleResponse(bc.getSchedule().getStartDate(), bc.getSchedule().getEndDate()))
+                        .toList()
         );
     }
 
-    public record CafeMenuResponse(
-            String name,
-            Integer price
+    public record RentalScheduleResponse(
+            LocalDateTime startDate,
+            LocalDateTime endDate
     ) {
-
-        public static CafeMenuResponse from(CafeMenu cafeMenu) {
-            return new CafeMenuResponse(cafeMenu.getName(), cafeMenu.getPrice());
-        }
-    }
-
-    public record CafeOptionResponse(
-            String name,
-            Integer price
-    ) {
-
-        public static CafeOptionResponse from(CafeOption cafeOption) {
-            return new CafeOptionResponse(cafeOption.getName(), cafeOption.getPrice());
-        }
     }
 }

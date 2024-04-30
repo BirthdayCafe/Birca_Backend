@@ -1,11 +1,14 @@
 package com.birca.bircabackend.command.birca.domain;
 
 import com.birca.bircabackend.command.birca.domain.value.ProgressState;
+import com.birca.bircabackend.query.dto.CafeDetailResponse;
+import com.birca.bircabackend.query.dto.CafeDetailResponse.RentalScheduleResponse;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public interface BirthdayCafeRepository extends Repository<BirthdayCafe, Long> {
 
@@ -21,4 +24,6 @@ public interface BirthdayCafeRepository extends Repository<BirthdayCafe, Long> {
             "and bc.cafeId = :cafeId " +
             "and (bc.progressState = 'RENTAL_APPROVED' or bc.progressState = 'IN_PROGRESS')")
     Boolean existsBirthdayCafe(LocalDateTime startDate, LocalDateTime endDate, Long cafeId);
+
+    List<BirthdayCafe> findByCafeId(@Param("cafeId") Long cafeId);
 }
