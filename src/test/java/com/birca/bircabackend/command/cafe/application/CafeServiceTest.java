@@ -2,9 +2,11 @@ package com.birca.bircabackend.command.cafe.application;
 
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.cafe.domain.Cafe;
+import com.birca.bircabackend.command.cafe.domain.value.DayOff;
 import com.birca.bircabackend.command.cafe.domain.value.CafeMenu;
 import com.birca.bircabackend.command.cafe.domain.value.CafeOption;
 import com.birca.bircabackend.command.cafe.dto.CafeUpdateRequest;
+import com.birca.bircabackend.command.cafe.dto.DayOffCreateRequest;
 import com.birca.bircabackend.command.cafe.exception.CafeErrorCode;
 import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.support.enviroment.ServiceTest;
@@ -16,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -88,6 +91,50 @@ class CafeServiceTest extends ServiceTest {
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(CafeErrorCode.NOT_FOUND);
+        }
+    }
+
+    @Nested
+    @DisplayName("카페 휴무일을 지정할 때")
+    class MarkDayOffTest {
+
+        private static final Long CAFE_ID = 1L;
+        private static final LoginMember LOGIN_MEMBER = new LoginMember(1L);
+        @Test
+        void 정상적으로_지정한다() {
+            // given
+            DayOffCreateRequest request = new DayOffCreateRequest(
+                    List.of(
+                            LocalDateTime.of(2024, 2, 5, 0, 0, 0),
+                            LocalDateTime.of(2024, 5, 15, 0, 0, 0)
+                    )
+            );
+
+            // when
+            cafeService.markDayOff(CAFE_ID, LOGIN_MEMBER, request);
+            List<DayOff> dayOffs = entityManager.createQuery("select c.dayOffs from Cafe c where c.id = :cafeId", DayOff.class)
+                    .setParameter("cafeId", CAFE_ID)
+                    .getResultList();
+
+            // then
+            assertThat(dayOffs.size()).isEqualTo(2);
+        }
+
+        @Test
+        void 자신의_카페가_아니면_예외가_발생한다() {
+            // given
+            DayOffCreateRequest request = new DayOffCreateRequest(
+                    List.of(
+                            LocalDateTime.of(2024, 5, 5, 0, 0, 0),
+                            LocalDateTime.of(2024, 5, 15, 0, 0, 0)
+                    )
+            );
+
+            // when then
+            assertThatThrownBy(() -> cafeService.markDayOff(CAFE_ID, new LoginMember(100L), request))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(CafeErrorCode.UNAUTHORIZED_UPDATE);
         }
     }
 }

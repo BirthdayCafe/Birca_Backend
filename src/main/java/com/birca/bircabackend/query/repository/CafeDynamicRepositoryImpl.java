@@ -17,7 +17,6 @@ import java.util.List;
 import static com.birca.bircabackend.command.birca.domain.QBirthdayCafe.birthdayCafe;
 import static com.birca.bircabackend.command.cafe.domain.QCafe.cafe;
 import static com.birca.bircabackend.command.cafe.domain.QCafeImage.cafeImage;
-import static com.birca.bircabackend.command.cafe.domain.QDayOff.dayOff;
 import static com.birca.bircabackend.command.like.domain.QLike.like;
 
 @Repository
@@ -38,10 +37,10 @@ public class CafeDynamicRepositoryImpl implements CafeDynamicRepository {
                 .leftJoin(like).on(
                         cafe.id.eq(like.target.targetId)
                                 .and(like.target.targetType.eq(LikeTargetType.CAFE)))
-                .leftJoin(dayOff).on(dayOff.cafeId.eq(cafe.id)
-                        .and(DynamicBooleanBuilder.builder()
-                                .and(() -> dayOff.dayOffDate.notBetween(cafeParams.getStartDate(), cafeParams.getEndDate()))
-                                .build()))
+//                .leftJoin(dayOff).on(dayOff.cafeId.eq(cafe.id)
+//                        .and(DynamicBooleanBuilder.builder()
+//                                .and(() -> dayOff.dayOffDate.notBetween(cafeParams.getStartDate(), cafeParams.getEndDate()))
+//                                .build()))
                 .leftJoin(birthdayCafe).on(birthdayCafe.cafeId.eq(cafe.id)
                         .and(DynamicBooleanBuilder.builder()
                                 .and(() -> birthdayCafe.schedule.startDate.gt(cafeParams.getEndDate())
@@ -56,8 +55,8 @@ public class CafeDynamicRepositoryImpl implements CafeDynamicRepository {
         Long cursor = pagingParams.getCursor();
         DynamicBooleanBuilder builder = DynamicBooleanBuilder.builder()
                 .and(() -> cafe.id.gt(cursor))
-                .and(() -> dayOff.dayOffDate.gt(cafeParams.getEndDate())
-                        .or(dayOff.dayOffDate.lt(cafeParams.getStartDate())))
+//                .and(() -> dayOff.dayOffDate.gt(cafeParams.getEndDate())
+//                        .or(dayOff.dayOffDate.lt(cafeParams.getStartDate())))
                 .and(() -> birthdayCafe.schedule.startDate.gt(cafeParams.getEndDate())
                         .or(birthdayCafe.schedule.endDate.lt(cafeParams.getStartDate())));
 

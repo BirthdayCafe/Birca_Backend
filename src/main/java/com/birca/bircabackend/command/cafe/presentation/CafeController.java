@@ -4,12 +4,10 @@ import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.auth.authorization.RequiredLogin;
 import com.birca.bircabackend.command.cafe.application.CafeService;
 import com.birca.bircabackend.command.cafe.dto.CafeUpdateRequest;
+import com.birca.bircabackend.command.cafe.dto.DayOffCreateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
@@ -22,6 +20,15 @@ public class CafeController {
     @RequiredLogin
     public ResponseEntity<Void> updateCafe(LoginMember loginMember, @RequestBody CafeUpdateRequest request) {
         cafeService.update(loginMember, request);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/v1/cafes/{cafeId}/day-off")
+    @RequiredLogin
+    public ResponseEntity<Void> markDayOff(@PathVariable Long cafeId,
+                                           LoginMember loginMember,
+                                           @RequestBody DayOffCreateRequest request) {
+        cafeService.markDayOff(cafeId, loginMember, request);
         return ResponseEntity.ok().build();
     }
 }

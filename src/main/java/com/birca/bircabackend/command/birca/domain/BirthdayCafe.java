@@ -137,13 +137,6 @@ public class BirthdayCafe extends BaseEntity {
         this.visibility = visibility;
     }
 
-    public void changeState(ProgressState progressState, Long memberId) {
-        if (!isOwner(memberId)) {
-            throw BusinessException.from(UNAUTHORIZED_UPDATE);
-        }
-        this.progressState = progressState;
-    }
-
     public void replaceSpecialGoods(Long memberId, List<SpecialGoods> specialGoods) {
         validateIsHost(memberId);
         if (!progressState.isInProgress() && !progressState.isRentalApproved()) {

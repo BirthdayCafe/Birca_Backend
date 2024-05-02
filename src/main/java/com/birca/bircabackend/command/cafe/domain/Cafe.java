@@ -2,7 +2,7 @@ package com.birca.bircabackend.command.cafe.domain;
 
 import com.birca.bircabackend.command.cafe.domain.value.CafeMenu;
 import com.birca.bircabackend.command.cafe.domain.value.CafeOption;
-import com.birca.bircabackend.command.cafe.exception.CafeErrorCode;
+import com.birca.bircabackend.command.cafe.domain.value.DayOff;
 import com.birca.bircabackend.common.domain.BaseEntity;
 import com.birca.bircabackend.common.exception.BusinessException;
 import jakarta.persistence.*;
@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.birca.bircabackend.command.cafe.exception.CafeErrorCode.*;
 
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(
@@ -48,7 +50,12 @@ public class Cafe extends BaseEntity {
     @CollectionTable(name = "cafe_option")
     private List<CafeOption> cafeOptions = new ArrayList<>();
 
-    public void update(String name, String address, String twitterAccount, String businessHours) {
+    @ElementCollection
+    @CollectionTable(name = "day_off")
+    private List<DayOff> dayOffs = new ArrayList<>();
+
+    public void update(Long memberId, String name, String address, String twitterAccount, String businessHours) {
+        validateIsOwner(memberId);
         this.name = name;
         this.address = address;
         this.twitterAccount = twitterAccount;
@@ -61,5 +68,20 @@ public class Cafe extends BaseEntity {
 
     public void replaceCafeOptions(List<CafeOption> cafeOptions) {
         this.cafeOptions = cafeOptions;
+    }
+
+    public void replaceDayOff(Long memberId, List<DayOff> dayOffs) {
+        validateIsOwner(memberId);
+        this.dayOffs = dayOffs;
+    }
+
+    private void validateIsOwner(Long memberId) {
+        if (!isOwner(memberId)) {
+            throw BusinessException.from(UNAUTHORIZED_UPDATE);
+        }
+    }
+
+    private boolean isOwner(Long memberId) {
+        return memberId.equals(ownerId);
     }
 }
