@@ -59,14 +59,15 @@ ALTER TABLE cafe
 
 CREATE TABLE day_off
 (
-    id           BIGINT AUTO_INCREMENT NOT NULL,
     cafe_id      BIGINT   NOT NULL,
-    day_off_date DATETIME NOT NULL,
-    CONSTRAINT pk_extra_day_off PRIMARY KEY (id)
+    day_off_date DATETIME NOT NULL
 );
 
 ALTER TABLE day_off
     ADD CONSTRAINT FK_DAY_OFF_ON_CAFE FOREIGN KEY (cafe_id) REFERENCES cafe (id);
+
+ALTER TABLE day_off
+    ADD CONSTRAINT uc_day_off_dayOffDate UNIQUE (day_off_date);
 
 CREATE TABLE cafe_image
 (

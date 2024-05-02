@@ -3,10 +3,13 @@ package com.birca.bircabackend.command.cafe.application;
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.cafe.domain.Cafe;
 import com.birca.bircabackend.command.cafe.domain.CafeRepository;
+import com.birca.bircabackend.command.cafe.domain.value.DayOff;
 import com.birca.bircabackend.command.cafe.domain.value.CafeMenu;
 import com.birca.bircabackend.command.cafe.domain.value.CafeOption;
 import com.birca.bircabackend.command.cafe.dto.CafeUpdateRequest;
+import com.birca.bircabackend.command.cafe.dto.DayOffCreateRequest;
 import com.birca.bircabackend.command.cafe.exception.CafeErrorCode;
+import com.birca.bircabackend.common.EntityUtil;
 import com.birca.bircabackend.common.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,11 +23,13 @@ import java.util.List;
 public class CafeService {
 
     private final CafeRepository cafeRepository;
+    private final EntityUtil entityUtil;
 
     public void update(LoginMember loginMember, CafeUpdateRequest request) {
-        Cafe cafe = cafeRepository.findByOwnerId(loginMember.id())
+        Long ownerId = loginMember.id();
+        Cafe cafe = cafeRepository.findByOwnerId(ownerId)
                 .orElseThrow(() -> BusinessException.from(CafeErrorCode.NOT_FOUND));
-        cafe.update(request.cafeName(), request.cafeAddress(),
+        cafe.update(ownerId, request.cafeName(), request.cafeAddress(),
                 request.twitterAccount(), request.businessHours());
         replaceCafeMenus(request, cafe);
         replaceCafeOptions(request, cafe);
@@ -42,5 +47,14 @@ public class CafeService {
                 .map(req -> new CafeOption(req.name(), req.price()))
                 .toList();
         cafe.replaceCafeOptions(cafeOptions);
+    }
+
+    public void markDayOff(Long cafeId, LoginMember loginMember, DayOffCreateRequest request) {
+        Cafe cafe = entityUtil.getEntity(Cafe.class, cafeId, CafeErrorCode.NOT_FOUND);
+        List<DayOff> dayOffs = request.datOffDates()
+                .stream()
+                .map(DayOff::new)
+                .toList();
+        cafe.replaceDayOff(loginMember.id(), dayOffs);
     }
 }
