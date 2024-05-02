@@ -120,6 +120,8 @@ operation::delete-cafe-image[snippets='http-request,request-fields,http-response
 operation::search-rental-cafe[snippets='http-request,query-parameters,http-response']
 === 주최자의 카페 상세 조회
 operation::get-cafe-detail[snippets='http-request,http-response']
+=== 카페 휴무일 지정
+operation::cafe-day-off[snippets='http-request,path-parameters,http-response']
 
 == 찜 API
 === 생일 카페 찜하기
