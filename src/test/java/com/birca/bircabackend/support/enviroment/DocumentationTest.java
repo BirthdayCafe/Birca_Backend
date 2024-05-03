@@ -11,6 +11,7 @@ import com.birca.bircabackend.command.cafe.application.BusinessLicenseFacade;
 import com.birca.bircabackend.command.cafe.application.BusinessLicenseService;
 import com.birca.bircabackend.command.auth.application.AuthFacade;
 import com.birca.bircabackend.command.auth.application.token.JwtTokenProvider;
+import com.birca.bircabackend.command.like.application.CafeLikeService;
 import com.birca.bircabackend.command.member.application.MemberService;
 import com.birca.bircabackend.common.exception.ErrorCode;
 import com.birca.bircabackend.common.log.TimeLogTemplate;
@@ -117,6 +118,9 @@ public class DocumentationTest {
 
     @MockBean
     protected CafeService cafeService;
+
+    @MockBean
+    protected CafeLikeService cafeLikeService;
     
     protected List<FieldDescriptor> getErrorDescriptor(ErrorCode[] errorCodes) {
         return Arrays.stream(errorCodes)

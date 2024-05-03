@@ -2,6 +2,8 @@ package com.birca.bircabackend.command.cafe.presentation;
 
 import com.birca.bircabackend.command.cafe.dto.CafeUpdateRequest;
 import com.birca.bircabackend.command.cafe.dto.DayOffCreateRequest;
+import com.birca.bircabackend.command.cafe.exception.BusinessLicenseErrorCode;
+import com.birca.bircabackend.command.cafe.exception.CafeErrorCode;
 import com.birca.bircabackend.support.enviroment.DocumentationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -15,10 +17,10 @@ import java.util.List;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class CafeControllerTest extends DocumentationTest {
@@ -85,6 +87,23 @@ class CafeControllerTest extends DocumentationTest {
                         requestFields(
                                 fieldWithPath("datOffDates.[]").type(JsonFieldType.ARRAY).description("카페 휴무일 목록")
                         )
+                ));
+    }
+
+    @Test
+    void 카페_에러_코드() throws Exception {
+        // when
+        ResultActions result = mockMvc.perform(get("/error-codes")
+                .queryParam("className", "com.birca.bircabackend.command.cafe.exception.CafeErrorCode")
+                .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        // then
+        result.andExpect((status().isOk()))
+                .andDo(document("cafe-error-Code",
+                        HOST_INFO,
+                        DOCUMENT_RESPONSE,
+                        responseFields(getErrorDescriptor(CafeErrorCode.values()))
                 ));
     }
 }
