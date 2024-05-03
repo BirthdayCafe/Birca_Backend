@@ -122,11 +122,15 @@ operation::search-rental-cafe[snippets='http-request,query-parameters,http-respo
 operation::get-cafe-detail[snippets='http-request,http-response']
 === 카페 휴무일 지정
 operation::cafe-day-off[snippets='http-request,path-parameters,http-response']
+=== 에러 코드
+include::{snippets}/cafe-error-Code/response-body.adoc[]
 
 == 찜 API
 === 생일 카페 찜하기
 operation::like-birthday-cafe[snippets='http-request,path-parameters,http-response']
 === 생일 카페 찜하기 취소
 operation::like-cancel-birthday-cafe[snippets='http-request,path-parameters,http-response']
+=== 카페 찜하기
+operation::like-cafe[snippets='http-request,path-parameters,http-response']
 === 에러 코드
 include::{snippets}/like-error-Code/response-body.adoc[]
