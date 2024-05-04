@@ -10,7 +10,8 @@ import lombok.RequiredArgsConstructor;
 public enum LikeErrorCode implements ErrorCode {
 
     INVALID_BIRTHDAY_CAFE_LIKE(6001, 400, "대관 대기, 취소 상태에서는 생일카페에 찜하기를 할 수 없습니다."),
-    INVALID_BIRTHDAY_CAFE_CANCEL(6002, 400, "찜하지 않은 생일 카페는 찜을 취소할 수 없습니다.")
+    INVALID_BIRTHDAY_CAFE_CANCEL(6002, 400, "찜하지 않은 생일 카페는 찜을 취소할 수 없습니다."),
+    INVALID_CAFE_LIKE(6003, 400, "사업자등록증이 승인되지 않은 카페는 찜하기를 할 수 없습니다.")
 
     ;
 

@@ -21,6 +21,8 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 @Sql("/fixture/cafe-fixture.sql")
 public class CafeAcceptanceTest extends AcceptanceTest {
 
+    private static final Long MEMBER_ID = 1L;
+
     @Test
     void 카페_상세_정보를_수정한다() {
         //given
@@ -36,7 +38,7 @@ public class CafeAcceptanceTest extends AcceptanceTest {
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(1L))
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
                 .body(request)
                 .patch("/api/v1/cafes")
                 .then().log().all()
@@ -59,9 +61,23 @@ public class CafeAcceptanceTest extends AcceptanceTest {
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(1L))
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
                 .body(request)
                 .post("/api/v1/cafes/{cafeId}/day-off", 1L)
+                .then().log().all()
+                .extract();
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Test
+    void 카페를_찜한다() {
+        // when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
+                .post("/api/v1/cafes/{cafeId}/like", 1L)
                 .then().log().all()
                 .extract();
 
