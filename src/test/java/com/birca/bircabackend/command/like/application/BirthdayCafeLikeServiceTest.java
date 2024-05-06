@@ -106,7 +106,7 @@ class BirthdayCafeLikeServiceTest extends ServiceTest {
             assertThatThrownBy(() -> birthdayCafeLikeService.cancelLike(birthdayCafeId, loginMember))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
-                    .isEqualTo(LikeErrorCode.INVALID_BIRTHDAY_CAFE_CANCEL);
+                    .isEqualTo(LikeErrorCode.INVALID_CANCEL);
         }
     }
 }

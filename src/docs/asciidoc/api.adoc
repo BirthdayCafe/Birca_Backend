@@ -128,9 +128,11 @@ include::{snippets}/cafe-error-Code/response-body.adoc[]
 == 찜 API
 === 생일 카페 찜하기
 operation::like-birthday-cafe[snippets='http-request,path-parameters,http-response']
-=== 생일 카페 찜하기 취소
+=== 찜한 생일 카페 취소
 operation::like-cancel-birthday-cafe[snippets='http-request,path-parameters,http-response']
 === 카페 찜하기
 operation::like-cafe[snippets='http-request,path-parameters,http-response']
+=== 찜한 카페 취소
+operation::cancel-like-cafe[snippets='http-request,path-parameters,http-response']
 === 에러 코드
 include::{snippets}/like-error-Code/response-body.adoc[]

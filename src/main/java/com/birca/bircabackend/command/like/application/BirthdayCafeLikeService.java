@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.birca.bircabackend.command.like.exception.LikeErrorCode.INVALID_BIRTHDAY_CAFE_CANCEL;
+import static com.birca.bircabackend.command.like.exception.LikeErrorCode.INVALID_CANCEL;
 
 @Service
 @Transactional
@@ -32,7 +32,7 @@ public class BirthdayCafeLikeService {
                 .ifPresentOrElse(
                         likeRepository::delete,
                         () -> {
-                            throw BusinessException.from(INVALID_BIRTHDAY_CAFE_CANCEL);
+                            throw BusinessException.from(INVALID_CANCEL);
                         }
                 );
     }
