@@ -23,7 +23,7 @@ public record BirthdayCafeApplicationResponse(
         ArtistGroup artistGroup = birthdayCafeView.artistGroup();
         Member member = birthdayCafeView.member();
         return new BirthdayCafeApplicationResponse(
-                birthdayCafe.getCafeId(),
+                birthdayCafe.getId(),
                 member.getNickname().getValue(),
                 new BirthdayCafeApplicationResponse.ArtistResponse(
                         artistGroup == null ? null : artistGroup.getName(),

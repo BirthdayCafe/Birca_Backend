@@ -116,29 +116,47 @@ class CafeQueryServiceTest extends ServiceTest {
                     );
         }
 
-//        @Test
-//        void 대관_가능한_날짜로_조회한다() {
-//            // given
-//            LoginMember loginMember = new LoginMember(1L);
-//
-//            CafeParams cafeParams = new CafeParams();
-//            LocalDateTime startDate = LocalDateTime.of(2024, 2, 27, 0, 0, 0);
-//            LocalDateTime endDate = LocalDateTime.of(2024, 2, 28, 0, 0, 0);
-//            cafeParams.setStartDate(startDate);
-//            cafeParams.setEndDate(endDate);
-//
-//            PagingParams pagingParams = new PagingParams();
-//
-//            // when
-//            List<CafeSearchResponse> actual = cafeQueryService.searchCafes(loginMember, cafeParams, pagingParams);
-//
-//            // then
-//            assertThat(actual)
-//                    .containsOnly(
-//                            new CafeSearchResponse(2L, false, "image6.com", "@ChaseM", "경기도 성남시 분당구 판교역로 235"),
-//                            new CafeSearchResponse(3L, false, "image7.com", "@ChaseM", "서울특별시 강남구 테헤란로 212")
-//                    );
-//        }
+        @Test
+        void 커서_이후로_조회한다() {
+            // given
+            LoginMember loginMember = new LoginMember(1L);
+            CafeParams cafeParams = new CafeParams();
+            PagingParams pagingParams = new PagingParams();
+            pagingParams.setCursor(2L);
+
+            // when
+            List<CafeSearchResponse> actual = cafeQueryService.searchCafes(loginMember, cafeParams, pagingParams);
+
+            // then
+            assertThat(actual)
+                    .containsExactly(
+                            new CafeSearchResponse(3L, true, "image7.com", "@ChaseM", "서울특별시 강남구 테헤란로 212")
+                    );
+        }
+
+        @Test
+        void 대관_가능한_날짜로_조회한다() {
+            // given
+            LoginMember loginMember = new LoginMember(1L);
+
+            CafeParams cafeParams = new CafeParams();
+            LocalDateTime startDate = LocalDateTime.of(2024, 2, 15, 0, 0, 0);
+            LocalDateTime endDate = LocalDateTime.of(2024, 2, 16, 0, 0, 0);
+            cafeParams.setStartDate(startDate);
+            cafeParams.setEndDate(endDate);
+
+            PagingParams pagingParams = new PagingParams();
+
+            // when
+            List<CafeSearchResponse> actual = cafeQueryService.searchCafes(loginMember, cafeParams, pagingParams);
+
+            // then
+            assertThat(actual)
+                    .containsOnly(
+                            new CafeSearchResponse(2L, true, "image6.com", "@ChaseM", "경기도 성남시 분당구 판교역로 235"),
+                            new CafeSearchResponse(3L, true, "image7.com", "@ChaseM", "서울특별시 강남구 테헤란로 212")
+                    );
+        }
 
         @Test
         void 찜한_카페들만_조회한다() {
