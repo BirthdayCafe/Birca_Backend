@@ -2,6 +2,7 @@ package com.birca.bircabackend.query.repository;
 
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.birca.domain.value.ProgressState;
+import com.birca.bircabackend.command.cafe.domain.QDayOff;
 import com.birca.bircabackend.command.like.domain.LikeTargetType;
 import com.birca.bircabackend.query.dto.CafeParams;
 import com.birca.bircabackend.query.dto.PagingParams;
@@ -13,11 +14,13 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.birca.bircabackend.command.birca.domain.QBirthdayCafe.birthdayCafe;
 import static com.birca.bircabackend.command.cafe.domain.QCafe.cafe;
 import static com.birca.bircabackend.command.cafe.domain.QCafeImage.cafeImage;
+import static com.birca.bircabackend.command.cafe.domain.QDayOff.dayOff;
 import static com.birca.bircabackend.command.like.domain.QLike.like;
 
 @Repository
@@ -28,7 +31,7 @@ public class CafeDynamicRepositoryImpl implements CafeDynamicRepository {
 
     @Override
     public List<CafeView> searchCafes(LoginMember loginMember, CafeParams cafeParams, PagingParams pagingParams) {
-        return queryFactory.select(Projections.constructor(CafeView.class, cafe, cafeImage, like))
+        return queryFactory.selectDistinct(Projections.constructor(CafeView.class, cafe, cafeImage, like))
                 .from(cafe)
                 .join(cafeImage).on(cafeImage.id.eq(
                         JPAExpressions.select(cafeImage.id.min())
@@ -39,6 +42,7 @@ public class CafeDynamicRepositoryImpl implements CafeDynamicRepository {
                         .and(like.target.targetType.eq(LikeTargetType.CAFE)))
                 .leftJoin(birthdayCafe).on(birthdayCafe.cafeId.eq(cafe.id)
                         .and(birthdayCafe.progressState.eq(ProgressState.RENTAL_APPROVED)))
+                .leftJoin(dayOff).on(dayOff.cafeId.eq(cafe.id))
                 .where(generateDynamicCondition(loginMember, cafeParams, pagingParams))
                 .limit(pagingParams.getSize())
                 .fetch();
@@ -46,11 +50,16 @@ public class CafeDynamicRepositoryImpl implements CafeDynamicRepository {
 
     private BooleanBuilder generateDynamicCondition(LoginMember loginMember, CafeParams cafeParams, PagingParams pagingParams) {
         Long cursor = pagingParams.getCursor();
+        LocalDateTime startDate = cafeParams.getStartDate();
+        LocalDateTime endDate = cafeParams.getEndDate();
         DynamicBooleanBuilder builder = DynamicBooleanBuilder.builder()
                 .and(() -> cafe.id.gt(cursor))
                 .and(() -> birthdayCafe.id.isNull()
-                        .or(birthdayCafe.schedule.startDate.gt(cafeParams.getEndDate())
-                                .or(birthdayCafe.schedule.endDate.lt(cafeParams.getStartDate()))));
+                        .or(birthdayCafe.schedule.startDate.gt(endDate)
+                                .or(birthdayCafe.schedule.endDate.lt(startDate))))
+                .and(() -> dayOff.id.isNull()
+                        .or(dayOff.dayOffDate.gt(endDate)
+                                .or(dayOff.dayOffDate.lt(startDate))));
 
         if (cafeParams.getLiked()) {
             builder.and(() -> like.visitantId.eq(loginMember.id()));

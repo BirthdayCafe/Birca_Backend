@@ -2,7 +2,6 @@ package com.birca.bircabackend.command.cafe.domain;
 
 import com.birca.bircabackend.command.cafe.domain.value.CafeMenu;
 import com.birca.bircabackend.command.cafe.domain.value.CafeOption;
-import com.birca.bircabackend.command.cafe.domain.value.DayOff;
 import com.birca.bircabackend.common.domain.BaseEntity;
 import com.birca.bircabackend.common.exception.BusinessException;
 import jakarta.persistence.*;
@@ -10,6 +9,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,10 +50,6 @@ public class Cafe extends BaseEntity {
     @CollectionTable(name = "cafe_option")
     private List<CafeOption> cafeOptions = new ArrayList<>();
 
-    @ElementCollection
-    @CollectionTable(name = "day_off")
-    private List<DayOff> dayOffs = new ArrayList<>();
-
     public void update(Long memberId, String name, String address, String twitterAccount, String businessHours) {
         validateIsOwner(memberId);
         this.name = name;
@@ -70,9 +66,9 @@ public class Cafe extends BaseEntity {
         this.cafeOptions = cafeOptions;
     }
 
-    public void replaceDayOff(Long memberId, List<DayOff> dayOffs) {
-        validateIsOwner(memberId);
-        this.dayOffs = dayOffs;
+    public DayOff markDayOff(Long ownerId, LocalDateTime dayOffDate) {
+        validateIsOwner(ownerId);
+        return new DayOff(this.getId(), dayOffDate);
     }
 
     private void validateIsOwner(Long memberId) {

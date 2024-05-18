@@ -13,6 +13,13 @@ VALUES (1, 1, 1, '미스티우드', '경기도 시흥시 은계중앙로 115', '
        (2, 2, 2, '우지커피', '경기도 성남시 분당구 판교역로 235', '@ChaseM', '8시 - 22시'),
        (3, 3, 3, '메가커피', '서울특별시 강남구 테헤란로 212', '@ChaseM', '9시 - 22시');
 
+INSERT INTO day_off(id, cafe_id, day_off_date)
+VALUES (1, 1, '2024-02-15T00:00:00'),
+       (2, 1, '2024-02-16T00:00:00'),
+       (3, 2, '2024-02-15T00:00:00'),
+       (4, 3, '2024-02-13T00:00:00'),
+       (5, 3, '2024-02-17T00:00:00');
+
 INSERT INTO birthday_cafe (id, host_id, artist_id, cafe_id, cafe_owner_id,
                            start_date, end_date,
                            minimum_visitant, maximum_visitant,

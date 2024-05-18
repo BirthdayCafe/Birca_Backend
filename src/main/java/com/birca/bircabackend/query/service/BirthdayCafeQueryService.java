@@ -7,7 +7,8 @@ import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.query.dto.*;
 import com.birca.bircabackend.query.repository.BirthdayCafeImageQueryRepository;
 import com.birca.bircabackend.query.repository.BirthdayCafeQueryRepository;
-import com.birca.bircabackend.query.repository.CafeImageRepository;
+import com.birca.bircabackend.command.cafe.domain.CafeImageRepository;
+import com.birca.bircabackend.query.repository.CafeImageQueryRepository;
 import com.birca.bircabackend.query.repository.LikedBirthdayCafeQueryRepository;
 import com.birca.bircabackend.query.repository.model.BirthdayCafeView;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class BirthdayCafeQueryService {
     private final BirthdayCafeQueryRepository birthdayCafeQueryRepository;
     private final BirthdayCafeImageQueryRepository birthdayCafeImageQueryRepository;
     private final LikedBirthdayCafeQueryRepository likedBirthdayCafeQueryRepository;
-    private final CafeImageRepository cafeImageRepository;
+    private final CafeImageQueryRepository cafeImageRepository;
 
     public List<SpecialGoodsResponse> findSpecialGoods(Long birthdayCafeId) {
         return birthdayCafeQueryRepository.findSpecialGoodsById(birthdayCafeId)

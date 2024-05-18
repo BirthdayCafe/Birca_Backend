@@ -153,7 +153,6 @@ class CafeQueryServiceTest extends ServiceTest {
             // then
             assertThat(actual)
                     .containsOnly(
-                            new CafeSearchResponse(2L, true, "image6.com", "@ChaseM", "경기도 성남시 분당구 판교역로 235"),
                             new CafeSearchResponse(3L, true, "image7.com", "@ChaseM", "서울특별시 강남구 테헤란로 212")
                     );
         }
