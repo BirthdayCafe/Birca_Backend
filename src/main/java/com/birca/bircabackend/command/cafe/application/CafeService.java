@@ -3,7 +3,8 @@ package com.birca.bircabackend.command.cafe.application;
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.cafe.domain.Cafe;
 import com.birca.bircabackend.command.cafe.domain.CafeRepository;
-import com.birca.bircabackend.command.cafe.domain.value.DayOff;
+import com.birca.bircabackend.command.cafe.domain.DayOff;
+import com.birca.bircabackend.command.cafe.domain.DayOffRepository;
 import com.birca.bircabackend.command.cafe.domain.value.CafeMenu;
 import com.birca.bircabackend.command.cafe.domain.value.CafeOption;
 import com.birca.bircabackend.command.cafe.dto.CafeUpdateRequest;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -22,6 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CafeService {
 
+    private final DayOffRepository dayOffRepository;
     private final CafeRepository cafeRepository;
     private final EntityUtil entityUtil;
 
@@ -51,10 +54,11 @@ public class CafeService {
 
     public void markDayOff(Long cafeId, LoginMember loginMember, DayOffCreateRequest request) {
         Cafe cafe = entityUtil.getEntity(Cafe.class, cafeId, CafeErrorCode.NOT_FOUND);
-        List<DayOff> dayOffs = request.datOffDates()
-                .stream()
-                .map(DayOff::new)
-                .toList();
-        cafe.replaceDayOff(loginMember.id(), dayOffs);
+        dayOffRepository.deleteByCafeId(cafeId);
+        List<LocalDateTime> dayOffDates = request.datOffDates();
+        for (LocalDateTime dayOffDate : dayOffDates) {
+            DayOff dayOff = cafe.markDayOff(loginMember.id(), dayOffDate);
+            dayOffRepository.save(dayOff);
+        }
     }
 }
