@@ -2,7 +2,7 @@ package com.birca.bircabackend.command.cafe.application;
 
 import com.birca.bircabackend.command.cafe.domain.CafeImage;
 import com.birca.bircabackend.common.exception.BusinessException;
-import com.birca.bircabackend.query.repository.CafeImageRepository;
+import com.birca.bircabackend.command.cafe.domain.CafeImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

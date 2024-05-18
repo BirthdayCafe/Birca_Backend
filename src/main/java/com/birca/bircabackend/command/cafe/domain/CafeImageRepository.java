@@ -1,4 +1,4 @@
-package com.birca.bircabackend.query.repository;
+package com.birca.bircabackend.command.cafe.domain;
 
 import com.birca.bircabackend.command.cafe.domain.CafeImage;
 import org.springframework.data.jpa.repository.Query;
