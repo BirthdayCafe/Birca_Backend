@@ -2,7 +2,7 @@ package com.birca.bircabackend.command.cafe.application;
 
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.cafe.domain.Cafe;
-import com.birca.bircabackend.command.cafe.domain.value.DayOff;
+import com.birca.bircabackend.command.cafe.domain.DayOff;
 import com.birca.bircabackend.command.cafe.domain.value.CafeMenu;
 import com.birca.bircabackend.command.cafe.domain.value.CafeOption;
 import com.birca.bircabackend.command.cafe.dto.CafeUpdateRequest;
@@ -95,13 +95,14 @@ class CafeServiceTest extends ServiceTest {
     }
 
     @Nested
-    @DisplayName("카페 휴무일을 지정할 때")
+    @DisplayName("카페 휴무일을 설정할 때")
     class MarkDayOffTest {
 
         private static final Long CAFE_ID = 1L;
         private static final LoginMember LOGIN_MEMBER = new LoginMember(1L);
+
         @Test
-        void 정상적으로_지정한다() {
+        void 새로운_날짜를_설정한다() {
             // given
             DayOffCreateRequest request = new DayOffCreateRequest(
                     List.of(
@@ -112,12 +113,31 @@ class CafeServiceTest extends ServiceTest {
 
             // when
             cafeService.markDayOff(CAFE_ID, LOGIN_MEMBER, request);
-            List<DayOff> dayOffs = entityManager.createQuery("select c.dayOffs from Cafe c where c.id = :cafeId", DayOff.class)
+            List<DayOff> dayOffs = entityManager.createQuery("select df from DayOff df where df.cafeId = :cafeId", DayOff.class)
                     .setParameter("cafeId", CAFE_ID)
                     .getResultList();
 
             // then
             assertThat(dayOffs.size()).isEqualTo(2);
+        }
+
+        @Test
+        void 설정한_날짜를_삭제한다() {
+            // given
+            DayOffCreateRequest request = new DayOffCreateRequest(
+                    List.of(
+                            LocalDateTime.of(2024, 2, 15, 0, 0, 0)
+                    )
+            );
+
+            // when
+            cafeService.markDayOff(CAFE_ID, LOGIN_MEMBER, request);
+            List<DayOff> dayOffs = entityManager.createQuery("select df from DayOff df where df.cafeId = :cafeId", DayOff.class)
+                    .setParameter("cafeId", CAFE_ID)
+                    .getResultList();
+
+            // then
+            assertThat(dayOffs.size()).isEqualTo(1);
         }
 
         @Test
@@ -135,6 +155,23 @@ class CafeServiceTest extends ServiceTest {
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(CafeErrorCode.UNAUTHORIZED_UPDATE);
+        }
+
+        @Test
+        void 존재하지_않는_카페는_예외가_발생한다() {
+            // given
+            DayOffCreateRequest request = new DayOffCreateRequest(
+                    List.of(
+                            LocalDateTime.of(2024, 5, 5, 0, 0, 0),
+                            LocalDateTime.of(2024, 5, 15, 0, 0, 0)
+                    )
+            );
+
+            // when then
+            assertThatThrownBy(() -> cafeService.markDayOff(100L, new LoginMember(100L), request))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(CafeErrorCode.NOT_FOUND);
         }
     }
 }

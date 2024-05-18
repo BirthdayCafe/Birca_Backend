@@ -2,7 +2,6 @@ package com.birca.bircabackend.command.cafe.domain;
 
 import com.birca.bircabackend.command.cafe.domain.value.CafeMenu;
 import com.birca.bircabackend.command.cafe.domain.value.CafeOption;
-import com.birca.bircabackend.command.cafe.domain.value.DayOff;
 import com.birca.bircabackend.command.cafe.exception.CafeErrorCode;
 import com.birca.bircabackend.common.exception.BusinessException;
 import com.navercorp.fixturemonkey.FixtureMonkey;
@@ -17,21 +16,21 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 class CafeTest {
 
+    private static final Long OWNER_ID = 1L;
     private static final FixtureMonkey fixtureMonkey = FixtureMonkey.builder()
             .objectIntrospector(FieldReflectionArbitraryIntrospector.INSTANCE)
             .build();
+    private static final Cafe CAFE = fixtureMonkey.giveMeBuilder(Cafe.class)
+            .set("ownerId", 1L)
+            .sample();
 
     @Nested
     @DisplayName("카페 정보를 수정할 때")
     class UpdateCafeTest {
-
-        private static final Long OWNER_ID = 1L;
-        private static final Cafe CAFE = fixtureMonkey.giveMeBuilder(Cafe.class)
-                .set("ownerId", 1L)
-                .sample();
 
         @Test
         void 자신의_카페가_아니면_예외가_발생한다() {
@@ -80,27 +79,19 @@ class CafeTest {
     }
 
     @Nested
-    @DisplayName("카페 휴무일을 지정할 때")
+    @DisplayName("카페 휴무일을 설정할 때")
     class MarkDayOffTest {
 
-        private static final Cafe CAFE = fixtureMonkey.giveMeBuilder(Cafe.class)
-                .set("ownerId", 1L)
-                .sample();
-
-        private static final List<DayOff> DAY_OFFS = List.of(new DayOff(LocalDateTime.now()));
         @Test
-        void 정상적으로_지정한다() {
-            // when
-            CAFE.replaceDayOff(1L, DAY_OFFS);
-
-            // then
-            assertThat(CAFE.getDayOffs().size()).isEqualTo(1);
+        void 정상적으로_설정한다() {
+            // when then
+            assertDoesNotThrow(() -> CAFE.markDayOff(OWNER_ID, LocalDateTime.now()));
         }
 
         @Test
-        void 카페_주인이_아니면_예외가_발생한다() {
+        void 자신의_카페가_아니면_예외가_발생한다() {
             // when then
-            assertThatThrownBy(() -> CAFE.replaceDayOff(100L, DAY_OFFS))
+            assertThatThrownBy(() -> CAFE.markDayOff(100L, LocalDateTime.now()))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(CafeErrorCode.UNAUTHORIZED_UPDATE);
