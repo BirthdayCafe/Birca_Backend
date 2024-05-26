@@ -58,6 +58,7 @@ class CafeQueryControllerTest extends DocumentationTest {
         given(cafeQueryService.findMyCafeDetails(new LoginMember(1L)))
                 .willReturn(
                         new MyCafeDetailResponse(
+                                1L,
                                 "메가커피",
                                 "서울특별시 강남구 테헤란로 212",
                                 "@ChaseM",
