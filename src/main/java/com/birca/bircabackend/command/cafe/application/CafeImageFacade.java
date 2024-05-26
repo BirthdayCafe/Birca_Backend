@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class CafeImageFacade {
@@ -17,10 +19,12 @@ public class CafeImageFacade {
     private final ImageRepository imageRepository;
     private final EntityUtil entityUtil;
 
-    public void uploadCafeImage(MultipartFile cafeImage, Long cafeId) {
+    public void uploadCafeImage(List<MultipartFile> cafeImages, Long cafeId) {
         entityUtil.getEntity(Cafe.class, cafeId, CafeErrorCode.NOT_FOUND);
-        String imageUrl = imageRepository.upload(cafeImage);
-        cafeImageService.save(cafeId, imageUrl);
+        for (MultipartFile cafeImage : cafeImages) {
+            String imageUrl = imageRepository.upload(cafeImage);
+            cafeImageService.save(cafeId, imageUrl);
+        }
     }
 
     public void deleteCafeImage(Long cafeId, CafeImageDeleteRequest request) {
