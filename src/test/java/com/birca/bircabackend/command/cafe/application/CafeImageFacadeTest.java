@@ -15,9 +15,11 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -41,11 +43,16 @@ class CafeImageFacadeTest extends ServiceTest {
         void 정상적으로_저장한다() {
             // given
             Long cafeId = 2L;
-            String fileName = "cafe-image.com";
-            MultipartFile cafeImage = new MockMultipartFile(fileName, fileName.getBytes(StandardCharsets.UTF_8));
+            List<MultipartFile> cafeImages = IntStream.rangeClosed(1, 4)
+                    .mapToObj(i -> {
+                        String fileName = "image" + i + ".png";
+                        byte[] content = fileName.getBytes(UTF_8);
+                        return new MockMultipartFile("image" + i, content);
+                    })
+                    .collect(Collectors.toList());
 
             // when
-            cafeImageFacade.uploadCafeImage(cafeImage, cafeId);
+            cafeImageFacade.uploadCafeImage(cafeImages, cafeId);
             List<CafeImage> response = entityManager.createQuery(
                             "select ci from CafeImage ci where ci.cafeId = :cafeId", CafeImage.class
                     )
@@ -53,19 +60,24 @@ class CafeImageFacadeTest extends ServiceTest {
                     .getResultList();
 
             // then
-            assertThat(response.size()).isEqualTo(1);
-            verify(imageRepository, times(1)).upload(any());
+            assertThat(response.size()).isEqualTo(4);
+            verify(imageRepository, times(4)).upload(any());
         }
 
         @Test
         void 존재하지_않은_카페는_예외가_발생한다() {
             // given
             Long cafeId = 100L;
-            String fileName = "cafe-image.com";
-            MultipartFile cafeImage = new MockMultipartFile(fileName, fileName.getBytes(StandardCharsets.UTF_8));
+            List<MultipartFile> cafeImages = IntStream.rangeClosed(1, 11)
+                    .mapToObj(i -> {
+                        String fileName = "image" + i + ".png";
+                        byte[] content = fileName.getBytes(UTF_8);
+                        return new MockMultipartFile("image" + i, content);
+                    })
+                    .collect(Collectors.toList());
 
             // when then
-            assertThatThrownBy(() -> cafeImageFacade.uploadCafeImage(cafeImage, cafeId))
+            assertThatThrownBy(() -> cafeImageFacade.uploadCafeImage(cafeImages, cafeId))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(CafeErrorCode.NOT_FOUND);

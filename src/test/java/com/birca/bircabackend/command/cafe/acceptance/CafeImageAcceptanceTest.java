@@ -24,13 +24,13 @@ public class CafeImageAcceptanceTest extends AcceptanceTest {
     void 카페_이미지를_저장한다() {
         // given
         Long cafeId = 2L;
-        File cafeImage = new File("src/test/resources/cafe.jpeg");
+        File cafeImages = new File("src/test/resources/cafe.jpeg");
 
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
                 .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
-                .multiPart("cafeImage", cafeImage)
+                .multiPart("cafeImages", cafeImages)
                 .post("/api/v1/cafes/{cafeId}/images", cafeId)
                 .then().log().all()
                 .extract();
