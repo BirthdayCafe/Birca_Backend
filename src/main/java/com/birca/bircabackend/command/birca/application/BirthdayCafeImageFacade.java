@@ -1,6 +1,7 @@
 package com.birca.bircabackend.command.birca.application;
 
 import com.birca.bircabackend.command.birca.domain.BirthdayCafe;
+import com.birca.bircabackend.command.birca.domain.BirthdayCafeImageValidator;
 import com.birca.bircabackend.command.birca.dto.BirthdayCafeImageDeleteRequest;
 import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
 import com.birca.bircabackend.common.EntityUtil;

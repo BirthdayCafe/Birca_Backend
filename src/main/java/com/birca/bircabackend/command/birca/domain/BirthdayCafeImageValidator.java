@@ -1,4 +1,4 @@
-package com.birca.bircabackend.command.birca.application;
+package com.birca.bircabackend.command.birca.domain;
 
 import com.birca.bircabackend.command.birca.domain.BirthdayCafeImage;
 import com.birca.bircabackend.command.birca.domain.BirthdayCafeImageRepository;
