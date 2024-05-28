@@ -201,7 +201,19 @@ class CafeQueryServiceTest extends ServiceTest {
                                             LocalDateTime.of(2024, 2, 15, 0, 0, 0),
                                             LocalDateTime.of(2024, 2, 16, 0, 0, 0)
                                     )
-                            )));
+                            ),
+                            List.of("image1.com", "image2.com", "image3.com", "image4.com", "image5.com"),
+                            List.of(
+                                    new CafeDetailResponse.CafeMenuResponse(
+                                            "아메리카노", 1500
+                                    )
+                            ),
+                            List.of(
+                                    new CafeDetailResponse.CafeOptionResponse(
+                                            "액자", 2000
+                                    )
+                            )
+                    ));
         }
     }
 }
