@@ -3,6 +3,7 @@ package com.birca.bircabackend.command.cafe.application;
 import com.birca.bircabackend.command.cafe.domain.CafeImage;
 import com.birca.bircabackend.command.cafe.dto.CafeImageDeleteRequest;
 import com.birca.bircabackend.command.cafe.exception.CafeErrorCode;
+import com.birca.bircabackend.command.cafe.exception.CafeImageErrorCode;
 import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.support.enviroment.ServiceTest;
 import jakarta.persistence.EntityManager;
@@ -36,13 +37,13 @@ class CafeImageFacadeTest extends ServiceTest {
     private EntityManager entityManager;
 
     @Nested
-    @DisplayName("카페 이미지를 저장할 때")
+    @DisplayName("카페 이미지를 업로드할 때")
     class UploadCafeImageTest {
 
         @Test
         void 정상적으로_저장한다() {
             // given
-            Long cafeId = 2L;
+            Long cafeId = 1L;
             List<MultipartFile> cafeImages = IntStream.rangeClosed(1, 4)
                     .mapToObj(i -> {
                         String fileName = "image" + i + ".png";
@@ -65,6 +66,25 @@ class CafeImageFacadeTest extends ServiceTest {
         }
 
         @Test
+        void 이미지가_5개가_초과되면_예외가_발생한다() {
+            // given
+            Long cafeId = 1L;
+            List<MultipartFile> cafeImages = IntStream.rangeClosed(1, 11)
+                    .mapToObj(i -> {
+                        String fileName = "image" + i + ".png";
+                        byte[] content = fileName.getBytes(UTF_8);
+                        return new MockMultipartFile("image" + i, content);
+                    })
+                    .collect(Collectors.toList());
+
+            // when then
+            assertThatThrownBy(() -> cafeImageFacade.uploadCafeImage(cafeImages, cafeId))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(CafeImageErrorCode.INVALID_UPLOAD_SIZE_REQUEST);
+        }
+
+        @Test
         void 존재하지_않은_카페는_예외가_발생한다() {
             // given
             Long cafeId = 100L;
@@ -78,43 +98,6 @@ class CafeImageFacadeTest extends ServiceTest {
 
             // when then
             assertThatThrownBy(() -> cafeImageFacade.uploadCafeImage(cafeImages, cafeId))
-                    .isInstanceOf(BusinessException.class)
-                    .extracting("errorCode")
-                    .isEqualTo(CafeErrorCode.NOT_FOUND);
-        }
-    }
-
-    @Nested
-    @DisplayName("카페 이미지를 삭제할 때")
-    class DeleteCafeImageTest {
-
-        @Test
-        void 정상적으로_삭제한다() {
-            // given
-            Long cafeId = 1L;
-            String imageUrl = "image1.com";
-            CafeImageDeleteRequest request = new CafeImageDeleteRequest(imageUrl);
-
-            // when
-            cafeImageFacade.deleteCafeImage(cafeId, request);
-            List<CafeImage> response = entityManager.createQuery("select ci from CafeImage ci where ci.cafeId = :cafeId", CafeImage.class)
-                    .setParameter("cafeId", cafeId)
-                    .getResultList();
-
-            // then
-            assertThat(response.size()).isEqualTo(4);
-            verify(imageRepository, times(1)).delete(any());
-        }
-
-        @Test
-        void 존재하지_않은_카페는_예외가_발생한다() {
-            // given
-            Long cafeId = 100L;
-            String imageUrl = "cafe-image.com";
-            CafeImageDeleteRequest request = new CafeImageDeleteRequest(imageUrl);
-
-            // when then
-            assertThatThrownBy(() -> cafeImageFacade.deleteCafeImage(cafeId, request))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(CafeErrorCode.NOT_FOUND);

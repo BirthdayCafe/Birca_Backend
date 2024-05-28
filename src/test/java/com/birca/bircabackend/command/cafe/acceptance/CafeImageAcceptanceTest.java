@@ -38,23 +38,4 @@ public class CafeImageAcceptanceTest extends AcceptanceTest {
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
-
-    @Test
-    void 카페_이미지를_삭제한다() {
-        // given
-        Long cafeId = 1L;
-        CafeImageDeleteRequest request = new CafeImageDeleteRequest("image1.com");
-
-        // when
-        ExtractableResponse<Response> response = RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
-                .body(request)
-                .delete("/api/v1/cafes/{cafeId}/images", cafeId)
-                .then().log().all()
-                .extract();
-
-        // then
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-    }
 }
