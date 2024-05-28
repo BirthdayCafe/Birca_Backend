@@ -47,19 +47,6 @@ class CafeImageServiceTest extends ServiceTest {
             // then
             assertThat(response.size()).isEqualTo(1);
         }
-
-        @Test
-        void 이미지가_5개_이상이면_예외가_발생한다() {
-            // given
-            Long cafeId = 1L;
-            String imageUrl = "cafe-image.com";
-
-            // when then
-            assertThatThrownBy(() -> cafeImageService.save(cafeId, imageUrl))
-                    .isInstanceOf(BusinessException.class)
-                    .extracting("errorCode")
-                    .isEqualTo(CafeImageErrorCode.INVALID_UPLOAD_SIZE_REQUEST);
-        }
     }
 
     @Nested
@@ -70,10 +57,9 @@ class CafeImageServiceTest extends ServiceTest {
         void 정상적으로_삭제한다() {
             // given
             Long cafeId = 1L;
-            String imageUrl = "image1.com";
 
             // when
-            cafeImageService.delete(imageUrl);
+            cafeImageService.delete(cafeId);
             List<CafeImage> response = entityManager.createQuery(
                             "select ci from CafeImage ci where ci.cafeId = :cafeId", CafeImage.class
                     )
@@ -81,7 +67,7 @@ class CafeImageServiceTest extends ServiceTest {
                     .getResultList();
 
             // then
-            assertThat(response.size()).isEqualTo(4);
+            assertThat(response.size()).isEqualTo(0);
         }
     }
 }

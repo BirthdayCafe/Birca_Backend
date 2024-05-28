@@ -58,6 +58,7 @@ class CafeQueryControllerTest extends DocumentationTest {
         given(cafeQueryService.findMyCafeDetails(new LoginMember(1L)))
                 .willReturn(
                         new MyCafeDetailResponse(
+                                1L,
                                 "메가커피",
                                 "서울특별시 강남구 테헤란로 212",
                                 "@ChaseM",
@@ -78,6 +79,7 @@ class CafeQueryControllerTest extends DocumentationTest {
         result.andExpect((status().isOk()))
                 .andDo(document("get-my-cafe-detail", HOST_INFO, DOCUMENT_RESPONSE,
                         responseFields(
+                                fieldWithPath("cafeId").type(JsonFieldType.NUMBER).description("카페 ID"),
                                 fieldWithPath("cafeName").type(JsonFieldType.STRING).description("카페 이름"),
                                 fieldWithPath("cafeAddress").type(JsonFieldType.STRING).description("카페 주소"),
                                 fieldWithPath("twitterAccount").type(JsonFieldType.STRING).description("트위터 계정"),

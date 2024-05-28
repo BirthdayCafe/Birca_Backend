@@ -70,6 +70,7 @@ class CafeQueryServiceTest extends ServiceTest {
 
             // then
             assertThat(actual).isEqualTo(new MyCafeDetailResponse(
+                    1L,
                     "미스티우드",
                     "경기도 시흥시 은계중앙로 115",
                     "@ChaseM",

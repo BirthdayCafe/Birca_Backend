@@ -7,6 +7,7 @@ import com.birca.bircabackend.command.cafe.domain.value.CafeOption;
 import java.util.List;
 
 public record MyCafeDetailResponse(
+        Long cafeId,
         String cafeName,
         String cafeAddress,
         String twitterAccount,
@@ -20,6 +21,7 @@ public record MyCafeDetailResponse(
         List<CafeMenu> cafeMenus = cafe.getCafeMenus();
         List<CafeOption> cafeOptions = cafe.getCafeOptions();
         return new MyCafeDetailResponse(
+                cafe.getId(),
                 cafe.getName(),
                 cafe.getAddress(),
                 cafe.getTwitterAccount(),

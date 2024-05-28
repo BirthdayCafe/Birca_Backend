@@ -42,25 +42,4 @@ class CafeImageControllerTest extends DocumentationTest {
                         )
                 ));
     }
-
-    @Test
-    void 카페_이미지를_삭제한다() throws Exception {
-        // given
-        CafeImageDeleteRequest request = new CafeImageDeleteRequest("image1.com");
-
-        // when
-        ResultActions result = mockMvc.perform(
-                delete("/api/v1/cafes/{cafeId}/images", CAFE_ID)
-                        .content(objectMapper.writeValueAsString(request))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID)));
-
-        // then
-        result.andExpect((status().isOk()))
-                .andDo(document("delete-cafe-image", HOST_INFO, DOCUMENT_RESPONSE,
-                        requestFields(
-                                fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("삭제할 카페 이미지")
-                        )
-                ));
-    }
 }
