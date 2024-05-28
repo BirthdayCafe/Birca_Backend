@@ -1,7 +1,5 @@
 package com.birca.bircabackend.command.birca.domain;
 
-import com.birca.bircabackend.command.birca.domain.BirthdayCafeImage;
-import com.birca.bircabackend.command.birca.domain.BirthdayCafeImageRepository;
 import com.birca.bircabackend.common.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
