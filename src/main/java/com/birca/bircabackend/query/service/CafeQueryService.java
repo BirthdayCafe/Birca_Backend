@@ -46,7 +46,8 @@ public class CafeQueryService {
 
     public CafeDetailResponse findCafeDetail(Long cafeId) {
         Cafe cafe = entityUtil.getEntity(Cafe.class, cafeId, CafeErrorCode.NOT_FOUND);
+        List<String> cafeImages = cafeImageRepository.findByCafeId(cafeId);
         List<BirthdayCafe> birthdayCafes = birthdayCafeRepository.findByCafeId(cafeId);
-        return CafeDetailResponse.from(cafe, birthdayCafes);
+        return CafeDetailResponse.from(cafe, cafeImages, birthdayCafes);
     }
 }
