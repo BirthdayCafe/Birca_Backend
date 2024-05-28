@@ -24,12 +24,4 @@ public class CafeImageController {
         cafeImageFacade.uploadCafeImage(cafeImages, cafeId);
         return ResponseEntity.ok().build();
     }
-
-    @DeleteMapping("/v1/cafes/{cafeId}/images")
-    @RequiredLogin
-    public ResponseEntity<Void> deleteCafeImage(@PathVariable Long cafeId,
-                                                @RequestBody CafeImageDeleteRequest request) {
-        cafeImageFacade.deleteCafeImage(cafeId, request);
-        return ResponseEntity.ok().build();
-    }
 }
