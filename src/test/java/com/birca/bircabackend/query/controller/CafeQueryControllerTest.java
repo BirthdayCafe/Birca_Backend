@@ -181,6 +181,23 @@ class CafeQueryControllerTest extends DocumentationTest {
                                                 LocalDateTime.of(2024, 3, 21, 0, 0, 0),
                                                 LocalDateTime.of(2024, 3, 22, 0, 0, 0)
                                         )
+                                ),
+                                List.of("image1.com", "image2.com"),
+                                List.of(
+                                        new CafeDetailResponse.CafeMenuResponse(
+                                                "아이스 아메리카노", 2000
+                                        ),
+                                        new CafeDetailResponse.CafeMenuResponse(
+                                                "바닐라 라떼", 3000
+                                        )
+                                ),
+                                List.of(
+                                        new CafeDetailResponse.CafeOptionResponse(
+                                                "액자", 3000
+                                        ),
+                                        new CafeDetailResponse.CafeOptionResponse(
+                                                "빔 프로젝터", 5000
+                                        )
                                 )
                         )
                 );
@@ -204,7 +221,12 @@ class CafeQueryControllerTest extends DocumentationTest {
                                 fieldWithPath("businessHours").type(JsonFieldType.STRING).description("영업 시간"),
                                 fieldWithPath("rentalSchedules").type(JsonFieldType.ARRAY).description("대관 일정 목록"),
                                 fieldWithPath("rentalSchedules[].startDate").type(JsonFieldType.STRING).description("대관 시작일"),
-                                fieldWithPath("rentalSchedules[].endDate").type(JsonFieldType.STRING).description("대관 종료일")
+                                fieldWithPath("rentalSchedules[].endDate").type(JsonFieldType.STRING).description("대관 종료일"),
+                                fieldWithPath("cafeImages.[]").type(JsonFieldType.ARRAY).description("카페 이미지 url"),
+                                fieldWithPath("cafeMenus[].name").type(JsonFieldType.STRING).description("카페 메뉴명"),
+                                fieldWithPath("cafeMenus[].price").type(JsonFieldType.NUMBER).description("카페 메뉴 가격"),
+                                fieldWithPath("cafeOptions[].name").type(JsonFieldType.STRING).description("카페 데코레이션 가격"),
+                                fieldWithPath("cafeOptions[].price").type(JsonFieldType.NUMBER).description("카페 데코레이션 가격")
                         )
                 ));
     }
