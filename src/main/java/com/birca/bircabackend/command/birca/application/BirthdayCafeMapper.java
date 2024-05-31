@@ -17,8 +17,21 @@ public class BirthdayCafeMapper {
 
     private final BirthdayCafeRepository birthdayCafeRepository;
 
-    public BirthdayCafe toBirthdayCafe(ApplyRentalRequest request, Long hostId) {
+    public BirthdayCafe applyRental(ApplyRentalRequest request, Long hostId) {
         return BirthdayCafe.applyRental(
+                hostId,
+                request.artistId(),
+                request.cafeId(),
+                birthdayCafeRepository.findOwnerIdByCafeId(request.cafeId()),
+                Schedule.of(request.startDate(), request.endDate()),
+                Visitants.of(request.minimumVisitant(), request.maximumVisitant()),
+                request.twitterAccount(),
+                PhoneNumber.from(request.hostPhoneNumber())
+        );
+    }
+
+    public BirthdayCafe addBirthDayCafe(ApplyRentalRequest request, Long hostId) {
+        return BirthdayCafe.addBirthdayCafe(
                 hostId,
                 request.artistId(),
                 request.cafeId(),

@@ -90,6 +90,24 @@ public class BirthdayCafe extends BaseEntity {
                 .build();
     }
 
+    public static BirthdayCafe addBirthdayCafe(Long hostId, Long artistId, Long cafeId, Long cafeOwnerId, Schedule schedule,
+                                               Visitants visitants, String twitterAccount, PhoneNumber hostPhoneNumber) {
+        return BirthdayCafe.builder()
+                .hostId(hostId)
+                .artistId(artistId)
+                .cafeId(cafeId)
+                .cafeOwnerId(cafeOwnerId)
+                .schedule(schedule)
+                .visitants(visitants)
+                .twitterAccount(twitterAccount)
+                .hostPhoneNumber(hostPhoneNumber)
+                .progressState(ProgressState.RENTAL_APPROVED)
+                .visibility(Visibility.PUBLIC)
+                .congestionState(CongestionState.SMOOTH)
+                .specialGoodsStockState(SpecialGoodsStockState.ABUNDANT)
+                .build();
+    }
+
     public void cancelRental(Long memberId) {
         if (!progressState.isRentalPending()) {
             throw BusinessException.from(INVALID_CANCEL_RENTAL);
