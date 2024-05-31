@@ -158,7 +158,7 @@ ALTER TABLE interest_artist
 CREATE TABLE birthday_cafe
 (
     id                        BIGINT AUTO_INCREMENT NOT NULL,
-    host_id                   BIGINT       NOT NULL,
+    host_id                   BIGINT       NULL,
     artist_id                 BIGINT       NOT NULL,
     cafe_id                   BIGINT       NOT NULL,
     cafe_owner_id             BIGINT       NOT NULL,

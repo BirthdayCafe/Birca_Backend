@@ -108,4 +108,12 @@ public class BirthdayCafeController {
         birthdayCafeService.cancelBirthdayCafeApplication(birthdayCafeId, loginMember);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/v1/owners/birthday-cafes/schedules")
+    @RequiredLogin
+    public ResponseEntity<Void> addBirthdayCafeSchedule(@RequestBody ApplyRentalRequest request,
+                                                        LoginMember loginMember) {
+        birthdayCafeService.addBirthdayCafeSchedule(request, loginMember);
+        return ResponseEntity.ok().build();
+    }
 }

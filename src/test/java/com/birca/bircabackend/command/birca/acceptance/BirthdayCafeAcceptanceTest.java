@@ -234,4 +234,22 @@ public class BirthdayCafeAcceptanceTest extends AcceptanceTest {
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
+
+    @Test
+    void 카페_사장이_생일_카페_일정을_추가한다() {
+        // given
+        Long ownerId = 1L;
+
+        // when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(ownerId))
+                .body(APPLY_RENTAL_REQUEST)
+                .post("/api/v1/owners/birthday-cafes/schedules")
+                .then().log().all()
+                .extract();
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
 }

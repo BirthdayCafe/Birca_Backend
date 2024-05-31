@@ -5,6 +5,7 @@ import com.birca.bircabackend.command.birca.domain.BirthdayCafe;
 import com.birca.bircabackend.command.birca.domain.value.*;
 import com.birca.bircabackend.command.birca.dto.*;
 import com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCode;
+import com.birca.bircabackend.command.cafe.exception.DayOffErrorCode;
 import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.support.enviroment.ServiceTest;
 import jakarta.persistence.EntityManager;
@@ -613,6 +614,89 @@ class BirthdayCafeServiceTest extends ServiceTest {
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.NOT_FOUND);
+        }
+    }
+
+    @Nested
+    @DisplayName("카페 사장이 직접 생일 카페 일정을 추가할 때")
+    class AddBirthDayCafeScheduleTest {
+
+        @Test
+        void 정상적으로_추가한다() {
+            // given
+            ApplyRentalRequest request = new ApplyRentalRequest(
+                    ARTIST_ID,
+                    CAFE1_ID,
+                    LocalDateTime.of(2024, 5, 29, 0, 0, 0),
+                    LocalDateTime.of(2024, 5, 30, 0, 0, 0),
+                    100,
+                    200,
+                    "@ChaseM",
+                    "010-0000-0000"
+            );
+
+            // when
+            birthdayCafeService.addBirthdayCafeSchedule(request, CAFE_1_OWNER);
+            BirthdayCafe actual = entityManager.createQuery(
+                            "select bc from BirthdayCafe bc where bc.hostId is null", BirthdayCafe.class)
+                    .getSingleResult();
+
+            // then
+            assertAll(
+                    () -> assertThat(actual.getArtistId()).isEqualTo(request.artistId()),
+                    () -> assertThat(actual.getHostId()).isNull(),
+                    () -> assertThat(actual.getVisitants())
+                            .isEqualTo(Visitants.of(request.minimumVisitant(), request.maximumVisitant())),
+                    () -> assertThat(actual.getTwitterAccount()).isEqualTo(request.twitterAccount()),
+                    () -> assertThat(actual.getProgressState()).isEqualTo(ProgressState.RENTAL_APPROVED),
+                    () -> assertThat(actual.getVisibility()).isEqualTo(Visibility.PUBLIC),
+                    () -> assertThat(actual.getCongestionState()).isEqualTo(CongestionState.SMOOTH),
+                    () -> assertThat(actual.getSpecialGoodsStockState()).isEqualTo(SpecialGoodsStockState.ABUNDANT)
+            );
+        }
+
+        @Test
+        void 이미_대관된_날짜는_예외가_발생한다() {
+            // given
+            ApplyRentalRequest request = new ApplyRentalRequest(
+                    ARTIST_ID,
+                    CAFE1_ID,
+                    LocalDateTime.of(2024, 2, 8, 0, 0, 0),
+                    LocalDateTime.of(2024, 2, 10, 0, 0, 0),
+                    5,
+                    10,
+                    "@ChaseM",
+                    "010-0000-0000"
+            );
+
+            // when then
+            assertThatThrownBy(() ->
+                    birthdayCafeService.addBirthdayCafeSchedule(request, CAFE_1_OWNER))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.RENTAL_ALREADY_EXISTS);
+        }
+
+        @Test
+        void 카페_휴무일이면_예외가_발생한다() {
+            // given
+            ApplyRentalRequest request = new ApplyRentalRequest(
+                    ARTIST_ID,
+                    CAFE1_ID,
+                    LocalDateTime.of(2024, 3, 8, 0, 0, 0),
+                    LocalDateTime.of(2024, 3, 10, 0, 0, 0),
+                    5,
+                    10,
+                    "@ChaseM",
+                    "010-0000-0000"
+            );
+
+            // when then
+            assertThatThrownBy(() ->
+                    birthdayCafeService.addBirthdayCafeSchedule(request, CAFE_1_OWNER))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(DayOffErrorCode.DAY_OFF_DATE);
         }
     }
 }

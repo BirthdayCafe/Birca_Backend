@@ -80,4 +80,7 @@ INSERT INTO likes (visitant_id, target_id, target_type)
 VALUES (4, 3, 'BIRTHDAY_CAFE'),
        (4, 6, 'BIRTHDAY_CAFE');
 
+INSERT INTO day_off (id, cafe_id, day_off_date)
+VALUES (1, 1, '2024-03-08T00:00:00');
+
 SET foreign_key_checks = 1;
