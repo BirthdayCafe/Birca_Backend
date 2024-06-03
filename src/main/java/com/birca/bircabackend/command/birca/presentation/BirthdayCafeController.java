@@ -111,7 +111,7 @@ public class BirthdayCafeController {
 
     @PostMapping("/v1/owners/birthday-cafes/schedules")
     @RequiredLogin
-    public ResponseEntity<Void> addBirthdayCafeSchedule(@RequestBody ApplyRentalRequest request,
+    public ResponseEntity<Void> addBirthdayCafeSchedule(@RequestBody AddBirthdayCafeSchedule request,
                                                         LoginMember loginMember) {
         birthdayCafeService.addBirthdayCafeSchedule(request, loginMember);
         return ResponseEntity.ok().build();

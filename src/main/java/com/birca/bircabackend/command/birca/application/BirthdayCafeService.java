@@ -5,6 +5,7 @@ import com.birca.bircabackend.command.birca.domain.BirthdayCafe;
 import com.birca.bircabackend.command.birca.domain.BirthdayCafeRepository;
 import com.birca.bircabackend.command.birca.domain.value.*;
 import com.birca.bircabackend.command.birca.dto.*;
+import com.birca.bircabackend.command.cafe.domain.CafeRepository;
 import com.birca.bircabackend.command.cafe.domain.DayOffRepository;
 import com.birca.bircabackend.common.EntityUtil;
 import com.birca.bircabackend.common.exception.BusinessException;
@@ -25,9 +26,10 @@ import static com.birca.bircabackend.command.cafe.exception.DayOffErrorCode.DAY_
 public class BirthdayCafeService {
 
     private final BirthdayCafeRepository birthdayCafeRepository;
-    private final EntityUtil entityUtil;
     private final BirthdayCafeMapper birthdayCafeMapper;
     private final DayOffRepository dayOffRepository;
+    private final CafeRepository cafeRepository;
+    private final EntityUtil entityUtil;
 
     public void applyRental(ApplyRentalRequest request, LoginMember loginMember) {
         Long hostId = loginMember.id();
@@ -123,12 +125,14 @@ public class BirthdayCafeService {
         birthdayCafe.cancelRental(loginMember.id());
     }
 
-    public void addBirthdayCafeSchedule(ApplyRentalRequest request, LoginMember loginMember) {
+    public void addBirthdayCafeSchedule(AddBirthdayCafeSchedule request, LoginMember loginMember) {
         LocalDateTime startDate = request.startDate();
         LocalDateTime endDate = request.endDate();
-        existsDayOff(startDate, endDate, request.cafeId());
-        hasBookedBirthdayCafe(startDate, endDate, loginMember.id());
-        BirthdayCafe birthdayCafe = birthdayCafeMapper.addBirthDayCafe(request, null);
+        Long ownerId = loginMember.id();
+        Long cafeId = cafeRepository.findCafeIdByOwnerId(ownerId);
+        existsDayOff(startDate, endDate, cafeId);
+        hasBookedBirthdayCafe(startDate, endDate, ownerId);
+        BirthdayCafe birthdayCafe = birthdayCafeMapper.addBirthDayCafe(request, ownerId, cafeId);
         birthdayCafeRepository.save(birthdayCafe);
     }
 
