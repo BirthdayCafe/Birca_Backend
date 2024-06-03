@@ -90,10 +90,10 @@ public class BirthdayCafe extends BaseEntity {
                 .build();
     }
 
-    public static BirthdayCafe addBirthdayCafe(Long hostId, Long artistId, Long cafeId, Long cafeOwnerId, Schedule schedule,
+    public static BirthdayCafe addBirthdayCafe(Long artistId, Long cafeId, Long cafeOwnerId, Schedule schedule,
                                                Visitants visitants, String twitterAccount, PhoneNumber hostPhoneNumber) {
         return BirthdayCafe.builder()
-                .hostId(hostId)
+                .hostId(null)
                 .artistId(artistId)
                 .cafeId(cafeId)
                 .cafeOwnerId(cafeOwnerId)

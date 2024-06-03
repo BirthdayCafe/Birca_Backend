@@ -5,7 +5,9 @@ import com.birca.bircabackend.command.birca.domain.BirthdayCafeRepository;
 import com.birca.bircabackend.command.birca.domain.value.PhoneNumber;
 import com.birca.bircabackend.command.birca.domain.value.Schedule;
 import com.birca.bircabackend.command.birca.domain.value.Visitants;
+import com.birca.bircabackend.command.birca.dto.AddBirthdayCafeSchedule;
 import com.birca.bircabackend.command.birca.dto.ApplyRentalRequest;
+import com.birca.bircabackend.command.cafe.domain.CafeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,12 +32,11 @@ public class BirthdayCafeMapper {
         );
     }
 
-    public BirthdayCafe addBirthDayCafe(ApplyRentalRequest request, Long hostId) {
+    public BirthdayCafe addBirthDayCafe(AddBirthdayCafeSchedule request, Long ownerId, Long cafeId) {
         return BirthdayCafe.addBirthdayCafe(
-                hostId,
                 request.artistId(),
-                request.cafeId(),
-                birthdayCafeRepository.findOwnerIdByCafeId(request.cafeId()),
+                cafeId,
+                ownerId,
                 Schedule.of(request.startDate(), request.endDate()),
                 Visitants.of(request.minimumVisitant(), request.maximumVisitant()),
                 request.twitterAccount(),

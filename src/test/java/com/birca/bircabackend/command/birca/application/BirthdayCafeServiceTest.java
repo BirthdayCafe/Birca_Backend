@@ -31,6 +31,7 @@ class BirthdayCafeServiceTest extends ServiceTest {
     private static final LoginMember HOST2 = new LoginMember(2L);
     private static final LoginMember ANOTHER_MEMBER = new LoginMember(2L);
     private static final LoginMember CAFE_1_OWNER = new LoginMember(3L);
+    private static final LoginMember CAFE_2_OWNER = new LoginMember(5L);
     private static final long ARTIST_ID = 1L;
     private static final long CAFE1_ID = 1L;
     private static final long CAFE2_ID = 2L;
@@ -618,15 +619,15 @@ class BirthdayCafeServiceTest extends ServiceTest {
     }
 
     @Nested
+    @Sql("/fixture/birthday-cafe-schedule-fixture.sql")
     @DisplayName("카페 사장이 직접 생일 카페 일정을 추가할 때")
     class AddBirthDayCafeScheduleTest {
 
         @Test
         void 정상적으로_추가한다() {
             // given
-            ApplyRentalRequest request = new ApplyRentalRequest(
+            AddBirthdayCafeSchedule request = new AddBirthdayCafeSchedule(
                     ARTIST_ID,
-                    CAFE1_ID,
                     LocalDateTime.of(2024, 5, 29, 0, 0, 0),
                     LocalDateTime.of(2024, 5, 30, 0, 0, 0),
                     100,
@@ -636,7 +637,7 @@ class BirthdayCafeServiceTest extends ServiceTest {
             );
 
             // when
-            birthdayCafeService.addBirthdayCafeSchedule(request, CAFE_1_OWNER);
+            birthdayCafeService.addBirthdayCafeSchedule(request, CAFE_2_OWNER);
             BirthdayCafe actual = entityManager.createQuery(
                             "select bc from BirthdayCafe bc where bc.hostId is null", BirthdayCafe.class)
                     .getSingleResult();
@@ -658,9 +659,8 @@ class BirthdayCafeServiceTest extends ServiceTest {
         @Test
         void 이미_대관된_날짜는_예외가_발생한다() {
             // given
-            ApplyRentalRequest request = new ApplyRentalRequest(
+            AddBirthdayCafeSchedule request = new AddBirthdayCafeSchedule(
                     ARTIST_ID,
-                    CAFE1_ID,
                     LocalDateTime.of(2024, 2, 8, 0, 0, 0),
                     LocalDateTime.of(2024, 2, 10, 0, 0, 0),
                     5,
@@ -671,7 +671,7 @@ class BirthdayCafeServiceTest extends ServiceTest {
 
             // when then
             assertThatThrownBy(() ->
-                    birthdayCafeService.addBirthdayCafeSchedule(request, CAFE_1_OWNER))
+                    birthdayCafeService.addBirthdayCafeSchedule(request, CAFE_2_OWNER))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.RENTAL_ALREADY_EXISTS);
@@ -680,9 +680,8 @@ class BirthdayCafeServiceTest extends ServiceTest {
         @Test
         void 카페_휴무일이면_예외가_발생한다() {
             // given
-            ApplyRentalRequest request = new ApplyRentalRequest(
+            AddBirthdayCafeSchedule request = new AddBirthdayCafeSchedule(
                     ARTIST_ID,
-                    CAFE1_ID,
                     LocalDateTime.of(2024, 3, 8, 0, 0, 0),
                     LocalDateTime.of(2024, 3, 10, 0, 0, 0),
                     5,
@@ -693,7 +692,7 @@ class BirthdayCafeServiceTest extends ServiceTest {
 
             // when then
             assertThatThrownBy(() ->
-                    birthdayCafeService.addBirthdayCafeSchedule(request, CAFE_1_OWNER))
+                    birthdayCafeService.addBirthdayCafeSchedule(request, CAFE_2_OWNER))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(DayOffErrorCode.DAY_OFF_DATE);

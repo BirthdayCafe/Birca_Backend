@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
+import org.testcontainers.shaded.com.github.dockerjava.core.dockerfile.DockerfileStatement;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -236,15 +237,25 @@ public class BirthdayCafeAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
+    @Sql("/fixture/birthday-cafe-schedule-fixture.sql")
     void 카페_사장이_생일_카페_일정을_추가한다() {
         // given
-        Long ownerId = 1L;
+        Long ownerId = 3L;
+        AddBirthdayCafeSchedule request = new AddBirthdayCafeSchedule(
+                1L,
+                LocalDateTime.of(2024, 7, 8, 0, 0, 0),
+                LocalDateTime.of(2024, 7, 10, 0, 0, 0),
+                5,
+                10,
+                "@ChaseM",
+                "010-0000-0000"
+        );
 
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(ownerId))
-                .body(APPLY_RENTAL_REQUEST)
+                .body(request)
                 .post("/api/v1/owners/birthday-cafes/schedules")
                 .then().log().all()
                 .extract();
