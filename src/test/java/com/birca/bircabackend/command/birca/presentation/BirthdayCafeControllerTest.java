@@ -274,8 +274,7 @@ public class BirthdayCafeControllerTest extends DocumentationTest {
     @Test
     void 카페_사장이_생일_카페_일정을_추가한다() throws Exception {
         // given
-        ApplyRentalRequest request = new ApplyRentalRequest(
-                1L,
+        AddBirthdayCafeSchedule request = new AddBirthdayCafeSchedule(
                 1L,
                 LocalDateTime.of(2024, 2, 8, 0, 0, 0),
                 LocalDateTime.of(2024, 2, 10, 0, 0, 0),
@@ -298,7 +297,6 @@ public class BirthdayCafeControllerTest extends DocumentationTest {
                 .andDo(document("add-birthday-cafe-schedule", HOST_INFO, DOCUMENT_RESPONSE,
                         requestFields(
                                 fieldWithPath("artistId").type(JsonFieldType.NUMBER).description("생일인 아티스트 ID"),
-                                fieldWithPath("cafeId").type(JsonFieldType.NUMBER).description("생일 카페를 진행할 카페 ID"),
                                 fieldWithPath("startDate").type(JsonFieldType.STRING).description("생일 카페 시작일"),
                                 fieldWithPath("endDate").type(JsonFieldType.STRING).description("생일 카페 마지막일"),
                                 fieldWithPath("minimumVisitant").type(JsonFieldType.NUMBER).description("생일 카페 최소 방문자 인원"),
