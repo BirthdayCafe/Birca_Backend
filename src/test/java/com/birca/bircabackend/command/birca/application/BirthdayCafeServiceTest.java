@@ -650,7 +650,7 @@ class BirthdayCafeServiceTest extends ServiceTest {
                             .isEqualTo(Visitants.of(request.minimumVisitant(), request.maximumVisitant())),
                     () -> assertThat(actual.getTwitterAccount()).isEqualTo(request.twitterAccount()),
                     () -> assertThat(actual.getProgressState()).isEqualTo(ProgressState.RENTAL_APPROVED),
-                    () -> assertThat(actual.getVisibility()).isEqualTo(Visibility.PUBLIC),
+                    () -> assertThat(actual.getVisibility()).isEqualTo(Visibility.PRIVATE),
                     () -> assertThat(actual.getCongestionState()).isEqualTo(CongestionState.SMOOTH),
                     () -> assertThat(actual.getSpecialGoodsStockState()).isEqualTo(SpecialGoodsStockState.ABUNDANT)
             );
