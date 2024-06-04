@@ -19,7 +19,6 @@ import static com.birca.bircabackend.command.birca.exception.BirthdayCafeErrorCo
 @Getter
 public class BirthdayCafe extends BaseEntity {
 
-    @Column(nullable = false)
     private Long hostId;
 
     @Column(nullable = false)
@@ -102,7 +101,7 @@ public class BirthdayCafe extends BaseEntity {
                 .twitterAccount(twitterAccount)
                 .hostPhoneNumber(hostPhoneNumber)
                 .progressState(ProgressState.RENTAL_APPROVED)
-                .visibility(Visibility.PUBLIC)
+                .visibility(Visibility.PRIVATE)
                 .congestionState(CongestionState.SMOOTH)
                 .specialGoodsStockState(SpecialGoodsStockState.ABUNDANT)
                 .build();
