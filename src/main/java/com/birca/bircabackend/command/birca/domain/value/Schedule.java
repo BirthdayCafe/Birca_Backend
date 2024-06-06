@@ -14,10 +14,8 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode
 public class Schedule {
 
-    @Column(nullable = false)
     private LocalDateTime startDate;
 
-    @Column(nullable = false)
     private LocalDateTime endDate;
 
     public static Schedule of(LocalDateTime startDate, LocalDateTime endDate) {
