@@ -393,36 +393,39 @@ class BirthdayCafeQueryControllerTest extends DocumentationTest {
     void 사장님이_생일_카페_일정을_조회한다() throws Exception {
         // given
         Long birthdayCafeId = 1L;
-        int year = 2024;
-        int month = 4;
-        given(birthdayCafeQueryService.findBirthdayCafeSchedule(year, month))
-                .willReturn(List.of(
+        String nickname = "주최자 닉네임";
+        LoginMember loginMember = new LoginMember(1L);
+        LocalDateTime date = LocalDateTime.of(2024, 3, 20, 0, 0, 0);
+        given(birthdayCafeQueryService.findBirthdayCafeSchedule(loginMember, date))
+                .willReturn(
                         new BirthdayCafeScheduleResponse(
                                 birthdayCafeId,
+                                nickname,
+                                new BirthdayCafeScheduleResponse.ArtistResponse("방탄소년단", "뷔"),
                                 LocalDateTime.of(2024, 3, 20, 0, 0, 0),
                                 LocalDateTime.of(2024, 3, 23, 0, 0, 0)
-                        )
-                ));
+                        ));
 
         // when
         ResultActions result = mockMvc.perform(
                 get("/api/v1/owners/birthday-cafes/schedules")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .queryParam("year", String.valueOf(year))
-                        .queryParam("month", String.valueOf(month))
+                        .queryParam("date", String.valueOf(date))
                         .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID)));
 
         // then
         result.andExpect((status().isOk()))
                 .andDo(document("get-birthday-cafe-schedules", HOST_INFO, DOCUMENT_RESPONSE,
                         queryParameters(
-                                parameterWithName("year").description("검색할 연도"),
-                                parameterWithName("month").description("검색할 달")
+                                parameterWithName("date").description("검색할 날짜")
                         ),
                         responseFields(
-                                fieldWithPath("[].birthdayCafeId").type(JsonFieldType.NUMBER).description("생일 카페 ID"),
-                                fieldWithPath("[].startDate").type(JsonFieldType.STRING).description("생일 카페 시작일"),
-                                fieldWithPath("[].endDate").type(JsonFieldType.STRING).description("생일 카페 종료일")
+                                fieldWithPath("birthdayCafeId").type(JsonFieldType.NUMBER).description("생일 카페 ID"),
+                                fieldWithPath("nickname").type(JsonFieldType.STRING).description("주최자 닉네임"),
+                                fieldWithPath("artist.groupName").type(JsonFieldType.STRING).description("아티스트 그룹 이름").optional(),
+                                fieldWithPath("artist.name").type(JsonFieldType.STRING).description("아티스트 이름"),
+                                fieldWithPath("startDate").type(JsonFieldType.STRING).description("생일 카페 시작일"),
+                                fieldWithPath("endDate").type(JsonFieldType.STRING).description("생일 카페 종료일")
                         )
                 ));
     }
