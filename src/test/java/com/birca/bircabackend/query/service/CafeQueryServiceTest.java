@@ -106,14 +106,14 @@ class CafeQueryServiceTest extends ServiceTest {
             PagingParams pagingParams = new PagingParams();
 
             // when
-            List<CafeSearchResponse> actual = cafeQueryService.searchCafes(loginMember, cafeParams, pagingParams);
+            List<CafeSearchResponse> actual = cafeQueryService.searchRentalAvailableCafes(loginMember, cafeParams, pagingParams);
 
             // then
             assertThat(actual)
                     .containsExactly(
-                            new CafeSearchResponse(1L, false, "image1.com", "@ChaseM", "경기도 시흥시 은계중앙로 115"),
-                            new CafeSearchResponse(2L, true, "image6.com", "@ChaseM", "경기도 성남시 분당구 판교역로 235"),
-                            new CafeSearchResponse(3L, true, "image7.com", "@ChaseM", "서울특별시 강남구 테헤란로 212")
+                            new CafeSearchResponse(1L, "미스티우드", false, "image1.com", "@ChaseM", "경기도 시흥시 은계중앙로 115"),
+                            new CafeSearchResponse(2L, "우지커피", true, "image6.com", "@ChaseM", "경기도 성남시 분당구 판교역로 235"),
+                            new CafeSearchResponse(3L, "메가커피", true, "image7.com", "@ChaseM", "서울특별시 강남구 테헤란로 212")
                     );
         }
 
@@ -126,12 +126,12 @@ class CafeQueryServiceTest extends ServiceTest {
             pagingParams.setCursor(2L);
 
             // when
-            List<CafeSearchResponse> actual = cafeQueryService.searchCafes(loginMember, cafeParams, pagingParams);
+            List<CafeSearchResponse> actual = cafeQueryService.searchRentalAvailableCafes(loginMember, cafeParams, pagingParams);
 
             // then
             assertThat(actual)
                     .containsExactly(
-                            new CafeSearchResponse(3L, true, "image7.com", "@ChaseM", "서울특별시 강남구 테헤란로 212")
+                            new CafeSearchResponse(3L, "메가커피", true, "image7.com", "@ChaseM", "서울특별시 강남구 테헤란로 212")
                     );
         }
 
@@ -149,12 +149,12 @@ class CafeQueryServiceTest extends ServiceTest {
             PagingParams pagingParams = new PagingParams();
 
             // when
-            List<CafeSearchResponse> actual = cafeQueryService.searchCafes(loginMember, cafeParams, pagingParams);
+            List<CafeSearchResponse> actual = cafeQueryService.searchRentalAvailableCafes(loginMember, cafeParams, pagingParams);
 
             // then
             assertThat(actual)
                     .containsOnly(
-                            new CafeSearchResponse(3L, true, "image7.com", "@ChaseM", "서울특별시 강남구 테헤란로 212")
+                            new CafeSearchResponse(3L, "메가커피", true, "image7.com", "@ChaseM", "서울특별시 강남구 테헤란로 212")
                     );
         }
 
@@ -169,13 +169,13 @@ class CafeQueryServiceTest extends ServiceTest {
             PagingParams pagingParams = new PagingParams();
 
             // when
-            List<CafeSearchResponse> actual = cafeQueryService.searchCafes(loginMember, cafeParams, pagingParams);
+            List<CafeSearchResponse> actual = cafeQueryService.searchRentalAvailableCafes(loginMember, cafeParams, pagingParams);
 
             // then
             assertThat(actual)
                     .containsExactly(
-                            new CafeSearchResponse(2L, true, "image6.com", "@ChaseM", "경기도 성남시 분당구 판교역로 235"),
-                            new CafeSearchResponse(3L, true, "image7.com", "@ChaseM", "서울특별시 강남구 테헤란로 212")
+                            new CafeSearchResponse(2L, "우지커피", true, "image6.com", "@ChaseM", "경기도 성남시 분당구 판교역로 235"),
+                            new CafeSearchResponse(3L, "메가커피", true, "image7.com", "@ChaseM", "서울특별시 강남구 테헤란로 212")
                     );
         }
     }
