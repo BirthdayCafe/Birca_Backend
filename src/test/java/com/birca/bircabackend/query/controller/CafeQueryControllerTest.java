@@ -165,9 +165,11 @@ class CafeQueryControllerTest extends DocumentationTest {
     @Test
     void 주최자가_카페_상세_조회한다() throws Exception {
         // given
-        given(cafeQueryService.findCafeDetail(1L))
+        LoginMember loginMember = new LoginMember(1L);
+        given(cafeQueryService.findCafeDetail(loginMember, 1L))
                 .willReturn(
                         new CafeDetailResponse(
+                                true,
                                 "스타벅스",
                                 "경기도 성남시 분당구 판교역로 235",
                                 "@ChaseM",
@@ -215,6 +217,7 @@ class CafeQueryControllerTest extends DocumentationTest {
                                 parameterWithName("cafeId").description("카페 ID")
                         ),
                         responseFields(
+                                fieldWithPath("liked").type(JsonFieldType.BOOLEAN).description("카페 찜 여부"),
                                 fieldWithPath("name").type(JsonFieldType.STRING).description("카페 이름"),
                                 fieldWithPath("twitterAccount").type(JsonFieldType.STRING).description("트위터 계정"),
                                 fieldWithPath("address").type(JsonFieldType.STRING).description("카페 주소"),

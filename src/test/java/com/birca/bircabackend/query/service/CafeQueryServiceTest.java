@@ -188,13 +188,14 @@ class CafeQueryServiceTest extends ServiceTest {
         void 조회한다() {
             // given
             Long cafeId = 1L;
+            LoginMember loginMember = new LoginMember(1L);
 
             // when
-            CafeDetailResponse actual = cafeQueryService.findCafeDetail(cafeId);
+            CafeDetailResponse actual = cafeQueryService.findCafeDetail(loginMember, cafeId);
 
             // then
             assertThat(actual).isEqualTo(
-                    new CafeDetailResponse("미스티우드", "@ChaseM",
+                    new CafeDetailResponse(true, "미스티우드", "@ChaseM",
                             "경기도 시흥시 은계중앙로 115", "6시 - 22시",
                             List.of(
                                     new CafeDetailResponse.RentalScheduleResponse(

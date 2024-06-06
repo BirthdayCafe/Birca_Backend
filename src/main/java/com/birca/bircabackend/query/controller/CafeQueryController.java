@@ -39,7 +39,8 @@ public class CafeQueryController {
 
     @GetMapping("/v1/cafes/{cafeId}")
     @RequiredLogin
-    public ResponseEntity<CafeDetailResponse> findCafeDetail(@PathVariable Long cafeId) {
-        return ResponseEntity.ok(cafeQueryService.findCafeDetail(cafeId));
+    public ResponseEntity<CafeDetailResponse> findCafeDetail(LoginMember loginMember,
+                                                             @PathVariable Long cafeId) {
+        return ResponseEntity.ok(cafeQueryService.findCafeDetail(loginMember, cafeId));
     }
 }

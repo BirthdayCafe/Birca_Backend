@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public record CafeDetailResponse(
+        Boolean liked,
         String name,
         String twitterAccount,
         String address,
@@ -20,8 +21,10 @@ public record CafeDetailResponse(
         List<CafeOptionResponse> cafeOptions
 ) {
 
-    public static CafeDetailResponse from(Cafe cafe, List<String> cafeImages, List<BirthdayCafe> birthdayCafes) {
+    public static CafeDetailResponse from(Boolean liked, Cafe cafe,
+                                          List<String> cafeImages, List<BirthdayCafe> birthdayCafes) {
         return new CafeDetailResponse(
+                liked,
                 cafe.getName(),
                 cafe.getTwitterAccount(),
                 cafe.getAddress(),

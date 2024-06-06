@@ -10,6 +10,7 @@ import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.query.dto.*;
 import com.birca.bircabackend.query.repository.CafeImageQueryRepository;
 import com.birca.bircabackend.query.repository.CafeQueryRepository;
+import com.birca.bircabackend.query.repository.LikedCafeQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CafeQueryService {
 
+    private final LikedCafeQueryRepository likedCafeQueryRepository;
     private final BirthdayCafeRepository birthdayCafeRepository;
     private final CafeImageQueryRepository cafeImageRepository;
     private final CafeQueryRepository cafeQueryRepository;
@@ -44,10 +46,11 @@ public class CafeQueryService {
                 .toList();
     }
 
-    public CafeDetailResponse findCafeDetail(Long cafeId) {
+    public CafeDetailResponse findCafeDetail(LoginMember loginMember, Long cafeId) {
+        Boolean liked = likedCafeQueryRepository.existsByVisitantIdAndTargetIsCafe(loginMember.id());
         Cafe cafe = entityUtil.getEntity(Cafe.class, cafeId, CafeErrorCode.NOT_FOUND);
         List<String> cafeImages = cafeImageRepository.findByCafeId(cafeId);
         List<BirthdayCafe> birthdayCafes = birthdayCafeRepository.findByCafeId(cafeId);
-        return CafeDetailResponse.from(cafe, cafeImages, birthdayCafes);
+        return CafeDetailResponse.from(liked, cafe, cafeImages, birthdayCafes);
     }
 }
