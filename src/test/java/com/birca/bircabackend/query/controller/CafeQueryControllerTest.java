@@ -113,10 +113,11 @@ class CafeQueryControllerTest extends DocumentationTest {
         int size = 10;
         pagingParams.setCursor(cursor);
         pagingParams.setSize(size);
-        given(cafeQueryService.searchCafes(loginMember, cafeParams, pagingParams))
+        given(cafeQueryService.searchRentalAvailableCafes(loginMember, cafeParams, pagingParams))
                 .willReturn(List.of(
                         new CafeSearchResponse(
                                 1L,
+                                "메가커피",
                                 true,
                                 "image1.com",
                                 "@ChaseM",
@@ -124,6 +125,7 @@ class CafeQueryControllerTest extends DocumentationTest {
                         ),
                         new CafeSearchResponse(
                                 2L,
+                                "우지커피",
                                 true,
                                 "image2.com",
                                 "@ChaseM",
@@ -153,7 +155,8 @@ class CafeQueryControllerTest extends DocumentationTest {
                                 parameterWithName("size").description("검색할 개수")
                         ),
                         responseFields(
-                                fieldWithPath("[].cafeId").type(JsonFieldType.NUMBER).description("카페 이름"),
+                                fieldWithPath("[].cafeId").type(JsonFieldType.NUMBER).description("카페 ID"),
+                                fieldWithPath("[].name").type(JsonFieldType.STRING).description("카페 이름"),
                                 fieldWithPath("[].liked").type(JsonFieldType.BOOLEAN).description("카페 찜 여부"),
                                 fieldWithPath("[].cafeImageUrl").type(JsonFieldType.STRING).description("카페 이미지"),
                                 fieldWithPath("[].twitterAccount").type(JsonFieldType.STRING).description("트위터 계정"),
