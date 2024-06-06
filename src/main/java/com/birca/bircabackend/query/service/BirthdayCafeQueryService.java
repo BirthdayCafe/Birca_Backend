@@ -7,7 +7,6 @@ import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.query.dto.*;
 import com.birca.bircabackend.query.repository.BirthdayCafeImageQueryRepository;
 import com.birca.bircabackend.query.repository.BirthdayCafeQueryRepository;
-import com.birca.bircabackend.command.cafe.domain.CafeImageRepository;
 import com.birca.bircabackend.query.repository.CafeImageQueryRepository;
 import com.birca.bircabackend.query.repository.LikedBirthdayCafeQueryRepository;
 import com.birca.bircabackend.query.repository.model.BirthdayCafeView;
@@ -15,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -86,7 +86,9 @@ public class BirthdayCafeQueryService {
         return BirthdayCafeApplicationDetailResponse.from(birthdayCafeView);
     }
 
-    public List<BirthdayCafeScheduleResponse> findBirthdayCafeSchedule(Integer year, Integer month) {
-        return birthdayCafeQueryRepository.findBirthdayCafeSchedules(year, month);
+    public BirthdayCafeScheduleResponse findBirthdayCafeSchedule(LoginMember loginMember, LocalDateTime date) {
+        return birthdayCafeQueryRepository.findBirthdayCafeSchedule(loginMember.id(), date)
+                .map(BirthdayCafeScheduleResponse::from)
+                .orElseGet(BirthdayCafeScheduleResponse::createEmpty);
     }
 }

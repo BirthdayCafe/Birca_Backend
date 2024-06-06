@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -58,20 +59,19 @@ public class BirthdayCafeQueryController {
     @GetMapping("/v1/owners/birthday-cafes")
     @RequiredLogin
     public ResponseEntity<List<BirthdayCafeApplicationResponse>> findBirthdayCafeApplication(LoginMember loginMember,
-                                                                                       @RequestParam String progressState) {
+                                                                                             @RequestParam String progressState) {
         return ResponseEntity.ok(birthdayCafeQueryService.findBirthdayCafeApplication(loginMember, progressState));
     }
 
     @GetMapping("/v1/owners/birthday-cafes/{birthdayCafeId}")
     @RequiredLogin
-    public ResponseEntity<BirthdayCafeApplicationDetailResponse> findBirthdayCafeApplicationDetail(LoginMember loginMember,@PathVariable Long birthdayCafeId) {
+    public ResponseEntity<BirthdayCafeApplicationDetailResponse> findBirthdayCafeApplicationDetail(LoginMember loginMember, @PathVariable Long birthdayCafeId) {
         return ResponseEntity.ok(birthdayCafeQueryService.findBirthdayCafeApplicationDetail(loginMember, birthdayCafeId));
     }
 
     @GetMapping("/v1/owners/birthday-cafes/schedules")
     @RequiredLogin
-    public ResponseEntity<List<BirthdayCafeScheduleResponse>> findBirthdayCafeSchedule(@RequestParam Integer year,
-                                                                                       @RequestParam Integer month) {
-        return ResponseEntity.ok(birthdayCafeQueryService.findBirthdayCafeSchedule(year, month));
+    public ResponseEntity<BirthdayCafeScheduleResponse> findBirthdayCafeSchedule(LoginMember loginMember, @RequestParam LocalDateTime date) {
+        return ResponseEntity.ok(birthdayCafeQueryService.findBirthdayCafeSchedule(loginMember, date));
     }
 }
