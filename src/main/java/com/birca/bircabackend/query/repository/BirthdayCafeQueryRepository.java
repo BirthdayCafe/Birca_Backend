@@ -64,7 +64,7 @@ public interface BirthdayCafeQueryRepository extends Repository<BirthdayCafe, Lo
             "join Artist a on a.id = bc.artistId " +
             "left join ArtistGroup ag on a.groupId = ag.id " +
             "left join Member m on m.id = bc.hostId " +
-            "where :date between bc.schedule.startDate and bc.schedule.endDate " +
+            "where bc.schedule.startDate <= :date and bc.schedule.endDate >= :date " +
             "and bc.cafeOwnerId = :ownerId " +
             "and (bc.progressState != 'RENTAL_PENDING' and bc.progressState != 'RENTAL_CANCED')")
     Optional<BirthdayCafeView> findBirthdayCafeSchedule(Long ownerId, LocalDateTime date);
