@@ -24,13 +24,13 @@ public class BirthdayCafeImageAcceptanceTest extends AcceptanceTest {
     @Test
     void 생일_카페_기본_이미지를_업로드한다() {
         //given
-        File birthdayCafeImage = new File("src/test/resources/birthdayCafe.jpeg");
+        File defaultImage = new File("src/test/resources/birthdayCafe.jpeg");
 
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
                 .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
-                .multiPart("birthdayCafeImage", birthdayCafeImage)
+                .multiPart("defaultImages", defaultImage)
                 .post("/api/v1/birthday-cafes/{birthdayCafeId}/images", BIRTHDAY_CAFE_ID)
                 .then().log().all()
                 .extract();
@@ -50,24 +50,6 @@ public class BirthdayCafeImageAcceptanceTest extends AcceptanceTest {
                 .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
                 .multiPart("birthdayCafeImage", birthdayCafeImage)
                 .post("/api/v1/birthday-cafes/{birthdayCafeId}/images/main", BIRTHDAY_CAFE_ID)
-                .then().log().all()
-                .extract();
-
-        // then
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-    }
-
-    @Test
-    void 생일_카페_이미지를_삭제한다() {
-        // given
-        BirthdayCafeImageDeleteRequest request = new BirthdayCafeImageDeleteRequest("image");
-
-        // when
-        ExtractableResponse<Response> response = RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
-                .body(request)
-                .delete("/api/v1/birthday-cafes/{birthdayCafeId}/images", BIRTHDAY_CAFE_ID)
                 .then().log().all()
                 .extract();
 
