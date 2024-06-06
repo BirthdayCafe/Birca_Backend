@@ -7,6 +7,7 @@ import com.birca.bircabackend.query.repository.model.CafeView;
 
 public record CafeSearchResponse(
         Long cafeId,
+        String name,
         Boolean liked,
         String cafeImageUrl,
         String twitterAccount,
@@ -19,6 +20,7 @@ public record CafeSearchResponse(
         Like like = cafeView.like();
         return new CafeSearchResponse(
                 cafe.getId(),
+                cafe.getName(),
                 like != null,
                 cafeImage.getImageUrl(),
                 cafe.getTwitterAccount(),
