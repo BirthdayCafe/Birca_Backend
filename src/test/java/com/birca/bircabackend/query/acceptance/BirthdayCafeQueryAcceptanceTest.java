@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 
+import java.time.LocalDateTime;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -160,16 +162,14 @@ public class BirthdayCafeQueryAcceptanceTest extends AcceptanceTest {
     @Test
     void 사장님이_생일_카페_일정을_조회한다() {
         // given
-        int year = 2024;
-        int month = 3;
+        LocalDateTime date = LocalDateTime.of(2024, 3, 20, 0, 0, 0);
 
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .when()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(OWNER_ID))
-                .queryParam("year", year)
-                .queryParam("month", month)
+                .queryParam("date", String.valueOf(date))
                 .get("/api/v1/owners/birthday-cafes/schedules")
                 .then().log().all()
                 .extract();

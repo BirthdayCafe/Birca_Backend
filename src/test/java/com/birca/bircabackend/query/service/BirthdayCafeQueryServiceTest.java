@@ -337,24 +337,42 @@ class BirthdayCafeQueryServiceTest extends ServiceTest {
     }
 
     @Nested
-    @DisplayName("사장님이 생일 카페 일정을")
+    @DisplayName("사장님이 생일 카페 일정을 조회할 때")
     class FindBirthdayCafeScheduleTest {
 
         @Test
-        void 조회한다() {
+        void 대관된_날짜를_조회한다() {
             // given
-            int year = 2024;
-            int month = 2;
+            Long cafeOwnerId = 3L;
+            LoginMember loginMember = new LoginMember(cafeOwnerId);
+            LocalDateTime date = LocalDateTime.of(2024, 2, 13, 0, 0, 0);
 
             // when
-            List<BirthdayCafeScheduleResponse> actual = birthdayCafeQueryService.findBirthdayCafeSchedule(year, month);
+            BirthdayCafeScheduleResponse actual = birthdayCafeQueryService.findBirthdayCafeSchedule(loginMember, date);
 
             // then
             assertAll(
-                    () -> assertThat(actual)
-                            .map(BirthdayCafeScheduleResponse::birthdayCafeId)
-                            .containsExactly(1L, 2L, 3L, 4L, 5L, 6L)
+                    () -> assertThat(actual.birthdayCafeId()).isEqualTo(6L),
+                    () -> assertThat(actual.nickname()).isEqualTo("민혁"),
+                    () -> assertThat(actual.artist().groupName()).isNull(),
+                    () -> assertThat(actual.artist().name()).isEqualTo("아이유"),
+                    () -> assertThat(actual.startDate()).isEqualTo("2024-02-11T00:00:00"),
+                    () -> assertThat(actual.endDate()).isEqualTo("2024-02-14T00:00:00")
             );
+        }
+
+        @Test
+        void 대관되지_않은_날짜는_빈_값을_반환한다() {
+            // given
+            Long cafeOwnerId = 3L;
+            LoginMember loginMember = new LoginMember(cafeOwnerId);
+            LocalDateTime date = LocalDateTime.of(2024, 3, 8, 0, 0, 0);
+
+            // when
+            BirthdayCafeScheduleResponse actual = birthdayCafeQueryService.findBirthdayCafeSchedule(loginMember, date);
+
+            // then
+            assertThat(actual).isNull();
         }
     }
 }
