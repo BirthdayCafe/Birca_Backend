@@ -63,6 +63,7 @@ class CafeImageFacadeTest extends ServiceTest {
             // then
             assertThat(response.size()).isEqualTo(4);
             verify(imageRepository, times(4)).upload(any());
+            verify(imageRepository, times(5)).delete(any());
         }
 
         @Test
