@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class BirthdayCafeImageFacade {
@@ -19,11 +21,14 @@ public class BirthdayCafeImageFacade {
     private final ImageRepository imageRepository;
     private final EntityUtil entityUtil;
 
-    public void saveDefaultImage(Long birthdayCafeId, MultipartFile defaultImage) {
+    public void saveDefaultImage(Long birthdayCafeId, List<MultipartFile> defaultImages) {
         birthdayCafeImageValidator.validateImagesSize(birthdayCafeId);
         entityUtil.getEntity(BirthdayCafe.class, birthdayCafeId, BirthdayCafeErrorCode.NOT_FOUND);
-        String imageUrl = imageRepository.upload(defaultImage);
-        birthdayCafeImageService.saveDefaultImage(birthdayCafeId, imageUrl);
+        delete(birthdayCafeId);
+        for (MultipartFile defaultImage : defaultImages) {
+            String imageUrl = imageRepository.upload(defaultImage);
+            birthdayCafeImageService.saveDefaultImage(birthdayCafeId, imageUrl);
+        }
     }
 
     public void updateMainImage(Long birthdayCafeId, MultipartFile mainImage) {
@@ -33,10 +38,11 @@ public class BirthdayCafeImageFacade {
                 .ifPresent(imageRepository::delete);
     }
 
-    public void delete(Long birthdayCafeId, BirthdayCafeImageDeleteRequest request) {
+    private void delete(Long birthdayCafeId) {
         entityUtil.getEntity(BirthdayCafe.class, birthdayCafeId, BirthdayCafeErrorCode.NOT_FOUND);
-        String imageUrl = request.imageUrl();
-        birthdayCafeImageService.delete(imageUrl);
-        imageRepository.delete(imageUrl);
+        List<String> imageUrls = birthdayCafeImageService.delete(birthdayCafeId);
+        for (String imageUrl : imageUrls) {
+            imageRepository.delete(imageUrl);
+        }
     }
 }

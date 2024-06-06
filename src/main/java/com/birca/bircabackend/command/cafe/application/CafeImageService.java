@@ -25,7 +25,8 @@ public class CafeImageService {
     }
 
     public List<String> delete(Long cafeId) {
+        List<String> imageUrls = cafeImageRepository.findByCafeId(cafeId);
         cafeImageRepository.deleteByCafeId(cafeId);
-        return cafeImageRepository.findByCafeId(cafeId);
+        return imageUrls;
     }
 }

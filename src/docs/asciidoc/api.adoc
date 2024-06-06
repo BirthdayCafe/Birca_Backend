@@ -82,8 +82,6 @@ operation::upload-birthday-cafe-default-image[snippets='http-request,http-respon
 operation::upload-birthday-cafe-main-image[snippets='http-request,http-response']
 === 생일 카페 이미지 업로드
 operation::upload-birthday-cafe-default-image[snippets='http-request,http-response']
-=== 생일 카페 이미지 삭제
-operation::delete-birthday-cafe-image[snippets='http-request,request-fields,http-response']
 === 주최자의 나의 생일 카페 목록 조회
 operation::get-my-birthday-cafe-list[snippets='http-request,http-response,response-fields']
 === 찜한 생일 카페 목록 조회

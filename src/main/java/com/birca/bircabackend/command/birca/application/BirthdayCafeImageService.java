@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -38,7 +39,11 @@ public class BirthdayCafeImageService {
         birthdayCafeImageRepository.save(mainImage);
     }
 
-    public void delete(String imageUrl) {
-        birthdayCafeImageRepository.deleteByImageUrl(imageUrl);
+    public List<String> delete(Long birthdayCafeId) {
+        List<String> imageUrls = birthdayCafeImageRepository.findAByCafeIdAndIsMain(birthdayCafeId);
+        for (String imageUrl : imageUrls) {
+            birthdayCafeImageRepository.deleteByImageUrl(imageUrl);
+        }
+        return imageUrls;
     }
 }

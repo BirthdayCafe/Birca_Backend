@@ -83,20 +83,4 @@ class BirthdayCafeImageServiceTest extends ServiceTest {
             assertThat(actual.getImageUrl()).isEqualTo(imageUrl);
         }
     }
-
-    @Test
-    void 생일_카페_이미지를_삭제한다() {
-        // given
-        String imageUrl = "image1.com";
-
-        // when
-        birthdayCafeImageService.delete(imageUrl);
-        Boolean actual = em.createQuery(
-                        "select count(*) > 0 from BirthdayCafeImage bci where bci.imageUrl = :imageUrl", Boolean.class)
-                .setParameter("imageUrl", imageUrl)
-                .getSingleResult();
-
-        // then
-        assertThat(actual).isFalse();
-    }
 }
