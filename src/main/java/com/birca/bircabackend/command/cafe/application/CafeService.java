@@ -54,11 +54,26 @@ public class CafeService {
 
     public void markDayOff(Long cafeId, LoginMember loginMember, DayOffCreateRequest request) {
         Cafe cafe = entityUtil.getEntity(Cafe.class, cafeId, CafeErrorCode.NOT_FOUND);
-        dayOffRepository.deleteByCafeId(cafeId);
-        List<LocalDateTime> dayOffDates = request.datOffDates();
-        for (LocalDateTime dayOffDate : dayOffDates) {
-            DayOff dayOff = cafe.markDayOff(loginMember.id(), dayOffDate);
-            dayOffRepository.save(dayOff);
+        List<LocalDateTime> savedDayOffs = dayOffRepository.findByCafeId(cafeId);
+        List<LocalDateTime> requestedDayOffDates = request.datOffDates();
+        deleteDayOff(cafeId, requestedDayOffDates, savedDayOffs);
+        saveDayOff(loginMember, requestedDayOffDates, savedDayOffs, cafe);
+    }
+
+    private void deleteDayOff(Long cafeId, List<LocalDateTime> requestedDayOffDates, List<LocalDateTime> savedDayOffs) {
+        for (LocalDateTime dayOffDate : savedDayOffs) {
+            if (!requestedDayOffDates.contains(dayOffDate)) {
+                dayOffRepository.deleteByCafeIdAndDayOffDate(cafeId, dayOffDate);
+            }
+        }
+    }
+
+    private void saveDayOff(LoginMember loginMember, List<LocalDateTime> requestedDayOffDates, List<LocalDateTime> savedDayOffs, Cafe cafe) {
+        for (LocalDateTime dayOffDate : requestedDayOffDates) {
+            if (!savedDayOffs.contains(dayOffDate)) {
+                DayOff dayOff = cafe.markDayOff(loginMember.id(), dayOffDate);
+                dayOffRepository.save(dayOff);
+            }
         }
     }
 }
