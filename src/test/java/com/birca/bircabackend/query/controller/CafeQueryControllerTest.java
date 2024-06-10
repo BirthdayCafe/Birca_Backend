@@ -27,35 +27,6 @@ import static org.springframework.web.util.DefaultUriBuilderFactory.EncodingMode
 class CafeQueryControllerTest extends DocumentationTest {
 
     @Test
-    void 카페를_검색한다() throws Exception {
-        // given
-        given(cafeQueryService.findCafes(any()))
-                .willReturn(List.of(
-                        new CafeResponse(2L, "우지 커피"),
-                        new CafeResponse(3L, "메가 커피")
-                ));
-
-        // when
-        ResultActions result = mockMvc.perform(get("/api/v1/cafes/search")
-                .contentType(MediaType.APPLICATION_JSON)
-                .queryParam("name", "커피")
-                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(1L))
-        );
-
-        // then
-        result.andExpect((status().isOk()))
-                .andDo(document("search-cafes", HOST_INFO, DOCUMENT_RESPONSE,
-                        queryParameters(
-                                parameterWithName("name").description("카페 이름")
-                        ),
-                        responseFields(
-                                fieldWithPath("[].cafeId").type(JsonFieldType.NUMBER).description("카페 ID"),
-                                fieldWithPath("[].cafeName").type(JsonFieldType.STRING).description("카페 이름")
-                        )
-                ));
-    }
-
-    @Test
     void 사장님이_카페_상세_조회를_한다() throws Exception {
         // given
         given(cafeQueryService.findMyCafeDetails(new LoginMember(1L)))

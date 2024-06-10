@@ -3,11 +3,9 @@ package com.birca.bircabackend.query.controller;
 import com.birca.bircabackend.command.auth.authorization.RequiredLogin;
 import com.birca.bircabackend.query.dto.ArtistGroupResponse;
 import com.birca.bircabackend.query.dto.ArtistResponse;
-import com.birca.bircabackend.query.dto.ArtistSearchResponse;
 import com.birca.bircabackend.query.dto.PagingParams;
 import com.birca.bircabackend.query.service.ArtistGroupQueryService;
 import com.birca.bircabackend.query.service.ArtistQueryService;
-import com.birca.bircabackend.query.service.ArtistSearchQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +17,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ArtistQueryController {
 
-    private final ArtistSearchQueryService artistSearchQueryService;
     private final ArtistGroupQueryService artistGroupQueryService;
     private final ArtistQueryService artistQueryService;
 
@@ -39,11 +36,5 @@ public class ArtistQueryController {
     @RequiredLogin
     public ResponseEntity<List<ArtistResponse>> getSoloArtists(@ModelAttribute PagingParams pagingParams) {
         return ResponseEntity.ok(artistQueryService.findSoloArtists(pagingParams));
-    }
-
-    @GetMapping("/v1/artists/search")
-    @RequiredLogin
-    public ResponseEntity<List<ArtistSearchResponse>> searchArtist(@RequestParam String name) {
-        return ResponseEntity.ok(artistSearchQueryService.searchArtist(name));
     }
 }

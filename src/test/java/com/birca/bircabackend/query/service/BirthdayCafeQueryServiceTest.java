@@ -149,8 +149,8 @@ class BirthdayCafeQueryServiceTest extends ServiceTest {
         @Test
         void 특정_아티스트의_카페만_조회한다() {
             // given
-            long artistId = 3L;
-            birthdayCafeParams.setArtistId(artistId);
+            String name = "윈터";
+            birthdayCafeParams.setName(name);
 
             // when
             List<BirthdayCafeResponse> actual = birthdayCafeQueryService.findBirthdayCafes(
@@ -167,8 +167,8 @@ class BirthdayCafeQueryServiceTest extends ServiceTest {
         @Test
         void 특정_카페에서_진행_되는_생일_카페만_조회한다() {
             // given
-            long cafeId = 1L;
-            birthdayCafeParams.setCafeId(cafeId);
+            String name = "메가커피";
+            birthdayCafeParams.setName(name);
 
             // when
             List<BirthdayCafeResponse> actual = birthdayCafeQueryService.findBirthdayCafes(

@@ -17,12 +17,6 @@ public class CafeQueryController {
 
     private final CafeQueryService cafeQueryService;
 
-    @GetMapping("/v1/cafes/search")
-    @RequiredLogin
-    public ResponseEntity<List<CafeResponse>> searchCafes(@RequestParam String name) {
-        return ResponseEntity.ok(cafeQueryService.findCafes(name));
-    }
-
     @GetMapping("/v1/cafes/me")
     @RequiredLogin
     public ResponseEntity<MyCafeDetailResponse> findMyCafeDetails(LoginMember loginMember) {

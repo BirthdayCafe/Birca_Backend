@@ -59,10 +59,10 @@ public class BirthdayCafeDynamicRepositoryImpl implements BirthdayCafeDynamicRep
                                                     PagingParams pagingParams) {
         Long cursor = pagingParams.getCursor();
         LocalDateTime cursorStartDate = findCursorStartDate(cursor);
+        String name = birthdayCafeParams.getName();
         return DynamicBooleanBuilder.builder()
                 .and(() -> birthdayCafe.progressState.eq(ProgressState.valueOf(birthdayCafeParams.getProgressState())))
-                .and(() -> birthdayCafe.artistId.eq(birthdayCafeParams.getArtistId()))
-                .and(() -> birthdayCafe.cafeId.eq(birthdayCafeParams.getCafeId()))
+                .and(() -> cafe.name.contains(name).or(artist.name.contains(name)))
                 .and(() -> birthdayCafe.schedule.startDate.eq(cursorStartDate).and(birthdayCafe.id.gt(cursor))
                         .or(birthdayCafe.schedule.startDate.gt(cursorStartDate)))
                 .build();

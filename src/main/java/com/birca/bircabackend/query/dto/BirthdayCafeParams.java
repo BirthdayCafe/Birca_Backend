@@ -12,6 +12,5 @@ import lombok.Setter;
 public class BirthdayCafeParams {
 
     private String progressState;
-    private Long artistId;
-    private Long cafeId;
+    private String name;
 }

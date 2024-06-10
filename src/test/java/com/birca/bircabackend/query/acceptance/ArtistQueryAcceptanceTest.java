@@ -82,26 +82,4 @@ class ArtistQueryAcceptanceTest extends AcceptanceTest {
                 () -> assertThat(response.jsonPath().getList(".")).hasSize(size)
         );
     }
-
-    @Test
-    void 아티스트를_검색한다() {
-        // given
-        String name = "마크";
-
-        // when
-        ExtractableResponse<Response> response = RestAssured.given().log().all()
-                .when()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
-                .queryParam("name", name)
-                .get("/api/v1/artists/search")
-                .then().log().all()
-                .extract();
-
-        // then
-        assertAll(
-                () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
-                () -> assertThat(response.jsonPath().getList(".")).hasSize(2)
-        );
-    }
 }
