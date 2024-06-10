@@ -114,7 +114,7 @@ operation::get-my-cafe-detail[snippets='http-request,http-response']
 operation::cafe-update[snippets='http-request,request-fields,http-response']
 === 카페 이미지 업로드
 operation::upload-cafe-image[snippets='http-request,http-response']
-=== 대관 가능한 카페 검색
+=== 주최자의 대관 가능한 카페 검색
 operation::search-rental-cafe[snippets='http-request,query-parameters,http-response']
 === 주최자의 카페 상세 조회
 operation::get-cafe-detail[snippets='http-request,http-response']
