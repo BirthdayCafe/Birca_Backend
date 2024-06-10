@@ -15,6 +15,7 @@ public class CafeParams {
 
     private static Boolean LIKED = false;
 
+    private String name;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private Boolean liked = LIKED;

@@ -40,7 +40,7 @@ public class CafeQueryService {
     }
 
     public List<CafeSearchResponse> searchRentalAvailableCafes(LoginMember loginMember, CafeParams cafeParams, PagingParams pagingParams) {
-        return cafeQueryRepository.searchCafes(loginMember, cafeParams, pagingParams)
+        return cafeQueryRepository.searchRentalAvailableCafes(loginMember, cafeParams, pagingParams)
                 .stream()
                 .map(CafeSearchResponse::from)
                 .toList();
