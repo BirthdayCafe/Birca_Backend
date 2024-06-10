@@ -170,15 +170,13 @@ class BirthdayCafeQueryControllerTest extends DocumentationTest {
         PagingParams pagingParams = new PagingParams();
         long cursor = 1L;
         int size = 10;
+        String name = "민호";
         pagingParams.setCursor(cursor);
         pagingParams.setSize(size);
 
         BirthdayCafeParams birthdayCafeParams = new BirthdayCafeParams();
-        long artistId = 1L;
-        long cafeId = 1L;
         String progressState = "IN_PROGRESS";
-        birthdayCafeParams.setCafeId(cafeId);
-        birthdayCafeParams.setArtistId(artistId);
+        birthdayCafeParams.setName(name);
         birthdayCafeParams.setProgressState(progressState);
         given(birthdayCafeQueryService.findBirthdayCafes(birthdayCafeParams, pagingParams, new LoginMember(1L)))
                 .willReturn(List.of(
@@ -210,8 +208,7 @@ class BirthdayCafeQueryControllerTest extends DocumentationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .queryParam("cursor", String.valueOf(cursor))
                         .queryParam("size", String.valueOf(size))
-                        .queryParam("artistId", String.valueOf(artistId))
-                        .queryParam("cafeId", String.valueOf(cafeId))
+                        .queryParam("name", name)
                         .queryParam("progressState", progressState)
                         .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID)));
 
@@ -221,8 +218,7 @@ class BirthdayCafeQueryControllerTest extends DocumentationTest {
                         queryParameters(
                                 parameterWithName("cursor").description("이전에 쿼리된 마지막 birthdayCafeId"),
                                 parameterWithName("size").description("검색할 개수"),
-                                parameterWithName("artistId").description("생일 카페의 아티스트"),
-                                parameterWithName("cafeId").description("생일 카페의 카페"),
+                                parameterWithName("name").description("카페 이름 혹은 생일 카페의 아티스트 이름"),
                                 parameterWithName("progressState").description("생일 카페 진행 상태")
                         ),
                         responseFields(
