@@ -99,9 +99,6 @@ public class DocumentationTest {
     protected CafeQueryService cafeQueryService;
 
     @MockBean
-    protected ArtistSearchQueryService artistSearchQueryService;
-
-    @MockBean
     protected BirthdayCafeLikeService birthdayCafeLikeService;
 
     @MockBean

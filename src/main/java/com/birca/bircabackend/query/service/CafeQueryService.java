@@ -28,10 +28,6 @@ public class CafeQueryService {
     private final CafeQueryRepository cafeQueryRepository;
     private final EntityUtil entityUtil;
 
-    public List<CafeResponse> findCafes(String name) {
-        return cafeQueryRepository.findByName(name);
-    }
-
     public MyCafeDetailResponse findMyCafeDetails(LoginMember loginMember) {
         Cafe cafe = cafeQueryRepository.findByOwnerId(loginMember.id())
                 .orElseThrow(() -> BusinessException.from(CafeErrorCode.NOT_FOUND));
