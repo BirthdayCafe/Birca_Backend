@@ -98,15 +98,16 @@ class CafeQueryServiceTest extends ServiceTest {
     @DisplayName("주최자가 대관 가능한 카페 목록을")
     class GetRentalAvailableCafe {
 
+        private static final LoginMember LOGIN_MEMBER = new LoginMember(1L);
+
         @Test
         void 전부_조회한다() {
             // given
-            LoginMember loginMember = new LoginMember(1L);
             CafeParams cafeParams = new CafeParams();
             PagingParams pagingParams = new PagingParams();
 
             // when
-            List<CafeSearchResponse> actual = cafeQueryService.searchRentalAvailableCafes(loginMember, cafeParams, pagingParams);
+            List<CafeSearchResponse> actual = cafeQueryService.searchRentalAvailableCafes(LOGIN_MEMBER, cafeParams, pagingParams);
 
             // then
             assertThat(actual)
@@ -120,13 +121,12 @@ class CafeQueryServiceTest extends ServiceTest {
         @Test
         void 커서_이후로_조회한다() {
             // given
-            LoginMember loginMember = new LoginMember(1L);
             CafeParams cafeParams = new CafeParams();
             PagingParams pagingParams = new PagingParams();
             pagingParams.setCursor(2L);
 
             // when
-            List<CafeSearchResponse> actual = cafeQueryService.searchRentalAvailableCafes(loginMember, cafeParams, pagingParams);
+            List<CafeSearchResponse> actual = cafeQueryService.searchRentalAvailableCafes(LOGIN_MEMBER, cafeParams, pagingParams);
 
             // then
             assertThat(actual)
@@ -136,10 +136,42 @@ class CafeQueryServiceTest extends ServiceTest {
         }
 
         @Test
+        void 카페_전체_이름으로_조회한다() {
+            // given
+            CafeParams cafeParams = new CafeParams();
+            cafeParams.setName("미스티우드");
+            PagingParams pagingParams = new PagingParams();
+
+            // when
+            List<CafeSearchResponse> actual = cafeQueryService.searchRentalAvailableCafes(LOGIN_MEMBER, cafeParams, pagingParams);
+
+            // then
+            assertThat(actual)
+                    .containsOnly(
+                            new CafeSearchResponse(1L, "미스티우드", false, "image1.com", "@ChaseM", "경기도 시흥시 은계중앙로 115")
+                    );
+        }
+
+        @Test
+        void 카페_일부_이름으로_조회한다() {
+            // given
+            CafeParams cafeParams = new CafeParams();
+            cafeParams.setName("미스티");
+            PagingParams pagingParams = new PagingParams();
+
+            // when
+            List<CafeSearchResponse> actual = cafeQueryService.searchRentalAvailableCafes(LOGIN_MEMBER, cafeParams, pagingParams);
+
+            // then
+            assertThat(actual)
+                    .containsOnly(
+                            new CafeSearchResponse(1L, "미스티우드", false, "image1.com", "@ChaseM", "경기도 시흥시 은계중앙로 115")
+                    );
+        }
+
+        @Test
         void 대관_가능한_날짜로_조회한다() {
             // given
-            LoginMember loginMember = new LoginMember(1L);
-
             CafeParams cafeParams = new CafeParams();
             LocalDateTime startDate = LocalDateTime.of(2024, 2, 15, 0, 0, 0);
             LocalDateTime endDate = LocalDateTime.of(2024, 2, 16, 0, 0, 0);
@@ -149,7 +181,7 @@ class CafeQueryServiceTest extends ServiceTest {
             PagingParams pagingParams = new PagingParams();
 
             // when
-            List<CafeSearchResponse> actual = cafeQueryService.searchRentalAvailableCafes(loginMember, cafeParams, pagingParams);
+            List<CafeSearchResponse> actual = cafeQueryService.searchRentalAvailableCafes(LOGIN_MEMBER, cafeParams, pagingParams);
 
             // then
             assertThat(actual)
@@ -161,15 +193,13 @@ class CafeQueryServiceTest extends ServiceTest {
         @Test
         void 찜한_카페들만_조회한다() {
             // given
-            LoginMember loginMember = new LoginMember(1L);
-
             CafeParams cafeParams = new CafeParams();
             cafeParams.setLiked(true);
 
             PagingParams pagingParams = new PagingParams();
 
             // when
-            List<CafeSearchResponse> actual = cafeQueryService.searchRentalAvailableCafes(loginMember, cafeParams, pagingParams);
+            List<CafeSearchResponse> actual = cafeQueryService.searchRentalAvailableCafes(LOGIN_MEMBER, cafeParams, pagingParams);
 
             // then
             assertThat(actual)
