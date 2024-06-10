@@ -30,7 +30,7 @@ public class CafeDynamicRepositoryImpl implements CafeDynamicRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<CafeView> searchCafes(LoginMember loginMember, CafeParams cafeParams, PagingParams pagingParams) {
+    public List<CafeView> searchRentalAvailableCafes(LoginMember loginMember, CafeParams cafeParams, PagingParams pagingParams) {
         return queryFactory.selectDistinct(Projections.constructor(CafeView.class, cafe, cafeImage, like))
                 .from(cafe)
                 .join(cafeImage).on(cafeImage.id.eq(
@@ -54,6 +54,7 @@ public class CafeDynamicRepositoryImpl implements CafeDynamicRepository {
         LocalDateTime endDate = cafeParams.getEndDate();
         DynamicBooleanBuilder builder = DynamicBooleanBuilder.builder()
                 .and(() -> cafe.id.gt(cursor))
+                .and(() -> cafe.name.contains(cafeParams.getName()))
                 .and(() -> birthdayCafe.id.isNull()
                         .or(birthdayCafe.schedule.startDate.gt(endDate)
                                 .or(birthdayCafe.schedule.endDate.lt(startDate))))

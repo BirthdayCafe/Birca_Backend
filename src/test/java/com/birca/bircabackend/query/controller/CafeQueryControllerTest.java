@@ -8,6 +8,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.util.DefaultUriBuilderFactory;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,6 +22,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.web.util.DefaultUriBuilderFactory.EncodingMode.VALUES_ONLY;
 
 class CafeQueryControllerTest extends DocumentationTest {
 
@@ -101,9 +104,11 @@ class CafeQueryControllerTest extends DocumentationTest {
         LoginMember loginMember = new LoginMember(1L);
 
         CafeParams cafeParams = new CafeParams();
+        String name = "카페 이름";
         LocalDateTime startDate = LocalDateTime.of(2024, 3, 18, 0, 0, 0);
         LocalDateTime endDate = LocalDateTime.of(2024, 3, 19, 0, 0, 0);
         Boolean liked = true;
+        cafeParams.setName(name);
         cafeParams.setStartDate(startDate);
         cafeParams.setEndDate(endDate);
         cafeParams.setLiked(liked);
@@ -136,6 +141,7 @@ class CafeQueryControllerTest extends DocumentationTest {
         // when
         ResultActions result = mockMvc.perform(get("/api/v1/cafes")
                 .contentType(MediaType.APPLICATION_JSON)
+                .queryParam("name", name)
                 .queryParam("startDate", String.valueOf(startDate))
                 .queryParam("endDate", String.valueOf(endDate))
                 .queryParam("liked", String.valueOf(liked))
@@ -148,6 +154,7 @@ class CafeQueryControllerTest extends DocumentationTest {
         result.andExpect((status().isOk()))
                 .andDo(document("search-rental-cafe", HOST_INFO, DOCUMENT_RESPONSE,
                         queryParameters(
+                                parameterWithName("name").description("카페 이름"),
                                 parameterWithName("startDate").description("검색 시작 날짜"),
                                 parameterWithName("endDate").description("검색 마지막 날짜"),
                                 parameterWithName("liked").description("찜한 카페 목록 검색 여부"),

@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface CafeDynamicRepository {
 
-    List<CafeView> searchCafes(LoginMember loginMember, CafeParams cafeParams, PagingParams pagingParams);
+    List<CafeView> searchRentalAvailableCafes(LoginMember loginMember, CafeParams cafeParams, PagingParams pagingParams);
 }
