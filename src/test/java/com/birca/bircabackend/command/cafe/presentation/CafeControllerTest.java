@@ -1,6 +1,7 @@
 package com.birca.bircabackend.command.cafe.presentation;
 
 import com.birca.bircabackend.command.cafe.dto.CafeMenuRequest;
+import com.birca.bircabackend.command.cafe.dto.CafeOptionRequest;
 import com.birca.bircabackend.command.cafe.dto.CafeUpdateRequest;
 import com.birca.bircabackend.command.cafe.dto.DayOffCreateRequest;
 import com.birca.bircabackend.command.cafe.exception.BusinessLicenseErrorCode;
@@ -76,6 +77,31 @@ class CafeControllerTest extends DocumentationTest {
                         requestFields(
                                 fieldWithPath("[].name").type(JsonFieldType.STRING).description("메뉴 이름"),
                                 fieldWithPath("[].price").type(JsonFieldType.NUMBER).description("메뉴 가격")
+                        )
+                ));
+    }
+
+    @Test
+    void 카페_옵션을_수정한다() throws Exception {
+        // given
+        List<CafeOptionRequest> requests = List.of(
+                new CafeOptionRequest("액자", 2000),
+                new CafeOptionRequest("앨범", 20000)
+        );
+
+        // when
+        ResultActions result = mockMvc.perform(
+                post("/api/v1/cafes/options")
+                        .content(objectMapper.writeValueAsString(requests))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(1L)));
+
+        // then
+        result.andExpect((status().isOk()))
+                .andDo(document("cafe-option-update", HOST_INFO, DOCUMENT_RESPONSE,
+                        requestFields(
+                                fieldWithPath("[].name").type(JsonFieldType.STRING).description("옵션 이름"),
+                                fieldWithPath("[].price").type(JsonFieldType.NUMBER).description("옵션 가격")
                         )
                 ));
     }
