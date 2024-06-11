@@ -20,7 +20,7 @@ public class CafeController {
 
     private final CafeService cafeService;
 
-    @PostMapping("/v1/cafes")
+    @PatchMapping("/v1/cafes")
     @RequiredLogin
     public ResponseEntity<Void> updateCafe(LoginMember loginMember, @RequestBody CafeUpdateRequest request) {
         cafeService.update(loginMember, request);

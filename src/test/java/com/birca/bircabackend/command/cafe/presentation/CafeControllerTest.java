@@ -39,7 +39,7 @@ class CafeControllerTest extends DocumentationTest {
 
         // when
         ResultActions result = mockMvc.perform(
-                post("/api/v1/cafes")
+                patch("/api/v1/cafes")
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
                         .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(1L)));

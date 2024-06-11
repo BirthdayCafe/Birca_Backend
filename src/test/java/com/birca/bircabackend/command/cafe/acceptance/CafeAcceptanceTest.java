@@ -40,7 +40,7 @@ public class CafeAcceptanceTest extends AcceptanceTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
                 .body(request)
-                .post("/api/v1/cafes")
+                .patch("/api/v1/cafes")
                 .then().log().all()
                 .extract();
 
