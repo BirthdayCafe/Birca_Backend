@@ -50,21 +50,18 @@ public class Cafe extends BaseEntity {
     @CollectionTable(name = "cafe_option")
     private List<CafeOption> cafeOptions = new ArrayList<>();
 
-    public void update(Long memberId, String name, String address, String twitterAccount, String businessHours) {
-        validateIsOwner(memberId);
+    public void update(String name, String address, String twitterAccount, String businessHours) {
         this.name = name;
         this.address = address;
         this.twitterAccount = twitterAccount;
         this.businessHours = businessHours;
     }
 
-    public void updateCafeMenus(Long memberId, List<CafeMenu> cafeMenus) {
-        validateIsOwner(memberId);
+    public void updateCafeMenus(List<CafeMenu> cafeMenus) {
         this.cafeMenus = cafeMenus;
     }
 
-    public void replaceCafeOptions(Long memberId, List<CafeOption> cafeOptions) {
-        validateIsOwner(memberId);
+    public void updateCafeOptions(List<CafeOption> cafeOptions) {
         this.cafeOptions = cafeOptions;
     }
 

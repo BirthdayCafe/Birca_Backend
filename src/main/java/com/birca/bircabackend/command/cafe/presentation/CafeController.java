@@ -4,6 +4,7 @@ import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.auth.authorization.RequiredLogin;
 import com.birca.bircabackend.command.cafe.application.CafeService;
 import com.birca.bircabackend.command.cafe.dto.CafeMenuRequest;
+import com.birca.bircabackend.command.cafe.dto.CafeOptionRequest;
 import com.birca.bircabackend.command.cafe.dto.CafeUpdateRequest;
 import com.birca.bircabackend.command.cafe.dto.DayOffCreateRequest;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,13 @@ public class CafeController {
     @RequiredLogin
     public ResponseEntity<Void> updateCafeMenus(LoginMember loginMember, @RequestBody List<CafeMenuRequest> requests) {
         cafeService.updateCafeMenus(loginMember, requests);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/v1/cafes/options")
+    @RequiredLogin
+    public ResponseEntity<Void> updateCafeOptions(LoginMember loginMember, @RequestBody List<CafeOptionRequest> requests) {
+        cafeService.updateCafeOptions(loginMember, requests);
         return ResponseEntity.ok().build();
     }
 
