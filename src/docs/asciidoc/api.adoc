@@ -110,7 +110,7 @@ include::{snippets}/birthday-cafe-error-Code/response-body.adoc[]
 operation::search-cafes[snippets='http-request,http-response']
 === 사장님의 카페 상세 조회
 operation::get-my-cafe-detail[snippets='http-request,http-response']
-=== 카페 상세 수정
+=== 사장님의 카페 기본 정보 수정
 operation::cafe-update[snippets='http-request,request-fields,http-response']
 === 카페 이미지 업로드
 operation::upload-cafe-image[snippets='http-request,http-response']
