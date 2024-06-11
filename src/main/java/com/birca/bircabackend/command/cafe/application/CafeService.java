@@ -5,6 +5,8 @@ import com.birca.bircabackend.command.cafe.domain.Cafe;
 import com.birca.bircabackend.command.cafe.domain.CafeRepository;
 import com.birca.bircabackend.command.cafe.domain.DayOff;
 import com.birca.bircabackend.command.cafe.domain.DayOffRepository;
+import com.birca.bircabackend.command.cafe.domain.value.CafeMenu;
+import com.birca.bircabackend.command.cafe.dto.CafeMenuRequest;
 import com.birca.bircabackend.command.cafe.dto.CafeUpdateRequest;
 import com.birca.bircabackend.command.cafe.dto.DayOffCreateRequest;
 import com.birca.bircabackend.command.cafe.exception.CafeErrorCode;
@@ -28,19 +30,29 @@ public class CafeService {
 
     public void update(LoginMember loginMember, CafeUpdateRequest request) {
         Long ownerId = loginMember.id();
-        Cafe cafe = cafeRepository.findByOwnerId(ownerId)
-                .orElseThrow(() -> BusinessException.from(CafeErrorCode.NOT_FOUND));
+        Cafe cafe = findCafe(ownerId);
         cafe.update(ownerId, request.cafeName(), request.cafeAddress(),
                 request.twitterAccount(), request.businessHours());
     }
 
-//    private void replaceCafeMenus(CafeUpdateRequest request, Cafe cafe) {
-//        List<CafeMenu> cafeMenus = request.cafeMenus().stream()
-//                .map(req -> new CafeMenu(req.name(), req.price()))
-//                .toList();
-//        cafe.replaceCafeMenus(cafeMenus);
-//    }
-//
+    public void updateCafeMenus(LoginMember loginMember, List<CafeMenuRequest> requests) {
+        Long ownerId = loginMember.id();
+        Cafe cafe = findCafe(ownerId);
+        List<CafeMenu> cafeMenus = mapToCafeMenus(requests);
+        cafe.updateCafeMenus(ownerId, cafeMenus);
+    }
+
+    private List<CafeMenu> mapToCafeMenus(List<CafeMenuRequest> requests) {
+        return requests.stream()
+                .map(req -> new CafeMenu(req.name(), req.price()))
+                .toList();
+    }
+
+    private Cafe findCafe(Long ownerId) {
+        return cafeRepository.findByOwnerId(ownerId)
+                .orElseThrow(() -> BusinessException.from(CafeErrorCode.NOT_FOUND));
+    }
+
 //    private void replaceCafeOptions(CafeUpdateRequest request, Cafe cafe) {
 //        List<CafeOption> cafeOptions = request.cafeOptions().stream()
 //                .map(req -> new CafeOption(req.name(), req.price()))
