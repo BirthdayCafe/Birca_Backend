@@ -1,5 +1,6 @@
 package com.birca.bircabackend.command.cafe.acceptance;
 
+import com.birca.bircabackend.command.cafe.dto.CafeMenuRequest;
 import com.birca.bircabackend.command.cafe.dto.CafeUpdateRequest;
 import com.birca.bircabackend.command.cafe.dto.DayOffCreateRequest;
 import com.birca.bircabackend.support.enviroment.AcceptanceTest;
@@ -39,6 +40,27 @@ public class CafeAcceptanceTest extends AcceptanceTest {
                 .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
                 .body(request)
                 .post("/api/v1/cafes")
+                .then().log().all()
+                .extract();
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Test
+    void 카페_메뉴_정보를_수정한다() {
+        // given
+        List<CafeMenuRequest> requests = List.of(
+                new CafeMenuRequest("아이스 아메리카노", 1500),
+                new CafeMenuRequest("바닐라 라떼", 2500)
+        );
+
+        // when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
+                .body(requests)
+                .post("/api/v1/cafes/menus")
                 .then().log().all()
                 .extract();
 

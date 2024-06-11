@@ -5,6 +5,7 @@ import com.birca.bircabackend.command.cafe.domain.Cafe;
 import com.birca.bircabackend.command.cafe.domain.DayOff;
 import com.birca.bircabackend.command.cafe.domain.value.CafeMenu;
 import com.birca.bircabackend.command.cafe.domain.value.CafeOption;
+import com.birca.bircabackend.command.cafe.dto.CafeMenuRequest;
 import com.birca.bircabackend.command.cafe.dto.CafeUpdateRequest;
 import com.birca.bircabackend.command.cafe.dto.DayOffCreateRequest;
 import com.birca.bircabackend.command.cafe.exception.CafeErrorCode;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -56,9 +58,7 @@ class CafeServiceTest extends ServiceTest {
                     .setParameter("ownerId", loginMember.id())
                     .getSingleResult();
 
-            List<CafeMenu> cafeMenusResponse = entityManager.createQuery("select c.cafeMenus from Cafe c where c.ownerId = :ownerId", CafeMenu.class)
-                    .setParameter("ownerId", loginMember.id())
-                    .getResultList();
+
 
             List<CafeOption> cafeOptionResponse = entityManager.createQuery("select c.cafeOptions from Cafe c where c.ownerId = :ownerId", CafeOption.class)
                     .setParameter("ownerId", loginMember.id())
@@ -80,6 +80,42 @@ class CafeServiceTest extends ServiceTest {
 
             // when then
             assertThatThrownBy(() -> cafeService.update(loginMember, REQUEST))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(CafeErrorCode.NOT_FOUND);
+        }
+    }
+
+    @Nested
+    @DisplayName("카페 메뉴를 수정할 때")
+    class UpdateCafeMenuTest {
+
+        private static final List<CafeMenuRequest> REQUESTS = List.of(new CafeMenuRequest("아이스 아메리카노", 1500));
+
+        @Test
+        void 정상적으로_수정한다() {
+            // given
+            LoginMember loginMember = new LoginMember(1L);
+
+            // when
+            cafeService.updateCafeMenus(loginMember, REQUESTS);
+            List<CafeMenu> actual = entityManager.createQuery("select c.cafeMenus from Cafe c where c.ownerId = :ownerId", CafeMenu.class)
+                    .setParameter("ownerId", loginMember.id())
+                    .getResultList();
+
+            // then
+            assertThat(actual)
+                    .usingRecursiveComparison()
+                    .isEqualTo(List.of(new CafeMenu("아이스 아메리카노", 1500)));
+        }
+
+        @Test
+        void 존재하지_않는_카페는_예외가_발생한다() {
+            // given
+            LoginMember loginMember = new LoginMember(100L);
+
+            // when then
+            assertThatThrownBy(() -> cafeService.updateCafeMenus(loginMember, REQUESTS))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(CafeErrorCode.NOT_FOUND);
