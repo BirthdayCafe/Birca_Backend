@@ -5,8 +5,6 @@ import com.birca.bircabackend.command.cafe.domain.Cafe;
 import com.birca.bircabackend.command.cafe.domain.CafeRepository;
 import com.birca.bircabackend.command.cafe.domain.DayOff;
 import com.birca.bircabackend.command.cafe.domain.DayOffRepository;
-import com.birca.bircabackend.command.cafe.domain.value.CafeMenu;
-import com.birca.bircabackend.command.cafe.domain.value.CafeOption;
 import com.birca.bircabackend.command.cafe.dto.CafeUpdateRequest;
 import com.birca.bircabackend.command.cafe.dto.DayOffCreateRequest;
 import com.birca.bircabackend.command.cafe.exception.CafeErrorCode;
@@ -34,23 +32,22 @@ public class CafeService {
                 .orElseThrow(() -> BusinessException.from(CafeErrorCode.NOT_FOUND));
         cafe.update(ownerId, request.cafeName(), request.cafeAddress(),
                 request.twitterAccount(), request.businessHours());
-        replaceCafeMenus(request, cafe);
-        replaceCafeOptions(request, cafe);
     }
 
-    private void replaceCafeMenus(CafeUpdateRequest request, Cafe cafe) {
-        List<CafeMenu> cafeMenus = request.cafeMenus().stream()
-                .map(req -> new CafeMenu(req.name(), req.price()))
-                .toList();
-        cafe.replaceCafeMenus(cafeMenus);
-    }
+//    private void replaceCafeMenus(CafeUpdateRequest request, Cafe cafe) {
+//        List<CafeMenu> cafeMenus = request.cafeMenus().stream()
+//                .map(req -> new CafeMenu(req.name(), req.price()))
+//                .toList();
+//        cafe.replaceCafeMenus(cafeMenus);
+//    }
+//
+//    private void replaceCafeOptions(CafeUpdateRequest request, Cafe cafe) {
+//        List<CafeOption> cafeOptions = request.cafeOptions().stream()
+//                .map(req -> new CafeOption(req.name(), req.price()))
+//                .toList();
+//        cafe.replaceCafeOptions(cafeOptions);
+//    }
 
-    private void replaceCafeOptions(CafeUpdateRequest request, Cafe cafe) {
-        List<CafeOption> cafeOptions = request.cafeOptions().stream()
-                .map(req -> new CafeOption(req.name(), req.price()))
-                .toList();
-        cafe.replaceCafeOptions(cafeOptions);
-    }
 
     public void markDayOff(Long cafeId, LoginMember loginMember, DayOffCreateRequest request) {
         Cafe cafe = entityUtil.getEntity(Cafe.class, cafeId, CafeErrorCode.NOT_FOUND);

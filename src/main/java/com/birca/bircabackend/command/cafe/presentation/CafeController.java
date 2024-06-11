@@ -16,7 +16,7 @@ public class CafeController {
 
     private final CafeService cafeService;
 
-    @PatchMapping("/v1/cafes")
+    @PostMapping("/v1/cafes")
     @RequiredLogin
     public ResponseEntity<Void> updateCafe(LoginMember loginMember, @RequestBody CafeUpdateRequest request) {
         cafeService.update(loginMember, request);

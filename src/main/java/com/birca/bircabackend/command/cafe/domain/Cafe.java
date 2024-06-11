@@ -58,11 +58,13 @@ public class Cafe extends BaseEntity {
         this.businessHours = businessHours;
     }
 
-    public void replaceCafeMenus(List<CafeMenu> cafeMenus) {
+    public void replaceCafeMenus(Long memberId, List<CafeMenu> cafeMenus) {
+        validateIsOwner(memberId);
         this.cafeMenus = cafeMenus;
     }
 
-    public void replaceCafeOptions(List<CafeOption> cafeOptions) {
+    public void replaceCafeOptions(Long memberId, List<CafeOption> cafeOptions) {
+        validateIsOwner(memberId);
         this.cafeOptions = cafeOptions;
     }
 
