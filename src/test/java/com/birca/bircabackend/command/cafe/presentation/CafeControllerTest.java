@@ -1,5 +1,7 @@
 package com.birca.bircabackend.command.cafe.presentation;
 
+import com.birca.bircabackend.command.cafe.dto.CafeMenuRequest;
+import com.birca.bircabackend.command.cafe.dto.CafeOptionRequest;
 import com.birca.bircabackend.command.cafe.dto.CafeUpdateRequest;
 import com.birca.bircabackend.command.cafe.dto.DayOffCreateRequest;
 import com.birca.bircabackend.command.cafe.exception.BusinessLicenseErrorCode;
@@ -26,15 +28,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class CafeControllerTest extends DocumentationTest {
 
     @Test
-    void 카페_상세_정보를_수정한다() throws Exception {
+    void 카페_기본_정보를_수정한다() throws Exception {
         // given
         CafeUpdateRequest request = new CafeUpdateRequest(
                 "메가커피",
                 "서울특별시 강남구 테헤란로 212",
                 "@ChaseM",
-                "8시 - 22시",
-                List.of(new CafeUpdateRequest.CafeMenuResponse("아메리카노", 1500)),
-                List.of(new CafeUpdateRequest.CafeOptionResponse("액자", 2000))
+                "8시 - 22시"
         );
 
         // when
@@ -51,13 +51,57 @@ class CafeControllerTest extends DocumentationTest {
                                 fieldWithPath("cafeName").type(JsonFieldType.STRING).description("카페 이름"),
                                 fieldWithPath("cafeAddress").type(JsonFieldType.STRING).description("카페 주소"),
                                 fieldWithPath("twitterAccount").type(JsonFieldType.STRING).description("카페 트위터 계정"),
-                                fieldWithPath("businessHours").type(JsonFieldType.STRING).description("카페 영업 시간"),
-                                fieldWithPath("cafeMenus").type(JsonFieldType.ARRAY).description("카페 메뉴 리스트"),
-                                fieldWithPath("cafeMenus[].name").type(JsonFieldType.STRING).description("메뉴명"),
-                                fieldWithPath("cafeMenus[].price").type(JsonFieldType.NUMBER).description("가격"),
-                                fieldWithPath("cafeOptions").type(JsonFieldType.ARRAY).description("카페 데코레이션 및 추가서비스 리스트"),
-                                fieldWithPath("cafeOptions[].name").type(JsonFieldType.STRING).description("데코레이션 및 추가서비스 명"),
-                                fieldWithPath("cafeOptions[].price").type(JsonFieldType.NUMBER).description("가격")
+                                fieldWithPath("businessHours").type(JsonFieldType.STRING).description("카페 영업 시간")
+                        )
+                ));
+    }
+
+    @Test
+    void 카페_메뉴를_수정한다() throws Exception {
+        // given
+        List<CafeMenuRequest> requests = List.of(
+                new CafeMenuRequest("아이스 아메리카노", 1500),
+                new CafeMenuRequest("바닐라 라떼", 2500)
+        );
+
+        // when
+        ResultActions result = mockMvc.perform(
+                post("/api/v1/cafes/menus")
+                        .content(objectMapper.writeValueAsString(requests))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(1L)));
+
+        // then
+        result.andExpect((status().isOk()))
+                .andDo(document("cafe-menu-update", HOST_INFO, DOCUMENT_RESPONSE,
+                        requestFields(
+                                fieldWithPath("[].name").type(JsonFieldType.STRING).description("메뉴 이름"),
+                                fieldWithPath("[].price").type(JsonFieldType.NUMBER).description("메뉴 가격")
+                        )
+                ));
+    }
+
+    @Test
+    void 카페_옵션을_수정한다() throws Exception {
+        // given
+        List<CafeOptionRequest> requests = List.of(
+                new CafeOptionRequest("액자", 2000),
+                new CafeOptionRequest("앨범", 20000)
+        );
+
+        // when
+        ResultActions result = mockMvc.perform(
+                post("/api/v1/cafes/options")
+                        .content(objectMapper.writeValueAsString(requests))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(1L)));
+
+        // then
+        result.andExpect((status().isOk()))
+                .andDo(document("cafe-option-update", HOST_INFO, DOCUMENT_RESPONSE,
+                        requestFields(
+                                fieldWithPath("[].name").type(JsonFieldType.STRING).description("옵션 이름"),
+                                fieldWithPath("[].price").type(JsonFieldType.NUMBER).description("옵션 가격")
                         )
                 ));
     }

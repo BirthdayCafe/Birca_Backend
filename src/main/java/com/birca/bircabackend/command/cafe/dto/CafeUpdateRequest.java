@@ -1,37 +1,9 @@
 package com.birca.bircabackend.command.cafe.dto;
 
-import com.birca.bircabackend.command.cafe.domain.value.CafeMenu;
-import com.birca.bircabackend.command.cafe.domain.value.CafeOption;
-import com.birca.bircabackend.query.dto.MyCafeDetailResponse;
-
-import java.util.List;
-
 public record CafeUpdateRequest(
         String cafeName,
         String cafeAddress,
         String twitterAccount,
-        String businessHours,
-        List<CafeMenuResponse> cafeMenus,
-        List<CafeOptionResponse> cafeOptions
+        String businessHours
 ) {
-
-    public record CafeMenuResponse(
-            String name,
-            Integer price
-    ) {
-
-        public static MyCafeDetailResponse.CafeMenuResponse from(CafeMenu cafeMenu) {
-            return new MyCafeDetailResponse.CafeMenuResponse(cafeMenu.getName(), cafeMenu.getPrice());
-        }
-    }
-
-    public record CafeOptionResponse(
-            String name,
-            Integer price
-    ) {
-
-        public static MyCafeDetailResponse.CafeOptionResponse from(CafeOption cafeOption) {
-            return new MyCafeDetailResponse.CafeOptionResponse(cafeOption.getName(), cafeOption.getPrice());
-        }
-    }
 }

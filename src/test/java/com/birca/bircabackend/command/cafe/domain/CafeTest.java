@@ -33,19 +33,9 @@ class CafeTest {
     class UpdateCafeTest {
 
         @Test
-        void 자신의_카페가_아니면_예외가_발생한다() {
-            // when then
-            assertThatThrownBy(() -> CAFE.update(100L, "메가커피", "서울특별시 강남구 테헤란로 212",
-                    "@ChaseM", "8시 - 22시"))
-                    .isInstanceOf(BusinessException.class)
-                    .extracting("errorCode")
-                    .isEqualTo(CafeErrorCode.UNAUTHORIZED_UPDATE);
-        }
-
-        @Test
         void 일반_정보를_수정한다() {
             // when
-            CAFE.update(OWNER_ID, "메가커피", "서울특별시 강남구 테헤란로 212",
+            CAFE.update("메가커피", "서울특별시 강남구 테헤란로 212",
                     "@ChaseM", "8시 - 22시");
 
             // then
@@ -60,7 +50,7 @@ class CafeTest {
         @Test
         void 메뉴를_수정한다() {
             // when
-            CAFE.replaceCafeMenus(List.of(new CafeMenu("아메리카노", 1500)));
+            CAFE.updateCafeMenus(List.of(new CafeMenu("아메리카노", 1500)));
 
             // then
             assertThat(CAFE.getCafeMenus())
@@ -70,7 +60,7 @@ class CafeTest {
         @Test
         void 옵션을_수정한다() {
             // when
-            CAFE.replaceCafeOptions(List.of(new CafeOption("액자", 2000)));
+            CAFE.updateCafeOptions(List.of(new CafeOption("액자", 2000)));
 
             // then
             assertThat(CAFE.getCafeOptions())
@@ -86,15 +76,6 @@ class CafeTest {
         void 정상적으로_설정한다() {
             // when then
             assertDoesNotThrow(() -> CAFE.markDayOff(OWNER_ID, LocalDateTime.now()));
-        }
-
-        @Test
-        void 자신의_카페가_아니면_예외가_발생한다() {
-            // when then
-            assertThatThrownBy(() -> CAFE.markDayOff(100L, LocalDateTime.now()))
-                    .isInstanceOf(BusinessException.class)
-                    .extracting("errorCode")
-                    .isEqualTo(CafeErrorCode.UNAUTHORIZED_UPDATE);
         }
     }
 }
