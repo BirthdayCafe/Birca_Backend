@@ -24,15 +24,13 @@ public class CafeAcceptanceTest extends AcceptanceTest {
     private static final Long MEMBER_ID = 1L;
 
     @Test
-    void 카페_상세_정보를_수정한다() {
+    void 카페_기본_정보를_수정한다() {
         //given
         CafeUpdateRequest request = new CafeUpdateRequest(
                 "메가커피",
                 "서울특별시 강남구 테헤란로 212",
                 "@ChaseM",
-                "8시 - 22시",
-                List.of(new CafeUpdateRequest.CafeMenuResponse("아메리카노", 1500)),
-                List.of(new CafeUpdateRequest.CafeOptionResponse("액자", 2000))
+                "8시 - 22시"
         );
 
         // when
@@ -40,7 +38,7 @@ public class CafeAcceptanceTest extends AcceptanceTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
                 .body(request)
-                .patch("/api/v1/cafes")
+                .post("/api/v1/cafes")
                 .then().log().all()
                 .extract();
 

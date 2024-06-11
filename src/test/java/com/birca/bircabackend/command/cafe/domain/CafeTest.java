@@ -60,7 +60,7 @@ class CafeTest {
         @Test
         void 메뉴를_수정한다() {
             // when
-            CAFE.replaceCafeMenus(List.of(new CafeMenu("아메리카노", 1500)));
+            CAFE.replaceCafeMenus(OWNER_ID, List.of(new CafeMenu("아메리카노", 1500)));
 
             // then
             assertThat(CAFE.getCafeMenus())
@@ -70,7 +70,7 @@ class CafeTest {
         @Test
         void 옵션을_수정한다() {
             // when
-            CAFE.replaceCafeOptions(List.of(new CafeOption("액자", 2000)));
+            CAFE.replaceCafeOptions(OWNER_ID, List.of(new CafeOption("액자", 2000)));
 
             // then
             assertThat(CAFE.getCafeOptions())

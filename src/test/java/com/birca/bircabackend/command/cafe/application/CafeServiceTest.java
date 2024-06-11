@@ -35,16 +35,14 @@ class CafeServiceTest extends ServiceTest {
     private EntityManager entityManager;
 
     @Nested
-    @DisplayName("카페 상세 정보를 수정할 때")
+    @DisplayName("카페 기본 정보를 수정할 때")
     class UpdateCafeTest {
 
         private static final CafeUpdateRequest REQUEST = new CafeUpdateRequest(
                 "메가커피",
                 "서울특별시 강남구 테헤란로 212",
                 "@ChaseM",
-                "8시 - 22시",
-                List.of(new CafeUpdateRequest.CafeMenuResponse("바닐라 라떼", 2500)),
-                List.of(new CafeUpdateRequest.CafeOptionResponse("앨범", 20000))
+                "8시 - 22시"
         );
 
         @Test
@@ -71,13 +69,7 @@ class CafeServiceTest extends ServiceTest {
                     () -> assertThat(cafeResponse.getName()).isEqualTo("메가커피"),
                     () -> assertThat(cafeResponse.getAddress()).isEqualTo("서울특별시 강남구 테헤란로 212"),
                     () -> assertThat(cafeResponse.getTwitterAccount()).isEqualTo("@ChaseM"),
-                    () -> assertThat(cafeResponse.getBusinessHours()).isEqualTo("8시 - 22시"),
-                    () -> assertThat(cafeMenusResponse)
-                            .usingRecursiveComparison()
-                            .isEqualTo(List.of(new CafeMenu("바닐라 라떼", 2500))),
-                    () -> assertThat(cafeOptionResponse)
-                            .usingRecursiveComparison()
-                            .isEqualTo(List.of(new CafeOption("앨범", 20000)))
+                    () -> assertThat(cafeResponse.getBusinessHours()).isEqualTo("8시 - 22시")
             );
         }
 
