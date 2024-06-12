@@ -6,6 +6,7 @@ import com.birca.bircabackend.common.exception.BusinessException;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -152,6 +153,18 @@ public class BirthdayCafe extends BaseEntity {
             throw BusinessException.from(INVALID_UPDATE);
         }
         this.visibility = visibility;
+    }
+
+    public void changeState(Schedule schedule) {
+        LocalDate now = LocalDate.now();
+        LocalDate startDate = schedule.getStartDate().toLocalDate();
+        LocalDate endDate = schedule.getEndDate().toLocalDate();
+        if (now.isEqual(startDate)) {
+            this.progressState = ProgressState.IN_PROGRESS;
+        }
+        if (now.isEqual(endDate)) {
+            this.progressState = ProgressState.FINISHED;
+        }
     }
 
     public void replaceSpecialGoods(Long memberId, List<SpecialGoods> specialGoods) {

@@ -33,4 +33,6 @@ public interface BirthdayCafeRepository extends Repository<BirthdayCafe, Long> {
     Boolean hasBookedBirthdayCafe(@Param("startDate") LocalDateTime startDate,
                                   @Param("endDate") LocalDateTime endDate,
                                   @Param("cafeOwnerId") Long cafeOwnerId);
+
+    List<BirthdayCafe> findAll();
 }
