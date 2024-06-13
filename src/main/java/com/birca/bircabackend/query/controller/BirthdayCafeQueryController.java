@@ -69,9 +69,17 @@ public class BirthdayCafeQueryController {
         return ResponseEntity.ok(birthdayCafeQueryService.findBirthdayCafeApplicationDetail(loginMember, birthdayCafeId));
     }
 
+    @GetMapping("/v1/owners/birthday-cafes/schedules/detail")
+    @RequiredLogin
+    public ResponseEntity<BirthdayCafeScheduleDetailResponse> findBirthdayCafeScheduleDetail(LoginMember loginMember, @RequestParam LocalDateTime date) {
+        return ResponseEntity.ok(birthdayCafeQueryService.findBirthdayCafeScheduleDetail(loginMember, date));
+    }
+
     @GetMapping("/v1/owners/birthday-cafes/schedules")
     @RequiredLogin
-    public ResponseEntity<BirthdayCafeScheduleResponse> findBirthdayCafeSchedule(LoginMember loginMember, @RequestParam LocalDateTime date) {
-        return ResponseEntity.ok(birthdayCafeQueryService.findBirthdayCafeSchedule(loginMember, date));
+    public ResponseEntity<List<BirthdayCafeScheduleResponse>> findBirthdayCafeSchedule(LoginMember loginMember,
+                                                                                 @RequestParam Integer year,
+                                                                                 @RequestParam Integer month) {
+        return ResponseEntity.ok(birthdayCafeQueryService.findBirthdayCafeSchedule(loginMember, year, month));
     }
 }
