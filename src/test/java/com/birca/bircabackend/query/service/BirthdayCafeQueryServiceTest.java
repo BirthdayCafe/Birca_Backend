@@ -337,8 +337,8 @@ class BirthdayCafeQueryServiceTest extends ServiceTest {
     }
 
     @Nested
-    @DisplayName("사장님이 생일 카페 일정을 조회할 때")
-    class FindBirthdayCafeScheduleTest {
+    @DisplayName("사장님이 생일 카페 일정을 상세 조회할 때")
+    class FindBirthdayCafeScheduleDetailTest {
 
         @Test
         void 대관된_날짜를_조회한다() {
@@ -348,7 +348,7 @@ class BirthdayCafeQueryServiceTest extends ServiceTest {
             LocalDateTime date = LocalDateTime.of(2024, 2, 13, 0, 0, 0);
 
             // when
-            BirthdayCafeScheduleResponse actual = birthdayCafeQueryService.findBirthdayCafeSchedule(loginMember, date);
+            BirthdayCafeScheduleDetailResponse actual = birthdayCafeQueryService.findBirthdayCafeScheduleDetail(loginMember, date);
 
             // then
             assertAll(
@@ -369,10 +369,47 @@ class BirthdayCafeQueryServiceTest extends ServiceTest {
             LocalDateTime date = LocalDateTime.of(2024, 3, 8, 0, 0, 0);
 
             // when
-            BirthdayCafeScheduleResponse actual = birthdayCafeQueryService.findBirthdayCafeSchedule(loginMember, date);
+            BirthdayCafeScheduleDetailResponse actual = birthdayCafeQueryService.findBirthdayCafeScheduleDetail(loginMember, date);
 
             // then
             assertThat(actual).isNull();
+        }
+    }
+
+    @Nested
+    @DisplayName("사장님이 생일 카페 일정을 조회할 때")
+    class FindBirthdayCafeScheduleTest {
+
+        @Test
+        void 대관된_날짜를_조회한다() {
+            // given
+            int year = 2024;
+            int month = 2;
+            Long cafeOwnerId = 3L;
+            LoginMember loginMember = new LoginMember(cafeOwnerId);
+
+            // when
+            List<BirthdayCafeScheduleResponse> actual = birthdayCafeQueryService.findBirthdayCafeSchedule(loginMember, year, month);
+
+            // then
+            assertThat(actual.size()).isEqualTo(6);
+        }
+
+
+        @Test
+        void 대관되지_않은_날짜는_빈_값을_반환한다() {
+            // given
+            int year = 2024;
+            int month = 8;
+            Long cafeOwnerId = 3L;
+            LoginMember loginMember = new LoginMember(cafeOwnerId);
+            LocalDateTime date = LocalDateTime.of(2024, 3, 8, 0, 0, 0);
+
+            // when
+            List<BirthdayCafeScheduleResponse> actual = birthdayCafeQueryService.findBirthdayCafeSchedule(loginMember, year, month);
+
+            // then
+            assertThat(actual.size()).isEqualTo(0);
         }
     }
 }

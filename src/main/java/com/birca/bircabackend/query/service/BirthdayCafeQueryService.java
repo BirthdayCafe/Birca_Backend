@@ -86,9 +86,13 @@ public class BirthdayCafeQueryService {
         return BirthdayCafeApplicationDetailResponse.from(birthdayCafeView);
     }
 
-    public BirthdayCafeScheduleResponse findBirthdayCafeSchedule(LoginMember loginMember, LocalDateTime date) {
-        return birthdayCafeQueryRepository.findBirthdayCafeSchedule(loginMember.id(), date)
-                .map(BirthdayCafeScheduleResponse::from)
-                .orElseGet(BirthdayCafeScheduleResponse::createEmpty);
+    public BirthdayCafeScheduleDetailResponse findBirthdayCafeScheduleDetail(LoginMember loginMember, LocalDateTime date) {
+        return birthdayCafeQueryRepository.findBirthdayCafeScheduleDetail(loginMember.id(), date)
+                .map(BirthdayCafeScheduleDetailResponse::from)
+                .orElseGet(BirthdayCafeScheduleDetailResponse::createEmpty);
+    }
+
+    public List<BirthdayCafeScheduleResponse> findBirthdayCafeSchedule(LoginMember loginMember, Integer year, Integer month) {
+        return birthdayCafeQueryRepository.findBirthdayCafeSchedule(loginMember.id(), year, month);
     }
 }

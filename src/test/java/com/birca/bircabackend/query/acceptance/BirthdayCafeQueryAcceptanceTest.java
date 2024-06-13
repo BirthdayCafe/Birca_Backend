@@ -1,5 +1,6 @@
 package com.birca.bircabackend.query.acceptance;
 
+import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.support.enviroment.AcceptanceTest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -160,7 +161,7 @@ public class BirthdayCafeQueryAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void 사장님이_생일_카페_일정을_조회한다() {
+    void 사장님이_생일_카페_상세_일정을_조회한다() {
         // given
         LocalDateTime date = LocalDateTime.of(2024, 3, 20, 0, 0, 0);
 
@@ -170,11 +171,35 @@ public class BirthdayCafeQueryAcceptanceTest extends AcceptanceTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(OWNER_ID))
                 .queryParam("date", String.valueOf(date))
-                .get("/api/v1/owners/birthday-cafes/schedules")
+                .get("/api/v1/owners/birthday-cafes/schedules/detail")
                 .then().log().all()
                 .extract();
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Test
+    void 사장님이_생일_카페_일정을_조회한다() {
+        // given
+        int year = 2024;
+        int month = 2;
+
+        // when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .when()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(OWNER_ID))
+                .queryParam("year", String.valueOf(year))
+                .queryParam("month", String.valueOf(month))
+                .get("/api/v1/owners/birthday-cafes/schedules")
+                .then().log().all()
+                .extract();
+
+        // then
+        assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
+                () -> assertThat(response.jsonPath().getList(".")).hasSize(6)
+        );
     }
 }
