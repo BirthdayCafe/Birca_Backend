@@ -164,6 +164,7 @@ public class BirthdayCafe extends BaseEntity {
         }
         if (now.isEqual(endDate)) {
             this.progressState = ProgressState.FINISHED;
+            this.visibility = Visibility.PRIVATE;
         }
     }
 
