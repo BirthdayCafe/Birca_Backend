@@ -17,6 +17,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.params.provider.EnumSource.Mode.EXCLUDE;
 import static org.junit.jupiter.params.provider.EnumSource.Mode.INCLUDE;
 
@@ -609,10 +610,10 @@ class BirthdayCafeTest {
 
         @ParameterizedTest
         @CsvSource({
-                "NOW, MAX, IN_PROGRESS",
-                "MIN, NOW, FINISHED"
+                "NOW, MAX, IN_PROGRESS, PUBLIC",
+                "MIN, NOW, FINISHED, PRIVATE"
         })
-        void 진행이나_종료로_변경한다(String start, String end, String expectedState) {
+        void 진행이나_종료로_변경한다(String start, String end, String progressState, String visibility) {
             // given
             LocalDateTime startDate = start.equals("NOW") ? LocalDateTime.now() :
                     start.equals("MIN") ? LocalDateTime.MIN :
@@ -623,15 +624,21 @@ class BirthdayCafeTest {
             Schedule schedule = Schedule.of(startDate, endDate);
             BirthdayCafe birthdayCafe = fixtureMonkey.giveMeBuilder(BirthdayCafe.class)
                     .set("Schedule", schedule)
+                    .set("Visibility", Visibility.PUBLIC)
                     .sample();
 
             // when
             birthdayCafe.changeState(schedule);
+            ProgressState actualState = birthdayCafe.getProgressState();
+            Visibility actualVisibility = birthdayCafe.getVisibility();
+            ProgressState expectedProgressState = ProgressState.valueOf(progressState);
+            Visibility expectedVisibility = Visibility.valueOf(visibility);
 
             // then
-            ProgressState actualState = birthdayCafe.getProgressState();
-            ProgressState expectedProgressState = ProgressState.valueOf(expectedState);
-            assertThat(actualState).isEqualTo(expectedProgressState);
+            assertAll(
+                    () -> assertThat(actualState).isEqualTo(expectedProgressState),
+                    () -> assertThat(actualVisibility).isEqualTo(expectedVisibility)
+            );
         }
 
         @Test
