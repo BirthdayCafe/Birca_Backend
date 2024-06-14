@@ -1,10 +1,7 @@
 package com.birca.bircabackend.query.repository;
 
 import com.birca.bircabackend.command.birca.domain.BirthdayCafe;
-import com.birca.bircabackend.command.birca.domain.value.LuckyDraw;
-import com.birca.bircabackend.command.birca.domain.value.BirthdayCafeMenu;
-import com.birca.bircabackend.command.birca.domain.value.ProgressState;
-import com.birca.bircabackend.command.birca.domain.value.SpecialGoods;
+import com.birca.bircabackend.command.birca.domain.value.*;
 import com.birca.bircabackend.query.dto.BirthdayCafeResponse;
 import com.birca.bircabackend.query.dto.BirthdayCafeScheduleResponse;
 import com.birca.bircabackend.query.repository.model.BirthdayCafeView;
@@ -71,9 +68,8 @@ public interface BirthdayCafeQueryRepository extends Repository<BirthdayCafe, Lo
             "and (bc.progressState != 'RENTAL_PENDING' and bc.progressState != 'RENTAL_CANCED')")
     Optional<BirthdayCafeView> findBirthdayCafeScheduleDetail(Long ownerId, LocalDateTime date);
 
-    @Query("select new com.birca.bircabackend.query.dto.BirthdayCafeScheduleResponse(bc.schedule.startDate, bc.schedule.endDate) " +
-            "from BirthdayCafe bc " +
+    @Query("select bc.schedule from BirthdayCafe bc " +
             "where YEAR(bc.schedule.startDate) = :year and MONTH(bc.schedule.startDate) = :month " +
             "and bc.cafeOwnerId = :ownerId")
-    List<BirthdayCafeScheduleResponse> findBirthdayCafeSchedule(Long ownerId, Integer year, Integer month);
+    List<Schedule> findBirthdayCafeSchedule(Long ownerId, Integer year, Integer month);
 }
