@@ -623,8 +623,8 @@ class BirthdayCafeTest {
                             LocalDateTime.parse(end);
             Schedule schedule = Schedule.of(startDate, endDate);
             BirthdayCafe birthdayCafe = fixtureMonkey.giveMeBuilder(BirthdayCafe.class)
-                    .set("Schedule", schedule)
-                    .set("Visibility", Visibility.PUBLIC)
+                    .set("schedule", schedule)
+                    .set("visibility", Visibility.PUBLIC)
                     .sample();
 
             // when
