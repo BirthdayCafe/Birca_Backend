@@ -436,12 +436,20 @@ class BirthdayCafeQueryControllerTest extends DocumentationTest {
                 .willReturn(
                         List.of(
                                 new BirthdayCafeScheduleResponse(
-                                        LocalDateTime.of(2024, 3, 20, 0, 0, 0),
-                                        LocalDateTime.of(2024, 3, 23, 0, 0, 0)
+                                        2024,
+                                        4,
+                                        20,
+                                        2024,
+                                        4,
+                                        21
                                 ),
                                 new BirthdayCafeScheduleResponse(
-                                        LocalDateTime.of(2024, 3, 24, 0, 0, 0),
-                                        LocalDateTime.of(2024, 3, 25, 0, 0, 0)
+                                        2024,
+                                        4,
+                                        25,
+                                        2024,
+                                        4,
+                                        26
                                 )
                         )
                 );
@@ -462,8 +470,12 @@ class BirthdayCafeQueryControllerTest extends DocumentationTest {
                                 parameterWithName("month").description("검색할 달")
                         ),
                         responseFields(
-                                fieldWithPath("[].startDate").type(JsonFieldType.STRING).description("생일 카페 시작일"),
-                                fieldWithPath("[].endDate").type(JsonFieldType.STRING).description("생일 카페 종료일")
+                                fieldWithPath("[].startYear").type(JsonFieldType.NUMBER).description("생일 카페 시작 연도"),
+                                fieldWithPath("[].startMonth").type(JsonFieldType.NUMBER).description("생일 카페 시작 달"),
+                                fieldWithPath("[].startDay").type(JsonFieldType.NUMBER).description("생일 카페 시작 일"),
+                                fieldWithPath("[].endYear").type(JsonFieldType.NUMBER).description("생일 카페 종료일 연도"),
+                                fieldWithPath("[].endMonth").type(JsonFieldType.NUMBER).description("생일 카페 종료 달"),
+                                fieldWithPath("[].endDay").type(JsonFieldType.NUMBER).description("생일 카페 종료 일")
                         )
                 ));
     }
