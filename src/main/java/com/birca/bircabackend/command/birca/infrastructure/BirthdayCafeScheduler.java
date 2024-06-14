@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BirthdayCafeScheduler {
 
-    private static final String CRON_EXPRESSION = "*/10 * * * * *";
+    private static final String CRON_EXPRESSION = "0 0 0 * * *";
 
     private final BirthdayCafeRepository birthdayCafeRepository;
 
