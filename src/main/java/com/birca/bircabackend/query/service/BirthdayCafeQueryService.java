@@ -93,6 +93,8 @@ public class BirthdayCafeQueryService {
     }
 
     public List<BirthdayCafeScheduleResponse> findBirthdayCafeSchedule(LoginMember loginMember, Integer year, Integer month) {
-        return birthdayCafeQueryRepository.findBirthdayCafeSchedule(loginMember.id(), year, month);
+        return birthdayCafeQueryRepository.findBirthdayCafeSchedule(loginMember.id(), year, month).stream()
+                .map(BirthdayCafeScheduleResponse::of)
+                .toList();
     }
 }

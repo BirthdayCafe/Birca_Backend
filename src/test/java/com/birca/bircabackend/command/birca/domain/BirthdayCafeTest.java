@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.EnumSource;
 
 import java.time.LocalDateTime;
@@ -592,7 +593,7 @@ class BirthdayCafeTest {
     class ChangeProgressStateTest {
 
         @Test
-        void 정상적으로_변경한다() {
+        void 요청_승인으로_변경한다() {
             // given
             Long ownerId = 1L;
             BirthdayCafe birthdayCafe = fixtureMonkey.giveMeBuilder(BirthdayCafe.class)
@@ -604,6 +605,33 @@ class BirthdayCafeTest {
 
             // then
             assertThat(birthdayCafe.getProgressState()).isEqualTo(ProgressState.RENTAL_APPROVED);
+        }
+
+        @ParameterizedTest
+        @CsvSource({
+                "NOW, MAX, IN_PROGRESS",
+                "MIN, NOW, FINISHED"
+        })
+        void 진행이나_종료로_변경한다(String start, String end, String expectedState) {
+            // given
+            LocalDateTime startDate = start.equals("NOW") ? LocalDateTime.now() :
+                    start.equals("MIN") ? LocalDateTime.MIN :
+                            LocalDateTime.parse(start);
+            LocalDateTime endDate = end.equals("NOW") ? LocalDateTime.now() :
+                    end.equals("MAX") ? LocalDateTime.MAX :
+                            LocalDateTime.parse(end);
+            Schedule schedule = Schedule.of(startDate, endDate);
+            BirthdayCafe birthdayCafe = fixtureMonkey.giveMeBuilder(BirthdayCafe.class)
+                    .set("Schedule", schedule)
+                    .sample();
+
+            // when
+            birthdayCafe.changeState(schedule);
+
+            // then
+            ProgressState actualState = birthdayCafe.getProgressState();
+            ProgressState expectedProgressState = ProgressState.valueOf(expectedState);
+            assertThat(actualState).isEqualTo(expectedProgressState);
         }
 
         @Test
