@@ -23,7 +23,7 @@ public record BirthdayCafeScheduleDetailResponse(
         Member member = birthdayCafeView.member();
         return new BirthdayCafeScheduleDetailResponse(
                 birthdayCafe.getId(),
-                member == null ? null : member.getNickname().getValue(),
+                member == null ? "" : member.getNickname().getValue(),
                 new BirthdayCafeScheduleDetailResponse.ArtistResponse(
                         artistGroup == null ? null : artistGroup.getName(),
                         artist.getName()
