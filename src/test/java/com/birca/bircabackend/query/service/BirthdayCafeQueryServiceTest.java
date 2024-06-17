@@ -247,6 +247,7 @@ class BirthdayCafeQueryServiceTest extends ServiceTest {
                             1,
                             true,
                             "@ChaseM",
+                            "9시 - 22시",
                             5,
                             10,
                             CongestionState.SMOOTH,
