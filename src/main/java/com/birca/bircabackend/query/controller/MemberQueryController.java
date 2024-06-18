@@ -4,6 +4,7 @@ import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.auth.authorization.RequiredLogin;
 import com.birca.bircabackend.query.dto.NicknameCheckResponse;
 import com.birca.bircabackend.query.dto.ProfileResponse;
+import com.birca.bircabackend.query.dto.RoleResponse;
 import com.birca.bircabackend.query.service.MemberQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -29,5 +30,11 @@ public class MemberQueryController {
     @RequiredLogin
     public ResponseEntity<ProfileResponse> getMyProfile(LoginMember loginMember) {
         return ResponseEntity.ok(memberQueryService.getMyProfile(loginMember));
+    }
+
+    @GetMapping("/v1/members/role")
+    @RequiredLogin
+    public ResponseEntity<RoleResponse> getMyRole(LoginMember loginMember) {
+        return ResponseEntity.ok(memberQueryService.getMyRole(loginMember));
     }
 }
