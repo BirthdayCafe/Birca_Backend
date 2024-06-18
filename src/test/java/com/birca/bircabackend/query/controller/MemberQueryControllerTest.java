@@ -1,8 +1,10 @@
 package com.birca.bircabackend.query.controller;
 
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
+import com.birca.bircabackend.command.member.domain.MemberRole;
 import com.birca.bircabackend.query.dto.NicknameCheckResponse;
 import com.birca.bircabackend.query.dto.ProfileResponse;
+import com.birca.bircabackend.query.dto.RoleResponse;
 import com.birca.bircabackend.support.enviroment.DocumentationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -69,6 +71,29 @@ class MemberQueryControllerTest extends DocumentationTest {
                 .andDo(document("get-my-profile", HOST_INFO,
                         responseFields(
                                 fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임")
+                        )
+                ));
+    }
+
+    @Test
+    void 회원_역할을_조회한다() throws Exception {
+        // given
+        LoginMember loginMember = new LoginMember(1L);
+        given(memberQueryService.getMyRole(loginMember))
+                .willReturn(new RoleResponse(MemberRole.HOST.toString()));
+
+        // when
+        ResultActions result = mockMvc.perform(get("/api/v1/members/role")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(loginMember.id()))
+                .characterEncoding("UTF-8")
+        );
+
+        // then
+        result.andExpect((status().isOk()))
+                .andDo(document("get-my-role", HOST_INFO,
+                        responseFields(
+                                fieldWithPath("role").type(JsonFieldType.STRING).description("역할")
                         )
                 ));
     }
