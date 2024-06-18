@@ -45,7 +45,7 @@ class BusinessLicenseFacadeTest extends ServiceTest {
             // when
             BusinessLicenseResponse actual = businessLicenseFacade.getBusinessLicenseInfoAndUploadCount(LOGIN_MEMBER, BUSINESS_LICENSE);
             Integer uploadCount = entityManager.createQuery(
-                    "select orq.uploadCount from OcrRequestHistory orq where orq.ownerId = :ownerId", Integer.class
+                            "select orq.uploadCount from OcrRequestHistory orq where orq.ownerId = :ownerId", Integer.class
                     )
                     .setParameter("ownerId", LOGIN_MEMBER.id())
                     .getSingleResult();
@@ -68,7 +68,11 @@ class BusinessLicenseFacadeTest extends ServiceTest {
 
             // when
             businessLicenseFacade.saveBusinessLicense(LOGIN_MEMBER, request);
-            BusinessLicense actual = entityManager.find(BusinessLicense.class, LOGIN_MEMBER.id());
+            BusinessLicense actual = entityManager.createQuery(
+                            "select bc from BusinessLicense bc where bc.ownerId = :ownerId",
+                            BusinessLicense.class)
+                    .setParameter("ownerId", LOGIN_MEMBER.id())
+                    .getSingleResult();
 
             // then
             verify(imageRepository, times(1)).upload(any());
