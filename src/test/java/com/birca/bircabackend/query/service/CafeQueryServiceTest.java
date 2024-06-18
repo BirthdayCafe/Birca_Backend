@@ -137,11 +137,11 @@ class CafeQueryServiceTest extends ServiceTest {
         }
 
         @Test
-        void 대관_가능한_날짜로_조회한다() {
+        void 대관_가능한_날짜로_조회할_때_휴무일이면_제외된다() {
             // given
             CafeParams cafeParams = new CafeParams();
-            LocalDateTime startDate = LocalDateTime.of(2024, 2, 15, 0, 0, 0);
-            LocalDateTime endDate = LocalDateTime.of(2024, 2, 16, 0, 0, 0);
+            LocalDateTime startDate = LocalDateTime.of(2024, 2, 17, 0, 0, 0);
+            LocalDateTime endDate = LocalDateTime.of(2024, 2, 18, 0, 0, 0);
             cafeParams.setStartDate(startDate);
             cafeParams.setEndDate(endDate);
 
@@ -153,6 +153,30 @@ class CafeQueryServiceTest extends ServiceTest {
             // then
             assertThat(actual)
                     .containsOnly(
+                            new CafeSearchResponse(1L, "미스티우드", false, "image1.com", "@ChaseM", "경기도 시흥시 은계중앙로 115"),
+                            new CafeSearchResponse(2L, "우지커피", true, "image6.com", "@ChaseM", "경기도 성남시 분당구 판교역로 235")
+
+                    );
+        }
+
+        @Test
+        void 대관_가능한_날짜로_조회할_때_대관된_날짜면_제외된다() {
+            // given
+            CafeParams cafeParams = new CafeParams();
+            LocalDateTime startDate = LocalDateTime.of(2024, 3, 15, 0, 0, 0);
+            LocalDateTime endDate = LocalDateTime.of(2024, 3, 16, 0, 0, 0);
+            cafeParams.setStartDate(startDate);
+            cafeParams.setEndDate(endDate);
+
+            PagingParams pagingParams = new PagingParams();
+
+            // when
+            List<CafeSearchResponse> actual = cafeQueryService.searchRentalAvailableCafes(LOGIN_MEMBER, cafeParams, pagingParams);
+
+            // then
+            assertThat(actual)
+                    .containsOnly(
+                            new CafeSearchResponse(2L, "우지커피", true, "image6.com", "@ChaseM", "경기도 성남시 분당구 판교역로 235"),
                             new CafeSearchResponse(3L, "메가커피", true, "image7.com", "@ChaseM", "서울특별시 강남구 테헤란로 212")
                     );
         }
@@ -196,8 +220,8 @@ class CafeQueryServiceTest extends ServiceTest {
                             "경기도 시흥시 은계중앙로 115", "6시 - 22시",
                             List.of(
                                     new CafeDetailResponse.RentalScheduleResponse(
-                                            LocalDateTime.of(2024, 2, 15, 0, 0, 0),
-                                            LocalDateTime.of(2024, 2, 16, 0, 0, 0)
+                                            LocalDateTime.of(2024, 3, 15, 0, 0, 0),
+                                            LocalDateTime.of(2024, 3, 16, 0, 0, 0)
                                     )
                             ),
                             List.of("image1.com", "image2.com", "image3.com", "image4.com", "image5.com"),
