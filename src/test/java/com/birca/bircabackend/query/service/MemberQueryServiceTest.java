@@ -5,6 +5,7 @@ import com.birca.bircabackend.command.member.exception.MemberErrorCode;
 import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.query.dto.NicknameCheckResponse;
 import com.birca.bircabackend.query.dto.ProfileResponse;
+import com.birca.bircabackend.query.dto.RoleResponse;
 import com.birca.bircabackend.support.enviroment.ServiceTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -60,5 +61,18 @@ class MemberQueryServiceTest extends ServiceTest {
                     .extracting("errorCode")
                     .isEqualTo(MemberErrorCode.MEMBER_NOT_FOUND);
         }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"1, VISITANT", "100, NOTHING"})
+    void 회원_역할을_조회한다(Long loginMemberId, String expectedRole) {
+        // given
+        LoginMember loginMember = new LoginMember(loginMemberId);
+
+        // when
+        RoleResponse actual = memberQueryService.getMyRole(loginMember);
+
+        // then
+        assertThat(actual.role()).isEqualTo(expectedRole);
     }
 }

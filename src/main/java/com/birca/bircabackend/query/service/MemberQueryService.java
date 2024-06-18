@@ -6,6 +6,7 @@ import com.birca.bircabackend.command.member.domain.Nickname;
 import com.birca.bircabackend.common.EntityUtil;
 import com.birca.bircabackend.query.dto.NicknameCheckResponse;
 import com.birca.bircabackend.query.dto.ProfileResponse;
+import com.birca.bircabackend.query.dto.RoleResponse;
 import com.birca.bircabackend.query.repository.MemberQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,5 +31,11 @@ public class MemberQueryService {
         Member member = entityUtil.getEntity(Member.class, loginMember.id(), MEMBER_NOT_FOUND);
         String nickname = member.getNickname().getValue();
         return new ProfileResponse(nickname);
+    }
+
+    public RoleResponse getMyRole(LoginMember loginMember) {
+        return memberQueryRepository.findById(loginMember.id())
+                .map(RoleResponse::new)
+                .orElseGet(RoleResponse::createEmpty);
     }
 }

@@ -59,4 +59,23 @@ class MemberQueryAcceptanceTest extends AcceptanceTest {
         //then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
+
+    @ParameterizedTest
+    @CsvSource({"1, VISITANT", "100, NOTHING"})
+    void 회원_역할을_조회한다() {
+        // given
+        Long memberId = 1L;
+
+        // when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .when()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(memberId))
+                .get("/api/v1/members/role")
+                .then().log().all()
+                .extract();
+
+        //then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
 }
