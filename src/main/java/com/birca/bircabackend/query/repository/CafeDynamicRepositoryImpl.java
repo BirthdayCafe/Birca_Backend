@@ -2,7 +2,6 @@ package com.birca.bircabackend.query.repository;
 
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.birca.domain.value.ProgressState;
-import com.birca.bircabackend.command.cafe.domain.QDayOff;
 import com.birca.bircabackend.command.like.domain.LikeTargetType;
 import com.birca.bircabackend.query.dto.CafeParams;
 import com.birca.bircabackend.query.dto.PagingParams;
@@ -31,7 +30,7 @@ public class CafeDynamicRepositoryImpl implements CafeDynamicRepository {
 
     @Override
     public List<CafeView> searchRentalAvailableCafes(LoginMember loginMember, CafeParams cafeParams, PagingParams pagingParams) {
-        return queryFactory.selectDistinct(Projections.constructor(CafeView.class, cafe, cafeImage, like))
+        return queryFactory.select(Projections.constructor(CafeView.class, cafe, cafeImage, like))
                 .from(cafe)
                 .join(cafeImage).on(cafeImage.id.eq(
                         JPAExpressions.select(cafeImage.id.min())
@@ -40,9 +39,6 @@ public class CafeDynamicRepositoryImpl implements CafeDynamicRepository {
                 ))
                 .leftJoin(like).on(cafe.id.eq(like.target.targetId)
                         .and(like.target.targetType.eq(LikeTargetType.CAFE)))
-                .leftJoin(birthdayCafe).on(birthdayCafe.cafeId.eq(cafe.id)
-                        .and(birthdayCafe.progressState.eq(ProgressState.RENTAL_APPROVED)))
-                .leftJoin(dayOff).on(dayOff.cafeId.eq(cafe.id))
                 .where(generateDynamicCondition(loginMember, cafeParams, pagingParams))
                 .limit(pagingParams.getSize())
                 .fetch();
@@ -55,12 +51,20 @@ public class CafeDynamicRepositoryImpl implements CafeDynamicRepository {
         DynamicBooleanBuilder builder = DynamicBooleanBuilder.builder()
                 .and(() -> cafe.id.gt(cursor))
                 .and(() -> cafe.name.contains(cafeParams.getName()))
-                .and(() -> birthdayCafe.id.isNull()
-                        .or(birthdayCafe.schedule.startDate.gt(endDate)
-                                .or(birthdayCafe.schedule.endDate.lt(startDate))))
-                .and(() -> dayOff.id.isNull()
-                        .or(dayOff.dayOffDate.gt(endDate)
-                                .or(dayOff.dayOffDate.lt(startDate))));
+                .and(() -> cafe.id.notIn(
+                        JPAExpressions.select(birthdayCafe.cafeId)
+                                .from(birthdayCafe)
+                                .where(birthdayCafe.schedule.startDate.loe(endDate)
+                                        .and(birthdayCafe.schedule.endDate.goe(startDate))
+                                        .and(birthdayCafe.progressState.eq(ProgressState.IN_PROGRESS)
+                                                .or(birthdayCafe.progressState.eq(ProgressState.RENTAL_APPROVED))))
+                ))
+                .and(() -> cafe.id.notIn(
+                        JPAExpressions.select(dayOff.cafeId)
+                                .from(dayOff)
+                                .where(dayOff.dayOffDate.loe(endDate)
+                                        .and(dayOff.dayOffDate.goe(startDate)))
+                ));
 
         if (cafeParams.getLiked()) {
             builder.and(() -> like.visitantId.eq(loginMember.id()));
