@@ -118,6 +118,9 @@ public class DocumentationTest {
 
     @MockBean
     protected CafeLikeService cafeLikeService;
+
+    @MockBean
+    protected BusinessLicenseQueryService businessLicenseQueryService;
     
     protected List<FieldDescriptor> getErrorDescriptor(ErrorCode[] errorCodes) {
         return Arrays.stream(errorCodes)
