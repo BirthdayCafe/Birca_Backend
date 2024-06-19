@@ -30,7 +30,10 @@ public record CafeDetailResponse(
                 cafe.getAddress(),
                 cafe.getBusinessHours(),
                 birthdayCafes.stream()
-                        .map(bc -> new RentalScheduleResponse(bc.getSchedule().getStartDate(), bc.getSchedule().getEndDate()))
+                        .map(bc -> BirthdayCafeScheduleResponse.of(bc.getSchedule()))
+                        .map(schedule -> new RentalScheduleResponse(
+                                schedule.startYear(), schedule.startMonth(), schedule.startDay(),
+                                schedule.endYear(), schedule.endMonth(), schedule.endDay()))
                         .toList(),
                 cafeImages,
                 cafe.getCafeMenus().stream()
@@ -43,13 +46,12 @@ public record CafeDetailResponse(
     }
 
     public record RentalScheduleResponse(
-            LocalDateTime startDate,
-            LocalDateTime endDate
-    ) {
-    }
-
-    public record CafeImageResponse(
-            String imageUrl
+            Integer startYear,
+            Integer startMonth,
+            Integer startDay,
+            Integer endYear,
+            Integer endMonth,
+            Integer endDay
     ) {
     }
 
