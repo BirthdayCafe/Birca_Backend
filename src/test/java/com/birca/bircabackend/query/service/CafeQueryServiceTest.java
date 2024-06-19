@@ -220,8 +220,12 @@ class CafeQueryServiceTest extends ServiceTest {
                             "경기도 시흥시 은계중앙로 115", "6시 - 22시",
                             List.of(
                                     new CafeDetailResponse.RentalScheduleResponse(
-                                            LocalDateTime.of(2024, 3, 15, 0, 0, 0),
-                                            LocalDateTime.of(2024, 3, 16, 0, 0, 0)
+                                            2024,
+                                            3,
+                                            15,
+                                            2024,
+                                            3,
+                                            16
                                     )
                             ),
                             List.of("image1.com", "image2.com", "image3.com", "image4.com", "image5.com"),
