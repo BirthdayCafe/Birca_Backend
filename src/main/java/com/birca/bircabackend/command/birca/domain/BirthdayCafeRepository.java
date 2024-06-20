@@ -1,9 +1,6 @@
 package com.birca.bircabackend.command.birca.domain;
 
 import com.birca.bircabackend.command.birca.domain.value.ProgressState;
-import com.birca.bircabackend.command.birca.domain.value.Schedule;
-import com.birca.bircabackend.query.dto.CafeDetailResponse;
-import com.birca.bircabackend.query.dto.CafeDetailResponse.RentalScheduleResponse;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
