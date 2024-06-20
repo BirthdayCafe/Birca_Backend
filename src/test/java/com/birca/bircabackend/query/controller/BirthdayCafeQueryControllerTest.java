@@ -432,9 +432,10 @@ class BirthdayCafeQueryControllerTest extends DocumentationTest {
     void 사장님이_생일_카페_일정을_조회한다() throws Exception {
         // given
         LoginMember loginMember = new LoginMember(1L);
-        int year = 2024;
-        int month = 4;
-        given(birthdayCafeQueryService.findBirthdayCafeSchedule(loginMember, year, month))
+        DateParams dateParams = new DateParams();
+        dateParams.setYear(2024);
+        dateParams.setMonth(4);
+        given(birthdayCafeQueryService.findBirthdayCafeSchedule(loginMember, dateParams))
                 .willReturn(
                         List.of(
                                 new BirthdayCafeScheduleResponse(
@@ -460,8 +461,8 @@ class BirthdayCafeQueryControllerTest extends DocumentationTest {
         ResultActions result = mockMvc.perform(
                 get("/api/v1/owners/birthday-cafes/schedules")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .queryParam("year", String.valueOf(year))
-                        .queryParam("month", String.valueOf(month))
+                        .queryParam("year", String.valueOf(dateParams.getYear()))
+                        .queryParam("month", String.valueOf(dateParams.getMonth()))
                         .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID)));
 
         // then

@@ -92,8 +92,9 @@ public class BirthdayCafeQueryService {
                 .orElseGet(BirthdayCafeScheduleDetailResponse::createEmpty);
     }
 
-    public List<BirthdayCafeScheduleResponse> findBirthdayCafeSchedule(LoginMember loginMember, Integer year, Integer month) {
-        return birthdayCafeQueryRepository.findBirthdayCafeSchedule(loginMember.id(), year, month).stream()
+    public List<BirthdayCafeScheduleResponse> findBirthdayCafeSchedule(LoginMember loginMember, DateParams dateParams) {
+        return birthdayCafeQueryRepository.findBirthdayCafeSchedule(loginMember.id(), dateParams.getYear(), dateParams.getMonth())
+                .stream()
                 .map(BirthdayCafeScheduleResponse::of)
                 .toList();
     }
