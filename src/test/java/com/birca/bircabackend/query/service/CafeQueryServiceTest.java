@@ -218,16 +218,6 @@ class CafeQueryServiceTest extends ServiceTest {
             assertThat(actual).isEqualTo(
                     new CafeDetailResponse(true, "미스티우드", "@ChaseM",
                             "경기도 시흥시 은계중앙로 115", "6시 - 22시",
-                            List.of(
-                                    new CafeDetailResponse.RentalScheduleResponse(
-                                            2024,
-                                            3,
-                                            15,
-                                            2024,
-                                            3,
-                                            16
-                                    )
-                            ),
                             List.of("image1.com", "image2.com", "image3.com", "image4.com", "image5.com"),
                             List.of(
                                     new CafeDetailResponse.CafeMenuResponse(

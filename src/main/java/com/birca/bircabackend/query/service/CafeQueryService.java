@@ -47,8 +47,7 @@ public class CafeQueryService {
         Boolean liked = likedCafeQueryRepository.existsByVisitantIdAndTargetIsCafe(loginMember.id());
         Cafe cafe = entityUtil.getEntity(Cafe.class, cafeId, CafeErrorCode.NOT_FOUND);
         List<String> cafeImages = cafeImageRepository.findByCafeId(cafeId);
-        List<BirthdayCafe> birthdayCafes = birthdayCafeQueryRepository.findByCafeId(cafeId);
-        return CafeDetailResponse.from(liked, cafe, cafeImages, birthdayCafes);
+        return CafeDetailResponse.from(liked, cafe, cafeImages);
     }
 
     public List<CafeRentalDateResponse> findCafeRentalDates(Long cafeId, DateParams dateParams) {

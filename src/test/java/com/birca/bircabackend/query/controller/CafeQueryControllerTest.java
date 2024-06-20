@@ -156,24 +156,6 @@ class CafeQueryControllerTest extends DocumentationTest {
                                 "경기도 성남시 분당구 판교역로 235",
                                 "@ChaseM",
                                 "8시 - 21시",
-                                List.of(
-                                        new CafeDetailResponse.RentalScheduleResponse(
-                                                2024,
-                                                3,
-                                                18,
-                                                2024,
-                                                3,
-                                                19
-                                        ),
-                                        new CafeDetailResponse.RentalScheduleResponse(
-                                                2024,
-                                                3,
-                                                20,
-                                                2024,
-                                                3,
-                                                21
-                                        )
-                                ),
                                 List.of("image1.com", "image2.com"),
                                 List.of(
                                         new CafeDetailResponse.CafeMenuResponse(
@@ -212,13 +194,6 @@ class CafeQueryControllerTest extends DocumentationTest {
                                 fieldWithPath("twitterAccount").type(JsonFieldType.STRING).description("트위터 계정"),
                                 fieldWithPath("address").type(JsonFieldType.STRING).description("카페 주소"),
                                 fieldWithPath("businessHours").type(JsonFieldType.STRING).description("영업 시간"),
-                                fieldWithPath("rentalSchedules").type(JsonFieldType.ARRAY).description("대관 일정 목록"),
-                                fieldWithPath("rentalSchedules[].startYear").type(JsonFieldType.NUMBER).description("대관 시작 연도"),
-                                fieldWithPath("rentalSchedules[].startMonth").type(JsonFieldType.NUMBER).description("대관 시작 달"),
-                                fieldWithPath("rentalSchedules[].startDay").type(JsonFieldType.NUMBER).description("대관 시작일"),
-                                fieldWithPath("rentalSchedules[].endYear").type(JsonFieldType.NUMBER).description("대관 종료 연도"),
-                                fieldWithPath("rentalSchedules[].endMonth").type(JsonFieldType.NUMBER).description("대관 종료 달"),
-                                fieldWithPath("rentalSchedules[].endDay").type(JsonFieldType.NUMBER).description("대관 종료일"),
                                 fieldWithPath("cafeImages.[]").type(JsonFieldType.ARRAY).description("카페 이미지 url"),
                                 fieldWithPath("cafeMenus[].name").type(JsonFieldType.STRING).description("카페 메뉴명"),
                                 fieldWithPath("cafeMenus[].price").type(JsonFieldType.NUMBER).description("카페 메뉴 가격"),
