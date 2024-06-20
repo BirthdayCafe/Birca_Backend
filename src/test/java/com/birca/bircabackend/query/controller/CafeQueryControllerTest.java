@@ -16,6 +16,7 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.only;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -223,6 +224,64 @@ class CafeQueryControllerTest extends DocumentationTest {
                                 fieldWithPath("cafeMenus[].price").type(JsonFieldType.NUMBER).description("카페 메뉴 가격"),
                                 fieldWithPath("cafeOptions[].name").type(JsonFieldType.STRING).description("카페 데코레이션 가격"),
                                 fieldWithPath("cafeOptions[].price").type(JsonFieldType.NUMBER).description("카페 데코레이션 가격")
+                        )
+                ));
+    }
+
+    @Test
+    void 카페_대관_날짜와_휴무일_날짜를_조회한다() throws Exception {
+        // given
+        Long cafeId = 1L;
+        DateParams dateParams = new DateParams();
+        dateParams.setYear(2024);
+        dateParams.setMonth(3);
+        given(cafeQueryService.findCafeRentalDates(cafeId, dateParams))
+                .willReturn(
+                        List.of(
+                                new CafeRentalDateResponse(
+                                        2024,
+                                        3,
+                                        18,
+                                        2024,
+                                        3,
+                                        18
+                                ),
+                                new CafeRentalDateResponse(
+                                        2024,
+                                        3,
+                                        20,
+                                        2024,
+                                        3,
+                                        21
+                                )
+                        )
+                );
+
+        // when
+        ResultActions result = mockMvc.perform(get("/api/v1/cafes/{cafeId}/schedules", cafeId)
+                .contentType(MediaType.APPLICATION_JSON)
+                        .queryParam("year", String.valueOf(dateParams.getYear()))
+                        .queryParam("month", String.valueOf(dateParams.getMonth()))
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(1L))
+        );
+
+        // then
+        result.andExpect((status().isOk()))
+                .andDo(document("get-cafe-rental-dates-and-day-offs", HOST_INFO, DOCUMENT_RESPONSE,
+                        pathParameters(
+                                parameterWithName("cafeId").description("카페 ID")
+                        ),
+                        queryParameters(
+                                parameterWithName("year").description("검색할 연도"),
+                                parameterWithName("month").description("검색할 달")
+                        ),
+                        responseFields(
+                                fieldWithPath("[].startYear").type(JsonFieldType.NUMBER).description("카페 대관, 휴무일 시작 연도"),
+                                fieldWithPath("[].startMonth").type(JsonFieldType.NUMBER).description("카페 대관, 휴무일 시작 달"),
+                                fieldWithPath("[].startDay").type(JsonFieldType.NUMBER).description("카페 대관, 휴무일 시작일"),
+                                fieldWithPath("[].endYear").type(JsonFieldType.NUMBER).description("카페 대관, 휴무일 종료 연도"),
+                                fieldWithPath("[].endMonth").type(JsonFieldType.NUMBER).description("카페 대관, 휴무일 종료 달"),
+                                fieldWithPath("[].endDay").type(JsonFieldType.NUMBER).description("카페 대관, 휴무일 종료일")
                         )
                 ));
     }
