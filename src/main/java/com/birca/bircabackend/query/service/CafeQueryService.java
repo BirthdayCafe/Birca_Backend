@@ -3,18 +3,18 @@ package com.birca.bircabackend.query.service;
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.birca.domain.BirthdayCafe;
 import com.birca.bircabackend.command.birca.domain.BirthdayCafeRepository;
+import com.birca.bircabackend.command.birca.domain.value.Schedule;
 import com.birca.bircabackend.command.cafe.domain.Cafe;
 import com.birca.bircabackend.command.cafe.exception.CafeErrorCode;
 import com.birca.bircabackend.common.EntityUtil;
 import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.query.dto.*;
-import com.birca.bircabackend.query.repository.CafeImageQueryRepository;
-import com.birca.bircabackend.query.repository.CafeQueryRepository;
-import com.birca.bircabackend.query.repository.LikedCafeQueryRepository;
+import com.birca.bircabackend.query.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -23,8 +23,9 @@ import java.util.List;
 public class CafeQueryService {
 
     private final LikedCafeQueryRepository likedCafeQueryRepository;
-    private final BirthdayCafeRepository birthdayCafeRepository;
+    private final BirthdayCafeQueryRepository birthdayCafeQueryRepository;
     private final CafeImageQueryRepository cafeImageRepository;
+    private final DayOffQueryRepository dayOffQueryRepository;
     private final CafeQueryRepository cafeQueryRepository;
     private final EntityUtil entityUtil;
 
@@ -46,7 +47,15 @@ public class CafeQueryService {
         Boolean liked = likedCafeQueryRepository.existsByVisitantIdAndTargetIsCafe(loginMember.id());
         Cafe cafe = entityUtil.getEntity(Cafe.class, cafeId, CafeErrorCode.NOT_FOUND);
         List<String> cafeImages = cafeImageRepository.findByCafeId(cafeId);
-        List<BirthdayCafe> birthdayCafes = birthdayCafeRepository.findByCafeId(cafeId);
-        return CafeDetailResponse.from(liked, cafe, cafeImages, birthdayCafes);
+        return CafeDetailResponse.from(liked, cafe, cafeImages);
+    }
+
+    public List<CafeRentalDateResponse> findCafeRentalDates(Long cafeId, DateParams dateParams) {
+        entityUtil.getEntity(Cafe.class, cafeId, CafeErrorCode.NOT_FOUND);
+        Integer year = dateParams.getYear();
+        Integer month = dateParams.getMonth();
+        List<LocalDateTime> dayOffDates = dayOffQueryRepository.findDayOffDateByCafeId(cafeId, year, month);
+        List<Schedule> schedules = birthdayCafeQueryRepository.findScheduleByCafeId(cafeId, year, month);
+        return CafeRentalDateResponse.from(schedules, dayOffDates);
     }
 }

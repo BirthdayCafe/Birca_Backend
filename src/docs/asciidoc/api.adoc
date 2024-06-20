@@ -128,6 +128,8 @@ operation::upload-cafe-image[snippets='http-request,http-response']
 operation::search-rental-cafe[snippets='http-request,query-parameters,http-response']
 === 주최자의 카페 상세 조회
 operation::get-cafe-detail[snippets='http-request,http-response']
+=== 주최자의 카페 대관, 휴무일 날짜 조회
+operation::get-cafe-rental-dates-and-day-offs[snippets='http-request,http-response']
 === 카페 휴무일 지정
 operation::cafe-day-off[snippets='http-request,path-parameters,http-response']
 === 에러 코드

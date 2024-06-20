@@ -218,16 +218,6 @@ class CafeQueryServiceTest extends ServiceTest {
             assertThat(actual).isEqualTo(
                     new CafeDetailResponse(true, "미스티우드", "@ChaseM",
                             "경기도 시흥시 은계중앙로 115", "6시 - 22시",
-                            List.of(
-                                    new CafeDetailResponse.RentalScheduleResponse(
-                                            2024,
-                                            3,
-                                            15,
-                                            2024,
-                                            3,
-                                            16
-                                    )
-                            ),
                             List.of("image1.com", "image2.com", "image3.com", "image4.com", "image5.com"),
                             List.of(
                                     new CafeDetailResponse.CafeMenuResponse(
@@ -240,6 +230,45 @@ class CafeQueryServiceTest extends ServiceTest {
                                     )
                             )
                     ));
+        }
+    }
+
+    @Nested
+    @DisplayName("카페 대관된 날짜를 조회할 때")
+    class FindCafeRentalDates {
+
+        private final DateParams dateParams = new DateParams();
+
+        @Test
+        void 정상적으로_조회한다() {
+            // given
+            Long cafeId = 1L;
+            dateParams.setYear(2024);
+            dateParams.setMonth(3);
+
+            // when
+            List<CafeRentalDateResponse> actual = cafeQueryService.findCafeRentalDates(cafeId, dateParams);
+
+            // then
+            assertThat(actual)
+                    .containsExactly(
+                            new CafeRentalDateResponse(2024, 3, 15, 2024, 3, 16),
+                            new CafeRentalDateResponse(2024, 3, 20, 2024, 3, 20)
+                    );
+        }
+
+        @Test
+        void 존재하지_않는_카페는_예외가_발생한다() {
+            // given
+            Long cafeId = 100L;
+            dateParams.setYear(2024);
+            dateParams.setMonth(3);
+
+            // when then
+            assertThatThrownBy(() -> cafeQueryService.findCafeRentalDates(cafeId, dateParams))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(CafeErrorCode.NOT_FOUND);
         }
     }
 }

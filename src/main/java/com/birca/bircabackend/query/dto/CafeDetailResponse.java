@@ -15,26 +15,18 @@ public record CafeDetailResponse(
         String twitterAccount,
         String address,
         String businessHours,
-        List<RentalScheduleResponse> rentalSchedules,
         List<String> cafeImages,
         List<CafeMenuResponse> cafeMenus,
         List<CafeOptionResponse> cafeOptions
 ) {
 
-    public static CafeDetailResponse from(Boolean liked, Cafe cafe,
-                                          List<String> cafeImages, List<BirthdayCafe> birthdayCafes) {
+    public static CafeDetailResponse from(Boolean liked, Cafe cafe, List<String> cafeImages) {
         return new CafeDetailResponse(
                 liked,
                 cafe.getName(),
                 cafe.getTwitterAccount(),
                 cafe.getAddress(),
                 cafe.getBusinessHours(),
-                birthdayCafes.stream()
-                        .map(bc -> BirthdayCafeScheduleResponse.of(bc.getSchedule()))
-                        .map(schedule -> new RentalScheduleResponse(
-                                schedule.startYear(), schedule.startMonth(), schedule.startDay(),
-                                schedule.endYear(), schedule.endMonth(), schedule.endDay()))
-                        .toList(),
                 cafeImages,
                 cafe.getCafeMenus().stream()
                         .map(cm -> new CafeMenuResponse(cm.getName(), cm.getPrice()))
@@ -43,16 +35,6 @@ public record CafeDetailResponse(
                         .map(co -> new CafeOptionResponse(co.getName(), co.getPrice()))
                         .toList()
         );
-    }
-
-    public record RentalScheduleResponse(
-            Integer startYear,
-            Integer startMonth,
-            Integer startDay,
-            Integer endYear,
-            Integer endMonth,
-            Integer endDay
-    ) {
     }
 
     public record CafeMenuResponse(
