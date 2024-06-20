@@ -32,7 +32,7 @@ class AuthServiceTest extends ServiceTest {
             assertAll(
                     () -> assertThat(response.accessToken()).isNotNull(),
                     assertThat(response.isNewMember())::isTrue,
-                    () -> assertThat(response.lastRole()).isEqualTo(MemberRole.VISITANT.name())
+                    () -> assertThat(response.lastRole()).isEqualTo(MemberRole.NOTHING.name())
             );
         }
 
@@ -48,7 +48,7 @@ class AuthServiceTest extends ServiceTest {
             assertAll(
                     () -> assertThat(response.accessToken()).isNotNull(),
                     assertThat(response.isNewMember())::isFalse,
-                    () -> assertThat(response.lastRole()).isEqualTo(MemberRole.VISITANT.name())
+                    () -> assertThat(response.lastRole()).isEqualTo(MemberRole.NOTHING.name())
             );
         }
     }

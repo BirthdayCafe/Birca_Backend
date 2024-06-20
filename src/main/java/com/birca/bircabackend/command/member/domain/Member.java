@@ -32,7 +32,7 @@ public class Member extends BaseEntity {
     private IdentityKey identityKey;
 
     public static Member join(String email, IdentityKey identityKey) {
-        return new Member(null, email, MemberRole.VISITANT, identityKey);
+        return new Member(null, email, MemberRole.NOTHING, identityKey);
     }
 
     public void changeRole(MemberRole role) {

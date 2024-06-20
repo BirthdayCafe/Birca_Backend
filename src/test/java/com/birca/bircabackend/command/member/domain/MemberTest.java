@@ -44,7 +44,7 @@ class MemberTest {
             Member actual = Member.join(email, identityKey);
 
             // then
-            assertThat(actual.getRole()).isEqualTo(MemberRole.VISITANT);
+            assertThat(actual.getRole()).isEqualTo(MemberRole.NOTHING);
         }
     }
 }
