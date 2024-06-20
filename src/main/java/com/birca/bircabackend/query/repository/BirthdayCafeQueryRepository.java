@@ -72,4 +72,10 @@ public interface BirthdayCafeQueryRepository extends Repository<BirthdayCafe, Lo
             "where YEAR(bc.schedule.startDate) = :year and MONTH(bc.schedule.startDate) = :month " +
             "and bc.cafeOwnerId = :ownerId")
     List<Schedule> findBirthdayCafeSchedule(Long ownerId, Integer year, Integer month);
+
+    List<BirthdayCafe> findByCafeId(@Param("cafeId") Long cafeId);
+
+    @Query("select bc.schedule from BirthdayCafe bc where bc.cafeId = :cafeId and " +
+            "YEAR(bc.schedule.startDate) = :year and MONTH(bc.schedule.startDate) = :month")
+    List<Schedule> findScheduleByCafeId(@Param("cafeId") Long cafeId, Integer year, Integer month);
 }
