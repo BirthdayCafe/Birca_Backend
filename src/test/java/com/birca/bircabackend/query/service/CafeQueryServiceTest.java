@@ -237,17 +237,17 @@ class CafeQueryServiceTest extends ServiceTest {
     @DisplayName("카페 대관된 날짜를 조회할 때")
     class FindCafeRentalDates {
 
-        private static final DateParams DATE_PARAMS = new DateParams();
+        private final DateParams dateParams = new DateParams();
 
         @Test
         void 정상적으로_조회한다() {
             // given
             Long cafeId = 1L;
-            DATE_PARAMS.setYear(2024);
-            DATE_PARAMS.setMonth(3);
+            dateParams.setYear(2024);
+            dateParams.setMonth(3);
 
             // when
-            List<CafeRentalDateResponse> actual = cafeQueryService.findCafeRentalDates(cafeId, DATE_PARAMS);
+            List<CafeRentalDateResponse> actual = cafeQueryService.findCafeRentalDates(cafeId, dateParams);
 
             // then
             assertThat(actual)
@@ -261,11 +261,11 @@ class CafeQueryServiceTest extends ServiceTest {
         void 존재하지_않는_카페는_예외가_발생한다() {
             // given
             Long cafeId = 100L;
-            DATE_PARAMS.setYear(2024);
-            DATE_PARAMS.setMonth(3);
+            dateParams.setYear(2024);
+            dateParams.setMonth(3);
 
             // when then
-            assertThatThrownBy(() -> cafeQueryService.findCafeRentalDates(cafeId, DATE_PARAMS))
+            assertThatThrownBy(() -> cafeQueryService.findCafeRentalDates(cafeId, dateParams))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(CafeErrorCode.NOT_FOUND);
