@@ -14,14 +14,13 @@ import java.util.List;
 public class AppleOAuthProvider implements OAuthProvider {
 
     private final AppleAuthApi appleAuthApi;
-    private final AppleClaimValidator appleClaimValidator;
 
     @Override
     public OAuthMember getOAuthMember(String accessToken) {
         AppleKeyResponse keyResponse = ApiResponseExtractor.getBody(appleAuthApi.getKey());
         List<ApplePubKey> keys = keyResponse.keys();
         AppleIdentityToken identityToken = AppleIdentityToken.of(accessToken, keys);
-        return identityToken.toOAuthMember(appleClaimValidator);
+        return identityToken.toOAuthMember();
     }
 
     @Override

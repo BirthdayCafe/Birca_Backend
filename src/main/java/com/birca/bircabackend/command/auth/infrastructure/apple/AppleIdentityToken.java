@@ -47,10 +47,7 @@ public class AppleIdentityToken {
         return headers.get("alg");
     }
 
-    public OAuthMember toOAuthMember(AppleClaimValidator validator) {
-        if (!validator.isValid(claims)) {
-            throw BusinessException.from(new InternalServerErrorCode("Claims이 올바르지 않습니다."));
-        }
+    public OAuthMember toOAuthMember() {
         return new OAuthMember(
                 claims.getSubject(),
                 (String) claims.get("email"),
