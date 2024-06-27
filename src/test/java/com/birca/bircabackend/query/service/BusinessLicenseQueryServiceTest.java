@@ -17,7 +17,7 @@ class BusinessLicenseQueryServiceTest extends ServiceTest {
     private BusinessLicenseQueryService businessLicenseQueryService;
 
     @ParameterizedTest
-    @CsvSource({"100, true", "1001, false"})
+    @CsvSource({"101, true", "102, false"})
     void 사업자등록증_승인_여부를_조회한다(Long ownerId, Boolean registrationApproved) {
         // given
         LoginMember loginMember = new LoginMember(ownerId);
