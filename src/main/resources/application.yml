@@ -10,6 +10,12 @@ spring:
     baseline-on-migrate: true
     version: 1
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+
 ---
 spring:
   config:

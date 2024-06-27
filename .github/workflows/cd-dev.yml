@@ -49,6 +49,16 @@ jobs:
           target: "/home/ubuntu"
           strip_components: 6
 
+      - name: scp prometheus-config
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.WAS_HOST }}
+          username: ubuntu
+          key: ${{ secrets.KEY }}
+          source: "./src/main/resources/be-config/monitoring/prometheus-config.yml"
+          target: "/home/ubuntu"
+          strip_components: 6
+
       - name: 배포
         uses: appleboy/ssh-action@v0.1.6
         with:
