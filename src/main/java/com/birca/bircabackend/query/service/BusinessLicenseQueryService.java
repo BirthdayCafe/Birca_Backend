@@ -15,7 +15,7 @@ public class BusinessLicenseQueryService {
     private final BusinessLicenseQueryRepository businessLicenseQueryRepository;
 
     public BusinessLicenseStatusResponse getBusinessLicenseStatus(LoginMember loginMember) {
-        Boolean registrationApproved = businessLicenseQueryRepository.existsByOwnerId(loginMember.id());
+        Boolean registrationApproved = businessLicenseQueryRepository.isRegistrationApprovedByOwnerId(loginMember.id());
         return new BusinessLicenseStatusResponse(registrationApproved);
     }
 }
