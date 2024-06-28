@@ -19,7 +19,7 @@
 
     <springProfile name="prod,dev">
         <appender name="FILE-LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
-            <file>/home/ubuntu/log/today-${BY_DATE}.log</file>
+            <file>./log/today-${BY_DATE}.log</file>
             <encoder>
                 <pattern>${LOG_PATTERN}</pattern>
             </encoder>
