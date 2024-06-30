@@ -9,6 +9,8 @@ public interface LikedCafeQueryRepository extends Repository<Like, Long> {
 
     @Query("select count(lk.id) > 0 " +
             "from Like lk " +
-            "where lk.visitantId = :visitantId and lk.target.targetType = 'CAFE'")
-    Boolean existsByVisitantIdAndTargetIsCafe(@Param("visitantId") Long visitantId);
+            "where lk.visitantId = :visitantId " +
+            "and lk.target.targetType = 'CAFE' " +
+            "and lk.target.targetId = :cafeId")
+    Boolean existsByVisitantIdAndTargetIsCafe(@Param("visitantId") Long visitantId, @Param("cafeId") Long cafeId);
 }
