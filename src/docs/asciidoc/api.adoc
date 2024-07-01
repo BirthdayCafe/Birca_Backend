@@ -146,3 +146,7 @@ operation::like-cafe[snippets='http-request,path-parameters,http-response']
 operation::cancel-like-cafe[snippets='http-request,path-parameters,http-response']
 === 에러 코드
 include::{snippets}/like-error-Code/response-body.adoc[]
+
+== 관리자 API
+=== 사업자등록증 승인
+operation::approve-business-license[snippets='http-request,path-parameters,http-response']
