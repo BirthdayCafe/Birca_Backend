@@ -1,5 +1,6 @@
 package com.birca.bircabackend.support.enviroment;
 
+import com.birca.bircabackend.admin.service.AdminService;
 import com.birca.bircabackend.command.artist.application.ArtistService;
 import com.birca.bircabackend.command.auth.application.token.JwtParseUtil;
 import com.birca.bircabackend.command.birca.application.BirthdayCafeImageFacade;
@@ -121,6 +122,9 @@ public class DocumentationTest {
 
     @MockBean
     protected BusinessLicenseQueryService businessLicenseQueryService;
+
+    @MockBean
+    protected AdminService adminService;
     
     protected List<FieldDescriptor> getErrorDescriptor(ErrorCode[] errorCodes) {
         return Arrays.stream(errorCodes)
