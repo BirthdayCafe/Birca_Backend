@@ -36,10 +36,8 @@ public class Cafe extends BaseEntity {
     @Column(nullable = false)
     private String address;
 
-    @Column(nullable = false)
     private String twitterAccount;
 
-    @Column(nullable = false)
     private String businessHours;
 
     @ElementCollection
@@ -49,6 +47,13 @@ public class Cafe extends BaseEntity {
     @ElementCollection
     @CollectionTable(name = "cafe_option")
     private List<CafeOption> cafeOptions = new ArrayList<>();
+
+    public Cafe(Long businessLicenseId, Long ownerId, String name, String address) {
+        this.businessLicenseId = businessLicenseId;
+        this.ownerId = ownerId;
+        this.name = name;
+        this.address = address;
+    }
 
     public void update(String name, String address, String twitterAccount, String businessHours) {
         this.name = name;
