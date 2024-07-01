@@ -7,7 +7,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
@@ -30,7 +29,7 @@ class AdminControllerTest extends DocumentationTest {
 
         // then
         result.andExpect((status().isOk()))
-                .andDo(document("get-artist-groups", HOST_INFO, DOCUMENT_RESPONSE,
+                .andDo(document("approve-business-license", HOST_INFO, DOCUMENT_RESPONSE,
                         pathParameters(parameterWithName("businessLicenseId").description("사업자등록증 ID"))
                 ));
     }
