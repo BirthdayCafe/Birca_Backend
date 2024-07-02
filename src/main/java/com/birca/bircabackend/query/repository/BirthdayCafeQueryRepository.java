@@ -65,13 +65,13 @@ public interface BirthdayCafeQueryRepository extends Repository<BirthdayCafe, Lo
             "left join Member m on m.id = bc.hostId " +
             "where bc.schedule.startDate <= :date and bc.schedule.endDate >= :date " +
             "and bc.cafeOwnerId = :ownerId " +
-            "and (bc.progressState != 'RENTAL_PENDING' and bc.progressState != 'RENTAL_CANCED')")
+            "and (bc.progressState != 'RENTAL_PENDING' and bc.progressState != 'RENTAL_CANCELED')")
     Optional<BirthdayCafeView> findBirthdayCafeScheduleDetail(Long ownerId, LocalDateTime date);
 
     @Query("select bc.schedule from BirthdayCafe bc " +
             "where YEAR(bc.schedule.startDate) = :year and MONTH(bc.schedule.startDate) = :month " +
             "and bc.cafeOwnerId = :ownerId " +
-            "and (bc.progressState != 'RENTAL_PENDING' and bc.progressState != 'RENTAL_CANCED')")
+            "and (bc.progressState != 'RENTAL_PENDING' and bc.progressState != 'RENTAL_CANCELED')")
     List<Schedule> findBirthdayCafeSchedule(Long ownerId, Integer year, Integer month);
 
     @Query("select bc.schedule from BirthdayCafe bc where bc.cafeId = :cafeId and " +
