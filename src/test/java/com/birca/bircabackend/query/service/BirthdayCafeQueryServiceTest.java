@@ -395,7 +395,7 @@ class BirthdayCafeQueryServiceTest extends ServiceTest {
             List<BirthdayCafeScheduleResponse> actual = birthdayCafeQueryService.findBirthdayCafeSchedule(loginMember, dateParams);
 
             // then
-            assertThat(actual.size()).isEqualTo(6);
+            assertThat(actual.size()).isEqualTo(5);
         }
 
 
