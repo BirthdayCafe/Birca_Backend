@@ -34,9 +34,7 @@ public class CafeQueryService {
                 .orElseThrow(() -> BusinessException.from(CafeErrorCode.NOT_FOUND));
         Long cafeId = cafe.getId();
         List<String> cafeImages = cafeImageRepository.findByCafeId(cafeId);
-        Integer year = dateParams.getYear();
-        Integer month = dateParams.getMonth();
-        List<LocalDateTime> dayOffDates = dayOffQueryRepository.findDayOffDateByCafeId(cafeId, year, month);
+        List<LocalDateTime> dayOffDates = dayOffQueryRepository.findDayOffDateByCafeId(cafeId, dateParams.getYear(), dateParams.getMonth());
         return MyCafeDetailResponse.of(cafe, cafeImages, dayOffDates);
     }
 

@@ -75,6 +75,7 @@ public interface BirthdayCafeQueryRepository extends Repository<BirthdayCafe, Lo
     List<Schedule> findBirthdayCafeSchedule(Long ownerId, Integer year, Integer month);
 
     @Query("select bc.schedule from BirthdayCafe bc where bc.cafeId = :cafeId and " +
-            "YEAR(bc.schedule.startDate) = :year and MONTH(bc.schedule.startDate) = :month")
+            "YEAR(bc.schedule.startDate) = :year and MONTH(bc.schedule.startDate) = :month " +
+            "and (bc.progressState != 'RENTAL_PENDING' and bc.progressState != 'RENTAL_CANCELED')")
     List<Schedule> findScheduleByCafeId(@Param("cafeId") Long cafeId, Integer year, Integer month);
 }
