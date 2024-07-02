@@ -19,8 +19,9 @@ public class CafeQueryController {
 
     @GetMapping("/v1/cafes/me")
     @RequiredLogin
-    public ResponseEntity<MyCafeDetailResponse> findMyCafeDetails(LoginMember loginMember) {
-        return ResponseEntity.ok(cafeQueryService.findMyCafeDetails(loginMember));
+    public ResponseEntity<MyCafeDetailResponse> findMyCafeDetails(LoginMember loginMember,
+                                                                  @ModelAttribute DateParams dateParams) {
+        return ResponseEntity.ok(cafeQueryService.findMyCafeDetails(loginMember, dateParams));
     }
 
     @GetMapping("/v1/cafes")

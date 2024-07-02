@@ -30,7 +30,7 @@ class CafeQueryControllerTest extends DocumentationTest {
     @Test
     void 사장님이_카페_상세_조회를_한다() throws Exception {
         // given
-        given(cafeQueryService.findMyCafeDetails(new LoginMember(1L)))
+        given(cafeQueryService.findMyCafeDetails(new LoginMember(1L), new DateParams()))
                 .willReturn(
                         new MyCafeDetailResponse(
                                 1L,
@@ -40,7 +40,11 @@ class CafeQueryControllerTest extends DocumentationTest {
                                 "8시 - 22시",
                                 List.of(new MyCafeDetailResponse.CafeMenuResponse("아메리카노", 1500)),
                                 List.of(new MyCafeDetailResponse.CafeOptionResponse("액자", 2000)),
-                                List.of("image.com")
+                                List.of("image.com"),
+                                List.of(
+                                        LocalDateTime.of(2024, 3, 15, 0, 0, 0),
+                                        LocalDateTime.of(2024, 3, 16, 0, 0, 0)
+                                )
                         )
                 );
 
@@ -65,7 +69,8 @@ class CafeQueryControllerTest extends DocumentationTest {
                                 fieldWithPath("cafeOptions").type(JsonFieldType.ARRAY).description("카페 데코레이션 및 추가서비스 리스트"),
                                 fieldWithPath("cafeOptions[].name").type(JsonFieldType.STRING).description("옵션명"),
                                 fieldWithPath("cafeOptions[].price").type(JsonFieldType.NUMBER).description("가격"),
-                                fieldWithPath("cafeImages").type(JsonFieldType.ARRAY).description("카페 이미지")
+                                fieldWithPath("cafeImages").type(JsonFieldType.ARRAY).description("카페 이미지"),
+                                fieldWithPath("dayOffDates").type(JsonFieldType.ARRAY).description("카페 휴무일")
                         )
                 ));
     }

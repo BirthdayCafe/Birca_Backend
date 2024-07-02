@@ -31,9 +31,12 @@ class CafeQueryServiceTest extends ServiceTest {
         void 정상적으로_조회한다() {
             // given
             LoginMember loginMember = new LoginMember(1L);
+            DateParams dateParams = new DateParams();
+            dateParams.setYear(2024);
+            dateParams.setMonth(2);
 
             // when
-            MyCafeDetailResponse actual = cafeQueryService.findMyCafeDetails(loginMember);
+            MyCafeDetailResponse actual = cafeQueryService.findMyCafeDetails(loginMember, dateParams);
 
             // then
             assertThat(actual).isEqualTo(new MyCafeDetailResponse(
@@ -44,7 +47,11 @@ class CafeQueryServiceTest extends ServiceTest {
                     "6시 - 22시",
                     List.of(new MyCafeDetailResponse.CafeMenuResponse("아메리카노", 1500)),
                     List.of(new MyCafeDetailResponse.CafeOptionResponse("액자", 2000)),
-                    List.of("image1.com", "image2.com", "image3.com", "image4.com", "image5.com")
+                    List.of("image1.com", "image2.com", "image3.com", "image4.com", "image5.com"),
+                    List.of(
+                            LocalDateTime.of(2024, 2, 15, 0, 0, 0),
+                            LocalDateTime.of(2024, 2, 16, 0, 0, 0)
+                    )
             ));
         }
 
@@ -52,9 +59,10 @@ class CafeQueryServiceTest extends ServiceTest {
         void 존재하지_않는_카페는_예외가_발생한다() {
             // given
             LoginMember loginMember = new LoginMember(100L);
+            DateParams dateParams = new DateParams();
 
             // when then
-            assertThatThrownBy(() -> cafeQueryService.findMyCafeDetails(loginMember))
+            assertThatThrownBy(() -> cafeQueryService.findMyCafeDetails(loginMember, dateParams))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(CafeErrorCode.NOT_FOUND);

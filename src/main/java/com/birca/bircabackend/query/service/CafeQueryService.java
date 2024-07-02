@@ -29,11 +29,15 @@ public class CafeQueryService {
     private final CafeQueryRepository cafeQueryRepository;
     private final EntityUtil entityUtil;
 
-    public MyCafeDetailResponse findMyCafeDetails(LoginMember loginMember) {
+    public MyCafeDetailResponse findMyCafeDetails(LoginMember loginMember, DateParams dateParams) {
         Cafe cafe = cafeQueryRepository.findByOwnerId(loginMember.id())
                 .orElseThrow(() -> BusinessException.from(CafeErrorCode.NOT_FOUND));
-        List<String> cafeImages = cafeImageRepository.findByCafeId(cafe.getId());
-        return MyCafeDetailResponse.of(cafe, cafeImages);
+        Long cafeId = cafe.getId();
+        List<String> cafeImages = cafeImageRepository.findByCafeId(cafeId);
+        Integer year = dateParams.getYear();
+        Integer month = dateParams.getMonth();
+        List<LocalDateTime> dayOffDates = dayOffQueryRepository.findDayOffDateByCafeId(cafeId, year, month);
+        return MyCafeDetailResponse.of(cafe, cafeImages, dayOffDates);
     }
 
     public List<CafeSearchResponse> searchRentalAvailableCafes(LoginMember loginMember, CafeParams cafeParams, PagingParams pagingParams) {
