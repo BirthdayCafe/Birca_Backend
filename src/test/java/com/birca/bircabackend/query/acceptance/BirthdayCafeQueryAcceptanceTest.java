@@ -199,7 +199,7 @@ public class BirthdayCafeQueryAcceptanceTest extends AcceptanceTest {
         // then
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
-                () -> assertThat(response.jsonPath().getList(".")).hasSize(6)
+                () -> assertThat(response.jsonPath().getList(".")).hasSize(5)
         );
     }
 }
