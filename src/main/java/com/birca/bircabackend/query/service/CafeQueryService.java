@@ -1,8 +1,6 @@
 package com.birca.bircabackend.query.service;
 
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
-import com.birca.bircabackend.command.birca.domain.BirthdayCafe;
-import com.birca.bircabackend.command.birca.domain.BirthdayCafeRepository;
 import com.birca.bircabackend.command.birca.domain.value.Schedule;
 import com.birca.bircabackend.command.cafe.domain.Cafe;
 import com.birca.bircabackend.command.cafe.exception.CafeErrorCode;
@@ -59,5 +57,14 @@ public class CafeQueryService {
         List<LocalDateTime> dayOffDates = dayOffQueryRepository.findDayOffDateByCafeId(cafeId, year, month);
         List<Schedule> schedules = birthdayCafeQueryRepository.findScheduleByCafeId(cafeId, year, month);
         return CafeRentalDateResponse.from(schedules, dayOffDates);
+    }
+
+    public List<CafeRentalDateResponseV2> findCafeRentalDatesV2(Long cafeId, DateParams dateParams) {
+        entityUtil.getEntity(Cafe.class, cafeId, CafeErrorCode.NOT_FOUND);
+        Integer year = dateParams.getYear();
+        Integer month = dateParams.getMonth();
+        List<LocalDateTime> dayOffDates = dayOffQueryRepository.findDayOffDateByCafeId(cafeId, year, month);
+        List<Schedule> schedules = birthdayCafeQueryRepository.findScheduleByCafeId(cafeId, year, month);
+        return CafeRentalDateResponseV2.createResponse(schedules, dayOffDates);
     }
 }
