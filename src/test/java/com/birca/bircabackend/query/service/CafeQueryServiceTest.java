@@ -278,5 +278,23 @@ class CafeQueryServiceTest extends ServiceTest {
                     .extracting("errorCode")
                     .isEqualTo(CafeErrorCode.NOT_FOUND);
         }
+
+        @Test
+        void 정상적으로_조회한다_V2() {
+            // given
+            Long cafeId = 1L;
+            dateParams.setYear(2024);
+            dateParams.setMonth(3);
+
+            // when
+            List<CafeRentalDateResponseV2> actual = cafeQueryService.findCafeRentalDatesV2(cafeId, dateParams);
+
+            // then
+            assertThat(actual)
+                    .containsExactly(
+                            new CafeRentalDateResponseV2(true,2024, 3, 15, 2024, 3, 16),
+                            new CafeRentalDateResponseV2(false, 2024, 3, 20, 2024, 3, 20)
+                    );
+        }
     }
 }
