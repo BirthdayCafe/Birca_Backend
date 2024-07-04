@@ -5,6 +5,7 @@ import com.birca.bircabackend.command.birca.domain.value.Schedule;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public record CafeRentalDateResponse(
         Integer startYear,
@@ -15,7 +16,15 @@ public record CafeRentalDateResponse(
         Integer endDay
 ) {
 
-    public static CafeRentalDateResponse of(LocalDateTime startDate, LocalDateTime endDate) {
+    public static List<CafeRentalDateResponse> from(List<Schedule> schedules, List<LocalDateTime> dayOffDates) {
+        return Stream.concat(
+                        fromSchedules(schedules).stream(),
+                        fromDayOffDates(dayOffDates).stream()
+                )
+                .toList();
+    }
+
+    private static CafeRentalDateResponse createRentalDateResponse(LocalDateTime startDate, LocalDateTime endDate) {
         return new CafeRentalDateResponse(
                 startDate.getYear(),
                 startDate.getMonthValue(),
@@ -26,25 +35,26 @@ public record CafeRentalDateResponse(
         );
     }
 
-    public static CafeRentalDateResponse of(LocalDateTime date) {
-        return of(date, date);
+    private static CafeRentalDateResponse createDayOffResponse(LocalDateTime dayOffDate) {
+        return new CafeRentalDateResponse(
+                dayOffDate.getYear(),
+                dayOffDate.getMonthValue(),
+                dayOffDate.getDayOfMonth(),
+                dayOffDate.getYear(),
+                dayOffDate.getMonthValue(),
+                dayOffDate.getDayOfMonth()
+        );
     }
 
-    public static List<CafeRentalDateResponse> fromSchedules(List<Schedule> schedules) {
+    private static List<CafeRentalDateResponse> fromSchedules(List<Schedule> schedules) {
         return schedules.stream()
-                .map(schedule -> CafeRentalDateResponse.of(schedule.getStartDate(), schedule.getEndDate()))
-                .collect(Collectors.toList());
+                .map(schedule -> CafeRentalDateResponse.createRentalDateResponse(schedule.getStartDate(), schedule.getEndDate()))
+                .toList();
     }
 
-    public static List<CafeRentalDateResponse> fromDayOffDates(List<LocalDateTime> dayOffDates) {
+    private static List<CafeRentalDateResponse> fromDayOffDates(List<LocalDateTime> dayOffDates) {
         return dayOffDates.stream()
-                .map(CafeRentalDateResponse::of)
-                .collect(Collectors.toList());
-    }
-
-    public static List<CafeRentalDateResponse> from(List<Schedule> schedules, List<LocalDateTime> dayOffDates) {
-        List<CafeRentalDateResponse> responses = fromSchedules(schedules);
-        responses.addAll(fromDayOffDates(dayOffDates));
-        return responses;
+                .map(CafeRentalDateResponse::createDayOffResponse)
+                .toList();
     }
 }
