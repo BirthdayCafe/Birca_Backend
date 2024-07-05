@@ -3,6 +3,7 @@ package com.birca.bircabackend.query.dto;
 import com.birca.bircabackend.command.artist.domain.Artist;
 import com.birca.bircabackend.command.artist.domain.ArtistGroup;
 import com.birca.bircabackend.command.birca.domain.BirthdayCafe;
+import com.birca.bircabackend.command.member.domain.Member;
 import com.birca.bircabackend.query.repository.model.BirthdayCafeView;
 
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ public record BirthdayCafeApplicationDetailResponse(
         LocalDateTime endDate,
         Integer minimumVisitant,
         Integer maximumVisitant,
+        String nickname,
         String twitterAccount,
         String hostPhoneNumber
 ) {
@@ -22,6 +24,7 @@ public record BirthdayCafeApplicationDetailResponse(
         BirthdayCafe birthdayCafe = birthdayCafeView.birthdayCafe();
         Artist artist = birthdayCafeView.artist();
         ArtistGroup artistGroup = birthdayCafeView.artistGroup();
+        Member member = birthdayCafeView.member();
         return new BirthdayCafeApplicationDetailResponse(
                 birthdayCafe.getId(),
                 new ArtistResponse(
@@ -32,6 +35,7 @@ public record BirthdayCafeApplicationDetailResponse(
                 birthdayCafe.getSchedule().getEndDate(),
                 birthdayCafe.getVisitants().getMinimumVisitant(),
                 birthdayCafe.getVisitants().getMaximumVisitant(),
+                member.getNickname().getValue(),
                 birthdayCafe.getTwitterAccount(),
                 birthdayCafe.getHostPhoneNumber().getValue()
         );
