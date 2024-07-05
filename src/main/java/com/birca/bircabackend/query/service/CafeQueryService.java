@@ -56,7 +56,7 @@ public class CafeQueryService {
         Integer month = dateParams.getMonth();
         List<LocalDateTime> dayOffDates = dayOffQueryRepository.findDayOffDateByCafeId(cafeId, year, month);
         List<Schedule> schedules = birthdayCafeQueryRepository.findScheduleByCafeId(cafeId, year, month);
-        return CafeRentalDateResponse.from(schedules, dayOffDates);
+        return CafeRentalDateResponse.of(schedules, dayOffDates);
     }
 
     public List<CafeRentalDateResponseV2> findCafeRentalDatesV2(Long cafeId, DateParams dateParams) {
@@ -65,6 +65,6 @@ public class CafeQueryService {
         Integer month = dateParams.getMonth();
         List<LocalDateTime> dayOffDates = dayOffQueryRepository.findDayOffDateByCafeId(cafeId, year, month);
         List<Schedule> schedules = birthdayCafeQueryRepository.findScheduleByCafeId(cafeId, year, month);
-        return CafeRentalDateResponseV2.createResponse(schedules, dayOffDates);
+        return CafeRentalDateResponseV2.of(schedules, dayOffDates);
     }
 }

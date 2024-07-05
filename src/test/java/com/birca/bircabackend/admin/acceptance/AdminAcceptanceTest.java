@@ -1,5 +1,6 @@
 package com.birca.bircabackend.admin.acceptance;
 
+import com.birca.bircabackend.admin.dto.AdminAuthRequest;
 import com.birca.bircabackend.support.enviroment.AcceptanceTest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -13,7 +14,7 @@ import org.springframework.test.context.jdbc.Sql;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Sql("/fixture/admin-fixture.sql")
-public class AdminQueryAcceptanceTest extends AcceptanceTest {
+public class AdminAcceptanceTest extends AcceptanceTest {
 
     private static final Long MEMBER_ID = 1L;
 
@@ -21,11 +22,13 @@ public class AdminQueryAcceptanceTest extends AcceptanceTest {
     void 사업자등록증을_승인한다() {
         // given
         Long businessLicenseId = 1L;
+        AdminAuthRequest request = new AdminAuthRequest("id", "password");
 
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .when()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(request)
                 .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
                 .post("/api/v1/approve/{businessLicenseId}", businessLicenseId)
                 .then().log().all()

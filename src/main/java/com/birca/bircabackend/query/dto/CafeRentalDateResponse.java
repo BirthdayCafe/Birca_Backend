@@ -4,7 +4,6 @@ import com.birca.bircabackend.command.birca.domain.value.Schedule;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public record CafeRentalDateResponse(
@@ -16,7 +15,7 @@ public record CafeRentalDateResponse(
         Integer endDay
 ) {
 
-    public static List<CafeRentalDateResponse> from(List<Schedule> schedules, List<LocalDateTime> dayOffDates) {
+    public static List<CafeRentalDateResponse> of(List<Schedule> schedules, List<LocalDateTime> dayOffDates) {
         return Stream.concat(
                         fromSchedules(schedules).stream(),
                         fromDayOffDates(dayOffDates).stream()

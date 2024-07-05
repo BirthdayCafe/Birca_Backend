@@ -16,7 +16,7 @@ public record CafeRentalDateResponseV2(
         Integer endDay
 ) {
 
-    public static List<CafeRentalDateResponseV2> createResponse(List<Schedule> schedules, List<LocalDateTime> dayOffDates) {
+    public static List<CafeRentalDateResponseV2> of(List<Schedule> schedules, List<LocalDateTime> dayOffDates) {
         return Stream.concat(
                         fromSchedules(schedules).stream(),
                         fromDayOffDates(dayOffDates).stream()
