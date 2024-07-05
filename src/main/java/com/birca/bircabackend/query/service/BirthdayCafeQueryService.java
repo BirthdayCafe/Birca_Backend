@@ -95,7 +95,7 @@ public class BirthdayCafeQueryService {
     public List<BirthdayCafeScheduleResponse> findBirthdayCafeSchedule(LoginMember loginMember, DateParams dateParams) {
         return birthdayCafeQueryRepository.findBirthdayCafeSchedule(loginMember.id(), dateParams.getYear(), dateParams.getMonth())
                 .stream()
-                .map(BirthdayCafeScheduleResponse::of)
+                .map(BirthdayCafeScheduleResponse::from)
                 .toList();
     }
 }

@@ -12,7 +12,7 @@ public record BirthdayCafeScheduleResponse(
         Integer endMonth,
         Integer endDay
 ) {
-    public static BirthdayCafeScheduleResponse of(Schedule schedule) {
+    public static BirthdayCafeScheduleResponse from(Schedule schedule) {
         LocalDateTime startDate = schedule.getStartDate();
         LocalDateTime endDate = schedule.getEndDate();
         return new BirthdayCafeScheduleResponse(
