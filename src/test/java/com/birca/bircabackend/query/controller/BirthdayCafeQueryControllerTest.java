@@ -357,6 +357,7 @@ class BirthdayCafeQueryControllerTest extends DocumentationTest {
                         LocalDateTime.of(2024, 3, 23, 0, 0, 0),
                         10,
                         20,
+                        "사용자A",
                         "@ChaseM",
                         "010-1234-5678"
                 ));
@@ -381,6 +382,7 @@ class BirthdayCafeQueryControllerTest extends DocumentationTest {
                                 fieldWithPath("endDate").type(JsonFieldType.STRING).description("생일 카페 종료일"),
                                 fieldWithPath("minimumVisitant").type(JsonFieldType.NUMBER).description("생일 카페 최소 방문자 수"),
                                 fieldWithPath("maximumVisitant").type(JsonFieldType.NUMBER).description("생일 카페 최대 방문자 수"),
+                                fieldWithPath("nickname").type(JsonFieldType.STRING).description("주최자 닉네임"),
                                 fieldWithPath("twitterAccount").type(JsonFieldType.STRING).description("생일 카페 트위터 계정"),
                                 fieldWithPath("hostPhoneNumber").type(JsonFieldType.STRING).description("주최자 전화번호")
                         )
