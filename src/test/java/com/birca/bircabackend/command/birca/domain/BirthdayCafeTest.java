@@ -17,6 +17,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.InstanceOfAssertFactories.predicate;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.params.provider.EnumSource.Mode.EXCLUDE;
 import static org.junit.jupiter.params.provider.EnumSource.Mode.INCLUDE;
@@ -654,6 +655,46 @@ class BirthdayCafeTest {
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_UPDATE);
+        }
+    }
+
+    @Nested
+    @DisplayName("생일 카페 메모를 업데이트할 때")
+    class BirthdayCafeMemoUpdateTest {
+
+        @Test
+        void 정상적으로_업데이트한다() {
+            // given
+            Long ownerId = 1L;
+            String content = "변경할 내용";
+            BirthdayCafe birthdayCafe = fixtureMonkey.giveMeBuilder(BirthdayCafe.class)
+                    .set("cafeOwnerId", ownerId)
+                    .sample();
+
+            Memo memo = new Memo(1L, "생일 카페 메모 내용");
+
+            // when
+            birthdayCafe.updateMemo(memo, ownerId, content);
+
+            // then
+            assertThat(memo.getContent()).isEqualTo(content);
+        }
+
+        @Test
+        void 카페_주인이_아니면_예외가_발생한다() {
+            // given
+            Long ownerId = 1L;
+            BirthdayCafe birthdayCafe = fixtureMonkey.giveMeBuilder(BirthdayCafe.class)
+                    .set("cafeOwnerId", ownerId)
+                    .sample();
+
+            Memo memo = new Memo(1L, "생일 카페 메모 내용");
+
+            // when then
+            assertThatThrownBy(() -> birthdayCafe.updateMemo(memo, 3L, "변경할 내용"))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(BirthdayCafeErrorCode.INVALID_UPDATE);
         }
     }
 }
