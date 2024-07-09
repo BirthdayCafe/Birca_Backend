@@ -158,14 +158,14 @@ ALTER TABLE interest_artist
 CREATE TABLE birthday_cafe
 (
     id                        BIGINT AUTO_INCREMENT NOT NULL,
-    host_id                   BIGINT       NULL,
+    host_id                   BIGINT NULL,
     artist_id                 BIGINT       NOT NULL,
     cafe_id                   BIGINT       NOT NULL,
     cafe_owner_id             BIGINT       NOT NULL,
     twitter_account           VARCHAR(255) NULL,
     name                      VARCHAR(255) NULL,
-    start_date                datetime     NULL,
-    end_date                  datetime     NULL,
+    start_date                datetime NULL,
+    end_date                  datetime NULL,
     minimum_visitant          INT          NOT NULL,
     maximum_visitant          INT          NOT NULL,
     host_phone_number         VARCHAR(255) NOT NULL,
@@ -252,3 +252,14 @@ CREATE TABLE likes
 
 ALTER TABLE likes
     ADD CONSTRAINT uc_like_target UNIQUE (visitant_id, target_id, target_type);
+
+CREATE TABLE memo
+(
+    id               BIGINT AUTO_INCREMENT NOT NULL,
+    birthday_cafe_id BIGINT NOT NULL,
+    content          LONGTEXT NULL,
+    CONSTRAINT pk_memo PRIMARY KEY (id)
+);
+
+ALTER TABLE memo
+    ADD CONSTRAINT fk_memo_on_birthday_cafe FOREIGN KEY (birthday_cafe_id) REFERENCES birthday_cafe (id);

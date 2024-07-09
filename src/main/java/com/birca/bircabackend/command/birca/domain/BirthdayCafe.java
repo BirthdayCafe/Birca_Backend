@@ -192,6 +192,13 @@ public class BirthdayCafe extends BaseEntity {
         this.luckyDraws = luckyDraws;
     }
 
+    public void updateMemo(Memo memo, Long cafeOwnerId, String content) {
+        if (!isOwner(cafeOwnerId)) {
+            throw BusinessException.from(INVALID_UPDATE);
+        }
+        memo.update(content);
+    }
+
     private void validateIsHost(Long memberId) {
         if (!isHost(memberId)) {
             throw BusinessException.from(UNAUTHORIZED_UPDATE);

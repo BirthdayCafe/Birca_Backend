@@ -58,13 +58,4 @@ public class CafeQueryService {
         List<Schedule> schedules = birthdayCafeQueryRepository.findScheduleByCafeId(cafeId, year, month);
         return CafeRentalDateResponse.of(schedules, dayOffDates);
     }
-
-    public List<CafeRentalDateResponseV2> findCafeRentalDatesV2(Long cafeId, DateParams dateParams) {
-        entityUtil.getEntity(Cafe.class, cafeId, CafeErrorCode.NOT_FOUND);
-        Integer year = dateParams.getYear();
-        Integer month = dateParams.getMonth();
-        List<LocalDateTime> dayOffDates = dayOffQueryRepository.findDayOffDateByCafeId(cafeId, year, month);
-        List<Schedule> schedules = birthdayCafeQueryRepository.findScheduleByCafeId(cafeId, year, month);
-        return CafeRentalDateResponseV2.of(schedules, dayOffDates);
-    }
 }

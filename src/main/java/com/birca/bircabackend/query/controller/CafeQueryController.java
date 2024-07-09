@@ -45,11 +45,4 @@ public class CafeQueryController {
                                                                             @ModelAttribute DateParams dateParams) {
         return ResponseEntity.ok(cafeQueryService.findCafeRentalDates(cafeId, dateParams));
     }
-
-    @GetMapping("/v2/cafes/{cafeId}/schedules")
-    @RequiredLogin
-    public ResponseEntity<List<CafeRentalDateResponseV2>> findCafeRentalDatesV2(@PathVariable Long cafeId,
-                                                                                @ModelAttribute DateParams dateParams) {
-        return ResponseEntity.ok(cafeQueryService.findCafeRentalDatesV2(cafeId, dateParams));
-    }
 }
