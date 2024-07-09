@@ -1,5 +1,6 @@
 package com.birca.bircabackend.command.birca.presentation;
 
+import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.auth.authorization.RequiredLogin;
 import com.birca.bircabackend.command.birca.application.MemoService;
 import com.birca.bircabackend.command.birca.dto.MemoRequest;
@@ -16,8 +17,9 @@ public class MemoController {
 
     @PostMapping("/v1/{birthdayCafeId}/memo")
     @RequiredLogin
-    public ResponseEntity<Void> saveMemo(@PathVariable Long birthdayCafeId, @RequestBody MemoRequest request) {
-        memoService.save(birthdayCafeId, request.content());
+    public ResponseEntity<Void> saveMemo(@PathVariable Long birthdayCafeId, @RequestBody MemoRequest request,
+                                         LoginMember loginMember) {
+        memoService.save(birthdayCafeId, request.content(), loginMember.id());
         return ResponseEntity.ok().build();
     }
 }
