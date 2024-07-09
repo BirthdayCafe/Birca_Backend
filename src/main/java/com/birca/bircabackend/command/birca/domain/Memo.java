@@ -23,4 +23,8 @@ public class Memo extends BaseEntity {
         this.birthdayCafeId = birthdayCafeId;
         this.content = content;
     }
+
+    public void update(String content) {
+        this.content = content;
+    }
 }
