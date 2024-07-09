@@ -20,7 +20,7 @@ public class MemoAcceptanceTest extends AcceptanceTest {
     void 생일_카페_내용을_메모한다() {
         // given
         Long birthdayCafeId = 1L;
-        Long memberId = 1L;
+        Long memberId = 3L;
         MemoRequest request = new MemoRequest("생일 카페 메모 내용");
 
         // when
