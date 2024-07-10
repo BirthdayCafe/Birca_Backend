@@ -98,4 +98,10 @@ public class BirthdayCafeQueryService {
                 .map(BirthdayCafeScheduleResponse::from)
                 .toList();
     }
+
+    public BirthdayCafeScheduleDetailResponseV2 findBirthdayCafeScheduleDetailV2(LoginMember loginMember, LocalDateTime date) {
+        return birthdayCafeQueryRepository.findBirthdayCafeScheduleDetailV2(loginMember.id(), date)
+                .map(BirthdayCafeScheduleDetailResponseV2::from)
+                .orElseGet(BirthdayCafeScheduleDetailResponseV2::createEmpty);
+    }
 }

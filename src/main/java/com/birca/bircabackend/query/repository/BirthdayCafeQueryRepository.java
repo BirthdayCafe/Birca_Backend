@@ -69,6 +69,17 @@ public interface BirthdayCafeQueryRepository extends Repository<BirthdayCafe, Lo
             "and (bc.progressState != 'RENTAL_PENDING' and bc.progressState != 'RENTAL_CANCELED')")
     Optional<BirthdayCafeView> findBirthdayCafeScheduleDetail(Long ownerId, LocalDateTime date);
 
+    @Query("select new com.birca.bircabackend.query.repository.model.BirthdayCafeView(bc, a, ag, m, mo) " +
+            "from BirthdayCafe bc " +
+            "join Artist a on a.id = bc.artistId " +
+            "left join ArtistGroup ag on a.groupId = ag.id " +
+            "left join Member m on m.id = bc.hostId " +
+            "left join Memo mo on mo.birthdayCafeId = bc.id " +
+            "where bc.schedule.startDate <= :date and bc.schedule.endDate >= :date " +
+            "and bc.cafeOwnerId = :ownerId " +
+            "and (bc.progressState != 'RENTAL_PENDING' and bc.progressState != 'RENTAL_CANCELED')")
+    Optional<BirthdayCafeView> findBirthdayCafeScheduleDetailV2(Long ownerId, LocalDateTime date);
+
     @Query("select bc.schedule from BirthdayCafe bc " +
             "where YEAR(bc.schedule.startDate) = :year and MONTH(bc.schedule.startDate) = :month " +
             "and bc.cafeOwnerId = :ownerId " +
