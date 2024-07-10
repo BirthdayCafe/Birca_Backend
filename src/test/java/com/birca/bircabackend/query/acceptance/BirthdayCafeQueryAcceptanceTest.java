@@ -180,6 +180,25 @@ public class BirthdayCafeQueryAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
+    void 사장님이_생일_카페_상세_일정을_조회한다_V2() {
+        // given
+        LocalDateTime date = LocalDateTime.of(2024, 3, 20, 0, 0, 0);
+
+        // when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .when()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(OWNER_ID))
+                .queryParam("date", String.valueOf(date))
+                .get("/api/v2/owners/birthday-cafes/schedules/detail")
+                .then().log().all()
+                .extract();
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Test
     void 사장님이_생일_카페_일정을_조회한다() {
         // given
         int year = 2024;

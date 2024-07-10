@@ -83,4 +83,7 @@ VALUES (4, 3, 'BIRTHDAY_CAFE'),
 INSERT INTO day_off (id, cafe_id, day_off_date)
 VALUES (1, 1, '2024-03-08T00:00:00');
 
+INSERT INTO memo (id, birthday_cafe_id, content)
+VALUES (1, 6, '생일 카페 메모 내용');
+
 SET foreign_key_checks = 1;
