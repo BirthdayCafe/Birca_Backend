@@ -431,6 +431,49 @@ class BirthdayCafeQueryControllerTest extends DocumentationTest {
     }
 
     @Test
+    void 사장님이_생일_카페_상세_일정을_조회한다_V2() throws Exception {
+        // given
+        Long birthdayCafeId = 1L;
+        String nickname = "주최자 닉네임";
+        LoginMember loginMember = new LoginMember(1L);
+        LocalDateTime date = LocalDateTime.of(2024, 3, 20, 0, 0, 0);
+        given(birthdayCafeQueryService.findBirthdayCafeScheduleDetailV2(loginMember, date))
+                .willReturn(
+                        new BirthdayCafeScheduleDetailResponseV2(
+                                birthdayCafeId,
+                                nickname,
+                                new BirthdayCafeScheduleDetailResponseV2.ArtistResponse("방탄소년단", "뷔"),
+                                LocalDateTime.of(2024, 3, 20, 0, 0, 0),
+                                LocalDateTime.of(2024, 3, 23, 0, 0, 0),
+                                "생일 카페 메모 내용"
+                        ));
+
+        // when
+        ResultActions result = mockMvc.perform(
+                get("/api/v2/owners/birthday-cafes/schedules/detail")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .queryParam("date", String.valueOf(date))
+                        .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID)));
+
+        // then
+        result.andExpect((status().isOk()))
+                .andDo(document("get-birthday-cafe-schedules-detail-v2", HOST_INFO, DOCUMENT_RESPONSE,
+                        queryParameters(
+                                parameterWithName("date").description("검색할 날짜")
+                        ),
+                        responseFields(
+                                fieldWithPath("birthdayCafeId").type(JsonFieldType.NUMBER).description("생일 카페 ID"),
+                                fieldWithPath("nickname").type(JsonFieldType.STRING).description("주최자 닉네임"),
+                                fieldWithPath("artist.groupName").type(JsonFieldType.STRING).description("아티스트 그룹 이름").optional(),
+                                fieldWithPath("artist.name").type(JsonFieldType.STRING).description("아티스트 이름"),
+                                fieldWithPath("startDate").type(JsonFieldType.STRING).description("생일 카페 시작일"),
+                                fieldWithPath("endDate").type(JsonFieldType.STRING).description("생일 카페 종료일"),
+                                fieldWithPath("memo").type(JsonFieldType.STRING).description("생일 카페 메모 내용")
+                        )
+                ));
+    }
+
+    @Test
     void 사장님이_생일_카페_일정을_조회한다() throws Exception {
         // given
         LoginMember loginMember = new LoginMember(1L);

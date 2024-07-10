@@ -378,6 +378,47 @@ class BirthdayCafeQueryServiceTest extends ServiceTest {
     }
 
     @Nested
+    @DisplayName("V2 사장님이 생일 카페 일정을 상세 조회할 때")
+    class FindBirthdayCafeScheduleDetailV2Test {
+
+        @Test
+        void 대관된_날짜를_조회한다() {
+            // given
+            Long cafeOwnerId = 3L;
+            LoginMember loginMember = new LoginMember(cafeOwnerId);
+            LocalDateTime date = LocalDateTime.of(2024, 2, 13, 0, 0, 0);
+
+            // when
+            BirthdayCafeScheduleDetailResponseV2 actual = birthdayCafeQueryService.findBirthdayCafeScheduleDetailV2(loginMember, date);
+
+            // then
+            assertAll(
+                    () -> assertThat(actual.birthdayCafeId()).isEqualTo(6L),
+                    () -> assertThat(actual.nickname()).isEqualTo("민혁"),
+                    () -> assertThat(actual.artist().groupName()).isNull(),
+                    () -> assertThat(actual.artist().name()).isEqualTo("아이유"),
+                    () -> assertThat(actual.startDate()).isEqualTo("2024-02-11T00:00:00"),
+                    () -> assertThat(actual.endDate()).isEqualTo("2024-02-14T00:00:00"),
+                    () -> assertThat(actual.memo()).isEqualTo("생일 카페 메모 내용")
+            );
+        }
+
+        @Test
+        void 대관되지_않은_날짜는_빈_값을_반환한다() {
+            // given
+            Long cafeOwnerId = 3L;
+            LoginMember loginMember = new LoginMember(cafeOwnerId);
+            LocalDateTime date = LocalDateTime.of(2024, 3, 8, 0, 0, 0);
+
+            // when
+            BirthdayCafeScheduleDetailResponse actual = birthdayCafeQueryService.findBirthdayCafeScheduleDetail(loginMember, date);
+
+            // then
+            assertThat(actual).isNull();
+        }
+    }
+
+    @Nested
     @DisplayName("사장님이 생일 카페 일정을 조회할 때")
     class FindBirthdayCafeScheduleTest {
 
