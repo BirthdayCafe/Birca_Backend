@@ -274,13 +274,14 @@ class BirthdayCafeQueryServiceTest extends ServiceTest {
     }
 
     @Nested
+    @Sql("/fixture/birthday-cafe-application-fixture.sql")
     @DisplayName("사장님이 생일 카페 신청 목록을")
     class FindBirthdayCafeApplication {
 
         @Test
-        void 조회한다() {
+        void 주최자가_신청한_목록을_조회한다() {
             // given
-            LoginMember loginMember = new LoginMember(3L);
+            LoginMember loginMember = new LoginMember(2L);
             String progressState = "RENTAL_PENDING";
 
             // when
@@ -290,20 +291,38 @@ class BirthdayCafeQueryServiceTest extends ServiceTest {
             assertAll(
                     () -> assertThat(actual)
                             .map(BirthdayCafeApplicationResponse::birthdayCafeId)
-                            .containsExactly(1L)
+                            .containsExactly(1L, 4L)
+            );
+        }
+
+        @Test
+        void 직접_추가한_목록은_닉네임이_빈_값이다() {
+            // given
+            LoginMember loginMember = new LoginMember(2L);
+            String progressState = "RENTAL_APPROVED";
+
+            // when
+            List<BirthdayCafeApplicationResponse> actual = birthdayCafeQueryService.findBirthdayCafeApplication(loginMember, progressState);
+
+            // then
+            assertAll(
+                    () -> assertThat(actual)
+                            .map(BirthdayCafeApplicationResponse::hostName)
+                            .containsExactly("더즈", "")
             );
         }
     }
 
     @Nested
-    @DisplayName("사장님이 생일 카페 신청 상세할 때")
+    @Sql("/fixture/birthday-cafe-application-fixture.sql")
+    @DisplayName("사장님이 생일 카페 신청 상세를")
     class FindBirthdayCafeApplicationDetail {
 
         @Test
         void 정상적으로_조회한다() {
             // given
-            LoginMember loginMember = new LoginMember(3L);
-            Long birthdayCafeId = 1L;
+            LoginMember loginMember = new LoginMember(2L);
+            Long birthdayCafeId = 3L;
 
             // when
             BirthdayCafeApplicationDetailResponse response =
@@ -311,11 +330,36 @@ class BirthdayCafeQueryServiceTest extends ServiceTest {
 
             // then
             assertAll(
-                    () -> assertThat(response.birthdayCafeId()).isEqualTo(1L),
+                    () -> assertThat(response.birthdayCafeId()).isEqualTo(birthdayCafeId),
                     () -> assertThat(response.artist().groupName()).isNull(),
                     () -> assertThat(response.artist().name()).isEqualTo("아이유"),
-                    () -> assertThat(response.startDate()).isEqualTo("2024-02-08T00:00:00"),
-                    () -> assertThat(response.endDate()).isEqualTo("2024-02-10T00:00:00"),
+                    () -> assertThat(response.startDate()).isEqualTo("2024-02-07T00:00:00"),
+                    () -> assertThat(response.endDate()).isEqualTo("2024-02-09T00:00:00"),
+                    () -> assertThat(response.nickname()).isEqualTo("더즈"),
+                    () -> assertThat(response.minimumVisitant()).isEqualTo(5),
+                    () -> assertThat(response.maximumVisitant()).isEqualTo(10),
+                    () -> assertThat(response.twitterAccount()).isEqualTo("@ChaseM"),
+                    () -> assertThat(response.hostPhoneNumber()).isEqualTo("010-0000-0000")
+            );
+        }
+
+        @Test
+        void 사장님이_직접_추가한_생일_카페는_닉네임이_빈_값이다() {
+            // given
+            LoginMember loginMember = new LoginMember(2L);
+            Long birthdayCafeId = 5L;
+
+            // when
+            BirthdayCafeApplicationDetailResponse response =
+                    birthdayCafeQueryService.findBirthdayCafeApplicationDetail(loginMember, birthdayCafeId);
+            // then
+            assertAll(
+                    () -> assertThat(response.birthdayCafeId()).isEqualTo(birthdayCafeId),
+                    () -> assertThat(response.artist().groupName()).isEqualTo("에스파"),
+                    () -> assertThat(response.artist().name()).isEqualTo("카리나"),
+                    () -> assertThat(response.startDate()).isEqualTo("2024-03-15T00:00:00"),
+                    () -> assertThat(response.endDate()).isEqualTo("2024-03-16T00:00:00"),
+                    () -> assertThat(response.nickname()).isEqualTo(""),
                     () -> assertThat(response.minimumVisitant()).isEqualTo(5),
                     () -> assertThat(response.maximumVisitant()).isEqualTo(10),
                     () -> assertThat(response.twitterAccount()).isEqualTo("@ChaseM"),

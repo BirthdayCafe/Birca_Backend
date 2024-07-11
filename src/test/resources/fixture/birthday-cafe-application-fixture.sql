@@ -30,6 +30,8 @@ VALUES (1, null, 1, 1, 1, 2, '2024-02-08T00:00:00', '2024-02-10T00:00:00', 5, 10
        (3, '아이유의 생일 카페', 1, 1, 1, 2, '2024-02-07T00:00:00', '2024-02-09T00:00:00', 5, 10, '@ChaseM', '010-0000-0000',
         'RENTAL_APPROVED', 'PUBLIC', 'SMOOTH', 'ABUNDANT'),        -- 주최자1의 종료된 카페
        (4, '카리나의 생일 카페', 1, 1, 2, 2, '2024-03-11T00:00:00', '2024-03-14T00:00:00', 5, 10, '@ChaseM', '010-0000-0000',
-        'RENTAL_PENDING', 'PUBLIC', 'SMOOTH', 'ABUNDANT');
+        'RENTAL_PENDING', 'PUBLIC', 'SMOOTH', 'ABUNDANT'),
+       (5, '카리나의 생일 카페', null, 4, 2, 2, '2024-03-15T00:00:00', '2024-03-16T00:00:00', 5, 10, '@ChaseM', '010-0000-0000',
+        'RENTAL_APPROVED', 'PUBLIC', 'SMOOTH', 'ABUNDANT');
 
 SET foreign_key_checks = 1;
