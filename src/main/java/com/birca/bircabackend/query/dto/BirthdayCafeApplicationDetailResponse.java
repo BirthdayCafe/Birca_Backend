@@ -35,7 +35,7 @@ public record BirthdayCafeApplicationDetailResponse(
                 birthdayCafe.getSchedule().getEndDate(),
                 birthdayCafe.getVisitants().getMinimumVisitant(),
                 birthdayCafe.getVisitants().getMaximumVisitant(),
-                member.getNickname().getValue(),
+                member == null ? "" : member.getNickname().getValue(),
                 birthdayCafe.getTwitterAccount(),
                 birthdayCafe.getHostPhoneNumber().getValue()
         );
