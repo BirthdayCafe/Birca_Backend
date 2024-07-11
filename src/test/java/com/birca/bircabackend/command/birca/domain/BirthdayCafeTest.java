@@ -12,6 +12,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.EnumSource;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -609,38 +610,7 @@ class BirthdayCafeTest {
             assertThat(birthdayCafe.getProgressState()).isEqualTo(ProgressState.RENTAL_APPROVED);
         }
 
-        @ParameterizedTest
-        @CsvSource({
-                "NOW, MAX, IN_PROGRESS, PUBLIC",
-                "MIN, NOW, FINISHED, PRIVATE"
-        })
-        void 진행이나_종료로_변경한다(String start, String end, String progressState, String visibility) {
-            // given
-            LocalDateTime startDate = start.equals("NOW") ? LocalDateTime.now() :
-                    start.equals("MIN") ? LocalDateTime.MIN :
-                            LocalDateTime.parse(start);
-            LocalDateTime endDate = end.equals("NOW") ? LocalDateTime.now() :
-                    end.equals("MAX") ? LocalDateTime.MAX :
-                            LocalDateTime.parse(end);
-            Schedule schedule = Schedule.of(startDate, endDate);
-            BirthdayCafe birthdayCafe = fixtureMonkey.giveMeBuilder(BirthdayCafe.class)
-                    .set("schedule", schedule)
-                    .set("visibility", Visibility.PUBLIC)
-                    .sample();
 
-            // when
-            birthdayCafe.changeState(schedule);
-            ProgressState actualState = birthdayCafe.getProgressState();
-            Visibility actualVisibility = birthdayCafe.getVisibility();
-            ProgressState expectedProgressState = ProgressState.valueOf(progressState);
-            Visibility expectedVisibility = Visibility.valueOf(visibility);
-
-            // then
-            assertAll(
-                    () -> assertThat(actualState).isEqualTo(expectedProgressState),
-                    () -> assertThat(actualVisibility).isEqualTo(expectedVisibility)
-            );
-        }
 
         @Test
         void 자신의_카페가_아니면_수락할_수_없다() {
@@ -695,6 +665,107 @@ class BirthdayCafeTest {
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.INVALID_UPDATE);
+        }
+    }
+
+    @Nested
+    @DisplayName("생일 카페 진행 상태를 변경할 때 시작 종료 날짜가")
+    class ChangeBirthdayCafeProgressStateTest {
+
+        private static final LocalDateTime SAME_DATE = LocalDateTime.now();
+        private static final LocalDateTime START_DATE = LocalDateTime.now();
+        private static final LocalDateTime END_DATE = LocalDateTime.now().plusDays(1);
+
+        @Test
+        void 같은_경우_시작_날에_IN_PROGRESS가_된다() {
+            // given
+            Schedule schedule = Schedule.of(SAME_DATE, SAME_DATE);
+            BirthdayCafe birthdayCafe = fixtureMonkey.giveMeBuilder(BirthdayCafe.class)
+                    .set("schedule", schedule)
+                    .set("progressState", ProgressState.RENTAL_APPROVED)
+                    .set("visibility", Visibility.PRIVATE)
+                    .sample();
+
+            LocalDate today = LocalDateTime.now().toLocalDate();
+            LocalDate yesterday = today.minusDays(1);
+
+            // when
+            birthdayCafe.changeState(schedule, today, yesterday);
+
+            // then
+            assertAll(
+                    () -> assertThat(birthdayCafe.getProgressState()).isEqualTo(ProgressState.IN_PROGRESS),
+                    () -> assertThat(birthdayCafe.getVisibility()).isEqualTo(Visibility.PUBLIC)
+            );
+        }
+
+        @Test
+        void 같은_경우_종료_날에_FINISHED가_된다() {
+            // given
+            Schedule schedule = Schedule.of(SAME_DATE, SAME_DATE);
+            BirthdayCafe birthdayCafe = fixtureMonkey.giveMeBuilder(BirthdayCafe.class)
+                    .set("schedule", schedule)
+                    .set("progressState", ProgressState.IN_PROGRESS)
+                    .set("visibility", Visibility.PRIVATE)
+                    .sample();
+
+            LocalDate today = LocalDateTime.now().plusDays(1).toLocalDate();
+            LocalDate yesterday = today.minusDays(1);
+
+            // when
+            birthdayCafe.changeState(schedule, today, yesterday);
+
+            // then
+            assertAll(
+                    () -> assertThat(birthdayCafe.getProgressState()).isEqualTo(ProgressState.FINISHED),
+                    () -> assertThat(birthdayCafe.getVisibility()).isEqualTo(Visibility.PRIVATE)
+            );
+        }
+
+        @Test
+        void 다른_경우_시작_날에_IN_PROGRESS가_된다() {
+            // given
+            Schedule schedule = Schedule.of(START_DATE, END_DATE);
+            BirthdayCafe birthdayCafe = fixtureMonkey.giveMeBuilder(BirthdayCafe.class)
+                    .set("schedule", schedule)
+                    .set("progressState", ProgressState.RENTAL_APPROVED)
+                    .set("visibility", Visibility.PRIVATE)
+                    .sample();
+
+            LocalDate today = LocalDateTime.now().toLocalDate();
+            LocalDate yesterday = today.minusDays(1);
+
+            // when
+            birthdayCafe.changeState(schedule, today, yesterday);
+
+            // then
+            assertAll(
+                    () -> assertThat(birthdayCafe.getProgressState()).isEqualTo(ProgressState.IN_PROGRESS),
+                    () -> assertThat(birthdayCafe.getVisibility()).isEqualTo(Visibility.PUBLIC)
+            );
+        }
+
+        @Test
+        void 다른_경우_종료_날에_FINISHED가_된다() {
+            // given
+            Schedule schedule = Schedule.of(START_DATE, END_DATE);
+            BirthdayCafe birthdayCafe = fixtureMonkey.giveMeBuilder(BirthdayCafe.class)
+                    .set("schedule", schedule)
+                    .set("progressState", ProgressState.RENTAL_APPROVED)
+                    .set("visibility", Visibility.PRIVATE)
+                    .sample();
+
+            LocalDate today = LocalDateTime.now().plusDays(1).toLocalDate();
+            LocalDate yesterday = today.minusDays(1);
+
+            // when
+            birthdayCafe.changeState(schedule, today, yesterday);
+
+            // then
+            assertAll(
+                    () -> assertThat(birthdayCafe.getProgressState()).isEqualTo(ProgressState.FINISHED),
+                    () -> assertThat(birthdayCafe.getVisibility()).isEqualTo(Visibility.PRIVATE)
+            );
         }
     }
 }

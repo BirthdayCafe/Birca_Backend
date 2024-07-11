@@ -32,7 +32,9 @@ class BirthdayCafeSchedulerTest {
         // given
         BirthdayCafe birthdayCafe = mock(BirthdayCafe.class);
         List<BirthdayCafe> birthdayCafes = List.of(birthdayCafe);
-        Schedule schedule = Schedule.of(LocalDateTime.now(), LocalDateTime.now().plusDays(1));
+        LocalDateTime today = LocalDateTime.now();
+        LocalDateTime tomorrow = today.plusDays(1);
+        Schedule schedule = Schedule.of(today, tomorrow);
 
         when(birthdayCafe.getSchedule()).thenReturn(schedule);
         when(birthdayCafeRepository.findAll()).thenReturn(birthdayCafes);
@@ -41,6 +43,6 @@ class BirthdayCafeSchedulerTest {
         birthdayCafeScheduler.updateBirthdayCafeProgressStates();
 
         // then
-        verify(birthdayCafe, times(1)).changeState(schedule);
+        verify(birthdayCafe, times(1)).changeState(schedule, today.toLocalDate(), today.minusDays(1).toLocalDate());
     }
 }

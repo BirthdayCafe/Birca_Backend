@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -22,9 +23,14 @@ public class BirthdayCafeScheduler {
     @Scheduled(cron = CRON_EXPRESSION)
     public void updateBirthdayCafeProgressStates() {
         List<BirthdayCafe> birthdayCafes = birthdayCafeRepository.findAll();
+        LocalDate today = LocalDate.now();
+        LocalDate yesterday = today.minusDays(1);
         for (BirthdayCafe birthdayCafe : birthdayCafes) {
             Schedule schedule = birthdayCafe.getSchedule();
-            birthdayCafe.changeState(schedule);
+
+            birthdayCafe.changeState(schedule, today, yesterday);
         }
     }
+
+
 }

@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -155,17 +156,41 @@ public class BirthdayCafe extends BaseEntity {
         this.visibility = visibility;
     }
 
-    public void changeState(Schedule schedule) {
-        LocalDate now = LocalDate.now();
+    public void changeState(Schedule schedule, LocalDate today, LocalDate yesterday) {
         LocalDate startDate = schedule.getStartDate().toLocalDate();
         LocalDate endDate = schedule.getEndDate().toLocalDate();
-        if (now.isEqual(startDate)) {
-            this.progressState = ProgressState.IN_PROGRESS;
+        changeStateForSameDate(schedule, today, yesterday, startDate, endDate);
+        changeForDifferentDate(schedule, today, startDate, endDate);
+    }
+
+    private void changeForDifferentDate(Schedule schedule, LocalDate today, LocalDate startDate, LocalDate endDate) {
+        if (!isSameDate(schedule)) {
+            if (today.isEqual(startDate)) {
+                this.progressState = ProgressState.IN_PROGRESS;
+                this.visibility = Visibility.PUBLIC;
+            }
+            if (today.isEqual(endDate)) {
+                this.progressState = ProgressState.FINISHED;
+                this.visibility = Visibility.PRIVATE;
+            }
         }
-        if (now.isEqual(endDate)) {
-            this.progressState = ProgressState.FINISHED;
-            this.visibility = Visibility.PRIVATE;
+    }
+
+    private void changeStateForSameDate(Schedule schedule, LocalDate today, LocalDate yesterday, LocalDate startDate, LocalDate endDate) {
+        if (isSameDate(schedule)) {
+            if (today.isEqual(startDate)) {
+                this.progressState = ProgressState.IN_PROGRESS;
+                this.visibility = Visibility.PUBLIC;
+            }
+            if (yesterday.isEqual(endDate)) {
+                this.progressState = ProgressState.FINISHED;
+                this.visibility = Visibility.PRIVATE;
+            }
         }
+    }
+
+    private static boolean isSameDate(Schedule schedule) {
+        return schedule.getStartDate().isEqual(schedule.getEndDate());
     }
 
     public void replaceSpecialGoods(Long memberId, List<SpecialGoods> specialGoods) {
