@@ -38,7 +38,8 @@ public class CafeDynamicRepositoryImpl implements CafeDynamicRepository {
                                 .where(cafeImage.cafeId.eq(cafe.id))
                 ))
                 .leftJoin(like).on(cafe.id.eq(like.target.targetId)
-                        .and(like.target.targetType.eq(LikeTargetType.CAFE)))
+                        .and(like.target.targetType.eq(LikeTargetType.CAFE))
+                        .and(like.visitantId.eq(loginMember.id())))
                 .where(generateDynamicCondition(loginMember, cafeParams, pagingParams))
                 .limit(pagingParams.getSize())
                 .fetch();
@@ -67,7 +68,12 @@ public class CafeDynamicRepositoryImpl implements CafeDynamicRepository {
                 ));
 
         if (cafeParams.getLiked()) {
-            builder.and(() -> like.visitantId.eq(loginMember.id()));
+            builder.and(() -> cafe.id.in(
+                    JPAExpressions.select(like.target.targetId)
+                            .from(like)
+                            .where(like.visitantId.eq(loginMember.id())
+                                    .and(like.target.targetType.eq(LikeTargetType.CAFE))))
+            );
         }
 
         return builder.build();
