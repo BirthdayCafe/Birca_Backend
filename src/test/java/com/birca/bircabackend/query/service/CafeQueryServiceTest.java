@@ -70,6 +70,7 @@ class CafeQueryServiceTest extends ServiceTest {
     }
 
     @Nested
+    @Sql("/fixture/cafe-like-fixture.sql")
     @DisplayName("주최자가 대관 가능한 카페 목록을")
     class GetRentalAvailableCafe {
 
