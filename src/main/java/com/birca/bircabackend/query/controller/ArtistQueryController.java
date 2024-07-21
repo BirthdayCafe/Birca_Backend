@@ -43,4 +43,10 @@ public class ArtistQueryController {
     public ResponseEntity<List<ArtistResponse>> getSoloArtists(@ModelAttribute PagingParams pagingParams) {
         return ResponseEntity.ok(artistQueryService.findSoloArtists(pagingParams));
     }
+
+    @GetMapping("/v2/artists/solo")
+    @RequiredLogin
+    public ResponseEntity<List<ArtistResponse>> getSoloArtistsV2() {
+        return ResponseEntity.ok(artistQueryService.findSoloArtistsV2());
+    }
 }

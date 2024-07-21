@@ -29,4 +29,11 @@ public class ArtistQueryService {
                 .map(ArtistResponse::new)
                 .toList();
     }
+
+    public List<ArtistResponse> findSoloArtistsV2() {
+        return artistQueryRepository.findAll()
+                .stream()
+                .map(ArtistResponse::new)
+                .toList();
+    }
 }
