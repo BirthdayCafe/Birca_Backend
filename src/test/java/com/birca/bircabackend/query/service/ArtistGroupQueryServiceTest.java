@@ -74,4 +74,18 @@ class ArtistGroupQueryServiceTest extends ServiceTest {
                     .containsExactly(12L, 3L, 1L, 9L, 4L, 10L);
         }
     }
+
+    @Nested
+    @DisplayName("아티스트 그룹 목록 조회 시")
+    class GetGroupsTestV2 {
+
+        @Test
+        void 한_번에_조회한다() {
+            // when
+            List<ArtistGroupResponse> actual = artistGroupQueryService.findGroupsV2();
+
+            // then
+            assertThat(actual.size()).isEqualTo(12);
+        }
+    }
 }
