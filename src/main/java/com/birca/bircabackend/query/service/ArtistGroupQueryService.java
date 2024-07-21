@@ -22,4 +22,11 @@ public class ArtistGroupQueryService {
                 .map(ArtistGroupResponse::new)
                 .toList();
     }
+
+    public List<ArtistGroupResponse> findGroupsV2() {
+        return artistGroupQueryRepository.findAll()
+                .stream()
+                .map(ArtistGroupResponse::new)
+                .toList();
+    }
 }
