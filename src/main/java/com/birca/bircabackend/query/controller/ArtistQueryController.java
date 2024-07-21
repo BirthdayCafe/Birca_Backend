@@ -26,6 +26,12 @@ public class ArtistQueryController {
         return ResponseEntity.ok(artistGroupQueryService.findGroups(pagingParams));
     }
 
+    @GetMapping("/v2/artist-groups")
+    @RequiredLogin
+    public ResponseEntity<List<ArtistGroupResponse>> getArtistGroupsV2() {
+        return ResponseEntity.ok(artistGroupQueryService.findGroupsV2());
+    }
+
     @GetMapping("/v1/artist-groups/{groupId}/artists")
     @RequiredLogin
     public ResponseEntity<List<ArtistResponse>> getArtistsOfGroup(@PathVariable(name = "groupId") Long groupId) {
