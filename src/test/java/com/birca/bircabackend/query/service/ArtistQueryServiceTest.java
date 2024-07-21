@@ -113,4 +113,28 @@ class ArtistQueryServiceTest extends ServiceTest {
                     );
         }
     }
+
+    @Nested
+    @DisplayName("솔로 아티스트 목록 조회 시")
+    class FindSoloArtistsTestV2 {
+
+        @Test
+        void 한_번에_조회한다() {
+            // when
+            List<ArtistResponse> actual = artistQueryService.findSoloArtistsV2();
+
+            // then
+            assertThat(actual)
+                    .containsExactly(
+                            new ArtistResponse(13L, "김범수", "image13.com"),
+                            new ArtistResponse(14L, "로이킴", "image14.com"),
+                            new ArtistResponse(15L, "박재정", "image15.com"),
+                            new ArtistResponse(16L, "성시경", "image16.com"),
+                            new ArtistResponse(17L, "아이유", "image17.com"),
+                            new ArtistResponse(18L, "윤종신", "image18.com"),
+                            new ArtistResponse(19L, "임한별", "image19.com"),
+                            new ArtistResponse(20L, "하동균", "image20.com")
+                    );
+        }
+    }
 }
