@@ -103,4 +103,25 @@ class ArtistQueryAcceptanceTest extends AcceptanceTest {
                 () -> assertThat(response.jsonPath().getList(".")).hasSize(size)
         );
     }
+
+    @Test
+    void 솔로_아티스트_목록을_조회한다_V2() {
+        // given
+        int size = 8;
+
+        // when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .when()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
+                .get("/api/v2/artists/solo")
+                .then().log().all()
+                .extract();
+
+        // then
+        assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
+                () -> assertThat(response.jsonPath().getList(".")).hasSize(size)
+        );
+    }
 }
