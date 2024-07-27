@@ -110,7 +110,7 @@ public class BirthdayCafe extends BaseEntity {
     }
 
     public void cancelRental(Long memberId) {
-        if (!progressState.isRentalPending()) {
+        if (!progressState.isRentalPending() && !progressState.isRentalApproved()) {
             throw BusinessException.from(INVALID_CANCEL_RENTAL);
         }
         if (!(isHost(memberId) || isOwner(memberId))) {

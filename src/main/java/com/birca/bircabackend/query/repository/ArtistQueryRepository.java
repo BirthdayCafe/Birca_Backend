@@ -11,10 +11,6 @@ public interface ArtistQueryRepository extends Repository<Artist, Long>, ArtistD
 
     List<Artist> findByGroupId(Long groupId);
 
-    @Query("select new com.birca.bircabackend.query.dto.ArtistSearchResponse(a.id, a.name, a.imageUrl, ag.name) " +
-            "from Artist a left join ArtistGroup ag on a.groupId = ag.id where a.name like %:name%")
-    List<ArtistSearchResponse> findByName(String name);
-
     @Query("select a from Artist a where a.groupId is null")
     List<Artist> findAll();
 }

@@ -9,9 +9,5 @@ import java.util.List;
 
 public interface ArtistGroupQueryRepository extends Repository<ArtistGroup, Long>, ArtistGroupDynamicRepository {
 
-    @Query("select new com.birca.bircabackend.query.dto.ArtistSearchResponse(a.id, a.name, a.imageUrl, ag.name) " +
-            "from ArtistGroup ag join Artist a on a.groupId = ag.id where ag.name like %:name%")
-    List<ArtistSearchResponse> findByName(String name);
-
     List<ArtistGroup> findAll();
 }
