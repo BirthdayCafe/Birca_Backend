@@ -14,6 +14,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -38,6 +40,7 @@ class BirthdayCafeServiceTest extends ServiceTest {
 
     private static final Long PENDING_BIRTHDAY_CAFE_ID = 1L;
     private static final Long IN_PROGRESS_BIRTHDAY_CAFE_ID = 4L;
+    private static final Long RENTAL_APPROVED_BIRTHDAY_CAFE_ID = 5L;
 
     private static final ApplyRentalRequest VALID_REQUEST = new ApplyRentalRequest(
             ARTIST_ID,
@@ -177,7 +180,7 @@ class BirthdayCafeServiceTest extends ServiceTest {
     class CancelRentalTest {
 
         @Test
-        void 주최자_취소한다() {
+        void 주최자가_취소한다() {
             // when
             birthdayCafeService.cancelRental(PENDING_BIRTHDAY_CAFE_ID, HOST1);
 
@@ -197,12 +200,23 @@ class BirthdayCafeServiceTest extends ServiceTest {
         }
 
         @Test
-        void 대관_대기_상태가_아니면_예외가_발생한다() {
+        void 카페_사장님이_대관_완료된_카페를_취소한다() {
+            // when
+            birthdayCafeService.cancelRental(RENTAL_APPROVED_BIRTHDAY_CAFE_ID, CAFE_1_OWNER);
+
+            // then
+            BirthdayCafe actual = entityManager.find(BirthdayCafe.class, RENTAL_APPROVED_BIRTHDAY_CAFE_ID);
+            assertThat(actual.getProgressState()).isEqualTo(ProgressState.RENTAL_CANCELED);
+        }
+
+        @ParameterizedTest
+        @CsvSource({"2, 3", "4, 3"})
+        void 대관_대기_상태이거나_완료_상태가_아니면_예외가_발생한다(Long birthdayCafeId, Long cafeOwnerId) {
             // given
-            birthdayCafeService.cancelRental(PENDING_BIRTHDAY_CAFE_ID, HOST1);
+            LoginMember owner = new LoginMember(cafeOwnerId);
 
             // when then
-            assertThatThrownBy(() -> birthdayCafeService.cancelRental(PENDING_BIRTHDAY_CAFE_ID, HOST1))
+            assertThatThrownBy(() -> birthdayCafeService.cancelRental(birthdayCafeId, owner))
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(BirthdayCafeErrorCode.INVALID_CANCEL_RENTAL);

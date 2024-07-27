@@ -93,6 +93,12 @@ class BirthdayCafeTest {
                 .set("progressState", ProgressState.RENTAL_PENDING)
                 .sample();
 
+        private final BirthdayCafe rentalApprovedCafe = fixtureMonkey.giveMeBuilder(BirthdayCafe.class)
+                .set("hostId", HOST_ID)
+                .set("cafeOwnerId", CAFE_OWNER_ID)
+                .set("progressState", ProgressState.RENTAL_APPROVED)
+                .sample();
+
         @Test
         void 주최자_취소한다() {
             // when
@@ -123,10 +129,20 @@ class BirthdayCafeTest {
                     .isEqualTo(BirthdayCafeErrorCode.UNAUTHORIZED_CANCEL);
         }
 
+        @Test
+        void 사장님이_대관_완료된_생일_카페를_취소한다() {
+            // when
+            rentalApprovedCafe.cancelRental(CAFE_ID);
+
+            // then
+            assertThat(rentalApprovedCafe.getProgressState()).isEqualTo(ProgressState.RENTAL_CANCELED);
+        }
+
         @ParameterizedTest
-        @EnumSource(mode = EXCLUDE, names = "RENTAL_PENDING")
-        void 대관_대기_상태가_아니면_취소하지_못한다(ProgressState progressState) {
+        @CsvSource({"IN_PROGRESS", "RENTAL_CANCELED", "FINISHED"})
+        void 대관_대기_상태가_아니면_취소하지_못한다(String state) {
             // given
+            ProgressState progressState = ProgressState.valueOf(state);
             BirthdayCafe birthdayCafe = fixtureMonkey.giveMeBuilder(BirthdayCafe.class)
                     .set("hostId", HOST_ID)
                     .set("cafeOwnerId", CAFE_OWNER_ID)
