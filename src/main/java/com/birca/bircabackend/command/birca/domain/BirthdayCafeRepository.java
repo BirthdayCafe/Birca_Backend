@@ -25,7 +25,8 @@ public interface BirthdayCafeRepository extends Repository<BirthdayCafe, Long> {
 
     @Query("select count(*) > 0 from BirthdayCafe bc " +
             "where bc.cafeOwnerId = :cafeOwnerId " +
-            "and (bc.schedule.startDate <= :endDate and bc.schedule.endDate >= :startDate)")
+            "and (bc.schedule.startDate <= :endDate and bc.schedule.endDate >= :startDate) " +
+            "and (bc.progressState = 'RENTAL_APPROVED' or bc.progressState = 'IN_PROGRESS')")
     Boolean hasBookedBirthdayCafe(@Param("startDate") LocalDateTime startDate,
                                   @Param("endDate") LocalDateTime endDate,
                                   @Param("cafeOwnerId") Long cafeOwnerId);
