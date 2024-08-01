@@ -711,5 +711,38 @@ class BirthdayCafeServiceTest extends ServiceTest {
                     .extracting("errorCode")
                     .isEqualTo(DayOffErrorCode.DAY_OFF_DATE);
         }
+
+        @Test
+        void 대관_일정_취소_후_다시_대관할_수_있다() {
+            // given
+            AddBirthdayCafeSchedule request = new AddBirthdayCafeSchedule(
+                    ARTIST_ID,
+                    LocalDateTime.of(2024, 7, 31, 0, 0, 0),
+                    LocalDateTime.of(2024, 7, 31, 0, 0, 0),
+                    100,
+                    200,
+                    "@ChaseM",
+                    "010-0000-0000"
+            );
+
+            // when
+            birthdayCafeService.addBirthdayCafeSchedule(request, CAFE_2_OWNER);
+            BirthdayCafe actual = entityManager.createQuery(
+                            "select bc from BirthdayCafe bc where bc.hostId is null", BirthdayCafe.class)
+                    .getSingleResult();
+
+            // then
+            assertAll(
+                    () -> assertThat(actual.getArtistId()).isEqualTo(request.artistId()),
+                    () -> assertThat(actual.getHostId()).isNull(),
+                    () -> assertThat(actual.getVisitants())
+                            .isEqualTo(Visitants.of(request.minimumVisitant(), request.maximumVisitant())),
+                    () -> assertThat(actual.getTwitterAccount()).isEqualTo(request.twitterAccount()),
+                    () -> assertThat(actual.getProgressState()).isEqualTo(ProgressState.RENTAL_APPROVED),
+                    () -> assertThat(actual.getVisibility()).isEqualTo(Visibility.PRIVATE),
+                    () -> assertThat(actual.getCongestionState()).isEqualTo(CongestionState.SMOOTH),
+                    () -> assertThat(actual.getSpecialGoodsStockState()).isEqualTo(SpecialGoodsStockState.ABUNDANT)
+            );
+        }
     }
 }
