@@ -2,7 +2,9 @@ SET foreign_key_checks = 0;
 
 INSERT INTO member (id, nickname, email, social_id, social_provider, member_role)
 VALUES (1, '더즈', 'ldk@gmail.com', '231323', 'kakao', 'VISITANT'),
-       (2, '민혁', 'alsgur@gmail.com', '23412', 'kakao', 'OWNER');
+       (2, '민혁', 'alsgur@gmail.com', '23412', 'kakao', 'OWNER'),
+       (3, '카페 사장', 'owner@gmail.com', '58192', 'kakao', 'OWNER'),
+       (4, '카페 사장2', 'owner2@gmail.com', '8413', 'kakao', 'DELETED');
 
 INSERT INTO business_license(id, owner_id, owner_name, cafe_name, tax_office_code, business_type_code, serial_code,
                              address, image_url, registration_approved)
@@ -12,7 +14,8 @@ VALUES (1, 1, '카페 사장', '스타벅스', '123', '12', '12345', '서울', '
 INSERT INTO cafe (id, owner_id, business_license_id, name, address, twitter_account, business_hours)
 VALUES (1, 1, 1, '미스티우드', '경기도 시흥시 은계중앙로 115', '@ChaseM', '6시 - 22시'),
        (2, 2, 2, '우지커피', '경기도 성남시 분당구 판교역로 235', '@ChaseM', '8시 - 22시'),
-       (3, 3, 3, '메가커피', '서울특별시 강남구 테헤란로 212', '@ChaseM', '9시 - 22시');
+       (3, 3, 3, '메가커피', '서울특별시 강남구 테헤란로 212', '@ChaseM', '9시 - 22시'),
+       (4, 4, 4, '탈퇴 카페', '서울특별시 강남구 테헤란로 213', '@ChaseM', '9시 - 22시');
 
 INSERT INTO day_off(id, cafe_id, day_off_date)
 VALUES (1, 1, '2024-02-15T00:00:00'),

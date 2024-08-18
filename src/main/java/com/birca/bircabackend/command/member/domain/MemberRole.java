@@ -10,7 +10,8 @@ public enum MemberRole {
     HOST,
     VISITANT,
     OWNER,
-    NOTHING
+    NOTHING,
+    DELETED
 
     ;
 
