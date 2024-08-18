@@ -3,6 +3,8 @@ package com.birca.bircabackend.query.repository;
 import com.birca.bircabackend.command.birca.domain.value.ProgressState;
 import com.birca.bircabackend.command.birca.domain.value.Visibility;
 import com.birca.bircabackend.command.like.domain.LikeTargetType;
+import com.birca.bircabackend.command.member.domain.MemberRole;
+import com.birca.bircabackend.command.member.domain.QMember;
 import com.birca.bircabackend.query.dto.BirthdayCafeParams;
 import com.birca.bircabackend.query.dto.PagingParams;
 import com.birca.bircabackend.query.repository.model.BirthdayCafeView;
@@ -21,6 +23,7 @@ import static com.birca.bircabackend.command.birca.domain.QBirthdayCafe.birthday
 import static com.birca.bircabackend.command.birca.domain.QBirthdayCafeImage.birthdayCafeImage;
 import static com.birca.bircabackend.command.cafe.domain.QCafe.cafe;
 import static com.birca.bircabackend.command.like.domain.QLike.like;
+import static com.birca.bircabackend.command.member.domain.QMember.member;
 
 @Repository
 @RequiredArgsConstructor
@@ -38,6 +41,7 @@ public class BirthdayCafeDynamicRepositoryImpl implements BirthdayCafeDynamicRep
                 .from(birthdayCafe)
                 .join(artist).on(birthdayCafe.artistId.eq(artist.id))
                 .leftJoin(cafe).on(cafe.id.eq(birthdayCafe.cafeId))
+                .leftJoin(member).on(member.id.eq(birthdayCafe.cafeOwnerId))
                 .leftJoin(artistGroup).on(artistGroup.id.eq(artist.groupId))
                 .leftJoin(birthdayCafeImage).on(
                         birthdayCafe.id.eq(birthdayCafeImage.birthdayCafeId)
@@ -49,11 +53,13 @@ public class BirthdayCafeDynamicRepositoryImpl implements BirthdayCafeDynamicRep
                                 .and(like.visitantId.eq(visitantId))
                 )
                 .where(birthdayCafe.visibility.eq(Visibility.PUBLIC))
+                .where(member.role.ne(MemberRole.DELETED))
                 .where(generateDynamicCondition(birthdayCafeParams, pagingParams))
                 .orderBy(birthdayCafe.schedule.startDate.asc(), birthdayCafe.id.asc())
                 .limit(pagingParams.getSize())
                 .fetch();
     }
+
 
     private BooleanBuilder generateDynamicCondition(BirthdayCafeParams birthdayCafeParams,
                                                     PagingParams pagingParams) {

@@ -3,6 +3,8 @@ package com.birca.bircabackend.query.repository;
 import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.birca.domain.value.ProgressState;
 import com.birca.bircabackend.command.like.domain.LikeTargetType;
+import com.birca.bircabackend.command.member.domain.MemberRole;
+import com.birca.bircabackend.command.member.domain.QMember;
 import com.birca.bircabackend.query.dto.CafeParams;
 import com.birca.bircabackend.query.dto.PagingParams;
 import com.birca.bircabackend.query.repository.model.CafeView;
@@ -21,6 +23,7 @@ import static com.birca.bircabackend.command.cafe.domain.QCafe.cafe;
 import static com.birca.bircabackend.command.cafe.domain.QCafeImage.cafeImage;
 import static com.birca.bircabackend.command.cafe.domain.QDayOff.dayOff;
 import static com.birca.bircabackend.command.like.domain.QLike.like;
+import static com.birca.bircabackend.command.member.domain.QMember.member;
 
 @Repository
 @RequiredArgsConstructor
@@ -37,9 +40,11 @@ public class CafeDynamicRepositoryImpl implements CafeDynamicRepository {
                                 .from(cafeImage)
                                 .where(cafeImage.cafeId.eq(cafe.id))
                 ))
+                .leftJoin(member).on(member.id.eq(cafe.ownerId))
                 .leftJoin(like).on(cafe.id.eq(like.target.targetId)
                         .and(like.target.targetType.eq(LikeTargetType.CAFE))
                         .and(like.visitantId.eq(loginMember.id())))
+                .where(member.role.ne(MemberRole.DELETED))
                 .where(generateDynamicCondition(loginMember, cafeParams, pagingParams))
                 .limit(pagingParams.getSize())
                 .fetch();
