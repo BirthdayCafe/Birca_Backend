@@ -15,6 +15,11 @@ include::{snippets}/auth-error-Code/response-body.adoc[]
 == 회원 API
 === 회원 역할 변경
 operation::member-role-change[snippets='http-request,http-response']
+
+Member Role
+```
+HOST, VISITANT, OWNER, NOTHING, DELETED
+```
 === 닉네임 중복 검사
 operation::check-nickname[snippets='http-request,query-parameters,http-response,response-fields']
 === 회원 닉네임 등록
