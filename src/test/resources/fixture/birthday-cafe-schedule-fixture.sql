@@ -55,7 +55,9 @@ VALUES (1, null, 1, 1, 1, 3, '2024-02-08T00:00:00', '2024-02-10T00:00:00', 5, 10
         'IN_PROGRESS', 'PUBLIC', 'SMOOTH', 'ABUNDANT'),     -- 주최자 2의 진행 중인 카페
 
        (7, '카리나의 생일 카페', 2, 3, 1, 5, '2024-02-07T00:00:00', '2024-02-09T00:00:00', 5, 10, '@ChaseM', '010-0000-0000',
-        'RENTAL_APPROVED', 'PUBLIC', 'SMOOTH', 'ABUNDANT');
+        'RENTAL_APPROVED', 'PUBLIC', 'SMOOTH', 'ABUNDANT'),
+       (8, '카리나의 생일 카페', 2, 3, 1, 5, '2024-07-31T00:00:00', '2024-07-31T00:00:00', 5, 10, '@ChaseM', '010-0000-0000',
+        'RENTAL_CANCELED', 'PUBLIC', 'SMOOTH', 'ABUNDANT');
 
 INSERT INTO day_off (id, cafe_id, day_off_date)
 VALUES (1, 1, '2024-03-08T00:00:00'),
