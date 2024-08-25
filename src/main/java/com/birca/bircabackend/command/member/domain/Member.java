@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(
         name = "UC_IDENTITY_KEY",
@@ -17,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class Member extends BaseEntity {
 
-    private static final String WITHDRAW_SOCIAL_ID = "-1";
+    private static final String WITHDRAW_SOCIAL_ID = UUID.randomUUID().toString();
     private static final String WITHDRAW_PROVIDER = "withdraw";
 
     @Embedded

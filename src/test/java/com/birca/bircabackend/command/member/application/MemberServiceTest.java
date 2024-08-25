@@ -168,7 +168,7 @@ class MemberServiceTest extends ServiceTest {
             // then
             assertAll(
                     () -> assertThat(member.getRole()).isEqualTo(MemberRole.DELETED),
-                    () -> assertThat(member.getIdentityKey().getSocialId()).isEqualTo("-1"),
+                    () -> assertThat(member.getIdentityKey().getSocialId()).isNotEqualTo("231323"),
                     () -> assertThat(member.getIdentityKey().getSocialProvider()).isEqualTo("withdraw")
             );
         }
