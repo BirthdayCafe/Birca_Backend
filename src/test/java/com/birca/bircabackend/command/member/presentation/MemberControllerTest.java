@@ -1,5 +1,6 @@
 package com.birca.bircabackend.command.member.presentation;
 
+import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.member.dto.NicknameRegisterRequest;
 import com.birca.bircabackend.command.member.dto.RoleChangeRequest;
 import com.birca.bircabackend.command.member.exception.MemberErrorCode;
@@ -56,6 +57,19 @@ class MemberControllerTest extends DocumentationTest {
                                 fieldWithPath("nickname").type(JsonFieldType.STRING).description("등록할 닉네임")
                         )
                 ));
+    }
+
+    @Test
+    void 회원을_탈퇴한다() throws Exception {
+        // when
+        ResultActions result = mockMvc.perform(post("/api/v1/members/withdraw")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, bearerTokenProvider.getToken(MEMBER_ID))
+        );
+
+        // then
+        result.andExpect((status().isOk()))
+                .andDo(document("member-withdraw", HOST_INFO));
     }
 
     @Test

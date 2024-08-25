@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(
         name = "UC_IDENTITY_KEY",
@@ -16,6 +18,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class Member extends BaseEntity {
+
+    private static final String WITHDRAW_SOCIAL_ID = UUID.randomUUID().toString();
+    private static final String WITHDRAW_PROVIDER = "withdraw";
 
     @Embedded
     private Nickname nickname;
@@ -41,5 +46,10 @@ public class Member extends BaseEntity {
 
     public void registerNickname(Nickname nickname) {
         this.nickname = nickname;
+    }
+
+    public void withdrawMember() {
+        this.role = MemberRole.DELETED;
+        this.identityKey = IdentityKey.of(WITHDRAW_SOCIAL_ID, WITHDRAW_PROVIDER);
     }
 }

@@ -4,9 +4,11 @@ import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.member.MemberFixtureRepository;
 import com.birca.bircabackend.command.member.domain.IdentityKey;
 import com.birca.bircabackend.command.member.domain.Member;
+import com.birca.bircabackend.command.member.domain.MemberRole;
 import com.birca.bircabackend.command.member.dto.NicknameRegisterRequest;
 import com.birca.bircabackend.command.member.dto.RoleChangeRequest;
 import com.birca.bircabackend.command.member.exception.MemberErrorCode;
+import com.birca.bircabackend.common.EntityUtil;
 import com.birca.bircabackend.common.exception.BusinessException;
 import com.birca.bircabackend.support.enviroment.ServiceTest;
 import org.junit.jupiter.api.DisplayName;
@@ -17,8 +19,10 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
+import static com.birca.bircabackend.command.member.exception.MemberErrorCode.MEMBER_NOT_FOUND;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @Sql("/fixture/member-fixture.sql")
 class MemberServiceTest extends ServiceTest {
@@ -27,6 +31,9 @@ class MemberServiceTest extends ServiceTest {
 
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    private EntityUtil entityUtil;
 
     @Autowired
     private MemberFixtureRepository memberFixtureRepository;
@@ -142,6 +149,40 @@ class MemberServiceTest extends ServiceTest {
                     .isInstanceOf(BusinessException.class)
                     .extracting("errorCode")
                     .isEqualTo(MemberErrorCode.DUPLICATED_IDENTITY_KEY);
+        }
+    }
+
+    @Nested
+    @DisplayName("회원 탈퇴 시")
+    class WithdrawMemberTest {
+
+        @Test
+        void 정상적으로_탈퇴한다() {
+            // given
+            LoginMember loginMember = new LoginMember(1L);
+
+            // when
+            memberService.withdrawMember(loginMember);
+            Member member = entityUtil.getEntity(Member.class, loginMember.id(), MEMBER_NOT_FOUND);
+
+            // then
+            assertAll(
+                    () -> assertThat(member.getRole()).isEqualTo(MemberRole.DELETED),
+                    () -> assertThat(member.getIdentityKey().getSocialId()).isNotEqualTo("231323"),
+                    () -> assertThat(member.getIdentityKey().getSocialProvider()).isEqualTo("withdraw")
+            );
+        }
+
+        @Test
+        void 존재하지_않는_회원은_예외가_발생한다() {
+            // given
+            LoginMember loginMember = new LoginMember(100L);
+
+            // when then
+            assertThatThrownBy(() -> memberService.withdrawMember(loginMember))
+                    .isInstanceOf(BusinessException.class)
+                    .extracting("errorCode")
+                    .isEqualTo(MEMBER_NOT_FOUND);
         }
     }
 }
