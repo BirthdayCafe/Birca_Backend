@@ -34,4 +34,11 @@ public class MemberController {
         memberService.registerNickname(request, loginMember);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/v1/members/withdraw")
+    @RequiredLogin
+    public ResponseEntity<Void> withdrawMember(LoginMember loginMember) {
+        memberService.withdrawMember(loginMember);
+        return ResponseEntity.ok().build();
+    }
 }

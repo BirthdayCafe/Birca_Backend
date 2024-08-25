@@ -51,4 +51,9 @@ public class MemberService {
             throw BusinessException.from(DUPLICATED_NICKNAME);
         }
     }
+
+    public void withdrawMember(LoginMember loginMember) {
+        Member member = entityUtil.getEntity(Member.class, loginMember.id(), MEMBER_NOT_FOUND);
+        member.withdrawMember();
+    }
 }

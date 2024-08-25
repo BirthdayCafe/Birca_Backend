@@ -17,6 +17,9 @@ import lombok.NoArgsConstructor;
 @Getter
 public class Member extends BaseEntity {
 
+    private static final String WITHDRAW_SOCIAL_ID = "-1";
+    private static final String WITHDRAW_PROVIDER = "withdraw";
+
     @Embedded
     private Nickname nickname;
 
@@ -41,5 +44,10 @@ public class Member extends BaseEntity {
 
     public void registerNickname(Nickname nickname) {
         this.nickname = nickname;
+    }
+
+    public void withdrawMember() {
+        this.role = MemberRole.DELETED;
+        this.identityKey = IdentityKey.of(WITHDRAW_SOCIAL_ID, WITHDRAW_PROVIDER);
     }
 }
