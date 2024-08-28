@@ -19,7 +19,6 @@ import java.util.UUID;
 @Getter
 public class Member extends BaseEntity {
 
-    private static final String WITHDRAW_SOCIAL_ID = UUID.randomUUID().toString();
     private static final String WITHDRAW_PROVIDER = "withdraw";
 
     @Embedded
@@ -50,6 +49,6 @@ public class Member extends BaseEntity {
 
     public void withdrawMember() {
         this.role = MemberRole.DELETED;
-        this.identityKey = IdentityKey.of(WITHDRAW_SOCIAL_ID, WITHDRAW_PROVIDER);
+        this.identityKey = IdentityKey.of(UUID.randomUUID().toString(), WITHDRAW_PROVIDER);
     }
 }
