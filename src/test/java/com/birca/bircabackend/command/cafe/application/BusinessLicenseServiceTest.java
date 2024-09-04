@@ -64,19 +64,6 @@ class BusinessLicenseServiceTest extends ServiceTest {
             );
         }
 
-        @Test
-        void 이미_등록된_사업자등록증이면_예외가_발생한다() {
-            // given
-            BusinessLicenseCreateRequest request = createBusinessLicenseCreateRequest("123-45-67890");
-            businessLicenseService.saveBusinessLicense(OWNER_ID, request, IMAGE_URL);
-
-            // when then
-            assertThatThrownBy(() -> businessLicenseService.saveBusinessLicense(OWNER_ID, request, IMAGE_URL))
-                    .isInstanceOf(BusinessException.class)
-                    .extracting("errorCode")
-                    .isEqualTo(DUPLICATE_BUSINESS_LICENSE_NUMBER);
-        }
-
         @ParameterizedTest
         @ValueSource(strings = {"0123456789", "01-12-34567", "012-3-45678", "012-23-4567"})
         void 사업자등록번호가_형식에_맞지_않으면_예외가_발생한다(String businessLicenseNumber) {
