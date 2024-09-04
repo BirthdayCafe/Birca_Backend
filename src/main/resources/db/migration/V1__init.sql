@@ -33,9 +33,6 @@ CREATE TABLE business_license
 ALTER TABLE business_license
     ADD CONSTRAINT FK_BUSINESSLICENSE_ON_OWNER FOREIGN KEY (owner_id) REFERENCES member (id);
 
-ALTER TABLE business_license
-    ADD CONSTRAINT UNIQUE_BUSINESS_LICENSE_CODE UNIQUE (tax_office_code, business_type_code, serial_code);
-
 CREATE TABLE cafe
 (
     id                  BIGINT AUTO_INCREMENT NOT NULL,
