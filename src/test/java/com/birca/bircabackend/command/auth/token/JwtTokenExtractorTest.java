@@ -1,5 +1,6 @@
 package com.birca.bircabackend.command.auth.token;
 
+import com.birca.bircabackend.command.auth.application.token.JwtTokenExtractor;
 import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

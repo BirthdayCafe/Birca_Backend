@@ -35,3 +35,9 @@ out/
 
 ### VS Code ###
 .vscode/
+
+## QType
+/src/main/generated/
+
+## fixture monkey
+.jqwik-database

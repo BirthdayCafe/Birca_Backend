@@ -1,0 +1,38 @@
+jwt:
+  token:
+    secret-key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ6.eyJzdWIiOiIiLCJuYW1lIjoiSm3obiBEb2UiLCJpYXQiOjE1MTYyMzkwMjJ9.ih1aovtQShabQ7l0cINw4k1fagApg3qLWiB8Kt23Lno
+    expire-length: 1800000
+
+oauth:
+  apple:
+    url: https://appleid.apple.com/auth
+
+ocr:
+  invoke-url: invoke-url
+  secret-key: secret-key
+  request-count: 5
+
+service-key:
+  key: key
+
+cloud:
+  aws:
+    credentials:
+      access-key: access-key
+      secret-key: secret-key
+    region:
+      static: region
+    s3:
+      bucket: s3-bucket
+      path: path
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+admin:
+  id: id
+  password: password
+

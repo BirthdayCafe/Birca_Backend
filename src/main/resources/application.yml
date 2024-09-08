@@ -10,6 +10,12 @@ spring:
     baseline-on-migrate: true
     version: 1
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+
 ---
 spring:
   config:
@@ -23,6 +29,14 @@ spring:
     activate:
       on-profile: ci
     import: application-ci.yml
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+    import:
+      - classpath:be-config/application-dev.yml
 
 ---
 spring:

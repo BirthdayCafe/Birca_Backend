@@ -1,15 +1,14 @@
 package com.birca.bircabackend.command.auth;
 
 import com.birca.bircabackend.command.auth.exception.AuthErrorCode;
-import com.birca.bircabackend.command.auth.token.JwtTokenProvider;
-import com.birca.bircabackend.command.auth.token.TokenPayload;
+import com.birca.bircabackend.command.auth.application.token.JwtTokenProvider;
+import com.birca.bircabackend.command.auth.application.token.TokenPayload;
+import com.birca.bircabackend.support.enviroment.DocumentationTest;
 import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -18,9 +17,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest
-@Import(JwtTokenProvider.class)
-class RequiredLoginTest {
+class RequiredLoginTest extends DocumentationTest {
 
     @Autowired
     private MockMvc mockMvc;
