@@ -37,7 +37,7 @@ jobs:
       - name: 도커 이미지 push
         run: |
           sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          sudo docker push ${{ secrets.BIRCA_DEV_IMAGE }} 
+          sudo docker push ${{ secrets.BIRCA_PROD_IMAGE }} 
 
       - name: scp docker-compose-prod file
         uses: appleboy/scp-action@master
