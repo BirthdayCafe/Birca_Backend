@@ -55,7 +55,7 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
-          source: "./src/main/resources/be-config/monitoring/prometheus-config.yml"
+          source: "./src/main/resources/be-config/monitoring/prometheus-dev-config.yml"
           target: "/home/ubuntu"
           strip_components: 6
 
