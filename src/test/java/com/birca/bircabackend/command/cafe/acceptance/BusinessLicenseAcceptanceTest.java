@@ -21,9 +21,6 @@ public class BusinessLicenseAcceptanceTest extends AcceptanceTest {
 
     private static final Long MEMBER_ID = 1L;
 
-    @MockBean
-    private BusinessLicenseFacade businessLicenseFacade;
-
     @Test
     void 사업자등록증을_스캔한다() {
         // given
