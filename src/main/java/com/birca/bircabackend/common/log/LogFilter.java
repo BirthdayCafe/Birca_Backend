@@ -27,6 +27,7 @@ public class LogFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         try {
             if (isActuatorRequest(req)) {
+                chain.doFilter(request, response);
                 return;
             }
             String requestUri = generateMessage(req);
