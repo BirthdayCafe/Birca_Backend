@@ -37,8 +37,16 @@ public class AdminService {
     }
 
     private void validateAdmin(AdminAuthRequest request) {
-        if (!request.id().equals(id) || !request.password().equals(password)) {
+        if (doesAdminIdNotMatch(request.id()) || doesPasswordNotMatch(request.password())) {
             throw new IllegalArgumentException("잘못된 관리자 인증 정보입니다.");
         }
+    }
+
+    private boolean doesAdminIdNotMatch(String inputId) {
+        return !this.id.equals(inputId);
+    }
+
+    private boolean doesPasswordNotMatch(String inputPassword) {
+        return !this.password.equals(inputPassword);
     }
 }
