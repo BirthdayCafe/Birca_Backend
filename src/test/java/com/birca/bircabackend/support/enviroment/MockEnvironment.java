@@ -4,8 +4,6 @@ import com.birca.bircabackend.command.auth.application.oauth.OAuthMember;
 import com.birca.bircabackend.command.auth.application.oauth.OAuthProvider;
 import com.birca.bircabackend.command.auth.application.oauth.OAuthProviderFactory;
 import com.birca.bircabackend.command.cafe.application.BusinessLicenseStatusVerifier;
-import com.birca.bircabackend.command.cafe.application.OcrProvider;
-import com.birca.bircabackend.command.cafe.dto.BusinessLicenseInfoResponse;
 import com.birca.bircabackend.common.image.ImageRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -27,19 +25,14 @@ public class MockEnvironment {
             return "kakao";
         }
     };
+
     private static final String URL = "https://s3.ap-northeast-2.amazonaws.com/fileupload/image/example.png";
-    private static final BusinessLicenseInfoResponse RESPONSE = new BusinessLicenseInfoResponse(
-            "STARBUCKS", "123-45-67890",
-            "최민혁", "서울 중앙로 212 빌딩 1층");
 
     @MockBean
     private OAuthProviderFactory providerFactory;
 
     @MockBean
     protected ImageRepository imageRepository;
-
-    @MockBean
-    protected OcrProvider ocrProvider;
 
     @MockBean
     protected BusinessLicenseStatusVerifier businessLicenseStatusVerifier;
@@ -56,12 +49,6 @@ public class MockEnvironment {
                 .willReturn(URL);
         doNothing().when(imageRepository)
                 .delete(any());
-    }
-
-    @BeforeEach
-    void mockOcrProvider() {
-        given(ocrProvider.getBusinessLicenseInfo(any()))
-                .willReturn(RESPONSE);
     }
 
     @BeforeEach

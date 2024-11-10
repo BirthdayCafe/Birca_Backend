@@ -4,7 +4,6 @@ import com.birca.bircabackend.command.auth.authorization.LoginMember;
 import com.birca.bircabackend.command.cafe.domain.BusinessLicense;
 import com.birca.bircabackend.command.cafe.domain.BusinessLicenseCode;
 import com.birca.bircabackend.command.cafe.dto.BusinessLicenseCreateRequest;
-import com.birca.bircabackend.command.cafe.dto.BusinessLicenseResponse;
 import com.birca.bircabackend.support.enviroment.ServiceTest;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -39,24 +38,6 @@ class BusinessLicenseFacadeTest extends ServiceTest {
         private static final MockMultipartFile BUSINESS_LICENSE = new MockMultipartFile(
                 "businessLicense", "businessLicense".getBytes(UTF_8)
         );
-
-        @Test
-        void 스캔하고_업로드_횟수를_증가시킨다() {
-            // when
-            BusinessLicenseResponse actual = businessLicenseFacade.getBusinessLicenseInfoAndUploadCount(LOGIN_MEMBER, BUSINESS_LICENSE);
-            Integer uploadCount = entityManager.createQuery(
-                            "select orq.uploadCount from OcrRequestHistory orq where orq.ownerId = :ownerId", Integer.class
-                    )
-                    .setParameter("ownerId", LOGIN_MEMBER.id())
-                    .getSingleResult();
-
-            // then
-            verify(ocrProvider, times(1)).getBusinessLicenseInfo(any());
-            assertAll(
-                    () -> assertThat(actual).isEqualTo(new BusinessLicenseResponse("STARBUCKS", "123-45-67890", "최민혁", "서울 중앙로 212 빌딩 1층", 1)),
-                    () -> assertThat(uploadCount).isEqualTo(1)
-            );
-        }
 
         @Test
         void 저장한다() {
