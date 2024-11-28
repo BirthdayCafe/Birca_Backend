@@ -5,6 +5,7 @@
     <property name="LOG_PATTERN"
               value="%magenta([%X{CORRELATION_ID:-NO CORRELATION ID}]) %yellow([%d{yyyy-MM-dd HH:mm:ss, ${logback.timezone:-Asia/Seoul}}]) %green(%thread) %highlight(%-5level) %boldWhite([%C.%M:%L]) %n : %msg%n"/>
 
+    <!-- Local 환경 -->
     <springProfile name="local">
         <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
             <encoder>
@@ -17,22 +18,45 @@
         </root>
     </springProfile>
 
+    <!-- Production, Dev 환경 -->
     <springProfile name="prod,dev">
+        <!-- 일반 로그 (INFO 이상) -->
         <appender name="FILE-LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
             <file>./log/today-${BY_DATE}.log</file>
             <encoder>
                 <pattern>${LOG_PATTERN}</pattern>
             </encoder>
             <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-                <fileNamePattern> ./log/history-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+                <fileNamePattern>./log/history-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
                 <maxFileSize>100MB</maxFileSize>
                 <maxHistory>5</maxHistory>
                 <totalSizeCap>500MB</totalSizeCap>
             </rollingPolicy>
         </appender>
 
+        <!-- ERROR 로그 전용 -->
+        <appender name="ERROR-LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>./log/error-${BY_DATE}.log</file>
+            <encoder>
+                <pattern>${LOG_PATTERN}</pattern>
+            </encoder>
+            <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+                <fileNamePattern>./log/error-history-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+                <maxFileSize>10MB</maxFileSize>
+                <maxHistory>30</maxHistory>
+                <totalSizeCap>5GB</totalSizeCap>
+            </rollingPolicy>
+        </appender>
+
+        <!-- Root 로그 설정 -->
         <root level="INFO">
             <appender-ref ref="FILE-LOG"/>
+            <appender-ref ref="ERROR-LOG"/>
         </root>
+
+        <!-- ERROR 로그 레벨 필터 추가 -->
+        <logger name="ERROR-ONLY" level="ERROR" additivity="false">
+            <appender-ref ref="ERROR-LOG"/>
+        </logger>
     </springProfile>
 </configuration>
