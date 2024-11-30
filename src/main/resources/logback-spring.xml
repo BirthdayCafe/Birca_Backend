@@ -51,7 +51,6 @@
         <!-- Root 로그 설정 -->
         <root level="INFO">
             <appender-ref ref="FILE-LOG"/>
-            <appender-ref ref="ERROR-LOG"/>
         </root>
 
         <!-- ERROR 로그 레벨 필터 추가 -->
